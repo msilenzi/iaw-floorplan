@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer'
-import { IsIn, IsInt, validateSync } from 'class-validator'
+import { IsIn, IsInt, IsString, IsUrl, validateSync } from 'class-validator'
 import { config as dotenvConfig } from 'dotenv'
 
 dotenvConfig({
@@ -12,6 +12,15 @@ class EnvironmentVariables {
 
   @IsInt()
   readonly PORT: number
+
+  @IsUrl()
+  readonly AUTH0_ISSUER_URL: string
+
+  @IsString()
+  readonly AUTH0_AUDIENCE: string
+
+  @IsString()
+  readonly AUTH0_CLIENT_ID: string
 }
 
 function validateConfig(config: Record<string, unknown>) {

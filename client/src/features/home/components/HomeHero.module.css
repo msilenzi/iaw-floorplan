@@ -1,17 +1,10 @@
-.wrapper {
-  background-color: light-dark(
-    var(--mantine-color-white),
-    var(--mantine-color-dark-8)
-  );
-}
-
 .inner {
   padding-top: 12rem;
   padding-bottom: 8rem;
 
   @media (max-width: $mantine-breakpoint-sm) {
-    padding-bottom: 80px;
-    padding-top: 80px;
+    padding-bottom: 5rem;
+    padding-top: 5rem;
   }
 }
 
@@ -38,7 +31,6 @@
 
 .control {
   margin-top: var(--mantine-spacing-xl);
-  margin-left: auto;
 
   @media (min-width: $mantine-breakpoint-sm) {
     margin-top: calc(var(--mantine-spacing-xl) * 1.5);

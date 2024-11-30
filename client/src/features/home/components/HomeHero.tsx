@@ -1,10 +1,24 @@
-import { Button, Container, Text, Title } from '@mantine/core'
+import {
+  Button,
+  Container,
+  Paper,
+  Text,
+  Title,
+  useComputedColorScheme,
+  useMantineTheme,
+} from '@mantine/core'
 
 import classes from './HomeHero.module.css'
 
 export default function HomeHero() {
+  const theme = useMantineTheme()
+  const colorScheme = useComputedColorScheme()
+
+  const bgColor =
+    colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1]
+
   return (
-    <div className={classes.wrapper}>
+    <Paper shadow="sm" bg={bgColor}>
       <Container className={classes.inner}>
         <Text fw={900} tt="uppercase" c="dimmed" size="xl" pb="xs">
           Floorplan
@@ -36,6 +50,6 @@ export default function HomeHero() {
           Comenzar
         </Button>
       </Container>
-    </div>
+    </Paper>
   )
 }

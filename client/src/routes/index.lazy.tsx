@@ -1,3 +1,5 @@
+import HomeFeaturesSection from '@/home/components/HomeFeaturesSection'
+import HomeHero from '@/home/components/HomeHero'
 import { createLazyFileRoute } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/')({
@@ -5,5 +7,10 @@ export const Route = createLazyFileRoute('/')({
 })
 
 function RouteComponent() {
-  return <div>Hello &quot;/&quot;!</div>
+  return (
+    <>
+      <HomeHero />
+      <HomeFeaturesSection />
+    </>
+  )
 }

@@ -5,12 +5,13 @@ import {
   IconScissors,
   IconUpload,
   IconUsers,
+  TablerIcon,
 } from '@tabler/icons-react'
 
 export type FeatureType = {
   title: string
   description: string
-  icon: typeof IconBrain
+  icon: TablerIcon
 }
 
 const floorplanFeatures: FeatureType[] = [

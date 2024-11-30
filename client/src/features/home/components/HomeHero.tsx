@@ -9,8 +9,11 @@ import {
 } from '@mantine/core'
 
 import classes from './HomeHero.module.css'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function HomeHero() {
+  const { loginWithRedirect } = useAuth0()
+
   const theme = useMantineTheme()
   const colorScheme = useComputedColorScheme()
 
@@ -46,6 +49,7 @@ export default function HomeHero() {
           className={classes.control}
           variant="gradient"
           gradient={{ from: 'blue', to: 'cyan' }}
+          onClick={() => void loginWithRedirect()}
         >
           Comenzar
         </Button>

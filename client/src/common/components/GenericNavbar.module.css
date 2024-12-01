@@ -2,10 +2,10 @@
   padding: var(--mantine-spacing-xs) 0;
   background-color: light-dark(
     var(--mantine-color-gray-0),
-    var(--mantine-color-dark-8)
+    var(--mantine-color-body)
   );
   border-bottom: 1px solid light-dark(var(--mantine-color-gray-2), transparent);
-  box-shadow: var(--mantine-shadow-sm);
+  box-shadow: var(--mantine-shadow-xs);
   position: relative;
   z-index: 1;
 }

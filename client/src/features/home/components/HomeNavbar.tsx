@@ -10,8 +10,7 @@ export default function HomeNavbar() {
       <Title order={3}>Floorplan</Title>
       <Button
         size="xs"
-        variant="filled"
-        color="dark.6"
+        variant="default"
         onClick={() => void loginWithRedirect()}
       >
         Iniciar sesión

@@ -12,7 +12,7 @@ function RouteComponent() {
     <>
       <OrganizationsNavbar />
       <OrganizationsHeader />
-      <Container size="md" mt="2rem">
+      <Container size="md" mt="3rem">
         <Outlet />
       </Container>
     </>

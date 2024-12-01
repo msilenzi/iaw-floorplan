@@ -1,5 +1,5 @@
 import HomeFeaturesSection from '@/home/components/HomeFeaturesSection'
-import HomeHeader from '@/home/components/HomeHeader'
+import HomeNavbar from '@/home/components/HomeNavbar'
 import HomeHero from '@/home/components/HomeHero'
 import { useAuth0 } from '@auth0/auth0-react'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
@@ -22,7 +22,7 @@ function RouteComponent() {
 
   return (
     <>
-      <HomeHeader />
+      <HomeNavbar />
       <HomeHero />
       <HomeFeaturesSection />
     </>

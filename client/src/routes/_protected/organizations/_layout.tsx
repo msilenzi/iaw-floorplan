@@ -1,3 +1,4 @@
+import OrganizationsNavbar from '@/organizations/components/OrganizationsNavbar'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_protected/organizations/_layout')({
@@ -7,7 +8,7 @@ export const Route = createFileRoute('/_protected/organizations/_layout')({
 function RouteComponent() {
   return (
     <>
-      <h1>&quot;/_protected/organizations/_layout&quot;</h1>
+      <OrganizationsNavbar />
       <Outlet />
     </>
   )

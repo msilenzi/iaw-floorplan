@@ -16,11 +16,14 @@ import {
   IconPlus,
   IconUsersPlus,
 } from '@tabler/icons-react'
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 
 import classes from './OrganizationsHeader.module.css'
 
 export default function OrganizationsHeader() {
+  const location = useLocation()
+  const navigate = useNavigate()
+
   return (
     <Box className={classes.header}>
       <Container size="md">
@@ -39,17 +42,19 @@ export default function OrganizationsHeader() {
             list: classes.tabsList,
             tab: classes.tab,
           }}
+          value={location.pathname}
+          onChange={(value) => void navigate({ to: value! })}
         >
           <Tabs.List classNames={{ list: classes.tabList }}>
             <Tabs.Tab
-              value="organizations"
+              value="/organizations"
               leftSection={<IconBuilding size={14} stroke={2.5} />}
               classNames={{ tab: classes.tab }}
             >
               Organizaciones
             </Tabs.Tab>
             <Tabs.Tab
-              value="requests"
+              value="/organizations/requests"
               leftSection={<IconUsersPlus size={14} stroke={2.5} />}
               classNames={{ tab: classes.tab }}
             >

@@ -1,23 +1,33 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
 } from '@nestjs/common'
-import { OrganizationsService } from './organizations.service'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
+import { OrganizationsService } from './organizations.service'
+import { Organization } from './schemas/organization.schema'
+import { ApiBearerAuth } from '@nestjs/swagger'
+import { AuthGuard } from '@nestjs/passport'
 
 @Controller('organizations')
+@ApiBearerAuth('Auth0')
+@UseGuards(AuthGuard('jwt'))
 export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Post()
-  create(@Body() createOrganizationDto: CreateOrganizationDto) {
-    return this.organizationsService.create(createOrganizationDto)
+  create(
+    @Body() createOrganizationDto: CreateOrganizationDto,
+    @Req() req: any,
+  ): Promise<Organization> {
+    return this.organizationsService.create(createOrganizationDto, req.user.sub)
   }
 
   @Get()

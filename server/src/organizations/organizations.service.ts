@@ -1,11 +1,23 @@
 import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model } from 'mongoose'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
+import { UserStatus } from './schemas/organization-user.schema'
+import { Organization } from './schemas/organization.schema'
 
 @Injectable()
 export class OrganizationsService {
-  create(createOrganizationDto: CreateOrganizationDto) {
-    return 'This action adds a new organization'
+  constructor(
+    @InjectModel(Organization.name)
+    private readonly organizationModel: Model<Organization>,
+  ) {}
+
+  async create(createOrganizationDto: CreateOrganizationDto, userId: string) {
+    return this.organizationModel.create({
+      name: createOrganizationDto.name,
+      users: [{ userId, status: UserStatus.ADMIN, stateChangedAt: new Date() }],
+    })
   }
 
   findAll() {

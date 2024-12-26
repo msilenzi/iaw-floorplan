@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common'
 
 import { Protected } from '../auth/decorators/protected.decorator'
+import { Sub } from '../auth/decorators/sub.decorator'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
 import { OrganizationsService } from './organizations.service'
@@ -19,8 +20,8 @@ export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Post()
-  create(@Body() createOrganizationDto: CreateOrganizationDto) {
-    return this.organizationsService.create(createOrganizationDto)
+  create(@Body() dto: CreateOrganizationDto, @Sub() sub: string) {
+    return this.organizationsService.create(dto, sub)
   }
 
   @Get()

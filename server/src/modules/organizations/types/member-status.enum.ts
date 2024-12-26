@@ -1,4 +1,4 @@
-export enum UserStatus {
+export enum MemberStatus {
   OWNER = 'owner',
   MEMBER = 'member',
   BLOCKED = 'blocked',

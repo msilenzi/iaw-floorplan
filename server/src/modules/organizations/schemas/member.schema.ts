@@ -1,17 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
-import { UserStatus } from '../types/user-status.enum'
+import { MemberStatus } from '../types/member-status.enum'
 
 @Schema({ _id: false })
 export class Member {
   @Prop({ type: String, required: true })
   userId: string
 
-  @Prop({ type: String, required: true, enum: UserStatus })
-  status: UserStatus
+  @Prop({ type: String, required: true, enum: MemberStatus })
+  status: MemberStatus
 
-  @Prop({ type: Date, required: false })
-  lastAccessedAt?: Date
+  @Prop({ type: Date, required: false, default: null })
+  lastAccessedAt: Date | null
 }
 
 export const MemberSchema = SchemaFactory.createForClass(Member)

@@ -2,6 +2,7 @@ import { plainToInstance } from 'class-transformer'
 import {
   IsEnum,
   IsInt,
+  IsJWT,
   IsNotEmpty,
   IsString,
   IsUrl,
@@ -37,8 +38,7 @@ class EnvironmentVariables {
   @IsNotEmpty()
   readonly AUTH0_CLIENT_ID: string
 
-  @IsString()
-  @IsNotEmpty()
+  @IsJWT()
   readonly AUTH0_MANAGEMENT_TOKEN: string
 
   //

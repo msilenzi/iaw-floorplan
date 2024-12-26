@@ -19,8 +19,6 @@
     "^@nestjs/(.*)$",
     "<THIRD_PARTY_MODULES>",
     "",
-    "^[..]",
-    "",
     "^[.]"
   ],
   "importOrderParserPlugins": ["typescript", "decorators-legacy"],

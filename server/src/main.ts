@@ -9,6 +9,7 @@ import {
 
 import { AppModule } from './app.module'
 import cfg from './cfg'
+import exceptionFactory from './common/utils/exception-factory'
 
 declare const module: any
 
@@ -22,6 +23,7 @@ async function bootstrap() {
       transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
+      exceptionFactory,
     }),
   )
 

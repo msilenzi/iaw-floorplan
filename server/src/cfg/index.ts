@@ -1,5 +1,12 @@
 import { plainToInstance } from 'class-transformer'
-import { IsEnum, IsInt, validateSync } from 'class-validator'
+import {
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  IsUrl,
+  validateSync,
+} from 'class-validator'
 import { config as dotConfig } from 'dotenv'
 
 dotConfig({ path: '.env' })
@@ -15,6 +22,24 @@ class EnvironmentVariables {
 
   @IsInt()
   readonly PORT: number = process.env.PORT ? +process.env.PORT : 3000
+
+  //
+  // Auth0
+
+  @IsUrl()
+  readonly AUTH0_ISSUER_URL: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly AUTH0_AUDIENCE: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly AUTH0_CLIENT_ID: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly AUTH0_MANAGEMENT_TOKEN: string
 }
 
 function validateEnv() {

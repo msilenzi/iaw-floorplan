@@ -1,0 +1,28 @@
+{
+  "experimentalTernaries": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": false,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "proseWrap": "preserve",
+
+  "importOrder": [
+    "",
+    "<BUILTIN_MODULES>",
+    "^@nestjs/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^(@/)(.*)",
+    "^[.]"
+  ],
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"]
+}

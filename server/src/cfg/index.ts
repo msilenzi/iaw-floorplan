@@ -40,6 +40,13 @@ class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   readonly AUTH0_MANAGEMENT_TOKEN: string
+
+  //
+  // MongoDB
+
+  @IsString()
+  @IsNotEmpty()
+  readonly MONGODB_URI: string
 }
 
 function validateEnv() {

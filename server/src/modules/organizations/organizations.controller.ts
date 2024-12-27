@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
 } from '@nestjs/common'
-import { ApiOperation } from '@nestjs/swagger'
 
 import { Protected } from '../auth/decorators/protected.decorator'
 import { Sub } from '../auth/decorators/sub.decorator'
@@ -21,21 +20,27 @@ import { OrganizationsService } from './organizations.service'
 export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
+  /**
+   * Crea una nueva organización.
+   */
   @Post()
-  @ApiOperation({ summary: 'crea una nueva organización' })
   create(@Body() dto: CreateOrganizationDto, @Sub() sub: string) {
     return this.organizationsService.create(dto, sub)
   }
 
+  /**
+   * Devuelve las organizaciones del usuario, agrupadas por su estado en cada
+   * una y ordenadas por último acceso.
+   */
   @Get()
-  @ApiOperation({
-    summary:
-      'devuelve las organizaciones del usuario, agrupadas por su estado en cada una y ordenadas por último acceso',
-  })
   findAll(@Sub() sub: string): Promise<FindAllOrganizationsDto[]> {
     return this.organizationsService.findAll(sub)
   }
 
+  /**
+   * Devuelve la organización solo si el usuario es un miembro activo
+   * y actualiza el valor de último acceso.
+   */
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.organizationsService.findOne(+id)

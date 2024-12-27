@@ -1,4 +1,5 @@
 import { IsOptional } from 'class-validator'
+
 import { IsRegexString, IsTrimmedString } from 'src/common/decorators'
 
 export class CreateOrganizationDto {

@@ -1,3 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger'
+
 import { MemberStatus } from '../types/member-status.enum'
 
 class FindAllOrganizationDto {
@@ -6,6 +8,7 @@ class FindAllOrganizationDto {
 }
 
 export class FindAllOrganizationsDto {
+  @ApiProperty({ enum: MemberStatus, enumName: 'MemberStatus' })
   _id: MemberStatus
   organizations: FindAllOrganizationDto[]
 }

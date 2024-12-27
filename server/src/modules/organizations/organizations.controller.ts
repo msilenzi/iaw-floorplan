@@ -6,14 +6,21 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common'
+import { ApiParam } from '@nestjs/swagger'
 
 import { Protected } from '../auth/decorators/protected.decorator'
 import { Sub } from '../auth/decorators/sub.decorator'
+import { AllowedMemberStatus } from './decorators/allowed-member-status.decorator'
+import { GetOrganization } from './decorators/get-organization.decorator'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { FindAllOrganizationsDto } from './dto/find-all-organizations.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
+import { AllowedMemberStatusGuard } from './guards/allowed-member-status.guard'
 import { OrganizationsService } from './organizations.service'
+import { OrganizationDocument } from './schemas/organization.schema'
+import { MemberStatus } from './types/member-status.enum'
 
 @Protected()
 @Controller('organizations')
@@ -42,8 +49,14 @@ export class OrganizationsController {
    * y actualiza el valor de último acceso.
    */
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.organizationsService.findOne(+id)
+  @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
+  @UseGuards(AllowedMemberStatusGuard)
+  @ApiParam({ name: 'id', type: String })
+  findOne(
+    @GetOrganization() organization: OrganizationDocument,
+    @Sub() sub: string,
+  ) {
+    return this.organizationsService.findOne(organization, sub)
   }
 
   @Patch(':id')

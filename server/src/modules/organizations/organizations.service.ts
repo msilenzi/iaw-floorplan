@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
+import { Model, Types } from 'mongoose'
 
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
-import { Organization } from './schemas/organization.schema'
+import {
+  Organization,
+  OrganizationDocument,
+} from './schemas/organization.schema'
 import { MemberStatus } from './types/member-status.enum'
 
 @Injectable()
@@ -53,8 +56,17 @@ export class OrganizationsService {
       .exec()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} organization`
+  async findOne(organization: OrganizationDocument, userId: string) {
+    const member = organization.members.find(
+      (member) => member.userId === userId,
+    )
+    if (!member) throw new Error('member not found')
+
+    member.lastAccessedAt = new Date()
+    await organization.save()
+
+    const { members, ...restOrganization } = organization.toObject()
+    return restOrganization
   }
 
   update(id: number, updateOrganizationDto: UpdateOrganizationDto) {

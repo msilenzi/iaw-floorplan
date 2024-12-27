@@ -17,19 +17,12 @@ export class Organization {
   recordRegex: string
 
   @Prop([MemberSchema])
-  members: Member[]
+  members: Types.DocumentArray<Member>
 
   _id: Types.ObjectId
 }
 
-export type OrganizationDocumentOverride = {
-  members: Types.DocumentArray<Member>
-}
-
-export type OrganizationDocument = HydratedDocument<
-  Organization,
-  OrganizationDocumentOverride
->
+export type OrganizationDocument = HydratedDocument<Organization>
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization)
 

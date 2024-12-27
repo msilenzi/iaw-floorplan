@@ -1,6 +1,8 @@
 /**
- * Tipar el payload del JWT en req.user
+ * Agregar algunos tipados adicionales para Express
  */
+
+import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
 
 export {}
 
@@ -15,6 +17,10 @@ declare global {
       exp: number
       scope: string
       azp: string
+    }
+
+    interface Request {
+      organization?: OrganizationDocument
     }
   }
 }

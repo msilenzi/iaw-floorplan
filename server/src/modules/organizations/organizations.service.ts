@@ -22,8 +22,35 @@ export class OrganizationsService {
     await organization.save()
   }
 
-  findAll() {
-    return `This action returns all organizations`
+  async findAll(userId: string) {
+    return this.organizationModel
+      .aggregate([
+        { $match: { 'members.userId': userId } },
+        { $unwind: '$members' },
+        { $match: { 'members.userId': userId } },
+        { $sort: { 'members.lastAccessedAt': -1 } },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            status: '$members.status',
+            // lastAccessedAt: '$members.lastAccessedAt',
+          },
+        },
+        {
+          $group: {
+            _id: '$status',
+            organizations: {
+              $push: {
+                _id: '$_id',
+                name: '$name',
+                // lastAccessedAt: '$lastAccessedAt',
+              },
+            },
+          },
+        },
+      ])
+      .exec()
   }
 
   findOne(id: number) {

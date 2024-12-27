@@ -18,6 +18,8 @@ export class Organization {
 
   @Prop([MemberSchema])
   members: Member[]
+
+  _id: Types.ObjectId
 }
 
 export type OrganizationDocumentOverride = {
@@ -30,3 +32,5 @@ export type OrganizationDocument = HydratedDocument<
 >
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization)
+
+OrganizationSchema.index({ 'members.userId': 1, _id: 1 }, { unique: true })

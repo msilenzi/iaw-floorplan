@@ -5,7 +5,7 @@ import {
 } from 'class-validator'
 
 export const IsRegexString = (validationOptions?: ValidationOptions) => {
-  return (object: Object, propertyName: string) => {
+  return (object: object, propertyName: string) => {
     registerDecorator({
       name: 'isRegexpString',
       target: object.constructor,

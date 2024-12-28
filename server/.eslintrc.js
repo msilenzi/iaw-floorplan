@@ -1,3 +1,7 @@
+const {
+  createTypeScriptImportResolver,
+} = require('eslint-import-resolver-typescript')
+
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -9,6 +13,8 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
   root: true,
   env: {
@@ -21,5 +27,12 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'import/no-unused-modules': [1, { unusedExports: true }],
+  },
+  settings: {
+    'import/resolver-next': [
+      createTypeScriptImportResolver({ alwaysTryTypes: true }),
+    ],
+    'import/resolver': { typescript: true, node: true },
   },
 }

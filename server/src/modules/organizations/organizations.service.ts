@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model, Types } from 'mongoose'
+import { Model } from 'mongoose'
 
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
@@ -63,17 +63,23 @@ export class OrganizationsService {
     if (!member) throw new Error('member not found')
 
     member.lastAccessedAt = new Date()
-    await organization.save()
+    organization.save() // Guarda los cambios en segundo plano
 
+    return this.stripMembers(organization)
+  }
+
+  update(organization: OrganizationDocument, dto: UpdateOrganizationDto) {
+    Object.assign(organization, dto)
+    organization.save() // Guarda los cambios en segundo plano
+    return this.stripMembers(organization)
+  }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} organization`
+  // }
+
+  private stripMembers(organization: OrganizationDocument) {
     const { members, ...restOrganization } = organization.toObject()
     return restOrganization
-  }
-
-  update(id: number, updateOrganizationDto: UpdateOrganizationDto) {
-    return `This action updates a #${id} organization`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} organization`
   }
 }

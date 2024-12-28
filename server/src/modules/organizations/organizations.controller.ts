@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common'
-import { ApiParam } from '@nestjs/swagger'
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
 
 import { Protected } from '../auth/decorators/protected.decorator'
 import { Sub } from '../auth/decorators/sub.decorator'
@@ -17,7 +7,6 @@ import { GetOrganization } from './decorators/get-organization.decorator'
 import { CreateOrganizationDto } from './dto/create-organization.dto'
 import { FindAllOrganizationsDto } from './dto/find-all-organizations.dto'
 import { UpdateOrganizationDto } from './dto/update-organization.dto'
-import { AllowedMemberStatusGuard } from './guards/allowed-member-status.guard'
 import { OrganizationsService } from './organizations.service'
 import { OrganizationDocument } from './schemas/organization.schema'
 import { MemberStatus } from './types/member-status.enum'
@@ -50,8 +39,6 @@ export class OrganizationsController {
    */
   @Get(':id')
   @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
-  @UseGuards(AllowedMemberStatusGuard)
-  @ApiParam({ name: 'id', type: String })
   findOne(
     @GetOrganization() organization: OrganizationDocument,
     @Sub() sub: string,
@@ -59,16 +46,21 @@ export class OrganizationsController {
     return this.organizationsService.findOne(organization, sub)
   }
 
+  /**
+   * Actualiza una organización. Devuelve la información de la organización
+   * actualizada.
+   */
   @Patch(':id')
+  @AllowedMemberStatus(MemberStatus.OWNER)
   update(
-    @Param('id') id: string,
+    @GetOrganization() organization: OrganizationDocument,
     @Body() updateOrganizationDto: UpdateOrganizationDto,
   ) {
-    return this.organizationsService.update(+id, updateOrganizationDto)
+    return this.organizationsService.update(organization, updateOrganizationDto)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.organizationsService.remove(+id)
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.organizationsService.remove(+id)
+  // }
 }

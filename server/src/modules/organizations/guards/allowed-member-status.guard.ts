@@ -22,9 +22,6 @@ export class AllowedMemberStatusGuard implements CanActivate {
     const allowedMemberStatus = this.reflector.getAllAndOverride<
       MemberStatus[]
     >(ALLOWED_MEMBER_STATUS_KEY, [context.getHandler(), context.getClass()])
-    if (!allowedMemberStatus) {
-      throw new Error('@AllowedMemberStatus() decorator is required')
-    }
 
     const request: Request = context.switchToHttp().getRequest()
 

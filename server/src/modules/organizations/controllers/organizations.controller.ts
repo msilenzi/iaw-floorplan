@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
 
-import { Protected } from '../auth/decorators/protected.decorator'
-import { Sub } from '../auth/decorators/sub.decorator'
-import { AllowedMemberStatus } from './decorators/allowed-member-status.decorator'
-import { GetOrganization } from './decorators/get-organization.decorator'
-import { CreateOrganizationDto } from './dto/create-organization.dto'
-import { FindAllOrganizationsDto } from './dto/find-all-organizations.dto'
-import { UpdateOrganizationDto } from './dto/update-organization.dto'
-import { OrganizationsService } from './organizations.service'
-import { OrganizationDocument } from './schemas/organization.schema'
-import { MemberStatus } from './types/member-status.enum'
+import { Protected } from '../../auth/decorators/protected.decorator'
+import { Sub } from '../../auth/decorators/sub.decorator'
+import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
+import { GetOrganization } from '../decorators/get-organization.decorator'
+import { CreateOrganizationDto } from '../dto/create-organization.dto'
+import { FindAllOrganizationsDto } from '../dto/find-all-organizations.dto'
+import { UpdateOrganizationDto } from '../dto/update-organization.dto'
+import { OrganizationDocument } from '../schemas/organization.schema'
+import { OrganizationsService } from '../services/organizations.service'
+import { MemberStatus } from '../types/member-status.enum'
 
 @Protected()
 @Controller('organizations')

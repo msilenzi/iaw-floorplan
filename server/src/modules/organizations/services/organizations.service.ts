@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { CreateOrganizationDto } from './dto/create-organization.dto'
-import { UpdateOrganizationDto } from './dto/update-organization.dto'
+import { CreateOrganizationDto } from '../dto/create-organization.dto'
+import { UpdateOrganizationDto } from '../dto/update-organization.dto'
 import {
   Organization,
   OrganizationDocument,
-} from './schemas/organization.schema'
-import { MemberStatus } from './types/member-status.enum'
+} from '../schemas/organization.schema'
+import { MemberStatus } from '../types/member-status.enum'
 
 @Injectable()
 export class OrganizationsService {

@@ -79,7 +79,8 @@ export class OrganizationsService {
   // }
 
   private stripMembers(organization: OrganizationDocument) {
-    const { members, ...restOrganization } = organization.toObject()
-    return restOrganization
+    const organizationsObj = organization.toObject()
+    delete (organizationsObj as any).members
+    return organizationsObj as Omit<Organization, 'members'>
   }
 }

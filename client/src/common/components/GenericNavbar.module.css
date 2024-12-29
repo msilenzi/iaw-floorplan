@@ -1,0 +1,8 @@
+.header {
+  padding: var(--mantine-spacing-xs) 0;
+  background-color: var(--mantine-color-body);
+  border-bottom: 1px solid light-dark(var(--mantine-color-gray-2), transparent);
+  box-shadow: var(--mantine-shadow-xs);
+  position: relative;
+  z-index: 1;
+}

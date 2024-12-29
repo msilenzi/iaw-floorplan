@@ -1,0 +1,22 @@
+.user {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  padding: calc(var(--mantine-spacing-sm) / 2);
+  border-radius: var(--mantine-radius-xs);
+  transition: background-color 100ms ease;
+  &:hover,
+  &.userActive {
+    background-color: light-dark(
+      var(--mantine-color-white),
+      var(--mantine-color-dark-9)
+    );
+    box-shadow: var(--mantine-shadow-xs);
+  }
+  border-radius: var(--mantine-radius-sm);
+}
+
+.userName {
+  line-height: 1;
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: none;
+  }
+}

@@ -10,6 +10,6 @@ export const AllowedMemberStatus = (...memberStatus: MemberStatus[]) => {
   return applyDecorators(
     SetMetadata(ALLOWED_MEMBER_STATUS_KEY, memberStatus),
     UseGuards(AllowedMemberStatusGuard),
-    ApiParam({ name: 'id', type: String }),
+    ApiParam({ name: 'organizationId', type: String }),
   )
 }

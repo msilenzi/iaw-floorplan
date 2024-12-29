@@ -30,7 +30,9 @@ export class AllowedMemberStatusGuard implements CanActivate {
       throw new Error('@Protected() decorator is required')
     }
 
-    const organizationId = new ParseMongoIdPipe().transform(request.params?.id)
+    const organizationId = new ParseMongoIdPipe().transform(
+      request.params?.organizationId,
+    )
 
     const organization = await this.organizationModel
       .findOne({

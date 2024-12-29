@@ -37,7 +37,7 @@ export class OrganizationsController {
    * Devuelve la organización solo si el usuario es un miembro activo
    * y actualiza el valor de último acceso.
    */
-  @Get(':id')
+  @Get(':organizationId')
   @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
   findOne(
     @GetOrganization() organization: OrganizationDocument,
@@ -50,7 +50,7 @@ export class OrganizationsController {
    * Actualiza una organización. Devuelve la información de la organización
    * actualizada.
    */
-  @Patch(':id')
+  @Patch(':organizationId')
   @AllowedMemberStatus(MemberStatus.OWNER)
   update(
     @GetOrganization() organization: OrganizationDocument,
@@ -59,7 +59,7 @@ export class OrganizationsController {
     return this.organizationsService.update(organization, updateOrganizationDto)
   }
 
-  // @Delete(':id')
+  // @Delete(':organizationId')
   // remove(@Param('id') id: string) {
   //   return this.organizationsService.remove(+id)
   // }

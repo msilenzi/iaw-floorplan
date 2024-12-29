@@ -7,8 +7,12 @@ import {
   HttpStatus,
   Param,
   Patch,
+  Post,
 } from '@nestjs/common'
+import { ApiParam } from '@nestjs/swagger'
+import { Types } from 'mongoose'
 
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
 import { Protected } from 'src/modules/auth/decorators/protected.decorator'
 import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
@@ -24,6 +28,19 @@ export class OrganizationMembersController {
   constructor(
     private readonly organizationMembersService: OrganizationMembersService,
   ) {}
+
+  /**
+   * Crea un miembro con estado PENDING
+   */
+  @Post()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiParam({ name: 'organizationId', type: String })
+  async create(
+    @Param('organizationId', ParseMongoIdPipe) organizationId: Types.ObjectId,
+    @Sub() sub: string,
+  ) {
+    await this.organizationMembersService.create(organizationId, sub)
+  }
 
   /**
    * Devuelve los miembros de una organización:

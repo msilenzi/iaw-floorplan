@@ -4,6 +4,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model, Types } from 'mongoose'
 
 import { UsersService } from 'src/modules/users/users.service'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
@@ -16,7 +18,31 @@ import { MemberStatus } from '../types/member-status.enum'
 
 @Injectable()
 export class OrganizationMembersService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    @InjectModel(Organization.name)
+    private readonly organizationModel: Model<Organization>,
+  ) {}
+
+  async create(organizationId: Types.ObjectId, userId: string) {
+    const organization = await this.organizationModel
+      .findById(organizationId)
+      .exec()
+
+    if (!organization) {
+      throw new NotFoundException()
+    }
+    if (organization.members.some((member) => member.userId === userId)) {
+      throw new BadRequestException()
+    }
+
+    organization.members.push({
+      userId,
+      status: MemberStatus.PENDING,
+      lastAccessedAt: null,
+    })
+    await organization.save()
+  }
 
   async findAll(organization: OrganizationDocument, userId: string) {
     const member = this._findMember(organization, userId)

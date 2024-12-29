@@ -13,12 +13,12 @@ export class OrganizationMembersService {
   constructor(private readonly usersService: UsersService) {}
 
   async findAll(organization: OrganizationDocument, userId: string) {
-    const member = this.findMember(organization, userId)
+    const member = this._findMember(organization, userId)
 
     switch (member.status) {
       // Devuelve la información de todos los miembros:
       case MemberStatus.OWNER:
-        return await this.fetchMembers(organization.members)
+        return await this._fetchMembers(organization.members)
 
       // Devuelve la información de los miembros activos:
       case MemberStatus.MEMBER:
@@ -27,14 +27,14 @@ export class OrganizationMembersService {
           // es preferible verificar primero por MemberStatus.MEMBER.
           ({ status }) => status === MemberStatus.MEMBER || MemberStatus.OWNER,
         )
-        return await this.fetchMembers(activeMembers)
+        return await this._fetchMembers(activeMembers)
 
       default:
         throw new ForbiddenException()
     }
   }
 
-  public findMember(organization: Organization, userId: string): Member {
+  public _findMember(organization: Organization, userId: string): Member {
     const member = organization.members.find(
       (member) => member.userId === userId,
     )
@@ -42,11 +42,11 @@ export class OrganizationMembersService {
     return member
   }
 
-  private async fetchMembers(members: Member[]) {
+  private async _fetchMembers(members: Member[]) {
     const membersMap = new Map(members.map((member) => [member.userId, member]))
 
     const usersIds = members.map(({ userId }) => userId)
-    const users = await this.usersService.fetchUsers(usersIds)
+    const users = await this.usersService._fetchUsers(usersIds)
 
     return users.map((user) => {
       const { status, lastAccessedAt } = membersMap.get(user.user_id)!

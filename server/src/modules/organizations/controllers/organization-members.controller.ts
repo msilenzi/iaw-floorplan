@@ -15,6 +15,11 @@ export class OrganizationMembersController {
     private readonly organizationMembersService: OrganizationMembersService,
   ) {}
 
+  /**
+   * Devuelve los miembros de una organización:
+   * - Si es el propietario: devuelve todos los miembros.
+   * - Si es un miembro: devuelve los miembros activos.
+   */
   @Get()
   @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
   findAll(

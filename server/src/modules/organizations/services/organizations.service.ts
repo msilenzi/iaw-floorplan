@@ -60,7 +60,7 @@ export class OrganizationsService {
   }
 
   async findOne(organization: OrganizationDocument, userId: string) {
-    const member = this.organizationMembersService.findMember(
+    const member = this.organizationMembersService._findMember(
       organization,
       userId,
     )
@@ -68,20 +68,20 @@ export class OrganizationsService {
     member.lastAccessedAt = new Date()
     organization.save() // Guarda los cambios en segundo plano
 
-    return this.stripMembers(organization)
+    return this._stripMembers(organization)
   }
 
   update(organization: OrganizationDocument, dto: UpdateOrganizationDto) {
     Object.assign(organization, dto)
     organization.save() // Guarda los cambios en segundo plano
-    return this.stripMembers(organization)
+    return this._stripMembers(organization)
   }
 
   // remove(id: number) {
   //   return `This action removes a #${id} organization`
   // }
 
-  private stripMembers(organization: OrganizationDocument) {
+  private _stripMembers(organization: OrganizationDocument) {
     const organizationsObj = organization.toObject()
     delete (organizationsObj as any).members
     return organizationsObj as Omit<Organization, 'members'>

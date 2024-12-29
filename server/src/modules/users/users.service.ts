@@ -5,7 +5,7 @@ import { User } from './types/user.type'
 
 @Injectable()
 export class UsersService {
-  async fetchUsers(usersIds: string[]): Promise<User[]> {
+  async _fetchUsers(usersIds: string[]): Promise<User[]> {
     try {
       const url = new URL(`${cfg.AUTH0_ISSUER_URL}api/v2/users`)
       url.search = new URLSearchParams({

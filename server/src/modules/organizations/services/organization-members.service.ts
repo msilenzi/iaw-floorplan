@@ -1,6 +1,12 @@
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 
 import { UsersService } from 'src/modules/users/users.service'
+import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
 import { Member } from '../schemas/member.schema'
 import {
   Organization,
@@ -34,11 +40,61 @@ export class OrganizationMembersService {
     }
   }
 
+  updateStatus(
+    organization: OrganizationDocument,
+    memberId: string,
+    { newMemberStatus }: UpdateMemberStatusDto,
+  ) {
+    const member = this._findMember(organization, memberId)
+
+    const { MEMBER, BLOCKED, PENDING, REJECTED } = MemberStatus
+    const allowedTransitions: Partial<Record<MemberStatus, MemberStatus[]>> = {
+      // [Actualizar a]: [Desde (estados previos permitidos)]
+      [MEMBER]: [PENDING, BLOCKED, REJECTED], // Aceptar, desbloquear, desrechazar
+      [BLOCKED]: [MEMBER], // Bloquear
+      [REJECTED]: [PENDING], // Rechazar
+    }
+    const allowedStates = allowedTransitions[newMemberStatus]
+
+    if (!allowedStates || !allowedStates.includes(member.status)) {
+      throw new BadRequestException('Transición de estados inválida')
+    }
+
+    member.status = newMemberStatus
+    organization.save()
+  }
+
+  remove(organization: OrganizationDocument, userId: string) {
+    const memberIndex = organization.members.findIndex(
+      (member) => member.userId === userId,
+    )
+    if (memberIndex === -1) {
+      throw new NotFoundException(`No existe un miembro con el id ${userId}`)
+    }
+
+    const member = organization.members[memberIndex]
+
+    switch (member.status) {
+      case MemberStatus.MEMBER:
+        member.status = MemberStatus.DELETED
+        break
+      case MemberStatus.PENDING:
+        organization.members.splice(memberIndex, 1)
+        break
+      default:
+        throw new ForbiddenException()
+    }
+
+    organization.save()
+  }
+
   public _findMember(organization: Organization, userId: string): Member {
     const member = organization.members.find(
       (member) => member.userId === userId,
     )
-    if (!member) throw new Error('member not found')
+    if (!member) {
+      throw new NotFoundException(`No existe un miembro con el id ${userId}`)
+    }
     return member
   }
 

@@ -1,9 +1,19 @@
-import { Controller, Get } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+} from '@nestjs/common'
 
 import { Protected } from 'src/modules/auth/decorators/protected.decorator'
 import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
+import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
 import { OrganizationDocument } from '../schemas/organization.schema'
 import { OrganizationMembersService } from '../services/organization-members.service'
 import { MemberStatus } from '../types/member-status.enum'
@@ -27,5 +37,34 @@ export class OrganizationMembersController {
     @Sub() sub: string,
   ) {
     return this.organizationMembersService.findAll(organization, sub)
+  }
+
+  /**
+   * Cambia el estado de un miembro de la organización.
+   * Permite aceptar, rechazar, bloquear, desbloquear y desrechazar miembros.
+   */
+  @Patch('/:memberId/status')
+  @AllowedMemberStatus(MemberStatus.OWNER)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  updateStatus(
+    @GetOrganization() organization: OrganizationDocument,
+    @Param('memberId') memberId: string,
+    @Body() dto: UpdateMemberStatusDto,
+  ) {
+    this.organizationMembersService.updateStatus(organization, memberId, dto)
+  }
+
+  /**
+   * Si es un miembro lo marca como eliminado. Si tiene una solicitud pendiente
+   * la elimina.
+   */
+  @Delete()
+  @AllowedMemberStatus(MemberStatus.MEMBER, MemberStatus.PENDING)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(
+    @GetOrganization() organization: OrganizationDocument,
+    @Sub() sub: string,
+  ) {
+    this.organizationMembersService.remove(organization, sub)
   }
 }

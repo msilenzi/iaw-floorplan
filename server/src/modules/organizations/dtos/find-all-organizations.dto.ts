@@ -9,6 +9,6 @@ class FindAllOrganizationDto {
 
 export class FindAllOrganizationsDto {
   @ApiProperty({ enum: MemberStatus, enumName: 'MemberStatus' })
-  _id: MemberStatus
-  organizations: FindAllOrganizationDto[]
+  readonly _id: MemberStatus
+  readonly organizations: FindAllOrganizationDto[]
 }

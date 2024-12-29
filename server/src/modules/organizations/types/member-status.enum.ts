@@ -4,4 +4,5 @@ export enum MemberStatus {
   BLOCKED = 'blocked',
   PENDING = 'pending',
   REJECTED = 'rejected',
+  DELETED = 'deleted',
 }

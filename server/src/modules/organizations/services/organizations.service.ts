@@ -2,9 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
-import { CreateOrganizationDto } from '../dto/create-organization.dto'
-import { UpdateOrganizationDto } from '../dto/update-organization.dto'
-import { Member } from '../schemas/member.schema'
+import { CreateOrganizationDto } from '../dtos/create-organization.dto'
+import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
 import {
   Organization,
   OrganizationDocument,

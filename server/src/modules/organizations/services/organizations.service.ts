@@ -4,15 +4,18 @@ import { Model } from 'mongoose'
 
 import { CreateOrganizationDto } from '../dto/create-organization.dto'
 import { UpdateOrganizationDto } from '../dto/update-organization.dto'
+import { Member } from '../schemas/member.schema'
 import {
   Organization,
   OrganizationDocument,
 } from '../schemas/organization.schema'
 import { MemberStatus } from '../types/member-status.enum'
+import { OrganizationMembersService } from './organization-members.service'
 
 @Injectable()
 export class OrganizationsService {
   constructor(
+    private readonly organizationMembersService: OrganizationMembersService,
     @InjectModel(Organization.name)
     private readonly organizationModel: Model<Organization>,
   ) {}
@@ -57,10 +60,10 @@ export class OrganizationsService {
   }
 
   async findOne(organization: OrganizationDocument, userId: string) {
-    const member = organization.members.find(
-      (member) => member.userId === userId,
+    const member = this.organizationMembersService.findMember(
+      organization,
+      userId,
     )
-    if (!member) throw new Error('member not found')
 
     member.lastAccessedAt = new Date()
     organization.save() // Guarda los cambios en segundo plano

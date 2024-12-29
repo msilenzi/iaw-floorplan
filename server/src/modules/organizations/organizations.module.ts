@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 
+import { OrganizationMembersController } from './controllers/organization-members.controller'
 import { OrganizationsController } from './controllers/organizations.controller'
 import { Organization, OrganizationSchema } from './schemas/organization.schema'
+import { OrganizationMembersService } from './services/organization-members.service'
 import { OrganizationsService } from './services/organizations.service'
 
 @Module({
@@ -11,7 +13,7 @@ import { OrganizationsService } from './services/organizations.service'
       { name: Organization.name, schema: OrganizationSchema },
     ]),
   ],
-  controllers: [OrganizationsController],
-  providers: [OrganizationsService],
+  controllers: [OrganizationsController, OrganizationMembersController],
+  providers: [OrganizationsService, OrganizationMembersService],
 })
 export class OrganizationsModule {}

@@ -35,7 +35,7 @@ export class OrganizationMembersController {
   @Post()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiParam({ name: 'organizationId', type: String })
-  async create(
+  async createMember(
     @Param('organizationId', ParseMongoIdPipe) organizationId: Types.ObjectId,
     @Sub() sub: string,
   ) {
@@ -49,7 +49,7 @@ export class OrganizationMembersController {
    */
   @Get()
   @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
-  findAll(
+  findAllMembers(
     @GetOrganization() organization: OrganizationDocument,
     @Sub() sub: string,
   ) {
@@ -63,7 +63,7 @@ export class OrganizationMembersController {
   @Patch('/:memberId/status')
   @AllowedMemberStatus(MemberStatus.OWNER)
   @HttpCode(HttpStatus.NO_CONTENT)
-  updateStatus(
+  updateMemberStatus(
     @GetOrganization() organization: OrganizationDocument,
     @Param('memberId') memberId: string,
     @Body() dto: UpdateMemberStatusDto,
@@ -78,7 +78,7 @@ export class OrganizationMembersController {
   @Delete()
   @AllowedMemberStatus(MemberStatus.MEMBER, MemberStatus.PENDING)
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(
+  removeMember(
     @GetOrganization() organization: OrganizationDocument,
     @Sub() sub: string,
   ) {

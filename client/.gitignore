@@ -23,6 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
-src/routeTree.gen.ts
-
+# Env
 .env
+
+# Generated
+src/routeTree.gen.ts
+src/common/api/generated

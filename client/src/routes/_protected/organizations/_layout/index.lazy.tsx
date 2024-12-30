@@ -6,8 +6,8 @@ import {
   Box,
   CloseButton,
   Flex,
-  Menu,
   Skeleton,
+  Space,
   Table,
   Text,
   TextInput,
@@ -15,16 +15,11 @@ import {
   rem,
 } from '@mantine/core'
 
-import {
-  IconBuildingPlus,
-  IconBuildings,
-  IconPlus,
-  IconSearch,
-} from '@tabler/icons-react'
+import { IconSearch } from '@tabler/icons-react'
 
 import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
-import PrimaryButton from '@Common/ui/PrimaryButton'
 
+import OrganizationsAddBtn from '@Organizations/components/OrganizationAddBtn'
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
 import displayMemberStatus from '@Organizations/utils/displayMemberStatus'
 
@@ -42,33 +37,15 @@ function RouteComponent() {
   if (!isLoading && data?.length === 0) {
     return (
       <Box m="0 auto" style={{ maxWidth: rem('500px') }} ta="center">
+        <Space h="lg" />
         <Title order={2} mb="xs">
           No se encontraron organizaciones
         </Title>
         <Text style={{ textWrap: 'balance' }} mb="lg">
           Parece que todavía no perteneces a ninguna organización. Podés crear
-          una nueva o unirte a una utlizando su código.
+          una nueva o unirte a una utilizando su código.
         </Text>
-        <Menu position="bottom-start" shadow="md">
-          <Menu.Target>
-            <PrimaryButton
-              rightSection={<IconPlus size={16} stroke={3} />}
-              size="sm"
-            >
-              Agregar
-            </PrimaryButton>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item
-              leftSection={<IconBuildingPlus size={14} stroke={2.5} />}
-            >
-              Crear organización
-            </Menu.Item>
-            <Menu.Item leftSection={<IconBuildings size={14} stroke={2.5} />}>
-              Unirse a una organización
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+        <OrganizationsAddBtn />
       </Box>
     )
   }

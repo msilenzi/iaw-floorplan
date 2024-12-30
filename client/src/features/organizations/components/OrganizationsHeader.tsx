@@ -6,20 +6,13 @@ import {
   Breadcrumbs,
   Container,
   Group,
-  Menu,
   Tabs,
   Title,
 } from '@mantine/core'
 
-import {
-  IconBuilding,
-  IconBuildingPlus,
-  IconBuildings,
-  IconPlus,
-  IconUsersPlus,
-} from '@tabler/icons-react'
+import { IconBuilding, IconUsersPlus } from '@tabler/icons-react'
 
-import PrimaryButton from '@Common/ui/PrimaryButton'
+import OrganizationsAddBtn from './OrganizationAddBtn'
 
 import classes from './OrganizationsHeader.module.css'
 
@@ -33,7 +26,7 @@ export default function OrganizationsHeader() {
         <OrganizationsHeaderBreadcrumbs />
         <Group justify="space-between" mb="3rem">
           <Title order={1}>Organizaciones</Title>
-          <OrganizationsHeaderAddBtn />
+          <OrganizationsAddBtn position="bottom-end" />
         </Group>
 
         <Tabs
@@ -77,28 +70,5 @@ function OrganizationsHeaderBreadcrumbs() {
         Organizaciones
       </Anchor>
     </Breadcrumbs>
-  )
-}
-
-function OrganizationsHeaderAddBtn() {
-  return (
-    <Menu position="bottom-end" shadow="md">
-      <Menu.Target>
-        <PrimaryButton
-          rightSection={<IconPlus size={16} stroke={3} />}
-          size="sm"
-        >
-          Agregar
-        </PrimaryButton>
-      </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Item leftSection={<IconBuildingPlus size={14} stroke={2.5} />}>
-          Crear organización
-        </Menu.Item>
-        <Menu.Item leftSection={<IconBuildings size={14} stroke={2.5} />}>
-          Unirse a una organización
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
   )
 }

@@ -33,27 +33,15 @@ export class OrganizationsService {
         { $match: { 'members.userId': userId } },
         { $unwind: '$members' },
         { $match: { 'members.userId': userId } },
-        { $sort: { 'members.lastAccessedAt': -1 } },
         {
           $project: {
             _id: 1,
             name: 1,
             status: '$members.status',
-            // lastAccessedAt: '$members.lastAccessedAt',
+            lastAccessedAt: '$members.lastAccessedAt',
           },
         },
-        {
-          $group: {
-            _id: '$status',
-            organizations: {
-              $push: {
-                _id: '$_id',
-                name: '$name',
-                // lastAccessedAt: '$lastAccessedAt',
-              },
-            },
-          },
-        },
+        { $sort: { lastAccessedAt: -1 } },
       ])
       .exec()
   }

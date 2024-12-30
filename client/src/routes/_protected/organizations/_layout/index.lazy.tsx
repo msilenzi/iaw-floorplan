@@ -2,52 +2,181 @@ import { useState } from 'react'
 
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { CloseButton, Flex, Input, Table } from '@mantine/core'
+import {
+  Box,
+  Button,
+  CloseButton,
+  Flex,
+  Menu,
+  Skeleton,
+  Table,
+  Text,
+  TextInput,
+  Title,
+  rem,
+} from '@mantine/core'
 
-import { IconSearch } from '@tabler/icons-react'
+import {
+  IconBuildingPlus,
+  IconBuildings,
+  IconPlus,
+  IconSearch,
+} from '@tabler/icons-react'
+
+import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
+
+import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
+import displayMemberStatus from '@Organizations/utils/displayMemberStatus'
+
+import classes from '@Organizations/styles/Organizations.module.css'
 
 export const Route = createLazyFileRoute('/_protected/organizations/_layout/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { data, isLoading } = useOrganizationsQuery()
+
+  const [searchValue, setSearchValue] = useState('')
+
+  if (!isLoading && data?.length === 0) {
+    return (
+      <Box m="0 auto" style={{ maxWidth: rem('500px') }} ta="center">
+        <Title order={2} mb="xs">
+          No se encontraron organizaciones
+        </Title>
+        <Text style={{ textWrap: 'balance' }} mb="lg">
+          Parece que todavía no perteneces a ninguna organización. Podés crear
+          una nueva o unirte a una utlizando su código.
+        </Text>
+        <Menu position="bottom-start" shadow="md">
+          <Menu.Target>
+            <Button
+              rightSection={<IconPlus size={16} stroke={3} />}
+              size="sm"
+              variant="gradient"
+              gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+            >
+              Agregar
+            </Button>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item
+              leftSection={<IconBuildingPlus size={14} stroke={2.5} />}
+            >
+              Crear organización
+            </Menu.Item>
+            <Menu.Item leftSection={<IconBuildings size={14} stroke={2.5} />}>
+              Unirse a una organización
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </Box>
+    )
+  }
+
+  const activeOrganizations =
+    data?.filter(({ status, name }) => {
+      if (status !== MemberStatus.Owner && status !== MemberStatus.Member) {
+        return false
+      }
+      return name.toLowerCase().includes(searchValue.toLowerCase())
+    }) ?? []
+
   return (
     <Flex direction="column" align="center" gap="lg" pb="xl">
-      <SearchInput />
-      <Table verticalSpacing="md" highlightOnHover style={{ flexGrow: 1 }}>
+      <TextInput
+        placeholder="Buscar por nombre"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        leftSection={<IconSearch size={16} />}
+        disabled={isLoading}
+        rightSection={
+          <CloseButton
+            aria-label="Limpiar búsqueda"
+            onClick={() => setSearchValue('')}
+            style={{ display: searchValue ? undefined : 'none' }}
+          />
+        }
+        rightSectionPointerEvents="all"
+        className={classes.search}
+      />
+      <Table
+        verticalSpacing="md"
+        highlightOnHover
+        style={{ flexGrow: 1 }}
+        className={classes.table}
+      >
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Nombre</Table.Th>
+            <Table.Th className={classes['name-cell']}>Nombre</Table.Th>
+            <Table.Th className={classes['status-cell']}>Estado</Table.Th>
+            <Table.Th className={classes['lastAccessedAt-cell']}>
+              Último acceso
+            </Table.Th>
           </Table.Tr>
         </Table.Thead>
-        <Table.Tbody>
-          <Table.Tr>
-            <Table.Td>Nombre organización</Table.Td>
-          </Table.Tr>
-        </Table.Tbody>
+        {isLoading ?
+          <SkeletonTableBody />
+        : <OrganizationTableBody organizations={activeOrganizations} />}
       </Table>
     </Flex>
   )
 }
 
-function SearchInput() {
-  const [searchValue, setSearchValue] = useState('')
+type OrganizationsTableProps = {
+  organizations: FindAllOrganizationsDto[]
+}
 
+function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
   return (
-    <Input
-      placeholder="Buscar por nombre"
-      w="60%"
-      value={searchValue}
-      onChange={(e) => setSearchValue(e.target.value)}
-      leftSection={<IconSearch size={16} />}
-      rightSection={
-        <CloseButton
-          aria-label="Limpiar búsqueda"
-          onClick={() => setSearchValue('')}
-          style={{ display: searchValue ? undefined : 'none' }}
-        />
-      }
-      rightSectionPointerEvents="all"
-    />
+    <Table.Tbody>
+      {organizations.map(({ _id, name, status, lastAccessedAt }) => (
+        <Table.Tr key={_id}>
+          <Table.Td className={classes['name-cell']}>
+            <Text
+              size="sm"
+              span
+              truncate="end"
+              display="inline-block"
+              style={{ overflow: 'hidden' }}
+            >
+              {name}
+            </Text>
+          </Table.Td>
+          <Table.Td className={classes['status-cell']} tt="capitalize">
+            {displayMemberStatus(status)}
+          </Table.Td>
+          <Table.Td className={classes['lastAccessedAt-cell']}>
+            {lastAccessedAt ?
+              new Date(lastAccessedAt).toLocaleDateString('es-ES')
+            : <Text component="span" size="sm" c="dimmed" fs="italic">
+                No accedido
+              </Text>
+            }
+          </Table.Td>
+        </Table.Tr>
+      ))}
+    </Table.Tbody>
+  )
+}
+
+function SkeletonTableBody() {
+  return (
+    <Table.Tbody>
+      {[...Array<undefined>(5)].map((_, index) => (
+        <Table.Tr key={index}>
+          <Table.Td className={classes['name-cell']}>
+            <Skeleton height={20} width="80%" />
+          </Table.Td>
+          <Table.Td className={classes['status-cell']}>
+            <Skeleton height={20} width={60} />
+          </Table.Td>
+          <Table.Td className={classes['lastAccessedAt-cell']}>
+            <Skeleton height={20} width={90} />
+          </Table.Td>
+        </Table.Tr>
+      ))}
+    </Table.Tbody>
   )
 }

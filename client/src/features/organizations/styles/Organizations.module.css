@@ -1,0 +1,42 @@
+/*
+  Estilos para src/routes/_protected/organizations/_layout/index.lazy.tsx
+*/
+
+.table {
+  table-layout: fixed;
+}
+
+.table th,
+.table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.name-cell {
+  width: 100%;
+
+  & span {
+    width: 95%;
+  }
+}
+
+.status-cell {
+  width: rem(100px);
+}
+
+.lastAccessedAt-cell {
+  width: rem(120px);
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: none;
+  }
+}
+
+.search {
+  width: 100%;
+
+  @media (min-width: $mantine-breakpoint-xs) {
+    width: 60%;
+  }
+}

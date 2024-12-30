@@ -1,8 +1,9 @@
 .user {
   color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
-  padding: calc(var(--mantine-spacing-sm) / 2);
-  border-radius: var(--mantine-radius-xs);
+  padding: calc(var(--mantine-spacing-xs) / 1.5) !important;
+  border-radius: var(--mantine-radius-sm);
   transition: background-color 100ms ease;
+
   &:hover,
   &.userActive {
     background-color: light-dark(
@@ -11,7 +12,6 @@
     );
     box-shadow: var(--mantine-shadow-xs);
   }
-  border-radius: var(--mantine-radius-sm);
 }
 
 .userName {

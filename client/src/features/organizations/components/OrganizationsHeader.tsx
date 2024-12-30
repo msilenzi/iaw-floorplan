@@ -4,7 +4,6 @@ import {
   Anchor,
   Box,
   Breadcrumbs,
-  Button,
   Container,
   Group,
   Menu,
@@ -19,6 +18,8 @@ import {
   IconPlus,
   IconUsersPlus,
 } from '@tabler/icons-react'
+
+import PrimaryButton from '@Common/ui/PrimaryButton'
 
 import classes from './OrganizationsHeader.module.css'
 
@@ -83,14 +84,12 @@ function OrganizationsHeaderAddBtn() {
   return (
     <Menu position="bottom-end" shadow="md">
       <Menu.Target>
-        <Button
+        <PrimaryButton
           rightSection={<IconPlus size={16} stroke={3} />}
           size="sm"
-          variant="gradient"
-          gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
         >
           Agregar
-        </Button>
+        </PrimaryButton>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item leftSection={<IconBuildingPlus size={14} stroke={2.5} />}>

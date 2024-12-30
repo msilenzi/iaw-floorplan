@@ -4,7 +4,6 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 
 import {
   Box,
-  Button,
   CloseButton,
   Flex,
   Menu,
@@ -24,6 +23,7 @@ import {
 } from '@tabler/icons-react'
 
 import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
+import PrimaryButton from '@Common/ui/PrimaryButton'
 
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
 import displayMemberStatus from '@Organizations/utils/displayMemberStatus'
@@ -51,14 +51,12 @@ function RouteComponent() {
         </Text>
         <Menu position="bottom-start" shadow="md">
           <Menu.Target>
-            <Button
+            <PrimaryButton
               rightSection={<IconPlus size={16} stroke={3} />}
               size="sm"
-              variant="gradient"
-              gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
             >
               Agregar
-            </Button>
+            </PrimaryButton>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item

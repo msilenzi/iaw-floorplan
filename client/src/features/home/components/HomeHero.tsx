@@ -1,7 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 
 import {
-  Button,
   Container,
   Paper,
   Text,
@@ -9,6 +8,8 @@ import {
   useComputedColorScheme,
   useMantineTheme,
 } from '@mantine/core'
+
+import PrimaryButton from '@Common/ui/PrimaryButton'
 
 import classes from './HomeHero.module.css'
 
@@ -44,16 +45,14 @@ export default function HomeHero() {
           Aprovechá el poder de nuestra IA para descomponer tus planos en
           segundos.
         </Text>
-        <Button
+        <PrimaryButton
           size="xl"
           w="fit-content"
           className={classes.control}
-          variant="gradient"
-          gradient={{ from: 'blue', to: 'cyan' }}
           onClick={() => void loginWithRedirect()}
         >
           Comenzar
-        </Button>
+        </PrimaryButton>
       </Container>
     </Paper>
   )

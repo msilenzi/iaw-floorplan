@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
 import { Accordion, ActionIcon, Badge, Group, Text, Title } from '@mantine/core'
 
@@ -8,7 +8,7 @@ import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
 
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
 
-export const Route = createLazyFileRoute(
+export const Route = createFileRoute(
   '/_protected/organizations/_layout/requests',
 )({
   component: RouteComponent,

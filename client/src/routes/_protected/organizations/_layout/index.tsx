@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import {
   Box,
@@ -25,7 +25,7 @@ import displayMemberStatus from '@Organizations/utils/displayMemberStatus'
 
 import classes from '@Organizations/styles/Organizations.module.css'
 
-export const Route = createLazyFileRoute('/_protected/organizations/_layout/')({
+export const Route = createFileRoute('/_protected/organizations/_layout/')({
   component: RouteComponent,
 })
 
@@ -104,10 +104,15 @@ type OrganizationsTableProps = {
 }
 
 function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
+  const navigate = useNavigate()
+
   return (
     <Table.Tbody>
       {organizations.map(({ _id, name, status, lastAccessedAt }) => (
-        <Table.Tr key={_id}>
+        <Table.Tr
+          key={_id}
+          onClick={() => void navigate({ to: `/organizations/${_id}` })}
+        >
           <Table.Td className={classes['name-cell']}>
             <Text
               size="sm"

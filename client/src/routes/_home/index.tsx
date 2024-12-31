@@ -1,12 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import HomeFeaturesSection from '@Home/components/HomeFeaturesSection'
 import HomeHero from '@Home/components/HomeHero'
 import HomeNavbar from '@Home/components/HomeNavbar'
 
-export const Route = createLazyFileRoute('/_home/')({
+export const Route = createFileRoute('/_home/')({
   component: RouteComponent,
 })
 

@@ -1,8 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+import { Outlet, createFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/_protected')({
+export const Route = createFileRoute('/_protected')({
   component: RouteComponent,
 })
 

@@ -6,13 +6,12 @@ export default function useOrganizationsQuery() {
   const { organizationsApi, apisAvailable } = useApi()
 
   const query = useQuery({
-    enabled: () => apisAvailable,
-    queryKey: ['organization'],
-    queryFn: async () => {
-      const resp = await organizationsApi.findAll()
-      return resp.data
-    },
+    queryKey: ['organizations'],
+    queryFn: async () => (await organizationsApi.findAll()).data,
+    enabled: apisAvailable,
+    staleTime: 300_000, //  5 min
+    gcTime: 600_000, // 10 min
   })
 
-  return { ...query }
+  return query
 }

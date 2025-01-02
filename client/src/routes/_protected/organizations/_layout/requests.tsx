@@ -5,6 +5,7 @@ import { Accordion, ActionIcon, Badge, Group, Text, Title } from '@mantine/core'
 import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
 import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
+import RefetchBtn from '@Common/components/RefetchBtn'
 
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
 
@@ -20,7 +21,8 @@ type GroupedRequestsByStatus = {
 }
 
 function RouteComponent() {
-  const { data, isLoading } = useOrganizationsQuery()
+  const query = useOrganizationsQuery()
+  const { data, isLoading } = query
 
   if (isLoading || !data) {
     return <>Loading...</>
@@ -46,39 +48,48 @@ function RouteComponent() {
   }
 
   return (
-    <Accordion variant="separated" defaultValue={MemberStatus.Pending}>
-      <Accordion.Item value={MemberStatus.Pending} style={{ border: 'none' }}>
-        <Accordion.Control icon={<IconUserQuestion stroke={2} />}>
-          <Group align="center" gap="xs">
-            <Badge color="gray" size="md" radius="sm" bg="dark.4" bd="none">
-              {requests[MemberStatus.Pending].length}
-            </Badge>
-            <Title order={4}>Solicitudes pendientes </Title>
-          </Group>
-        </Accordion.Control>
-        <Accordion.Panel>
-          <RequestList
-            requests={requests[MemberStatus.Pending]}
-            showDeleteBtn
-            onDelete={handleCancelRequest}
-          />
-        </Accordion.Panel>
-      </Accordion.Item>
+    <>
+      <Group>
+        <RefetchBtn query={query} ms="auto" mb="md" />
+      </Group>
 
-      <Accordion.Item value={MemberStatus.Rejected} style={{ border: 'none' }}>
-        <Accordion.Control icon={<IconUserX stroke={2} />}>
-          <Group align="center" gap="xs">
-            <Badge color="gray" size="md" radius="sm" bg="dark.4" bd="none">
-              {requests[MemberStatus.Rejected].length}
-            </Badge>
-            <Title order={4}>Solicitudes rechazadas</Title>
-          </Group>
-        </Accordion.Control>
-        <Accordion.Panel>
-          <RequestList requests={requests[MemberStatus.Rejected]} />
-        </Accordion.Panel>
-      </Accordion.Item>
-    </Accordion>
+      <Accordion variant="separated" defaultValue={MemberStatus.Pending}>
+        <Accordion.Item value={MemberStatus.Pending} style={{ border: 'none' }}>
+          <Accordion.Control icon={<IconUserQuestion stroke={2} />}>
+            <Group align="center" gap="xs">
+              <Badge color="gray" size="md" radius="sm" bg="dark.4" bd="none">
+                {requests[MemberStatus.Pending].length}
+              </Badge>
+              <Title order={4}>Solicitudes pendientes </Title>
+            </Group>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <RequestList
+              requests={requests[MemberStatus.Pending]}
+              showDeleteBtn
+              onDelete={handleCancelRequest}
+            />
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        <Accordion.Item
+          value={MemberStatus.Rejected}
+          style={{ border: 'none' }}
+        >
+          <Accordion.Control icon={<IconUserX stroke={2} />}>
+            <Group align="center" gap="xs">
+              <Badge color="gray" size="md" radius="sm" bg="dark.4" bd="none">
+                {requests[MemberStatus.Rejected].length}
+              </Badge>
+              <Title order={4}>Solicitudes rechazadas</Title>
+            </Group>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <RequestList requests={requests[MemberStatus.Rejected]} />
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </>
   )
 }
 

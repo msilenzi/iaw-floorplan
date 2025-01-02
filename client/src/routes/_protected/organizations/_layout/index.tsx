@@ -5,9 +5,9 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
   Box,
   CloseButton,
-  Flex,
   Skeleton,
   Space,
+  Stack,
   Table,
   Text,
   TextInput,
@@ -18,6 +18,7 @@ import {
 import { IconSearch } from '@tabler/icons-react'
 
 import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
+import RefetchBtn from '@Common/components/RefetchBtn'
 
 import OrganizationsAddBtn from '@Organizations/components/OrganizationAddBtn'
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
@@ -30,7 +31,8 @@ export const Route = createFileRoute('/_protected/organizations/_layout/')({
 })
 
 function RouteComponent() {
-  const { data, isLoading } = useOrganizationsQuery()
+  const query = useOrganizationsQuery()
+  const { data, isLoading } = query
 
   const [searchValue, setSearchValue] = useState('')
 
@@ -59,23 +61,9 @@ function RouteComponent() {
     }) ?? []
 
   return (
-    <Flex direction="column" align="center" gap="lg" pb="xl">
-      <TextInput
-        placeholder="Buscar por nombre"
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        leftSection={<IconSearch size={16} />}
-        disabled={isLoading}
-        rightSection={
-          <CloseButton
-            aria-label="Limpiar búsqueda"
-            onClick={() => setSearchValue('')}
-            style={{ display: searchValue ? undefined : 'none' }}
-          />
-        }
-        rightSectionPointerEvents="all"
-        className={classes.search}
-      />
+    <Stack gap="sm" pb="xl" align="center">
+      <SearchInput value={searchValue} setValue={setSearchValue} />
+      <RefetchBtn query={query} ms="auto" mt="xl" />
       <Table verticalSpacing="md" highlightOnHover className={classes.table}>
         <Table.Thead>
           <Table.Tr>
@@ -86,11 +74,13 @@ function RouteComponent() {
             </Table.Th>
           </Table.Tr>
         </Table.Thead>
-        {isLoading ?
-          <SkeletonTableBody />
-        : <OrganizationTableBody organizations={activeOrganizations} />}
+        <Table.Tbody>
+          {isLoading ?
+            <SkeletonTableBody />
+          : <OrganizationTableBody organizations={activeOrganizations} />}
+        </Table.Tbody>
       </Table>
-    </Flex>
+    </Stack>
   )
 }
 
@@ -101,58 +91,77 @@ type OrganizationsTableProps = {
 function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
   const navigate = useNavigate()
 
-  return (
-    <Table.Tbody>
-      {organizations.map(({ _id, name, status, lastAccessedAt }) => (
-        <Table.Tr
-          key={_id}
-          onClick={() => void navigate({ to: `/organizations/${_id}` })}
+  return organizations.map(({ _id, name, status, lastAccessedAt }) => (
+    <Table.Tr
+      key={_id}
+      onClick={() => void navigate({ to: `/organizations/${_id}` })}
+    >
+      <Table.Td className={classes['name-cell']}>
+        <Text
+          size="sm"
+          span
+          truncate="end"
+          display="inline-block"
+          w="100%"
+          style={{ overflow: 'hidden' }}
         >
-          <Table.Td className={classes['name-cell']}>
-            <Text
-              size="sm"
-              span
-              truncate="end"
-              display="inline-block"
-              w="100%"
-              style={{ overflow: 'hidden' }}
-            >
-              {name}
-            </Text>
-          </Table.Td>
-          <Table.Td className={classes['status-cell']} tt="capitalize">
-            {displayMemberStatus(status)}
-          </Table.Td>
-          <Table.Td className={classes['lastAccessedAt-cell']}>
-            {lastAccessedAt ?
-              new Date(lastAccessedAt).toLocaleDateString('es-ES')
-            : <Text component="span" size="sm" c="dimmed" fs="italic">
-                No accedido
-              </Text>
-            }
-          </Table.Td>
-        </Table.Tr>
-      ))}
-    </Table.Tbody>
-  )
+          {name}
+        </Text>
+      </Table.Td>
+      <Table.Td className={classes['status-cell']} tt="capitalize">
+        {displayMemberStatus(status)}
+      </Table.Td>
+      <Table.Td className={classes['lastAccessedAt-cell']}>
+        {lastAccessedAt ?
+          new Date(lastAccessedAt).toLocaleDateString('es-ES')
+        : <Text component="span" size="sm" c="dimmed" fs="italic">
+            No accedido
+          </Text>
+        }
+      </Table.Td>
+    </Table.Tr>
+  ))
 }
 
 function SkeletonTableBody() {
+  return Array.from({ length: 5 }).map((_, index) => (
+    <Table.Tr key={index}>
+      <Table.Td className={classes['name-cell']}>
+        <Skeleton height={20} width="80%" />
+      </Table.Td>
+      <Table.Td className={classes['status-cell']}>
+        <Skeleton height={20} width={60} />
+      </Table.Td>
+      <Table.Td className={classes['lastAccessedAt-cell']}>
+        <Skeleton height={20} width={90} />
+      </Table.Td>
+    </Table.Tr>
+  ))
+}
+
+type SearchInputProps = {
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>
+}
+function SearchInput({ value, setValue }: SearchInputProps) {
+  const { isLoading } = useOrganizationsQuery()
+
   return (
-    <Table.Tbody>
-      {Array.from({ length: 5 }).map((_, index) => (
-        <Table.Tr key={index}>
-          <Table.Td className={classes['name-cell']}>
-            <Skeleton height={20} width="80%" />
-          </Table.Td>
-          <Table.Td className={classes['status-cell']}>
-            <Skeleton height={20} width={60} />
-          </Table.Td>
-          <Table.Td className={classes['lastAccessedAt-cell']}>
-            <Skeleton height={20} width={90} />
-          </Table.Td>
-        </Table.Tr>
-      ))}
-    </Table.Tbody>
+    <TextInput
+      placeholder="Buscar por nombre"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      leftSection={<IconSearch size={16} />}
+      disabled={isLoading}
+      rightSection={
+        <CloseButton
+          aria-label="Limpiar búsqueda"
+          onClick={() => setValue('')}
+          style={{ display: value ? undefined : 'none' }}
+        />
+      }
+      rightSectionPointerEvents="all"
+      className={classes.search}
+    />
   )
 }

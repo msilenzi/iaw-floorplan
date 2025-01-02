@@ -14,15 +14,16 @@
 }
 
 .name-cell {
-  width: 100%;
-
-  & span {
-    width: 95%;
-  }
+  width: auto;
+  max-width: 0;
 }
 
 .status-cell {
   width: rem(100px);
+
+  @media (max-width: rem(400px)) {
+    display: none;
+  }
 }
 
 .lastAccessedAt-cell {

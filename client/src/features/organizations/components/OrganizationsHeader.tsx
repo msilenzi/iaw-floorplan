@@ -21,11 +21,11 @@ export default function OrganizationsHeader() {
   const navigate = useNavigate()
 
   return (
-    <Box className={classes.header}>
+    <Box className={classes.header} pt="3rem">
       <Container size="md">
         <OrganizationsHeaderBreadcrumbs />
         <Group justify="space-between" mb="3rem">
-          <Title order={1}>Organizaciones</Title>
+          <Title order={1}>Tus organizaciones</Title>
           <OrganizationsAddBtn position="bottom-end" />
         </Group>
 
@@ -47,14 +47,14 @@ export default function OrganizationsHeader() {
               leftSection={<IconBuilding size={14} stroke={2.5} />}
               classNames={{ tab: classes.tab }}
             >
-              Organizaciones
+              Tus organizaciones
             </Tabs.Tab>
             <Tabs.Tab
               value="/organizations/requests"
               leftSection={<IconUsersPlus size={14} stroke={2.5} />}
               classNames={{ tab: classes.tab }}
             >
-              Solicitudes
+              Tus solicitudes
             </Tabs.Tab>
           </Tabs.List>
         </Tabs>
@@ -67,7 +67,7 @@ function OrganizationsHeaderBreadcrumbs() {
   return (
     <Breadcrumbs pb="sm" fz="sm" styles={{ separator: { opacity: 0.5 } }}>
       <Anchor c="dimmed" fz="sm" component={Link} disabled>
-        Organizaciones
+        Tus organizaciones
       </Anchor>
     </Breadcrumbs>
   )

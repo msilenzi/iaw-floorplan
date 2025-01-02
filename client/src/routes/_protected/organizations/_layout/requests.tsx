@@ -71,7 +71,7 @@ function RouteComponent() {
             <Badge color="gray" size="md" radius="sm" bg="dark.4" bd="none">
               {requests[MemberStatus.Rejected].length}
             </Badge>
-            <Title order={4}>Solicitudes Rechazadas</Title>
+            <Title order={4}>Solicitudes rechazadas</Title>
           </Group>
         </Accordion.Control>
         <Accordion.Panel>

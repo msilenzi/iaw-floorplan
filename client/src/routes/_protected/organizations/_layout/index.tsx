@@ -76,12 +76,7 @@ function RouteComponent() {
         rightSectionPointerEvents="all"
         className={classes.search}
       />
-      <Table
-        verticalSpacing="md"
-        highlightOnHover
-        style={{ flexGrow: 1 }}
-        className={classes.table}
-      >
+      <Table verticalSpacing="md" highlightOnHover className={classes.table}>
         <Table.Thead>
           <Table.Tr>
             <Table.Th className={classes['name-cell']}>Nombre</Table.Th>
@@ -119,6 +114,7 @@ function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
               span
               truncate="end"
               display="inline-block"
+              w="100%"
               style={{ overflow: 'hidden' }}
             >
               {name}
@@ -144,7 +140,7 @@ function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
 function SkeletonTableBody() {
   return (
     <Table.Tbody>
-      {[...Array<undefined>(5)].map((_, index) => (
+      {Array.from({ length: 5 }).map((_, index) => (
         <Table.Tr key={index}>
           <Table.Td className={classes['name-cell']}>
             <Skeleton height={20} width="80%" />

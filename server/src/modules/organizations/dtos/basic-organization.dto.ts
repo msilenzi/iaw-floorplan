@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 
 import { MemberStatus } from '../types/member-status.enum'
 
-export class FindAllOrganizationsDto {
+export class BasicOrganizationDto {
   readonly _id: string
 
   readonly name: string

@@ -17,7 +17,7 @@ import {
 
 import { IconSearch } from '@tabler/icons-react'
 
-import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
+import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
 import RefetchBtn from '@Common/components/RefetchBtn'
 
 import OrganizationsAddBtn from '@Organizations/components/OrganizationAddBtn'
@@ -31,7 +31,7 @@ export const Route = createFileRoute('/_protected/organizations/_layout/')({
 })
 
 function RouteComponent() {
-  const query = useOrganizationsQuery()
+  const { query } = useOrganizationsQuery()
   const { data, isLoading } = query
 
   const [searchValue, setSearchValue] = useState('')
@@ -87,7 +87,7 @@ function RouteComponent() {
 }
 
 type OrganizationsTableProps = {
-  organizations: FindAllOrganizationsDto[]
+  organizations: BasicOrganizationDto[]
 }
 
 function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
@@ -147,7 +147,7 @@ type SearchInputProps = {
   setValue: React.Dispatch<React.SetStateAction<string>>
 }
 function SearchInput({ value, setValue }: SearchInputProps) {
-  const { isLoading } = useOrganizationsQuery()
+  const { isLoading } = useOrganizationsQuery().query
 
   return (
     <TextInput

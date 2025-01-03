@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 
-import { Group, Modal, TextInput } from '@mantine/core'
+import { useNavigate } from '@tanstack/react-router'
+
+import { Group, Loader, Modal, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 
 import { IconPlus } from '@tabler/icons-react'
 
 import PrimaryButton from '@Common/ui/PrimaryButton'
+
+import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
 
 type CreateOrganizationForm = {
   name: string
@@ -22,6 +26,10 @@ export default function OrganizationsModalCreate({
   isOpen,
   onClose,
 }: OrganizationsModalCreateProps) {
+  const navigate = useNavigate()
+
+  const { createMutation } = useOrganizationsQuery()
+
   const form = useForm<CreateOrganizationForm>({
     mode: 'controlled',
     initialValues: {
@@ -31,7 +39,7 @@ export default function OrganizationsModalCreate({
     },
     transformValues: (values) => ({
       name: values.name.trim(),
-      regex: values.regex.trim(),
+      regex: `^${values.regex.trim()}$`,
       regexTest: values.regexTest.trim(),
     }),
     validate: {
@@ -41,7 +49,7 @@ export default function OrganizationsModalCreate({
       regex: (value) => {
         if (value.trim().length === 0) return 'El RegExp es obligatorio'
         try {
-          new RegExp(value)
+          new RegExp(`^${value.trim()}$`)
           return null
         } catch {
           return 'RegExp inválido'
@@ -56,26 +64,45 @@ export default function OrganizationsModalCreate({
   useEffect(() => {
     const { regex, regexTest } = form.getValues()
     try {
-      const reg = new RegExp(regex)
+      const reg = new RegExp(`^${regex.trim()}$`)
       setIsTestValid(reg.test(regexTest))
     } catch {
       setIsTestValid(false)
     }
   }, [form])
 
-  const handleSubmit = form.onSubmit((values) => {
-    console.log('formSubmit', values)
+  function handleClose() {
+    if (!createMutation.isPending) onClose()
+  }
+
+  const handleSubmit = form.onSubmit(async (values) => {
+    const resp = await createMutation.mutateAsync({
+      name: values.name,
+      recordRegex: values.regex,
+    })
+
+    console.log('[ handleSubmit ] resp:', resp)
+
+    form.reset()
+    onClose()
+    void navigate({ to: `/organizations/${resp.data._id}` })
   })
 
   return (
     <Modal
       opened={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       title="Crear organización"
       styles={{ title: { fontWeight: 700 } }}
+      closeButtonProps={{
+        disabled: createMutation.isPending,
+      }}
     >
       <form onSubmit={handleSubmit}>
-        <fieldset style={{ margin: 0, padding: 0, border: 'none' }}>
+        <fieldset
+          style={{ margin: 0, padding: 0, border: 'none' }}
+          disabled={createMutation.isPending}
+        >
           <TextInput
             label="Nombre"
             placeholder="Nombre de la organización"
@@ -86,11 +113,14 @@ export default function OrganizationsModalCreate({
           />
           <TextInput
             label="Patrón RegExp de los expedientes"
+            description="Se incluirán automáticamente ^ y $ en la expresión"
             placeholder=".*"
             withAsterisk
             key={form.key('regex')}
             {...form.getInputProps('regex')}
             mb="sm"
+            leftSection={<Text fw={700}>^</Text>}
+            rightSection={<Text fw={700}>$</Text>}
           />
           <TextInput
             description="Podés usar el campo a continuación para verificar como funciona tu patrón"
@@ -124,9 +154,18 @@ export default function OrganizationsModalCreate({
           <Group justify="end">
             <PrimaryButton
               type="submit"
-              rightSection={<IconPlus size={16} stroke={3} />}
+              rightSection={
+                createMutation.isPending ? (
+                  <Loader size="14" color="dark.2" />
+                ) : (
+                  <IconPlus size={16} stroke={3} />
+                )
+              }
+              disabled={createMutation.isPending}
             >
-              Crear organización
+              {createMutation.isPending
+                ? 'Creando organización'
+                : 'Crear organización'}
             </PrimaryButton>
           </Group>
         </fieldset>

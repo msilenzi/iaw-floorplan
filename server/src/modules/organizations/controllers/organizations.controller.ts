@@ -4,8 +4,8 @@ import { Protected } from '../../auth/decorators/protected.decorator'
 import { Sub } from '../../auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
+import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
-import { FindAllOrganizationsDto } from '../dtos/find-all-organizations.dto'
 import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
 import { OrganizationDocument } from '../schemas/organization.schema'
 import { OrganizationsService } from '../services/organizations.service'
@@ -20,7 +20,10 @@ export class OrganizationsController {
    * Crea una nueva organización.
    */
   @Post()
-  create(@Body() dto: CreateOrganizationDto, @Sub() sub: string) {
+  create(
+    @Body() dto: CreateOrganizationDto,
+    @Sub() sub: string,
+  ): Promise<BasicOrganizationDto> {
     return this.organizationsService.create(dto, sub)
   }
 
@@ -29,7 +32,7 @@ export class OrganizationsController {
    * una y ordenadas por último acceso.
    */
   @Get()
-  findAll(@Sub() sub: string): Promise<FindAllOrganizationsDto[]> {
+  findAll(@Sub() sub: string): Promise<BasicOrganizationDto[]> {
     return this.organizationsService.findAll(sub)
   }
 

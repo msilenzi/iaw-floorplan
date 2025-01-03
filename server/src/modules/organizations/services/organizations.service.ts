@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 
+import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
 import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
 import {
@@ -19,12 +20,23 @@ export class OrganizationsService {
     private readonly organizationModel: Model<Organization>,
   ) {}
 
-  async create(dto: CreateOrganizationDto, userId: string): Promise<void> {
+  async create(
+    dto: CreateOrganizationDto,
+    userId: string,
+  ): Promise<BasicOrganizationDto> {
     const organization = new this.organizationModel({
       ...dto,
       members: [{ userId, status: MemberStatus.OWNER, lastAccessedAt: null }],
     })
+
     await organization.save()
+
+    return {
+      _id: organization._id.toString(),
+      name: organization.name,
+      lastAccessedAt: null,
+      status: MemberStatus.OWNER,
+    }
   }
 
   async findAll(userId: string) {

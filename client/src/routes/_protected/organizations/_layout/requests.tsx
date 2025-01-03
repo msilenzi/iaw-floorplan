@@ -4,7 +4,7 @@ import { Accordion, ActionIcon, Badge, Group, Text, Title } from '@mantine/core'
 
 import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
-import { FindAllOrganizationsDto, MemberStatus } from '@Common/api/generated'
+import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
 import RefetchBtn from '@Common/components/RefetchBtn'
 
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
@@ -16,12 +16,12 @@ export const Route = createFileRoute(
 })
 
 type GroupedRequestsByStatus = {
-  [MemberStatus.Pending]: FindAllOrganizationsDto[]
-  [MemberStatus.Rejected]: FindAllOrganizationsDto[]
+  [MemberStatus.Pending]: BasicOrganizationDto[]
+  [MemberStatus.Rejected]: BasicOrganizationDto[]
 }
 
 function RouteComponent() {
-  const query = useOrganizationsQuery()
+  const { query } = useOrganizationsQuery()
   const { data, isLoading } = query
 
   if (isLoading || !data) {
@@ -94,7 +94,7 @@ function RouteComponent() {
 }
 
 type RequestListProps = {
-  requests: FindAllOrganizationsDto[]
+  requests: BasicOrganizationDto[]
   showDeleteBtn?: boolean
   onDelete?: (id: string) => void
 }

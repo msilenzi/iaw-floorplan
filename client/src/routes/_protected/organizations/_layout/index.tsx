@@ -75,9 +75,11 @@ function RouteComponent() {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {isLoading ?
+          {isLoading ? (
             <SkeletonTableBody />
-          : <OrganizationTableBody organizations={activeOrganizations} />}
+          ) : (
+            <OrganizationTableBody organizations={activeOrganizations} />
+          )}
         </Table.Tbody>
       </Table>
     </Stack>
@@ -112,12 +114,13 @@ function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
         {displayMemberStatus(status)}
       </Table.Td>
       <Table.Td className={classes['lastAccessedAt-cell']}>
-        {lastAccessedAt ?
+        {lastAccessedAt ? (
           new Date(lastAccessedAt).toLocaleDateString('es-ES')
-        : <Text component="span" size="sm" c="dimmed" fs="italic">
+        ) : (
+          <Text component="span" size="sm" c="dimmed" fs="italic">
             No accedido
           </Text>
-        }
+        )}
       </Table.Td>
     </Table.Tr>
   ))

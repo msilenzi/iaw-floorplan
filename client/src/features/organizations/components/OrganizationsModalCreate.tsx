@@ -82,7 +82,7 @@ export default function OrganizationsModalCreate({
             withAsterisk
             key={form.key('name')}
             {...form.getInputProps('name')}
-            mb="xl"
+            mb="md"
           />
           <TextInput
             label="Patrón RegExp de los expedientes"
@@ -97,40 +97,29 @@ export default function OrganizationsModalCreate({
             key={form.key('regexTest')}
             {...form.getInputProps('regexTest')}
             error={
-              form.getValues().regexTest && !isTestValid ?
-                'No cumple con el patrón'
-              : null
+              form.getValues().regexTest && !isTestValid
+                ? 'No cumple con el patrón'
+                : null
             }
             color={
-              (
-                form.getValues().regex.trim().length > 0 &&
-                form.getValues().regexTest.trim().length > 0 &&
-                isTestValid
-              ) ?
-                'green'
-              : undefined
+              form.getValues().regex.trim().length > 0 &&
+              form.getValues().regexTest.trim().length > 0 &&
+              isTestValid
+                ? 'green'
+                : undefined
             }
             styles={{
               input: {
                 borderColor:
-                  // Si no hay test no poner bordes
-                  form.getValues().regexTest.trim().length === 0 ? undefined
-                    // Si no hay expresión regular o no es válida, poner bordes rojos
-                  : form.getValues().regex.trim().length === 0 || !isTestValid ?
-                    'var(--mantine-color-red-filled)'
-                  : 'var(--mantine-color-green-filled)',
-
-                // borderColor:
-                //   (
-                //     form.getValues().regex.trim().length > 0 &&
-                //     form.getValues().regexTest.trim().length > 0
-                //   ) ?
-                //     isTestValid ? 'var(--mantine-color-green-filled)'
-                //     : 'var(--mantine-color-red-filled)'
-                //   : undefined,
+                  form.getValues().regex.trim().length > 0 &&
+                  form.getValues().regexTest.trim().length > 0
+                    ? isTestValid
+                      ? 'var(--mantine-color-green-filled)'
+                      : 'var(--mantine-color-red-filled)'
+                    : undefined,
               },
             }}
-            mb="xl"
+            mb="lg"
           />
           <Group justify="end">
             <PrimaryButton

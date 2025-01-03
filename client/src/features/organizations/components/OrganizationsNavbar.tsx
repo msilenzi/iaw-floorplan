@@ -31,15 +31,16 @@ export default function OrganizationsNavbar() {
             className={`${classes.user} ${isMenuOpen ? classes.userActive : ''}`}
           >
             <Group gap="xs" align="center">
-              {!user?.picture || user.picture === '' ?
+              {!user?.picture || user.picture === '' ? (
                 <Avatar name={user?.name} color="initials" />
-              : <Avatar
+              ) : (
+                <Avatar
                   src={user.picture}
                   alt={user.name}
                   radius="xl"
                   size="sm"
                 />
-              }
+              )}
               <Text fw={500} size="sm" className={classes.userName}>
                 {user?.name}
               </Text>

@@ -31,11 +31,13 @@ export default function RefetchBtn({ query, ...props }: RefetchBtnProps) {
         },
       }}
       rightSection={
-        query.isFetching ?
+        query.isFetching ? (
           <Loader size="12" ms="0.2em" color="dark.2" />
-        : <ActionIcon variant="transparent" size="sm" c="inherit">
+        ) : (
+          <ActionIcon variant="transparent" size="sm" c="inherit">
             <IconReload style={{ width: '75%', height: '75%' }} stroke={2} />
           </ActionIcon>
+        )
       }
     >
       Actualizado a las{' '}

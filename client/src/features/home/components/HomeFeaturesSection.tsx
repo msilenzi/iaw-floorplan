@@ -1,6 +1,7 @@
 import {
   Card,
   Container,
+  Group,
   SimpleGrid,
   Text,
   Title,
@@ -20,13 +21,15 @@ export default function HomeFeaturesSection() {
         Por qué usar Floorplan
       </Title>
 
-      <Text c="dimmed" className={classes.description} ta="center" mt="md">
-        Floorplan es la solución ideal para gestionar tus proyectos de
-        construcción de forma eficiente y moderna. Nuestra plataforma está
-        diseñada para simplificar procesos, ahorrar tiempo y maximizar la
-        precisión. Floorplan te permite concentrarte en lo que realmente
-        importa: llevar tus proyectos al siguiente nivel.
-      </Text>
+      <Group justify="center">
+        <Text c="dimmed" className={classes.description} ta="center" mt="md">
+          Floorplan es la solución ideal para gestionar tus proyectos de
+          construcción de forma eficiente y moderna. Nuestra plataforma está
+          diseñada para simplificar procesos, ahorrar tiempo y maximizar la
+          precisión. Floorplan te permite concentrarte en lo que realmente
+          importa: llevar tus proyectos al siguiente nivel.
+        </Text>
+      </Group>
 
       <SimpleGrid cols={{ base: 1, xs: 2, md: 3 }} spacing="xl" mt={50}>
         {floorplanFeatures.map((feature) => (

@@ -7,8 +7,7 @@
 }
 
 .description {
-  max-width: 600px;
-  margin: auto;
+  max-width: rem(600px);
 
   &::after {
     content: '';

@@ -18,13 +18,13 @@ import {
 import { IconSearch } from '@tabler/icons-react'
 
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
-import RefetchBtn from '@Common/components/RefetchBtn'
+import RefetchBtn from '@Common/ui/RefetchBtn'
 
 import OrganizationsAddBtn from '@Organizations/components/OrganizationAddBtn'
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
 import displayMemberStatus from '@Organizations/utils/displayMemberStatus'
 
-import classes from '@Organizations/styles/Organizations.module.css'
+import classes from '@Organizations/styles/OrganizationsPage.module.css'
 
 export const Route = createFileRoute('/_protected/organizations/_layout/')({
   component: RouteComponent,

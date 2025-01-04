@@ -2,13 +2,13 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import { Button, Title } from '@mantine/core'
 
-import GenericNavbar from '@Common/components/GenericNavbar'
+import BaseNavbar from '@Common/ui/BaseNavbar'
 
 export default function HomeNavbar() {
   const { loginWithRedirect } = useAuth0()
 
   return (
-    <GenericNavbar>
+    <BaseNavbar>
       <Title order={3}>Floorplan</Title>
       <Button
         size="xs"
@@ -17,6 +17,6 @@ export default function HomeNavbar() {
       >
         Iniciar sesión
       </Button>
-    </GenericNavbar>
+    </BaseNavbar>
   )
 }

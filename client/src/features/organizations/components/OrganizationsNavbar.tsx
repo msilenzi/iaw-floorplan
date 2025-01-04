@@ -6,7 +6,7 @@ import { Avatar, Group, Menu, Text, Title, UnstyledButton } from '@mantine/core'
 
 import { IconChevronDown, IconLogout } from '@tabler/icons-react'
 
-import GenericNavbar from '@Common/components/GenericNavbar'
+import BaseNavbar from '@Common/ui/BaseNavbar'
 
 import classes from './OrganizationsNavbar.module.css'
 
@@ -15,7 +15,7 @@ export default function OrganizationsNavbar() {
   const { user, logout } = useAuth0()
 
   return (
-    <GenericNavbar>
+    <BaseNavbar>
       <Title order={3}>Floorplan</Title>
       <Menu
         width={192}
@@ -58,6 +58,6 @@ export default function OrganizationsNavbar() {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-    </GenericNavbar>
+    </BaseNavbar>
   )
 }

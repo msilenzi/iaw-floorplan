@@ -21,7 +21,7 @@ type GroupedRequestsByStatus = {
 }
 
 function RouteComponent() {
-  const { query } = useOrganizationsQuery()
+  const query = useOrganizationsQuery()
   const { data, isLoading } = query
 
   if (isLoading || !data) {

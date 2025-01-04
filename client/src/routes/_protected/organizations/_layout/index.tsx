@@ -31,7 +31,7 @@ export const Route = createFileRoute('/_protected/organizations/_layout/')({
 })
 
 function RouteComponent() {
-  const { query } = useOrganizationsQuery()
+  const query = useOrganizationsQuery()
   const { data, isLoading } = query
 
   const [searchValue, setSearchValue] = useState('')
@@ -147,7 +147,7 @@ type SearchInputProps = {
   setValue: React.Dispatch<React.SetStateAction<string>>
 }
 function SearchInput({ value, setValue }: SearchInputProps) {
-  const { isLoading } = useOrganizationsQuery().query
+  const { isLoading } = useOrganizationsQuery()
 
   return (
     <TextInput

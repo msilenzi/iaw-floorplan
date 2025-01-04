@@ -3,19 +3,13 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 
 import { Group, Loader, Modal, Text, TextInput } from '@mantine/core'
-import { useForm } from '@mantine/form'
 
 import { IconPlus } from '@tabler/icons-react'
 
 import PrimaryButton from '@Common/ui/PrimaryButton'
 
-import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
-
-type CreateOrganizationForm = {
-  name: string
-  regex: string
-  regexTest: string
-}
+import useCreateOrganizationForm from '@Organizations/hooks/useCreateOrganizationForm'
+import useCreateOrganizationMutation from '@Organizations/hooks/useCreateOrganizationMutation'
 
 type OrganizationsModalCreateProps = {
   isOpen: boolean
@@ -27,38 +21,8 @@ export default function OrganizationsModalCreate({
   onClose,
 }: OrganizationsModalCreateProps) {
   const navigate = useNavigate()
-
-  const { createMutation } = useOrganizationsQuery()
-
-  const form = useForm<CreateOrganizationForm>({
-    mode: 'controlled',
-    initialValues: {
-      name: '',
-      regex: '.*',
-      regexTest: '',
-    },
-    transformValues: (values) => ({
-      name: values.name.trim(),
-      regex: `^${values.regex.trim()}$`,
-      regexTest: values.regexTest.trim(),
-    }),
-    validate: {
-      name: (value) =>
-        value.trim().length === 0 ? 'El nombre es obligatorio' : null,
-
-      regex: (value) => {
-        if (value.trim().length === 0) return 'El RegExp es obligatorio'
-        try {
-          new RegExp(`^${value.trim()}$`)
-          return null
-        } catch {
-          return 'RegExp inválido'
-        }
-      },
-    },
-    validateInputOnChange: true,
-  })
-
+  const { isPending, mutateAsync } = useCreateOrganizationMutation()
+  const { form } = useCreateOrganizationForm()
   const [isTestValid, setIsTestValid] = useState(true)
 
   useEffect(() => {
@@ -72,17 +36,14 @@ export default function OrganizationsModalCreate({
   }, [form])
 
   function handleClose() {
-    if (!createMutation.isPending) onClose()
+    if (!isPending) onClose()
   }
 
   const handleSubmit = form.onSubmit(async (values) => {
-    const resp = await createMutation.mutateAsync({
+    const resp = await mutateAsync({
       name: values.name,
       recordRegex: values.regex,
     })
-
-    console.log('[ handleSubmit ] resp:', resp)
-
     form.reset()
     onClose()
     void navigate({ to: `/organizations/${resp.data._id}` })
@@ -95,13 +56,13 @@ export default function OrganizationsModalCreate({
       title="Crear organización"
       styles={{ title: { fontWeight: 700 } }}
       closeButtonProps={{
-        disabled: createMutation.isPending,
+        disabled: isPending,
       }}
     >
       <form onSubmit={handleSubmit}>
         <fieldset
           style={{ margin: 0, padding: 0, border: 'none' }}
-          disabled={createMutation.isPending}
+          disabled={isPending}
         >
           <TextInput
             label="Nombre"
@@ -155,17 +116,15 @@ export default function OrganizationsModalCreate({
             <PrimaryButton
               type="submit"
               rightSection={
-                createMutation.isPending ? (
+                isPending ? (
                   <Loader size="14" color="dark.2" />
                 ) : (
                   <IconPlus size={16} stroke={3} />
                 )
               }
-              disabled={createMutation.isPending}
+              disabled={isPending}
             >
-              {createMutation.isPending
-                ? 'Creando organización'
-                : 'Crear organización'}
+              {isPending ? 'Creando organización' : 'Crear organización'}
             </PrimaryButton>
           </Group>
         </fieldset>

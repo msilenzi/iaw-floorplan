@@ -2,7 +2,9 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
-import { UnauthenticatedHeader } from '@Common/components/Header'
+import { Box, Group, Loader } from '@mantine/core'
+
+import { LoadingHeader, UnauthenticatedHeader } from '@Common/components/Header'
 
 import HomeFeaturesSection from '@Home/components/HomeFeaturesSection'
 import HomeHero from '@Home/components/HomeHero'
@@ -15,11 +17,11 @@ function RouteComponent() {
   const { isAuthenticated, isLoading } = useAuth0()
   const navigate = useNavigate()
 
-  // Si el usuario tiene una sesión iniciada lo redirige a /app/organizations.
-  // No es necesario esperar a que termine de cargar para confirmar si tiene
-  // o no una sesión iniciada, ya que si no tiene sesión iniciada `isLoading`
-  // es false.
-  if (isLoading || isAuthenticated) {
+  if (isLoading) {
+    return <LoadingView />
+  }
+
+  if (isAuthenticated) {
     void navigate({ to: '/organizations' })
   }
 
@@ -29,5 +31,16 @@ function RouteComponent() {
       <HomeHero />
       <HomeFeaturesSection />
     </>
+  )
+}
+
+function LoadingView() {
+  return (
+    <Box h="100dvh" bg="dark.8">
+      <LoadingHeader />
+      <Group mt={'20dvh'} w="100%" justify="center">
+        <Loader size={'6rem'} color="dark.5" />
+      </Group>
+    </Box>
   )
 }

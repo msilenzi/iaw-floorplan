@@ -1,0 +1,36 @@
+.tabsList {
+  &::before {
+    display: none;
+  }
+}
+
+.tab {
+  font-weight: 500;
+  height: 38px;
+  background-color: transparent;
+  position: relative;
+  bottom: -1px;
+
+  &::before,
+  &::after {
+    background-color: light-dark(
+      var(--mantine-color-gray-2),
+      var(--mantine-color-dark-7)
+    ) !important;
+  }
+
+  &:hover {
+    background-color: light-dark(
+      var(--mantine-color-gray-1),
+      var(--mantine-color-dark-6)
+    );
+    border-bottom: 1px solid var(--mantine-color-default-border);
+  }
+
+  &[data-active] {
+    background-color: var(--mantine-color-body);
+    &:hover {
+      border-bottom: 1px solid transparent;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { Container } from '@mantine/core'
 
 import { AuthenticatedHeader } from '@Common/components/Header'
 
-import OrganizationsHeader from '@Organizations/components/OrganizationsHeader'
+import { MyOrganizationsSubheader } from '@Organizations/components/MyOrganizationsSubheader'
 
 export const Route = createFileRoute('/_protected/my-organizations/_layout')({
   component: RouteComponent,
@@ -14,7 +14,7 @@ function RouteComponent() {
   return (
     <>
       <AuthenticatedHeader />
-      <OrganizationsHeader />
+      <MyOrganizationsSubheader />
       <Container size="md" mt="3rem">
         <Outlet />
       </Container>

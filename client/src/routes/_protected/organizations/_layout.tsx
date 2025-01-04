@@ -1,11 +1,5 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
-import { Container } from '@mantine/core'
-
-import { AuthenticatedHeader } from '@Common/components/Header'
-
-import OrganizationsHeader from '@Organizations/components/OrganizationsHeader'
-
 export const Route = createFileRoute('/_protected/organizations/_layout')({
   component: RouteComponent,
 })
@@ -13,11 +7,7 @@ export const Route = createFileRoute('/_protected/organizations/_layout')({
 function RouteComponent() {
   return (
     <>
-      <AuthenticatedHeader />
-      <OrganizationsHeader />
-      <Container size="md" mt="3rem">
-        <Outlet />
-      </Container>
+      <Outlet />
     </>
   )
 }

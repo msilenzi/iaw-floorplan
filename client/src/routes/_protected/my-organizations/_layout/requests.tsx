@@ -10,7 +10,7 @@ import RefetchBtn from '@Common/ui/RefetchBtn'
 import useOrganizationsQuery from '@Organizations/hooks/useOrganizationsQuery'
 
 export const Route = createFileRoute(
-  '/_protected/organizations/_layout/requests',
+  '/_protected/my-organizations/_layout/requests',
 )({
   component: RouteComponent,
 })

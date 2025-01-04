@@ -22,7 +22,7 @@ function RouteComponent() {
   }
 
   if (isAuthenticated) {
-    void navigate({ to: '/organizations' })
+    void navigate({ to: '/my-organizations' })
   }
 
   return (

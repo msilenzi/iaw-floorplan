@@ -43,14 +43,14 @@ export default function OrganizationsHeader() {
         >
           <Tabs.List classNames={{ list: classes.tabList }}>
             <Tabs.Tab
-              value="/organizations"
+              value="/my-organizations"
               leftSection={<IconBuilding size={14} stroke={2} />}
               classNames={{ tab: classes.tab }}
             >
               Tus organizaciones
             </Tabs.Tab>
             <Tabs.Tab
-              value="/organizations/requests"
+              value="/my-organizations/requests"
               leftSection={<IconUsersPlus size={14} stroke={2} />}
               classNames={{ tab: classes.tab }}
             >

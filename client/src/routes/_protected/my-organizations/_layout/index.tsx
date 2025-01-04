@@ -26,7 +26,7 @@ import displayMemberStatus from '@Organizations/utils/displayMemberStatus'
 
 import classes from '@Organizations/styles/OrganizationsPage.module.css'
 
-export const Route = createFileRoute('/_protected/organizations/_layout/')({
+export const Route = createFileRoute('/_protected/my-organizations/_layout/')({
   component: RouteComponent,
 })
 

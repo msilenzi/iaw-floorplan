@@ -2,21 +2,20 @@ import { useState } from 'react'
 
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Avatar, Group, Menu, Text, Title, UnstyledButton } from '@mantine/core'
+import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core'
 
 import { IconChevronDown, IconLogout } from '@tabler/icons-react'
 
-import BaseNavbar from '@Common/ui/BaseNavbar'
+import { BaseHeader } from './BaseHeader'
 
-import classes from './OrganizationsNavbar.module.css'
+import classes from './AuthenticatedHeader.module.css'
 
-export default function OrganizationsNavbar() {
+export function AuthenticatedHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, logout } = useAuth0()
 
   return (
-    <BaseNavbar>
-      <Title order={3}>Floorplan</Title>
+    <BaseHeader>
       <Menu
         width={192}
         position="bottom-end"
@@ -58,6 +57,6 @@ export default function OrganizationsNavbar() {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-    </BaseNavbar>
+    </BaseHeader>
   )
 }

@@ -2,9 +2,10 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
+import { UnauthenticatedHeader } from '@Common/components/Header'
+
 import HomeFeaturesSection from '@Home/components/HomeFeaturesSection'
 import HomeHero from '@Home/components/HomeHero'
-import HomeNavbar from '@Home/components/HomeNavbar'
 
 export const Route = createFileRoute('/_home/')({
   component: RouteComponent,
@@ -24,7 +25,7 @@ function RouteComponent() {
 
   return (
     <>
-      <HomeNavbar />
+      <UnauthenticatedHeader />
       <HomeHero />
       <HomeFeaturesSection />
     </>

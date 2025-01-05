@@ -6,7 +6,7 @@ type CreateOrganizationForm = {
   regexTest: string
 }
 
-export default function useCreateOrganizationForm() {
+export function useCreateOrganizationForm() {
   const form = useForm<CreateOrganizationForm>({
     mode: 'controlled',
     initialValues: {

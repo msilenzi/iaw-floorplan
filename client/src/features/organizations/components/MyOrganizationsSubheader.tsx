@@ -8,7 +8,7 @@ import {
   SubheaderTab,
 } from '@Common/components/BaseSubheader'
 
-import OrganizationsAddBtn from './OrganizationAddBtn'
+import { OrganizationsAddBtn } from './OrganizationAddBtn'
 
 const tabs: SubheaderTab[] = [
   {

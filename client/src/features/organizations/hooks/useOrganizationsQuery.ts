@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 
-import useApi from '@Common/api/useApi'
+import { useApi } from '@Common/api/useApi'
 
 export const ORGANIZATIONS_QUERY_KEY = 'organizations'
 
-export default function useOrganizationsQuery() {
+export function useOrganizationsQuery() {
   const { organizationsApi, apisAvailable } = useApi()
 
   return useQuery({

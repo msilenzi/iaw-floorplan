@@ -6,17 +6,17 @@ import { Group, Loader, Modal, Text, TextInput } from '@mantine/core'
 
 import { IconPlus } from '@tabler/icons-react'
 
-import PrimaryButton from '@Common/ui/PrimaryButton'
+import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
-import useCreateOrganizationForm from '@Organizations/hooks/useCreateOrganizationForm'
-import useCreateOrganizationMutation from '@Organizations/hooks/useCreateOrganizationMutation'
+import { useCreateOrganizationForm } from '@Organizations/hooks/useCreateOrganizationForm'
+import { useCreateOrganizationMutation } from '@Organizations/hooks/useCreateOrganizationMutation'
 
 type OrganizationsModalCreateProps = {
   isOpen: boolean
   onClose: () => void
 }
 
-export default function OrganizationsModalCreate({
+export function OrganizationsModalCreate({
   isOpen,
   onClose,
 }: OrganizationsModalCreateProps) {

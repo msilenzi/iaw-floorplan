@@ -6,8 +6,8 @@ import { Box, Group, Loader } from '@mantine/core'
 
 import { LoadingHeader, UnauthenticatedHeader } from '@Common/components/Header'
 
-import HomeFeaturesSection from '@Home/components/HomeFeaturesSection'
-import HomeHero from '@Home/components/HomeHero'
+import { HomeFeaturesSection } from '@Home/components/HomeFeaturesSection'
+import { HomeHero } from '@Home/components/HomeHero'
 
 export const Route = createFileRoute('/_home/')({
   component: RouteComponent,

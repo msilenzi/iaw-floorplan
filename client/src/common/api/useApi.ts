@@ -45,7 +45,7 @@ const useApiStore = create<ApiStore>()(
   })),
 )
 
-export default function useApi() {
+export function useApi() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0()
   const { apis, apisAvailable, initialize } = useApiStore()
 

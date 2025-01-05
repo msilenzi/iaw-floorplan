@@ -4,11 +4,11 @@ import {
   BasicOrganizationDto,
   CreateOrganizationDto,
 } from '@Common/api/generated'
-import useApi from '@Common/api/useApi'
+import { useApi } from '@Common/api/useApi'
 
 import { ORGANIZATIONS_QUERY_KEY } from './useOrganizationsQuery'
 
-export default function useCreateOrganizationMutation() {
+export function useCreateOrganizationMutation() {
   const { organizationsApi } = useApi()
 
   const queryClient = useQueryClient()

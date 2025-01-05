@@ -1,6 +1,6 @@
 import { MemberStatus } from '@Common/api/generated'
 
-export default function displayMemberStatus(status: MemberStatus) {
+export function displayMemberStatus(status: MemberStatus) {
   const mapStatus: Record<MemberStatus, string> = {
     [MemberStatus.Blocked]: 'bloqueado',
     [MemberStatus.Deleted]: 'eliminado',

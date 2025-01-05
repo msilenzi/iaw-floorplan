@@ -12,7 +12,7 @@ import { floorplanFeatures } from '@Home/data/floorplan-features'
 
 import classes from './HomeFeaturesSection.module.css'
 
-export default function HomeFeaturesSection() {
+export function HomeFeaturesSection() {
   const theme = useMantineTheme()
 
   return (

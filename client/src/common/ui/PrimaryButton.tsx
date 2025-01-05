@@ -6,7 +6,7 @@ type PrimaryButtonProps = ButtonProps &
   ElementProps<'button', keyof ButtonProps>
 
 // forwardRef es para prevenir algunos problemas con Mantine.Menu
-export default forwardRef<HTMLButtonElement, PrimaryButtonProps>(
+export const PrimaryButton = forwardRef<HTMLButtonElement, PrimaryButtonProps>(
   function PrimaryButton(props: PrimaryButtonProps, ref) {
     return (
       <Button

@@ -13,7 +13,7 @@ import { IconReload } from '@tabler/icons-react'
 type RefetchBtnProps = { query: UseQueryResult } & ButtonProps &
   ElementProps<'button', keyof ButtonProps>
 
-export default function RefetchBtn({ query, ...props }: RefetchBtnProps) {
+export function RefetchBtn({ query, ...props }: RefetchBtnProps) {
   return (
     <Button
       {...props}

@@ -3,17 +3,15 @@ import { useDisclosure } from '@mantine/hooks'
 
 import { IconBuildingPlus, IconBuildings, IconPlus } from '@tabler/icons-react'
 
-import PrimaryButton from '@Common/ui/PrimaryButton'
+import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
-import OrganizationsModalCreate from './OrganizationsModalCreate'
+import { OrganizationsModalCreate } from './OrganizationsModalCreate'
 
 type OrganizationsAddBtnProps = {
   position?: MenuProps['position']
 }
 
-export default function OrganizationsAddBtn({
-  position,
-}: OrganizationsAddBtnProps) {
+export function OrganizationsAddBtn({ position }: OrganizationsAddBtnProps) {
   const [isCreateModalOpen, { open: openCreate, close: closeCreate }] =
     useDisclosure(false)
 

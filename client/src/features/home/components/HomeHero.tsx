@@ -9,11 +9,11 @@ import {
   useMantineTheme,
 } from '@mantine/core'
 
-import PrimaryButton from '@Common/ui/PrimaryButton'
+import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
 import classes from './HomeHero.module.css'
 
-export default function HomeHero() {
+export function HomeHero() {
   const { loginWithRedirect } = useAuth0()
 
   const theme = useMantineTheme()

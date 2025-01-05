@@ -8,18 +8,18 @@ import { IconPlus } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
-import { useCreateOrganizationForm } from '@Organizations/hooks/useCreateOrganizationForm'
-import { useCreateOrganizationMutation } from '@Organizations/hooks/useCreateOrganizationMutation'
+import { useCreateOrganizationForm } from '@MyOrganizations/hooks/useCreateOrganizationForm'
+import { useCreateOrganizationMutation } from '@MyOrganizations/hooks/useCreateOrganizationMutation'
 
-type OrganizationsModalCreateProps = {
+type MyOrganizationsModalCreateProps = {
   isOpen: boolean
   onClose: () => void
 }
 
-export function OrganizationsModalCreate({
+export function MyOrganizationsModalCreate({
   isOpen,
   onClose,
-}: OrganizationsModalCreateProps) {
+}: MyOrganizationsModalCreateProps) {
   const navigate = useNavigate()
   const { isPending, mutateAsync } = useCreateOrganizationMutation()
   const { form } = useCreateOrganizationForm()

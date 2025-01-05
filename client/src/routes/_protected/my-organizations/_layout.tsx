@@ -4,7 +4,7 @@ import { Container } from '@mantine/core'
 
 import { AuthenticatedHeader } from '@Common/components/Header'
 
-import { MyOrganizationsSubheader } from '@Organizations/components/MyOrganizationsSubheader'
+import { MyOrganizationsSubheader } from '@MyOrganizations/components/MyOrganizationsSubheader'
 
 export const Route = createFileRoute('/_protected/my-organizations/_layout')({
   component: RouteComponent,

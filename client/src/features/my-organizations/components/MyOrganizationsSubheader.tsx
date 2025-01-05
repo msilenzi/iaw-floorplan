@@ -8,7 +8,7 @@ import {
   SubheaderTab,
 } from '@Common/components/BaseSubheader'
 
-import { OrganizationsAddBtn } from './OrganizationAddBtn'
+import { MyOrganizationsAddBtn } from './MyOrganizationAddBtn'
 
 const tabs: SubheaderTab[] = [
   {
@@ -32,7 +32,7 @@ export function MyOrganizationsSubheader() {
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
       <Group justify="space-between">
         <Title order={1}>Tus organizaciones</Title>
-        <OrganizationsAddBtn position="bottom-end" />
+        <MyOrganizationsAddBtn position="bottom-end" />
       </Group>
     </BaseSubheader>
   )

@@ -25,6 +25,7 @@
     "paths": {
       "@Common/*": ["./src/common/*"],
       "@Home/*": ["./src/features/home/*"],
+      "@MyOrganizations/*": ["./src/features/my-organizations/*"],
       "@Organizations/*": ["./src/features/organizations/*"],
       "@/*": ["./src/*"]
     }

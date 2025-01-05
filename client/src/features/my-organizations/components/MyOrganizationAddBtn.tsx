@@ -5,13 +5,15 @@ import { IconBuildingPlus, IconBuildings, IconPlus } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
-import { OrganizationsModalCreate } from './OrganizationsModalCreate'
+import { MyOrganizationsModalCreate } from './MyOrganizationsModalCreate'
 
-type OrganizationsAddBtnProps = {
+type MyOrganizationsAddBtnProps = {
   position?: MenuProps['position']
 }
 
-export function OrganizationsAddBtn({ position }: OrganizationsAddBtnProps) {
+export function MyOrganizationsAddBtn({
+  position,
+}: MyOrganizationsAddBtnProps) {
   const [isCreateModalOpen, { open: openCreate, close: closeCreate }] =
     useDisclosure(false)
 
@@ -36,7 +38,7 @@ export function OrganizationsAddBtn({ position }: OrganizationsAddBtnProps) {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      <OrganizationsModalCreate
+      <MyOrganizationsModalCreate
         isOpen={isCreateModalOpen}
         onClose={closeCreate}
       />

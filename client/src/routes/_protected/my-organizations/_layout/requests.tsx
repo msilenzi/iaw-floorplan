@@ -7,7 +7,7 @@ import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 
-import { useOrganizationsQuery } from '@Organizations/hooks/useOrganizationsQuery'
+import { useOrganizationsQuery } from '@MyOrganizations/hooks/useOrganizationsQuery'
 
 export const Route = createFileRoute(
   '/_protected/my-organizations/_layout/requests',

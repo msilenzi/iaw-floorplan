@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
-import { Container } from '@mantine/core'
+import { SectionContainer } from '@Common/components/SectionContainer'
 
 import { OrganizationSubheader } from '@Organization/components/OrganizationSubheader'
 
@@ -16,9 +16,9 @@ function RouteComponent() {
   return (
     <>
       <OrganizationSubheader organizationId={organizationId} />
-      <Container size="md" mt="3rem">
+      <SectionContainer>
         <Outlet />
-      </Container>
+      </SectionContainer>
     </>
   )
 }

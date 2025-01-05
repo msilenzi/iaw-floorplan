@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
-import { Container } from '@mantine/core'
+import { SectionContainer } from '@Common/components/SectionContainer'
 
 import { MyOrganizationsSubheader } from '@MyOrganizations/components/MyOrganizationsSubheader'
 
@@ -12,9 +12,9 @@ function RouteComponent() {
   return (
     <>
       <MyOrganizationsSubheader />
-      <Container size="md" mt="3rem">
+      <SectionContainer>
         <Outlet />
-      </Container>
+      </SectionContainer>
     </>
   )
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import {
@@ -21,7 +22,10 @@ import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 
 import { MyOrganizationsAddBtn } from '@MyOrganizations/components/MyOrganizationAddBtn'
-import { useOrganizationsQuery } from '@MyOrganizations/hooks/useOrganizationsQuery'
+import {
+  ORGANIZATIONS_QUERY_KEY,
+  useOrganizationsQuery,
+} from '@MyOrganizations/hooks/useOrganizationsQuery'
 import { displayMemberStatus } from '@MyOrganizations/utils/displayMemberStatus'
 
 import classes from '@MyOrganizations/styles/MyOrganizationsPage.module.css'
@@ -52,13 +56,7 @@ function RouteComponent() {
     )
   }
 
-  const activeOrganizations =
-    data?.filter(({ status, name }) => {
-      if (status !== MemberStatus.Owner && status !== MemberStatus.Member) {
-        return false
-      }
-      return name.toLowerCase().includes(searchValue.toLowerCase())
-    }) ?? []
+  const activeOrganizations = filterOrganizations(data, searchValue)
 
   return (
     <Stack gap="sm" pb="xl" align="center">
@@ -92,12 +90,27 @@ type OrganizationsTableProps = {
 
 function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
+  function handleClick(organizationId: string) {
+    void navigate({
+      to: `/organizations/$organizationId`,
+      params: { organizationId },
+    })
+
+    queryClient.setQueryData(
+      [ORGANIZATIONS_QUERY_KEY],
+      (oldData: BasicOrganizationDto[]) => {
+        return oldData.map((org) => {
+          if (org._id !== organizationId) return org
+          return { ...org, lastAccessedAt: new Date().toISOString() }
+        })
+      },
+    )
+  }
 
   return organizations.map(({ _id, name, status, lastAccessedAt }) => (
-    <Table.Tr
-      key={_id}
-      onClick={() => void navigate({ to: `/organizations/${_id}` })}
-    >
+    <Table.Tr key={_id} onClick={() => handleClick(_id)}>
       <Table.Td className={classes['name-cell']}>
         <Text
           size="sm"
@@ -167,4 +180,24 @@ function SearchInput({ value, setValue }: SearchInputProps) {
       className={classes.search}
     />
   )
+}
+
+function filterOrganizations(
+  data: BasicOrganizationDto[] | undefined,
+  searchValue: string,
+): BasicOrganizationDto[] {
+  if (!data) return []
+
+  return data
+    .filter(({ status, name }) => {
+      if (status !== MemberStatus.Owner && status !== MemberStatus.Member) {
+        return false
+      }
+      return name.toLowerCase().includes(searchValue.toLowerCase())
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.lastAccessedAt ?? 0).getTime() -
+        new Date(a.lastAccessedAt ?? 0).getTime(),
+    )
 }

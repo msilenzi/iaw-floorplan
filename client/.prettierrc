@@ -27,7 +27,7 @@
     "^@Common/(?!.*[.]css$).*$",
     "^@Home/(?!.*[.]css$).*$",
     "^@MyOrganizations/(?!.*[.]css$).*$",
-    "^@Organizations/(?!.*[.]css$).*$",
+    "^@Organization/(?!.*[.]css$).*$",
 
     "^(?!.*[.]css$)[./].*$",
     ".css$"

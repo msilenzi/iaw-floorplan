@@ -94,7 +94,7 @@ function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
 
   function handleClick(organizationId: string) {
     void navigate({
-      to: `/organizations/$organizationId`,
+      to: `/organization/$organizationId`,
       params: { organizationId },
     })
 

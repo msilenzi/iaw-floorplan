@@ -26,7 +26,7 @@
       "@Common/*": ["./src/common/*"],
       "@Home/*": ["./src/features/home/*"],
       "@MyOrganizations/*": ["./src/features/my-organizations/*"],
-      "@Organizations/*": ["./src/features/organizations/*"],
+      "@Organization/*": ["./src/features/organization/*"],
       "@/*": ["./src/*"]
     }
   },

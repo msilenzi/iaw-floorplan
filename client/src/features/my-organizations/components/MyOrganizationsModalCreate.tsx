@@ -46,7 +46,7 @@ export function MyOrganizationsModalCreate({
     })
     form.reset()
     onClose()
-    void navigate({ to: `/organizations/${resp.data._id}` })
+    void navigate({ to: `/organization/${resp.data._id}` })
   })
 
   return (

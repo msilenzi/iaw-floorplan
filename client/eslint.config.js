@@ -16,6 +16,7 @@ export default tseslint.config(
       js.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
       eslintConfigPrettier,
+      pluginQuery.configs['flat/recommended'],
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -32,10 +33,8 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
       prettier: eslintPluginPrettier,
       react,
-      '@tanstack/query': pluginQuery,
     },
     rules: {
-      ...pluginQuery.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',

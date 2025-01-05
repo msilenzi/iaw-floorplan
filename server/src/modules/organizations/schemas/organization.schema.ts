@@ -20,6 +20,8 @@ export class Organization {
   members: Types.DocumentArray<Member>
 
   _id: Types.ObjectId
+
+  createdAt: Date
 }
 
 export type OrganizationDocument = HydratedDocument<Organization>

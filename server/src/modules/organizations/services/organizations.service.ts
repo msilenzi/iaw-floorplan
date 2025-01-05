@@ -4,6 +4,7 @@ import { Model } from 'mongoose'
 
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
+import { OrganizationDto } from '../dtos/organization.dto'
 import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
 import {
   Organization,
@@ -39,7 +40,7 @@ export class OrganizationsService {
     }
   }
 
-  async findAll(userId: string) {
+  async findAll(userId: string): Promise<BasicOrganizationDto[]> {
     return this.organizationModel
       .aggregate([
         { $match: { 'members.userId': userId } },
@@ -58,7 +59,10 @@ export class OrganizationsService {
       .exec()
   }
 
-  async findOne(organization: OrganizationDocument, userId: string) {
+  async findOne(
+    organization: OrganizationDocument,
+    userId: string,
+  ): Promise<OrganizationDto> {
     const member = this.organizationMembersService._findMember(
       organization,
       userId,
@@ -67,7 +71,10 @@ export class OrganizationsService {
     member.lastAccessedAt = new Date()
     organization.save() // Guarda los cambios en segundo plano
 
-    return this._stripMembers(organization)
+    return {
+      ...this._stripMembers(organization),
+      userStatus: member.status,
+    }
   }
 
   update(organization: OrganizationDocument, dto: UpdateOrganizationDto) {

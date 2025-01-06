@@ -1,4 +1,4 @@
-import { Box, Container } from '@mantine/core'
+import { Box, Container, Title } from '@mantine/core'
 
 import { BaseSubheaderBreadcrumbs } from './BaseSubheaderBreadcrumbs'
 import { BaseSubheaderTabs } from './BaseSubheaderTabs'
@@ -25,3 +25,13 @@ export function BaseSubheader({ breadcrumbs, children, tabs }: SubheaderProps) {
     </Box>
   )
 }
+
+function BaseSubheaderTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <Title order={1} textWrap="balance" lineClamp={2}>
+      {children}
+    </Title>
+  )
+}
+
+BaseSubheader.Title = BaseSubheaderTitle

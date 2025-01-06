@@ -1,4 +1,4 @@
-import { Group, Title } from '@mantine/core'
+import { Group } from '@mantine/core'
 
 import { IconBuilding, IconUsersPlus } from '@tabler/icons-react'
 
@@ -31,7 +31,7 @@ export function MyOrganizationsSubheader() {
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
       <Group justify="space-between">
-        <Title order={1}>Tus organizaciones</Title>
+        <BaseSubheader.Title>Tus organizaciones</BaseSubheader.Title>
         <MyOrganizationsAddBtn position="bottom-end" />
       </Group>
     </BaseSubheader>

@@ -14,7 +14,17 @@ export function BaseSubheaderBreadcrumbs({
   return (
     <Breadcrumbs pb="sm" styles={{ separator: { opacity: 0.5 } }}>
       {breadcrumbs.map(({ label, to }) => (
-        <Anchor key={to} c="dimmed" fz="sm" component={Link} to={to}>
+        <Anchor
+          key={to}
+          c="dimmed"
+          fz="sm"
+          component={Link}
+          to={to}
+          styles={{
+            root: { maxWidth: '30ch', height: '100%', lineHeight: 1.3 },
+          }}
+          truncate="end"
+        >
           {label}
         </Anchor>
       ))}

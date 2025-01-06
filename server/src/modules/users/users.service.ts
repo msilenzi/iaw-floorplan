@@ -23,7 +23,7 @@ export class UsersService {
       })
 
       if (!resp.ok) {
-        throw new Error(`Algo salió mal: ${resp.status} - ${resp.statusText}`)
+        throw new Error(`${resp.status} - ${resp.statusText}`)
       }
 
       const users: User[] = await resp.json()

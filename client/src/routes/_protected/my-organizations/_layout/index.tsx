@@ -42,7 +42,7 @@ function RouteComponent() {
 
   if (!isLoading && data?.length === 0) {
     return (
-      <Box m="0 auto" style={{ maxWidth: rem('500px') }} ta="center">
+      <Box m="0" style={{ maxWidth: rem('500px') }}>
         <Space h="lg" />
         <Title order={2} mb="xs">
           No se encontraron organizaciones
@@ -110,7 +110,11 @@ function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
   }
 
   return organizations.map(({ _id, name, status, lastAccessedAt }) => (
-    <Table.Tr key={_id} onClick={() => handleClick(_id)}>
+    <Table.Tr
+      key={_id}
+      onClick={() => handleClick(_id)}
+      style={{ cursor: 'pointer' }}
+    >
       <Table.Td className={classes['name-cell']}>
         <Text
           size="sm"

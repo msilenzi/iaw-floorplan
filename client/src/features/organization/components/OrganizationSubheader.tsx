@@ -1,4 +1,4 @@
-import { Skeleton, Title } from '@mantine/core'
+import { Skeleton } from '@mantine/core'
 
 import { IconBox, IconUsers, IconUsersPlus } from '@tabler/icons-react'
 
@@ -54,7 +54,9 @@ export function OrganizationSubheader({
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
       <Skeleton visible={isLoading} w={isLoading ? 300 : '100%'}>
-        <Title order={1}>{isLoading ? 'Is loading' : data?.name}</Title>
+        <BaseSubheader.Title>
+          {isLoading ? 'Is loading' : data?.name}
+        </BaseSubheader.Title>
       </Skeleton>
     </BaseSubheader>
   )

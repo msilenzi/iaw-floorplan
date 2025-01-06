@@ -1,4 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { InjectModel } from '@nestjs/mongoose'
 import { Request } from 'express'
@@ -27,7 +33,7 @@ export class AllowedMemberStatusGuard implements CanActivate {
 
     const userId = request.user?.sub
     if (!userId) {
-      throw new Error('@Protected() decorator is required')
+      throw new Error('Se requiere el decorador @Protected()')
     }
 
     const organizationId = new ParseMongoIdPipe().transform(
@@ -35,15 +41,19 @@ export class AllowedMemberStatusGuard implements CanActivate {
     )
 
     const organization = await this.organizationModel
-      .findOne({
-        _id: organizationId,
-        members: {
-          $elemMatch: { userId, status: { $in: allowedMemberStatus } },
-        },
-      })
+      .findById(organizationId)
       .exec()
+    if (!organization) {
+      throw new NotFoundException('La organización no existe')
+    }
 
-    if (!organization) return false
+    const member = organization.members.find(
+      (m) => m.userId === userId && allowedMemberStatus.includes(m.status),
+    )
+    if (!member) {
+      throw new ForbiddenException('No puedes acceder a esta organización')
+    }
+
     request.organization = organization
     return true
   }

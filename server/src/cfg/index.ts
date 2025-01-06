@@ -62,10 +62,10 @@ function validateEnv() {
         `${error.property} = ${JSON.stringify(error.constraints, null, 2)}\n`,
       )
     })
-    throw new Error('Invalid environment configuration')
+    throw new Error('Configuración del entorno incorrecta')
   }
 
-  console.log('cfg file loaded')
+  console.log('Archivo de configuración cargado exitosamente')
 
   return validatedEnv
 }

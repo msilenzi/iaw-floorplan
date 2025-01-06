@@ -23,13 +23,15 @@ export class UsersService {
       })
 
       if (!resp.ok) {
-        throw new Error(`Bad response: ${resp.status} - ${resp.statusText}`)
+        throw new Error(`Algo salió mal: ${resp.status} - ${resp.statusText}`)
       }
 
       const users: User[] = await resp.json()
       return users
     } catch (error) {
-      throw new Error(`Error fetching users from Auth0: ${error.message}`)
+      throw new Error(
+        `Error al obtener los usuario desde Auth0: ${error.message}`,
+      )
     }
   }
 }

@@ -31,7 +31,7 @@ export function HomeHero() {
         <Title className={classes.title}>
           Gestiona tus{' '}
           <Text
-            component="span"
+            span
             variant="gradient"
             gradient={{ from: 'blue', to: 'cyan' }}
             inherit

@@ -26,16 +26,18 @@ export function BaseSubheaderTabs({ tabs }: SubheaderTabsProps) {
       onChange={(value) => void navigate({ to: value! })}
     >
       <Tabs.List classNames={{ list: classes.tabList }}>
-        {tabs.map(({ Icon, label, to }) => (
-          <Tabs.Tab
-            key={to}
-            value={to}
-            leftSection={<Icon size={14} stroke={2} />}
-            classNames={{ tab: classes.tab }}
-          >
-            {label}
-          </Tabs.Tab>
-        ))}
+        {tabs
+          .filter(({ hidden }) => !hidden)
+          .map(({ Icon, label, to }) => (
+            <Tabs.Tab
+              key={to}
+              value={to}
+              leftSection={<Icon size={14} stroke={2} />}
+              classNames={{ tab: classes.tab }}
+            >
+              {label}
+            </Tabs.Tab>
+          ))}
       </Tabs.List>
     </Tabs>
   )

@@ -2,6 +2,7 @@ import { Skeleton, Title } from '@mantine/core'
 
 import { IconBox, IconUsers, IconUsersPlus } from '@tabler/icons-react'
 
+import { MemberStatus } from '@Common/api/generated'
 import {
   BaseSubheader,
   type SubheaderBreadcrumb,
@@ -45,22 +46,16 @@ export function OrganizationSubheader({
       label: 'Solicitudes',
       Icon: IconUsersPlus,
       to: `/organization/${organizationId}/requests`,
+      hidden: isLoading || data?.userStatus !== MemberStatus.Owner,
     },
     // { label: 'Configuración', Icon: IconX },
   ]
 
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
-      {(() => {
-        if (isLoading) {
-          return (
-            <Skeleton w={320}>
-              <Title order={1}>Is loading</Title>
-            </Skeleton>
-          )
-        }
-        return <Title order={1}>{data?.name}</Title>
-      })()}
+      <Skeleton visible={isLoading} w={isLoading ? 300 : '100%'}>
+        <Title order={1}>{isLoading ? 'Is loading' : data?.name}</Title>
+      </Skeleton>
     </BaseSubheader>
   )
 }

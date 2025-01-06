@@ -9,4 +9,5 @@ export type SubheaderTab = {
   label: string
   Icon: TablerIcon
   to: string
+  hidden?: boolean
 }

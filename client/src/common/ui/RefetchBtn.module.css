@@ -1,0 +1,11 @@
+.refetchBtn {
+  &:hover {
+    background-color: var(--mantine-color-dark-9);
+    color: var(--mantine-color-dark-1);
+  }
+
+  &:disabled {
+    background-color: var(--mantine-color-dark-9);
+    color: var(--mantine-color-dark-3);
+  }
+}

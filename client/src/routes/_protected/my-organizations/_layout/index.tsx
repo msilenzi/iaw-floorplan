@@ -5,21 +5,18 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import {
   Box,
-  CloseButton,
   Skeleton,
   Space,
   Stack,
   Table,
   Text,
-  TextInput,
   Title,
   rem,
 } from '@mantine/core'
 
-import { IconSearch } from '@tabler/icons-react'
-
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
+import { SearchInput } from '@Common/ui/SearchInput'
 
 import { MyOrganizationsAddBtn } from '@MyOrganizations/components/MyOrganizationAddBtn'
 import {
@@ -60,7 +57,12 @@ function RouteComponent() {
 
   return (
     <Stack gap="sm" pb="xl" align="center">
-      <SearchInput value={searchValue} setValue={setSearchValue} />
+      <SearchInput
+        value={searchValue}
+        setValue={setSearchValue}
+        placeholder="Buscar por nombre"
+        disabled={isLoading}
+      />
       <RefetchBtn query={query} ms="auto" mt="xl" />
       <Table verticalSpacing="md" highlightOnHover className={classes.table}>
         <Table.Thead>
@@ -157,33 +159,6 @@ function SkeletonTableBody() {
       </Table.Td>
     </Table.Tr>
   ))
-}
-
-type SearchInputProps = {
-  value: string
-  setValue: React.Dispatch<React.SetStateAction<string>>
-}
-function SearchInput({ value, setValue }: SearchInputProps) {
-  const { isLoading } = useOrganizationsQuery()
-
-  return (
-    <TextInput
-      placeholder="Buscar por nombre"
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      leftSection={<IconSearch size={16} />}
-      disabled={isLoading}
-      rightSection={
-        <CloseButton
-          aria-label="Limpiar búsqueda"
-          onClick={() => setValue('')}
-          style={{ display: value ? undefined : 'none' }}
-        />
-      }
-      rightSectionPointerEvents="all"
-      className={classes.search}
-    />
-  )
 }
 
 function filterOrganizations(

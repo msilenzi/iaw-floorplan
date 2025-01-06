@@ -54,10 +54,8 @@ export class OrganizationMembersService {
 
       // Devuelve la información de los miembros activos:
       case MemberStatus.MEMBER:
-        const activeMembers = organization.members.filter(
-          // Solo hay un propietario y puede haber N miembros, por lo cual
-          // es preferible verificar primero por MemberStatus.MEMBER.
-          ({ status }) => status === MemberStatus.MEMBER || MemberStatus.OWNER,
+        const activeMembers = organization.members.filter((m) =>
+          this._isActiveMember(m),
         )
         return await this._fetchMembers(activeMembers)
 
@@ -134,5 +132,14 @@ export class OrganizationMembersService {
       const { status, lastAccessedAt } = membersMap.get(user.user_id)!
       return { ...user, status, lastAccessedAt }
     })
+  }
+
+  _isActiveMember(member: Member) {
+    // Solo hay un propietario y puede haber N miembros, por lo cual
+    // es preferible verificar primero por MemberStatus.MEMBER.
+    return (
+      member.status === MemberStatus.MEMBER ||
+      member.status === MemberStatus.OWNER
+    )
   }
 }

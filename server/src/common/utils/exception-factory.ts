@@ -3,7 +3,7 @@ import { BadRequestException, ValidationPipeOptions } from '@nestjs/common'
 const exceptionFactory: ValidationPipeOptions['exceptionFactory'] = (
   errors,
 ) => {
-  const message = errors.reduce(
+  const data = errors.reduce(
     (acc, curr) => {
       acc[curr.property] = Object.values(curr.constraints ?? {})
       return acc
@@ -13,7 +13,7 @@ const exceptionFactory: ValidationPipeOptions['exceptionFactory'] = (
   return new BadRequestException({
     statusCode: 400,
     error: 'Validation error',
-    message,
+    data,
   })
 }
 

@@ -17,6 +17,7 @@ import { Protected } from 'src/modules/auth/decorators/protected.decorator'
 import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
+import { OrganizationMemberDto } from '../dtos/organization-member.dto'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
 import { OrganizationDocument } from '../schemas/organization.schema'
 import { OrganizationMembersService } from '../services/organization-members.service'
@@ -52,7 +53,7 @@ export class OrganizationMembersController {
   findAllMembers(
     @GetOrganization() organization: OrganizationDocument,
     @Sub() sub: string,
-  ) {
+  ): Promise<OrganizationMemberDto[]> {
     return this.organizationMembersService.findAll(organization, sub)
   }
 

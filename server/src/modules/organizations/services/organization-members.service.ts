@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
 import { UsersService } from 'src/modules/users/users.service'
+import { OrganizationMemberDto } from '../dtos/organization-member.dto'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
 import { Member } from '../schemas/member.schema'
 import {
@@ -24,7 +25,7 @@ export class OrganizationMembersService {
     private readonly organizationModel: Model<Organization>,
   ) {}
 
-  async create(organizationId: Types.ObjectId, userId: string) {
+  async create(organizationId: Types.ObjectId, userId: string): Promise<void> {
     const organization = await this.organizationModel
       .findById(organizationId)
       .exec()
@@ -44,20 +45,23 @@ export class OrganizationMembersService {
     await organization.save()
   }
 
-  async findAll(organization: OrganizationDocument, userId: string) {
+  async findAll(
+    organization: OrganizationDocument,
+    userId: string,
+  ): Promise<OrganizationMemberDto[]> {
     const member = this._findMember(organization, userId)
 
     switch (member.status) {
       // Devuelve la información de todos los miembros:
       case MemberStatus.OWNER:
-        return await this._fetchMembers(organization.members)
+        return await this._fetchMembers(organization.members, true)
 
       // Devuelve la información de los miembros activos:
       case MemberStatus.MEMBER:
         const activeMembers = organization.members.filter((m) =>
           this._isActiveMember(m),
         )
-        return await this._fetchMembers(activeMembers)
+        return await this._fetchMembers(activeMembers, false)
 
       default:
         throw new ForbiddenException()
@@ -68,7 +72,7 @@ export class OrganizationMembersService {
     organization: OrganizationDocument,
     memberId: string,
     { newMemberStatus }: UpdateMemberStatusDto,
-  ) {
+  ): void {
     const member = this._findMember(organization, memberId)
 
     const { MEMBER, BLOCKED, PENDING, REJECTED } = MemberStatus
@@ -88,7 +92,7 @@ export class OrganizationMembersService {
     organization.save()
   }
 
-  remove(organization: OrganizationDocument, userId: string) {
+  remove(organization: OrganizationDocument, userId: string): void {
     const memberIndex = organization.members.findIndex(
       (member) => member.userId === userId,
     )
@@ -122,7 +126,10 @@ export class OrganizationMembersService {
     return member
   }
 
-  private async _fetchMembers(members: Member[]) {
+  private async _fetchMembers(
+    members: Member[],
+    includeLastAccessedAt: boolean,
+  ): Promise<OrganizationMemberDto[]> {
     const membersMap = new Map(members.map((member) => [member.userId, member]))
 
     const usersIds = members.map(({ userId }) => userId)
@@ -130,11 +137,15 @@ export class OrganizationMembersService {
 
     return users.map((user) => {
       const { status, lastAccessedAt } = membersMap.get(user.user_id)!
-      return { ...user, status, lastAccessedAt }
+      return {
+        ...user,
+        status,
+        lastAccessedAt: includeLastAccessedAt ? lastAccessedAt : undefined,
+      }
     })
   }
 
-  _isActiveMember(member: Member) {
+  _isActiveMember(member: Member): boolean {
     // Solo hay un propietario y puede haber N miembros, por lo cual
     // es preferible verificar primero por MemberStatus.MEMBER.
     return (

@@ -7,7 +7,7 @@ export class OrganizationDto {
   @ApiProperty({ type: String })
   _id: Types.ObjectId
 
-  @ApiProperty({ type: String })
+  @ApiProperty({ type: String, format: 'date-time' })
   createdAt: Date
 
   name: string

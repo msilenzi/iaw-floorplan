@@ -12,6 +12,9 @@ export function DataTable<T extends object>({
   rowKey,
   props,
 }: DataTableProps<T>) {
+  // Procesa solo las columnas visibles (exclude = false | undefined)
+  const activeColumns = columnsConfiguration.filter(({ exclude }) => !exclude)
+
   return (
     <Table
       verticalSpacing="md"
@@ -21,7 +24,7 @@ export function DataTable<T extends object>({
     >
       <Table.Thead>
         <Table.Tr>
-          {columnsConfiguration.map(({ key, label, props, hideBreakpoint }) => (
+          {activeColumns.map(({ key, label, props, hideBreakpoint }) => (
             <Table.Th
               key={key as React.Key}
               {...props?.th}
@@ -35,13 +38,13 @@ export function DataTable<T extends object>({
       <Table.Tbody>
         {isLoading ? (
           <BodyLoading
-            columnsConfiguration={columnsConfiguration}
+            columnsConfiguration={activeColumns}
             loadingRowsLength={loadingRowsLength}
           />
         ) : (
           <BodyContent
             data={data}
-            columnsConfiguration={columnsConfiguration}
+            columnsConfiguration={activeColumns}
             rowKey={rowKey}
             props={props}
           />

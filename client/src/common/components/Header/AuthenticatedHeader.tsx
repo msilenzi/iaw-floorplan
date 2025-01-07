@@ -2,9 +2,11 @@ import { useState } from 'react'
 
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core'
+import { Group, Menu, Text, UnstyledButton } from '@mantine/core'
 
 import { IconChevronDown, IconLogout } from '@tabler/icons-react'
+
+import { UserAvatar } from '@Common/ui/UserAvatar'
 
 import { BaseHeader } from './BaseHeader'
 
@@ -30,16 +32,7 @@ export function AuthenticatedHeader() {
             className={`${classes.user} ${isMenuOpen ? classes.userActive : ''}`}
           >
             <Group gap="xs" align="center">
-              {!user?.picture || user.picture === '' ? (
-                <Avatar name={user?.name} color="initials" />
-              ) : (
-                <Avatar
-                  src={user.picture}
-                  alt={user.name}
-                  radius="xl"
-                  size="sm"
-                />
-              )}
+              <UserAvatar picture={user?.picture} username={user?.name ?? ''} />
               <Text fw={500} size="sm" className={classes.userName}>
                 {user?.name}
               </Text>

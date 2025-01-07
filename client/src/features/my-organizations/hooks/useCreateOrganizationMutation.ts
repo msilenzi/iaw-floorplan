@@ -20,7 +20,10 @@ export function useCreateOrganizationMutation() {
     onSuccess(response) {
       queryClient.setQueryData(
         [ORGANIZATIONS_QUERY_KEY],
-        (oldData: BasicOrganizationDto[]) => [...oldData, response.data],
+        (oldData: BasicOrganizationDto[]) => [
+          ...oldData,
+          { ...response.data, lastAccessedAt: new Date() },
+        ],
       )
     },
   })

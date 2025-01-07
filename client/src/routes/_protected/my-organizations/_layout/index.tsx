@@ -3,18 +3,11 @@ import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
-import {
-  Box,
-  Skeleton,
-  Space,
-  Stack,
-  Table,
-  Text,
-  Title,
-  rem,
-} from '@mantine/core'
+import { Box, Space, Stack, Text, Title, rem } from '@mantine/core'
 
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
+import { DataTable } from '@Common/components/DataTable/DataTable'
+import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
 
@@ -24,8 +17,6 @@ import {
   useOrganizationsQuery,
 } from '@MyOrganizations/hooks/useOrganizationsQuery'
 import { displayMemberStatus } from '@MyOrganizations/utils/displayMemberStatus'
-
-import classes from '@MyOrganizations/styles/MyOrganizationsPage.module.css'
 
 export const Route = createFileRoute('/_protected/my-organizations/_layout/')({
   component: RouteComponent,
@@ -64,33 +55,23 @@ function RouteComponent() {
         disabled={isLoading}
       />
       <RefetchBtn query={query} ms="auto" mt="xl" />
-      <Table verticalSpacing="md" highlightOnHover className={classes.table}>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th className={classes['name-cell']}>Nombre</Table.Th>
-            <Table.Th className={classes['status-cell']}>Estado</Table.Th>
-            <Table.Th className={classes['lastAccessedAt-cell']}>
-              Último acceso
-            </Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {isLoading ? (
-            <SkeletonTableBody />
-          ) : (
-            <OrganizationTableBody organizations={activeOrganizations} />
-          )}
-        </Table.Tbody>
-      </Table>
+      <OrganizationTable
+        organizations={activeOrganizations}
+        isLoading={isLoading}
+      />
     </Stack>
   )
 }
 
 type OrganizationsTableProps = {
   organizations: BasicOrganizationDto[]
+  isLoading: boolean
 }
 
-function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
+function OrganizationTable({
+  organizations,
+  isLoading,
+}: OrganizationsTableProps) {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -111,54 +92,44 @@ function OrganizationTableBody({ organizations }: OrganizationsTableProps) {
     )
   }
 
-  return organizations.map(({ _id, name, status, lastAccessedAt }) => (
-    <Table.Tr
-      key={_id}
-      onClick={() => handleClick(_id)}
-      style={{ cursor: 'pointer' }}
-    >
-      <Table.Td className={classes['name-cell']}>
-        <Text
-          size="sm"
-          span
-          truncate="end"
-          display="inline-block"
-          w="100%"
-          style={{ overflow: 'hidden' }}
-        >
-          {name}
-        </Text>
-      </Table.Td>
-      <Table.Td className={classes['status-cell']} tt="capitalize">
-        {displayMemberStatus(status)}
-      </Table.Td>
-      <Table.Td className={classes['lastAccessedAt-cell']}>
-        {lastAccessedAt ? (
-          new Date(lastAccessedAt).toLocaleDateString('es-ES')
-        ) : (
-          <Text component="span" size="sm" c="dimmed" fs="italic">
-            No accedido
-          </Text>
-        )}
-      </Table.Td>
-    </Table.Tr>
-  ))
-}
-
-function SkeletonTableBody() {
-  return Array.from({ length: 5 }).map((_, index) => (
-    <Table.Tr key={index}>
-      <Table.Td className={classes['name-cell']}>
-        <Skeleton height={20} width="80%" />
-      </Table.Td>
-      <Table.Td className={classes['status-cell']}>
-        <Skeleton height={20} width={60} />
-      </Table.Td>
-      <Table.Td className={classes['lastAccessedAt-cell']}>
-        <Skeleton height={20} width={90} />
-      </Table.Td>
-    </Table.Tr>
-  ))
+  return (
+    <DataTable
+      data={organizations}
+      isLoading={isLoading}
+      loadingRowsLength={5}
+      rowKey="_id"
+      props={{
+        table: { highlightOnHover: true, style: { cursor: 'pointer' } },
+        tr: ({ _id }) => ({ onClick: () => handleClick(_id) }),
+      }}
+      columnsConfiguration={[
+        {
+          key: 'name',
+          label: 'Nombre',
+          renderRow: (value) => value,
+        },
+        {
+          key: 'status',
+          label: 'Estado',
+          renderRow: (value) => displayMemberStatus(value),
+          props: {
+            th: { w: 100 },
+            td: { tt: 'capitalize' },
+          },
+          hideBreakpoint: 'xs',
+        },
+        {
+          key: 'lastAccessedAt',
+          label: 'Último acceso',
+          renderRow: (value) => <LastAccessedAtTd value={value} />,
+          props: {
+            th: { w: 120 },
+          },
+          hideBreakpoint: 'xxs',
+        },
+      ]}
+    />
+  )
 }
 
 function filterOrganizations(

@@ -21,8 +21,12 @@ export function DataTable<T extends object>({
     >
       <Table.Thead>
         <Table.Tr>
-          {columnsConfiguration.map(({ key, label, props }) => (
-            <Table.Th key={key as React.Key} {...props?.th}>
+          {columnsConfiguration.map(({ key, label, props, hideBreakpoint }) => (
+            <Table.Th
+              key={key as React.Key}
+              {...props?.th}
+              data-hideBreakpoint={hideBreakpoint}
+            >
               {label}
             </Table.Th>
           ))}
@@ -60,8 +64,12 @@ function BodyLoading<T extends object>({
 
   return Array.from({ length: loadingRowsLength }).map((_, i) => (
     <Table.Tr key={i}>
-      {columnsConfiguration.map(({ key, props }) => (
-        <Table.Td key={key as string} {...props?.td}>
+      {columnsConfiguration.map(({ key, props, hideBreakpoint }) => (
+        <Table.Td
+          key={key as string}
+          {...props?.td}
+          data-hideBreakpoint={hideBreakpoint}
+        >
           <Skeleton height={theme.spacing.lg} />
         </Table.Td>
       ))}
@@ -85,10 +93,11 @@ function BodyContent<T extends object>({
       key={rowData[rowKey] as React.Key}
       {...(typeof props?.tr === 'function' ? props.tr(rowData) : props?.tr)}
     >
-      {columnsConfiguration.map(({ key, renderRow, props }) => (
+      {columnsConfiguration.map(({ key, renderRow, props, hideBreakpoint }) => (
         <Table.Td
           key={key as React.Key}
           {...(typeof props?.td === 'function' ? props.td(rowData) : props?.td)}
+          data-hideBreakpoint={hideBreakpoint}
         >
           {/* @ts-expect-error funciona bien */}
           {renderRow(rowData[key], rowData)}

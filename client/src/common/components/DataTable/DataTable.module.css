@@ -1,6 +1,44 @@
-.table th,
-.table td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.table {
+  th,
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &[data-hideBreakpoint='xxs'] {
+      @media (max-width: calc($mantine-breakpoint-xs * 0.7)) {
+        display: none;
+      }
+    }
+
+    &[data-hideBreakpoint='xs'] {
+      @media (max-width: $mantine-breakpoint-xs) {
+        display: none;
+      }
+    }
+
+    &[data-hideBreakpoint='sm'] {
+      @media (max-width: $mantine-breakpoint-sm) {
+        display: none;
+      }
+    }
+
+    &[data-hideBreakpoint='md'] {
+      @media (max-width: $mantine-breakpoint-md) {
+        display: none;
+      }
+    }
+
+    &[data-hideBreakpoint='lg'] {
+      @media (max-width: $mantine-breakpoint-lg) {
+        display: none;
+      }
+    }
+
+    &[data-hideBreakpoint='xl'] {
+      @media (max-width: $mantine-breakpoint-xl) {
+        display: none;
+      }
+    }
+  }
 }

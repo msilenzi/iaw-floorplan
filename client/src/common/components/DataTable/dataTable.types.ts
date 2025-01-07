@@ -13,7 +13,7 @@ export type DataColumnConfiguration<
   ? {
       key: K
       label: string
-      hideBreakpoint?: MantineSize
+      hideBreakpoint?: MantineSize | 'xxs'
       props?: {
         th?: TableThProps
         td?: TableTdProps | ((rowData: TData) => TableTdProps)

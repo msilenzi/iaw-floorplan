@@ -6,7 +6,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Box, Space, Stack, Text, Title, rem } from '@mantine/core'
 
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
-import { DataTable } from '@Common/components/DataTable/DataTable'
+import { DataTable } from '@Common/components/DataTable'
 import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'

@@ -23,7 +23,7 @@ export type DataColumnConfiguration<
     }
   : never
 
-export type ColumnsConfiguration<TData extends object> = Array<
+export type DataColumnsConfiguration<TData extends object> = Array<
   { [K in keyof TData]: DataColumnConfiguration<TData, K> }[keyof TData]
 >
 

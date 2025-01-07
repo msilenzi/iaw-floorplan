@@ -2,19 +2,29 @@ import { Skeleton, Table, useMantineTheme } from '@mantine/core'
 
 import { DataTableProps } from './dataTable.types'
 
+import classes from './DataTable.module.css'
+
 export function DataTable<T extends object>({
   data,
   columnsConfiguration,
   isLoading,
   loadingRowsLength,
   rowKey,
+  props,
 }: DataTableProps<T>) {
   return (
-    <Table>
+    <Table
+      verticalSpacing="md"
+      layout="fixed"
+      className={classes.table}
+      {...props?.table}
+    >
       <Table.Thead>
         <Table.Tr>
-          {columnsConfiguration.map(({ key, label }) => (
-            <Table.Th key={key as React.Key}>{label}</Table.Th>
+          {columnsConfiguration.map(({ key, label, props }) => (
+            <Table.Th key={key as React.Key} {...props?.th}>
+              {label}
+            </Table.Th>
           ))}
         </Table.Tr>
       </Table.Thead>
@@ -29,6 +39,7 @@ export function DataTable<T extends object>({
             data={data}
             columnsConfiguration={columnsConfiguration}
             rowKey={rowKey}
+            props={props}
           />
         )}
       </Table.Tbody>
@@ -49,8 +60,8 @@ function BodyLoading<T extends object>({
 
   return Array.from({ length: loadingRowsLength }).map((_, i) => (
     <Table.Tr key={i}>
-      {columnsConfiguration.map(({ key }) => (
-        <Table.Td key={key as string}>
+      {columnsConfiguration.map(({ key, props }) => (
+        <Table.Td key={key as string} {...props?.td}>
           <Skeleton height={theme.spacing.lg} />
         </Table.Td>
       ))}
@@ -60,18 +71,25 @@ function BodyLoading<T extends object>({
 
 type BodyContentProps<T extends object> = Pick<
   DataTableProps<T>,
-  'data' | 'columnsConfiguration' | 'rowKey'
+  'data' | 'columnsConfiguration' | 'rowKey' | 'props'
 >
 
 function BodyContent<T extends object>({
   data,
   columnsConfiguration,
   rowKey,
+  props,
 }: BodyContentProps<T>) {
   return data.map((rowData) => (
-    <Table.Tr key={rowData[rowKey] as React.Key}>
-      {columnsConfiguration.map(({ key, renderRow }) => (
-        <Table.Td key={key as React.Key}>
+    <Table.Tr
+      key={rowData[rowKey] as React.Key}
+      {...(typeof props?.tr === 'function' ? props.tr(rowData) : props?.tr)}
+    >
+      {columnsConfiguration.map(({ key, renderRow, props }) => (
+        <Table.Td
+          key={key as React.Key}
+          {...(typeof props?.td === 'function' ? props.td(rowData) : props?.td)}
+        >
           {/* @ts-expect-error funciona bien */}
           {renderRow(rowData[key], rowData)}
         </Table.Td>

@@ -1,4 +1,10 @@
-import { MantineSize, StyleProp } from '@mantine/core'
+import type {
+  MantineSize,
+  TableProps,
+  TableTdProps,
+  TableThProps,
+  TableTrProps,
+} from '@mantine/core'
 
 export type DataColumnConfiguration<
   TData extends object,
@@ -7,9 +13,12 @@ export type DataColumnConfiguration<
   ? {
       key: K
       label: string
-      width: StyleProp<React.CSSProperties['width']>
       hideBreakpoint?: MantineSize
-      renderRow: (value: TData[K], values: TData) => React.ReactNode
+      props?: {
+        th?: TableThProps
+        td?: TableTdProps | ((rowData: TData) => TableTdProps)
+      }
+      renderRow: (value: TData[K], rowData: TData) => React.ReactNode
     }
   : never
 
@@ -23,4 +32,8 @@ export type DataTableProps<TData extends object> = {
   isLoading: boolean
   loadingRowsLength: number
   rowKey: keyof TData
+  props?: {
+    table?: TableProps
+    tr?: TableTrProps | ((rowData: TData) => TableTrProps)
+  }
 }

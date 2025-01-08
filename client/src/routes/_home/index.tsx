@@ -2,9 +2,8 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
-import { Box, Group, Loader } from '@mantine/core'
-
-import { LoadingHeader, UnauthenticatedHeader } from '@Common/components/Header'
+import { UnauthenticatedHeader } from '@Common/components/Header'
+import { LoadingPage } from '@Common/components/LoadingPage'
 
 import { HomeFeaturesSection } from '@Home/components/HomeFeaturesSection'
 import { HomeHero } from '@Home/components/HomeHero'
@@ -18,7 +17,7 @@ function RouteComponent() {
   const navigate = useNavigate()
 
   if (isLoading) {
-    return <LoadingView />
+    return <LoadingPage />
   }
 
   if (isAuthenticated) {
@@ -31,16 +30,5 @@ function RouteComponent() {
       <HomeHero />
       <HomeFeaturesSection />
     </>
-  )
-}
-
-function LoadingView() {
-  return (
-    <Box h="100dvh" bg="dark.8">
-      <LoadingHeader />
-      <Group mt={'20dvh'} w="100%" justify="center">
-        <Loader size={'6rem'} color="dark.5" />
-      </Group>
-    </Box>
   )
 }

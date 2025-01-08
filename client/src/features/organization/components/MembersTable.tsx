@@ -21,8 +21,6 @@ export function MembersTable({
   userStatus,
   showActions,
 }: MembersTableProps) {
-  const { hovered, ref } = useHover()
-
   return (
     <DataTable
       data={data}
@@ -66,22 +64,34 @@ export function MembersTable({
           exclude: userStatus !== MemberStatus.Owner,
           key: 'user_id',
           label: '',
-          renderRow: () => {
-            if (!showActions) return null
-            return (
-              <ActionIcon
-                size="md"
-                variant={hovered ? 'default' : 'transparent'}
-                color={hovered ? undefined : 'dimmed'}
-                ref={ref}
-              >
-                <IconDotsVertical />
-              </ActionIcon>
-            )
-          },
+          renderRow: (_, rowData) => (
+            <TableButton show={showActions} member={rowData} />
+          ),
           props: { th: { w: 50 } },
         },
       ]}
     />
+  )
+}
+
+type TableButton = {
+  show: boolean
+  member: OrganizationMemberDto
+}
+
+function TableButton({ show }: TableButton) {
+  const { hovered, ref } = useHover()
+
+  if (!show) return null
+
+  return (
+    <ActionIcon
+      size="md"
+      variant={hovered ? 'default' : 'transparent'}
+      color={hovered ? undefined : 'dimmed'}
+      ref={ref}
+    >
+      <IconDotsVertical />
+    </ActionIcon>
   )
 }

@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Group, Select, Stack } from '@mantine/core'
+import { Group, Select, Stack, Text } from '@mantine/core'
 
 import {
   IconUser,
@@ -69,6 +69,7 @@ function RouteComponent() {
         searchValue={searchValue}
         searchField={searchField!}
         Icon={IconUserShield}
+        emptyMessage="No hay miembro propietario para esta organización"
       />
 
       <MembersSection
@@ -78,6 +79,7 @@ function RouteComponent() {
         searchField={searchField!}
         showActions
         Icon={IconUser}
+        emptyMessage="No hay miembros activos en esta organización"
       />
 
       {userStatus === MemberStatus.Owner && (
@@ -88,6 +90,7 @@ function RouteComponent() {
           searchField={searchField!}
           showActions
           Icon={IconUserX}
+          emptyMessage="No hay miembros bloqueados en esta organización"
         />
       )}
     </Stack>
@@ -101,6 +104,7 @@ type MembersSectionProps = {
   searchField: 'name' | 'email'
   showActions?: boolean
   Icon: TablerIcon
+  emptyMessage: string
 }
 
 export function MembersSection({
@@ -110,6 +114,7 @@ export function MembersSection({
   searchField,
   showActions = false,
   Icon,
+  emptyMessage,
 }: MembersSectionProps) {
   const { organizationId } = Route.useParams()
 
@@ -130,13 +135,21 @@ export function MembersSection({
       ) ?? []
 
   return (
-    <AccordionDataContainer title={title} Icon={Icon} dataLength={data?.length}>
-      <MembersTable
-        data={filteredData}
-        isLoading={isLoading}
-        showActions={showActions}
-        userStatus={userStatus!}
-      />
+    <AccordionDataContainer
+      title={title}
+      Icon={Icon}
+      dataLength={filteredData?.length}
+    >
+      {!isLoading && filteredData.length === 0 ? (
+        <Text mt="sm">{emptyMessage}</Text>
+      ) : (
+        <MembersTable
+          data={filteredData}
+          isLoading={isLoading}
+          showActions={showActions}
+          userStatus={userStatus!}
+        />
+      )}
     </AccordionDataContainer>
   )
 }

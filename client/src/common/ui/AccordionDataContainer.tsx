@@ -30,7 +30,7 @@ export default function AccordionDataContainer({
         <Accordion.Control icon={<Icon />}>
           <Group align="center" gap="xs">
             <Title order={4}>{title}</Title>
-            {dataLength && (
+            {dataLength != undefined && (
               <Badge color="dark.5" size="sm" radius="sm" bd="none">
                 {dataLength}
               </Badge>

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { ActionIcon, Group } from '@mantine/core'
+import { ActionIcon, Group, Text } from '@mantine/core'
 
 import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
@@ -55,50 +55,65 @@ function RouteComponent() {
         Icon={IconUserQuestion}
         dataLength={requests?.[MemberStatus.Pending].length}
       >
-        <DataTable
-          data={requests?.[MemberStatus.Pending] ?? []}
-          isLoading={isLoading}
-          loadingRowsLength={3}
-          rowKey="_id"
-          columnsConfiguration={[
-            {
-              key: 'name',
-              label: 'Organización',
-              renderRow: (value) => value,
-            },
-            {
-              key: '_id',
-              label: '',
-              renderRow: (value) => (
-                <ActionIcon
-                  size="md"
-                  variant="default"
-                  aria-label="Cancelar solicitud"
-                  title="Cancelar solicitud"
-                  onClick={() => handleCancelRequest(value)}
-                >
-                  <IconX style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-              ),
-              props: { th: { w: 50 } },
-            },
-          ]}
-        />
+        {!isLoading && requests?.[MemberStatus.Pending].length === 0 ? (
+          <Text mt="sm">No tienes solicitudes pendientes</Text>
+        ) : (
+          <DataTable
+            data={requests?.[MemberStatus.Pending] ?? []}
+            isLoading={isLoading}
+            loadingRowsLength={3}
+            rowKey="_id"
+            columnsConfiguration={[
+              {
+                key: 'name',
+                label: 'Organización',
+                renderRow: (value) => value,
+              },
+              {
+                key: '_id',
+                label: '',
+                renderRow: (value) => (
+                  <ActionIcon
+                    size="md"
+                    variant="default"
+                    aria-label="Cancelar solicitud"
+                    title="Cancelar solicitud"
+                    onClick={() => handleCancelRequest(value)}
+                  >
+                    <IconX
+                      style={{ width: '70%', height: '70%' }}
+                      stroke={1.5}
+                    />
+                  </ActionIcon>
+                ),
+                props: { th: { w: 50 } },
+              },
+            ]}
+          />
+        )}
       </AccordionDataContainer>
       <AccordionDataContainer
         title="Solicitudes rechazadas"
         Icon={IconUserX}
         dataLength={requests?.[MemberStatus.Rejected].length}
       >
-        <DataTable
-          data={requests?.[MemberStatus.Rejected] ?? []}
-          isLoading={isLoading}
-          loadingRowsLength={3}
-          rowKey="_id"
-          columnsConfiguration={[
-            { key: 'name', label: 'Organización', renderRow: (value) => value },
-          ]}
-        />
+        {!isLoading && requests?.[MemberStatus.Pending].length === 0 ? (
+          <Text mt="sm">No tienes solicitudes rechazadas</Text>
+        ) : (
+          <DataTable
+            data={requests?.[MemberStatus.Rejected] ?? []}
+            isLoading={isLoading}
+            loadingRowsLength={3}
+            rowKey="_id"
+            columnsConfiguration={[
+              {
+                key: 'name',
+                label: 'Organización',
+                renderRow: (value) => value,
+              },
+            ]}
+          />
+        )}
       </AccordionDataContainer>
     </>
   )

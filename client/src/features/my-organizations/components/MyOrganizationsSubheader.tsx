@@ -1,6 +1,6 @@
 import { Group } from '@mantine/core'
 
-import { IconBuilding, IconUsersPlus } from '@tabler/icons-react'
+import { IconBuilding, IconUserPlus } from '@tabler/icons-react'
 
 import {
   BaseSubheader,
@@ -18,7 +18,7 @@ const tabs: SubheaderTab[] = [
   },
   {
     label: 'Mis solicitudes',
-    Icon: IconUsersPlus,
+    Icon: IconUserPlus,
     to: '/my-organizations/requests',
   },
 ]

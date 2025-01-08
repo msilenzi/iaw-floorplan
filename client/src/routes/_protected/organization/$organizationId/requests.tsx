@@ -2,9 +2,25 @@ import { useState } from 'react'
 
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
-import { Group, Select, Stack, Text } from '@mantine/core'
+import {
+  ActionIcon,
+  CopyButton,
+  Group,
+  Select,
+  Stack,
+  Text,
+  Title,
+  Tooltip,
+} from '@mantine/core'
 
-import { IconUser, IconUserX, TablerIcon } from '@tabler/icons-react'
+import {
+  IconCopy,
+  IconCopyCheck,
+  IconUserPlus,
+  IconUserQuestion,
+  IconUserX,
+  TablerIcon,
+} from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
 import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
@@ -50,7 +66,38 @@ function RouteComponent() {
 
   return (
     <Stack gap="sm" mb="xl">
-      <RefetchBtn query={membersQuery} ms="auto" />
+      <AccordionDataContainer
+        title="Invita a otros usuarios"
+        Icon={IconUserPlus}
+      >
+        <Text mb="xs" mt="xs">
+          Comparta el siguiente código para que otras personas puedan unirse:
+        </Text>
+        <Group align="center" justify="start" gap="xs">
+          <Title order={3} ff="monospace">
+            {organizationId}
+          </Title>
+          <CopyButton value={organizationId}>
+            {({ copied, copy }) => (
+              <Tooltip
+                color="dark"
+                label={copied ? 'Copiado' : 'Copiar'}
+                position="right"
+              >
+                <ActionIcon
+                  variant="transparent"
+                  color={copied ? 'teal.6' : 'dark.1'}
+                  onClick={copy}
+                >
+                  {copied ? <IconCopyCheck /> : <IconCopy />}
+                </ActionIcon>
+              </Tooltip>
+            )}
+          </CopyButton>
+        </Group>
+      </AccordionDataContainer>
+
+      <RefetchBtn query={membersQuery} ms="auto" mt="lg" />
 
       <Group mt="xs" align="center" justify="center">
         <SearchInput
@@ -77,7 +124,7 @@ function RouteComponent() {
         searchValue={searchValue}
         searchField={searchField!}
         showActions
-        Icon={IconUser}
+        Icon={IconUserQuestion}
         emptyMessage="No hay solicitudes pendientes en esta organización"
       />
 

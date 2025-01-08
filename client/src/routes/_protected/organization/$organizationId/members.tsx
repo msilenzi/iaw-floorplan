@@ -6,8 +6,8 @@ import { Group, Select, Stack, Text } from '@mantine/core'
 
 import {
   IconUser,
+  IconUserCancel,
   IconUserShield,
-  IconUserX,
   TablerIcon,
 } from '@tabler/icons-react'
 
@@ -89,7 +89,7 @@ function RouteComponent() {
           searchValue={searchValue}
           searchField={searchField!}
           showActions
-          Icon={IconUserX}
+          Icon={IconUserCancel}
           emptyMessage="No hay miembros bloqueados en esta organización"
         />
       )}

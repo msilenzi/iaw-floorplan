@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Stack } from '@mantine/core'
+import { Group, Select, Stack } from '@mantine/core'
 
 import {
   IconUser,
@@ -36,24 +36,38 @@ function RouteComponent() {
   const { isLoading } = membersQuery
 
   const [searchValue, setSearchValue] = useState('')
+  const [searchField, setSearchField] = useState<'name' | 'email' | null>(
+    'name',
+  )
 
   return (
     <Stack gap="sm" mb="xl">
       <RefetchBtn query={membersQuery} ms="auto" />
 
-      <SearchInput
-        value={searchValue}
-        setValue={setSearchValue}
-        placeholder="Buscar por nombre"
-        disabled={isLoading}
-        mx="auto"
-        mt="xs"
-      />
+      <Group mt="xs" align="center" justify="center">
+        <SearchInput
+          value={searchValue}
+          setValue={setSearchValue}
+          placeholder={`Buscar por ${searchField === 'name' ? 'nombre' : 'correo'}`}
+          disabled={isLoading}
+        />
+        <Select
+          value={searchField}
+          onChange={(value) => setSearchField(value as 'name' | 'email')}
+          data={[
+            { label: 'Nombre', value: 'name' },
+            { label: 'Correo', value: 'email' },
+          ]}
+          w="12ch"
+          allowDeselect={false}
+        />
+      </Group>
 
       <MembersSection
         title="Propietario"
         memberStatus={MemberStatus.Owner}
         searchValue={searchValue}
+        searchField={searchField!}
         Icon={IconUserShield}
       />
 
@@ -61,6 +75,7 @@ function RouteComponent() {
         title="Miembros activos"
         memberStatus={MemberStatus.Member}
         searchValue={searchValue}
+        searchField={searchField!}
         showActions
         Icon={IconUser}
       />
@@ -70,6 +85,7 @@ function RouteComponent() {
           title="Miembros bloqueados"
           memberStatus={MemberStatus.Blocked}
           searchValue={searchValue}
+          searchField={searchField!}
           showActions
           Icon={IconUserX}
         />
@@ -82,6 +98,7 @@ type MembersSectionProps = {
   title: string
   memberStatus: MemberStatus
   searchValue: string
+  searchField: 'name' | 'email'
   showActions?: boolean
   Icon: TablerIcon
 }
@@ -90,6 +107,7 @@ export function MembersSection({
   title,
   memberStatus,
   searchValue,
+  searchField,
   showActions = false,
   Icon,
 }: MembersSectionProps) {
@@ -103,9 +121,9 @@ export function MembersSection({
   const filteredData =
     data
       ?.filter(
-        ({ status, name }) =>
-          status === memberStatus &&
-          name.toLowerCase().includes(searchValue.toLowerCase()),
+        (member) =>
+          member.status === memberStatus &&
+          member[searchField].toLowerCase().includes(searchValue.toLowerCase()),
       )
       .sort((a, b) =>
         a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),

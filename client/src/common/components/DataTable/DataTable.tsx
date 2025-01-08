@@ -28,7 +28,7 @@ export function DataTable<T extends object>({
             <Table.Th
               key={key as React.Key}
               {...props?.th}
-              data-hideBreakpoint={hideBreakpoint}
+              data-hide-breakpoint={hideBreakpoint}
             >
               {label}
             </Table.Th>
@@ -71,7 +71,7 @@ function BodyLoading<T extends object>({
         <Table.Td
           key={key as string}
           {...props?.td}
-          data-hideBreakpoint={hideBreakpoint}
+          data-hide-breakpoint={hideBreakpoint}
         >
           <Skeleton height={theme.spacing.lg} />
         </Table.Td>
@@ -100,7 +100,7 @@ function BodyContent<T extends object>({
         <Table.Td
           key={key as React.Key}
           {...(typeof props?.td === 'function' ? props.td(rowData) : props?.td)}
-          data-hideBreakpoint={hideBreakpoint}
+          data-hide-breakpoint={hideBreakpoint}
         >
           {/* @ts-expect-error funciona bien */}
           {renderRow(rowData[key], rowData)}

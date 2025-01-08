@@ -5,37 +5,37 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    &[data-hideBreakpoint='xxs'] {
+    &[data-hide-breakpoint='xxs'] {
       @media (max-width: calc($mantine-breakpoint-xs * 0.7)) {
         display: none;
       }
     }
 
-    &[data-hideBreakpoint='xs'] {
+    &[data-hide-breakpoint='xs'] {
       @media (max-width: $mantine-breakpoint-xs) {
         display: none;
       }
     }
 
-    &[data-hideBreakpoint='sm'] {
+    &[data-hide-breakpoint='sm'] {
       @media (max-width: $mantine-breakpoint-sm) {
         display: none;
       }
     }
 
-    &[data-hideBreakpoint='md'] {
+    &[data-hide-breakpoint='md'] {
       @media (max-width: $mantine-breakpoint-md) {
         display: none;
       }
     }
 
-    &[data-hideBreakpoint='lg'] {
+    &[data-hide-breakpoint='lg'] {
       @media (max-width: $mantine-breakpoint-lg) {
         display: none;
       }
     }
 
-    &[data-hideBreakpoint='xl'] {
+    &[data-hide-breakpoint='xl'] {
       @media (max-width: $mantine-breakpoint-xl) {
         display: none;
       }

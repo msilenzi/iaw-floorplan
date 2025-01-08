@@ -2,17 +2,7 @@ import { useState } from 'react'
 
 import { createFileRoute } from '@tanstack/react-router'
 
-import {
-  Accordion,
-  AccordionControl,
-  Badge,
-  Group,
-  Stack,
-  Title,
-  getThemeColor,
-  lighten,
-  useMantineTheme,
-} from '@mantine/core'
+import { Stack } from '@mantine/core'
 
 import {
   IconUser,
@@ -22,6 +12,7 @@ import {
 } from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
+import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
 
@@ -120,28 +111,14 @@ export function MembersSection({
         a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
       ) ?? []
 
-  const theme = useMantineTheme()
-
   return (
-    <Accordion mt="xl" variant="filled" defaultValue={memberStatus}>
-      <Accordion.Item value={memberStatus}>
-        <AccordionControl icon={<Icon />}>
-          <Group align="center" gap="xs">
-            <Title order={4}>{title}</Title>
-            <Badge color="dark.5" size="sm" radius="sm" bd="none">
-              {filteredData.length}
-            </Badge>
-          </Group>
-        </AccordionControl>
-        <Accordion.Panel bg={lighten(getThemeColor('dark.7', theme), 0.025)}>
-          <MembersTable
-            data={filteredData}
-            isLoading={isLoading}
-            showActions={showActions}
-            userStatus={userStatus!}
-          />
-        </Accordion.Panel>
-      </Accordion.Item>
-    </Accordion>
+    <AccordionDataContainer title={title} Icon={Icon} dataLength={data?.length}>
+      <MembersTable
+        data={filteredData}
+        isLoading={isLoading}
+        showActions={showActions}
+        userStatus={userStatus!}
+      />
+    </AccordionDataContainer>
   )
 }

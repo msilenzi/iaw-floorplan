@@ -22,7 +22,7 @@ export function OrganizationSubheader({
 
   const breadcrumbs: SubheaderBreadcrumb[] = [
     {
-      label: 'Tus organizaciones',
+      label: 'Mis organizaciones',
       to: '/my-organizations',
     },
     {

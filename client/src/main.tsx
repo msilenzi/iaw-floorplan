@@ -10,6 +10,8 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
+import { Notifications } from '@mantine/notifications'
+import '@mantine/notifications/styles.css'
 
 // Create a new router instance
 const router = createRouter({ routeTree })
@@ -36,6 +38,7 @@ createRoot(document.getElementById('root')!).render(
       >
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
+          <Notifications position="top-right" />
         </QueryClientProvider>
       </Auth0Provider>
     </MantineProvider>

@@ -5,6 +5,7 @@ import { Alert, Group, Loader, Modal, TextInput } from '@mantine/core'
 import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react'
 
 import { isServerException } from '@Common/api/types/ServerException'
+import useNotifications from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
 import { useJoinOrganizationMutation } from '@MyOrganizations/hooks/useJoinOrganizationMutation'
@@ -22,6 +23,8 @@ export function MyOrganizationsModalJoin({
   const { isPending, mutateAsync, isError, error, reset } =
     useJoinOrganizationMutation()
 
+  const { showSuccessNotification } = useNotifications()
+
   const form = useJointOrganizationForm()
 
   function handleClose() {
@@ -32,7 +35,12 @@ export function MyOrganizationsModalJoin({
     await mutateAsync(organizationId)
     form.reset()
     onClose()
-    // TODO: Mostrar notificación
+    showSuccessNotification({
+      title: 'Solicitud enviada con éxito',
+      message:
+        'Se ha enviado una solicitud para unirte a la organización. Podrás acceder a ella cuando el administrador la acepte',
+      autoClose: 10_000,
+    })
   })
 
   const handleInputChange = (value: string) => {

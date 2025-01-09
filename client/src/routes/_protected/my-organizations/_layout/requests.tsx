@@ -7,8 +7,10 @@ import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
 import { DataTable } from '@Common/components/DataTable'
 import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
+import { Popconfirm } from '@Common/ui/Popconfirm'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 
+import { useDeleteRequestMutation } from '@MyOrganizations/hooks/useDeleteRequestMutation'
 import { useOrganizationsQuery } from '@MyOrganizations/hooks/useOrganizationsQuery'
 
 export const Route = createFileRoute(
@@ -41,10 +43,6 @@ function RouteComponent() {
     } as GroupedRequestsByStatus,
   )
 
-  function handleCancelRequest(id: string) {
-    console.log('delete', id)
-  }
-
   return (
     <>
       <Group>
@@ -72,20 +70,7 @@ function RouteComponent() {
               {
                 key: '_id',
                 label: '',
-                renderRow: (value) => (
-                  <ActionIcon
-                    size="md"
-                    variant="default"
-                    aria-label="Cancelar solicitud"
-                    title="Cancelar solicitud"
-                    onClick={() => handleCancelRequest(value)}
-                  >
-                    <IconX
-                      style={{ width: '70%', height: '70%' }}
-                      stroke={1.5}
-                    />
-                  </ActionIcon>
-                ),
+                renderRow: (value) => <CancelRequestBtn requestId={value} />,
                 props: { th: { w: 50 } },
               },
             ]}
@@ -116,5 +101,39 @@ function RouteComponent() {
         )}
       </AccordionDataContainer>
     </>
+  )
+}
+
+type CancelRequestBtnProps = {
+  requestId: string
+}
+
+export function CancelRequestBtn({ requestId }: CancelRequestBtnProps) {
+  const { isPending, mutateAsync } = useDeleteRequestMutation()
+
+  return (
+    <Popconfirm
+      title="¿Desea cancelar la solicitud?"
+      description="Esta acción no se puede deshacer. Si cancelas, deberás realizar una nueva solicitud en caso de querer unirte nuevamente."
+      confirmText="Si, cancelar"
+      cancelText="No, mantener"
+      innerProps={{
+        confirmBtn: {
+          color: 'red.8',
+          loading: isPending,
+          onClick: () => void mutateAsync(requestId),
+        },
+      }}
+    >
+      <ActionIcon
+        size="md"
+        variant="default"
+        aria-label="Cancelar solicitud"
+        title="Cancelar solicitud"
+        loading={isPending}
+      >
+        <IconX style={{ width: '70%', height: '70%' }} stroke={1.5} />
+      </ActionIcon>
+    </Popconfirm>
   )
 }

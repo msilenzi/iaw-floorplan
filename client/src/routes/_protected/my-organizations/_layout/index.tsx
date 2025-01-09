@@ -55,7 +55,7 @@ function RouteComponent() {
         disabled={isLoading}
       />
       <RefetchBtn query={query} ms="auto" mt="xl" />
-      <OrganizationTable
+      <OrganizationsTable
         organizations={activeOrganizations}
         isLoading={isLoading}
       />
@@ -68,7 +68,7 @@ type OrganizationsTableProps = {
   isLoading: boolean
 }
 
-function OrganizationTable({
+function OrganizationsTable({
   organizations,
   isLoading,
 }: OrganizationsTableProps) {
@@ -100,7 +100,14 @@ function OrganizationTable({
       rowKey="_id"
       props={{
         table: { highlightOnHover: true, style: { cursor: 'pointer' } },
-        tr: ({ _id }) => ({ onClick: () => handleClick(_id) }),
+        tr: ({ _id }) => ({
+          onClick: () => handleClick(_id),
+          role: 'link',
+          tabIndex: 0,
+          onKeyDown: (e) => {
+            if (e.key === 'Enter' || e.key === ' ') handleClick(_id)
+          },
+        }),
       }}
       columnsConfiguration={[
         {

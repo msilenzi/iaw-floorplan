@@ -2,7 +2,16 @@ import { useEffect, useState } from 'react'
 
 import { useNavigate } from '@tanstack/react-router'
 
-import { Group, Loader, Modal, Text, TextInput } from '@mantine/core'
+import {
+  Code,
+  Group,
+  Loader,
+  Modal,
+  Text,
+  TextInput,
+  lighten,
+  useMantineTheme,
+} from '@mantine/core'
 
 import { IconPlus } from '@tabler/icons-react'
 
@@ -20,8 +29,11 @@ export function MyOrganizationsModalCreate({
   isOpen,
   onClose,
 }: MyOrganizationsModalCreateProps) {
+  const theme = useMantineTheme()
+
   const navigate = useNavigate()
   const { isPending, mutateAsync } = useCreateOrganizationMutation()
+
   const { form } = useCreateOrganizationForm()
   const [isTestValid, setIsTestValid] = useState(true)
 
@@ -49,6 +61,14 @@ export function MyOrganizationsModalCreate({
     void navigate({ to: `/organization/${resp.data._id}` })
   })
 
+  const color: string | undefined =
+    form.getValues().regex.trim().length > 0 &&
+    form.getValues().regexTest.trim().length > 0
+      ? isTestValid
+        ? 'var(--mantine-color-green-filled)'
+        : 'var(--mantine-color-red-filled)'
+      : undefined
+
   return (
     <Modal
       opened={isOpen}
@@ -70,10 +90,10 @@ export function MyOrganizationsModalCreate({
             withAsterisk
             key={form.key('name')}
             {...form.getInputProps('name')}
-            mb="md"
+            mb="lg"
           />
           <TextInput
-            label="Patrón RegExp de los expedientes"
+            label="Patrón RegExp para los expedientes"
             description="Se incluirán automáticamente ^ y $ en la expresión"
             placeholder=".*"
             withAsterisk
@@ -84,12 +104,14 @@ export function MyOrganizationsModalCreate({
             rightSection={<Text fw={700}>$</Text>}
           />
           <TextInput
-            description="Podés usar el campo a continuación para verificar como funciona tu patrón"
+            description="Utiliza el campo a continuación para verificar como funciona tu patrón"
             key={form.key('regexTest')}
             {...form.getInputProps('regexTest')}
             error={
-              form.getValues().regexTest && !isTestValid
-                ? 'No cumple con el patrón'
+              form.getValues().regexTest
+                ? isTestValid
+                  ? 'Cumple con el patrón'
+                  : 'No cumple con el patrón'
                 : null
             }
             color={
@@ -100,18 +122,28 @@ export function MyOrganizationsModalCreate({
                 : undefined
             }
             styles={{
-              input: {
-                borderColor:
-                  form.getValues().regex.trim().length > 0 &&
-                  form.getValues().regexTest.trim().length > 0
-                    ? isTestValid
-                      ? 'var(--mantine-color-green-filled)'
-                      : 'var(--mantine-color-red-filled)'
-                    : undefined,
-              },
+              input: { borderColor: color, color },
+              error: { color },
             }}
-            mb="lg"
+            mb="sm"
           />
+          <Text mb="lg" size="sm" c="dimmed">
+            Una{' '}
+            <Text
+              component="a"
+              href="https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Regular_expressions#escribir_un_patr%C3%B3n_de_expresi%C3%B3n_regular"
+              referrerPolicy="no-referrer"
+              target="_blank"
+              td="underline"
+              c={lighten(theme.colors.dark[2], 0.15)}
+            >
+              Expresión Regular
+            </Text>{' '}
+            es una secuencia de caracteres que define un patrón de búsqueda. En
+            este caso se usará para validar que los expedientes de los proyectos
+            sean válidos. Si quieres permitir cualquier valor para los
+            expedientes puedes dejar el valor por defecto <Code>{'/*'}</Code>.
+          </Text>
           <Group justify="end">
             <PrimaryButton
               type="submit"

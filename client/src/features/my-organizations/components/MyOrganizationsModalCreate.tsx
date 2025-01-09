@@ -34,7 +34,7 @@ export function MyOrganizationsModalCreate({
   const navigate = useNavigate()
   const { isPending, mutateAsync } = useCreateOrganizationMutation()
 
-  const { form } = useCreateOrganizationForm()
+  const form = useCreateOrganizationForm()
   const [isTestValid, setIsTestValid] = useState(true)
 
   useEffect(() => {

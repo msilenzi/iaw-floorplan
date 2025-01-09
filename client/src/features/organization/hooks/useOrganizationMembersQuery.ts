@@ -13,6 +13,5 @@ export default function useOrganizationMembersQuery(organizationId: string) {
       return (await organizationMembersApi.findAllMembers(organizationId)).data
     },
     enabled: apisAvailable,
-    retry: false,
   })
 }

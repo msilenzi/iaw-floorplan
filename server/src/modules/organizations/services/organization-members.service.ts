@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
 import { UsersService } from 'src/modules/users/users.service'
+import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { OrganizationMemberDto } from '../dtos/organization-member.dto'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
 import { Member } from '../schemas/member.schema'
@@ -26,7 +27,10 @@ export class OrganizationMembersService {
     private readonly organizationModel: Model<Organization>,
   ) {}
 
-  async create(organizationId: Types.ObjectId, userId: string): Promise<void> {
+  async create(
+    organizationId: Types.ObjectId,
+    userId: string,
+  ): Promise<BasicOrganizationDto> {
     const organization = await this.organizationModel
       .findById(organizationId)
       .exec()
@@ -40,23 +44,28 @@ export class OrganizationMembersService {
     switch (member?.status) {
       case MemberStatus.MEMBER:
       case MemberStatus.OWNER:
-        throw new ConflictException('Ya formas parte de esta organización')
+        throw new ConflictException('Ya formas parte de esta organización.')
       case MemberStatus.PENDING:
         throw new ConflictException(
-          'Ya tienes una solicitud pendiente para unirte a esta organización',
+          'Ya tienes una solicitud pendiente para unirte a esta organización.',
         )
       case MemberStatus.BLOCKED:
         throw new ConflictException(
-          'No puedes enviar una solicitud a esta organización porque estás bloqueado. Si crees que esto es un error, comunicate con el administrador de la organización',
+          'No puedes enviar una solicitud a esta organización porque estás bloqueado. Si crees que esto es un error, comunicate con el administrador de la organización.',
         )
       case MemberStatus.REJECTED:
         throw new ConflictException(
-          'No puedes solicitar acceso a esta organización porque tienes una solicitud rechazada anteriormente. Si crees que esto es un error, concomunicate con el administrador de la organización',
+          'No puedes solicitar acceso a esta organización porque tienes una solicitud rechazada anteriormente. Si crees que esto es un error, concomunicate con el administrador de la organización.',
         )
       case MemberStatus.DELETED:
         member.status = MemberStatus.PENDING
         await organization.save()
-        break
+        return {
+          _id: organizationId.toString(),
+          lastAccessedAt: member.lastAccessedAt?.toISOString() ?? null,
+          name: organization.name,
+          status: member.status,
+        }
       case undefined:
         organization.members.push({
           userId,
@@ -64,7 +73,12 @@ export class OrganizationMembersService {
           lastAccessedAt: null,
         })
         await organization.save()
-        break
+        return {
+          _id: organizationId.toString(),
+          lastAccessedAt: null,
+          name: organization.name,
+          status: MemberStatus.PENDING,
+        }
       default:
         throw new Error(
           `El usuario '${userId}' tiene un estado inválido en la organización '${organizationId}'`,

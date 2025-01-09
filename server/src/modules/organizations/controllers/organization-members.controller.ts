@@ -17,6 +17,7 @@ import { Protected } from 'src/modules/auth/decorators/protected.decorator'
 import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
+import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { OrganizationMemberDto } from '../dtos/organization-member.dto'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
 import { OrganizationDocument } from '../schemas/organization.schema'
@@ -34,13 +35,12 @@ export class OrganizationMembersController {
    * Crea un miembro con estado PENDING
    */
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiParam({ name: 'organizationId', type: String })
   async createMember(
     @Param('organizationId', ParseMongoIdPipe) organizationId: Types.ObjectId,
     @Sub() sub: string,
-  ) {
-    await this.organizationMembersService.create(organizationId, sub)
+  ): Promise<BasicOrganizationDto> {
+    return await this.organizationMembersService.create(organizationId, sub)
   }
 
   /**

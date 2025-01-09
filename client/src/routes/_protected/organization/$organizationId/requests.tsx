@@ -53,8 +53,6 @@ function RouteComponent() {
     'name',
   )
 
-  console.log('requests', organizationQuery, membersQuery)
-
   if (userStatus !== MemberStatus.Owner) {
     void navigate({
       to: '/organization/$organizationId',

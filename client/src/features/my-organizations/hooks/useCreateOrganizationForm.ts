@@ -7,7 +7,7 @@ type CreateOrganizationForm = {
 }
 
 export function useCreateOrganizationForm() {
-  const form = useForm<CreateOrganizationForm>({
+  return useForm<CreateOrganizationForm>({
     mode: 'controlled',
     initialValues: {
       name: '',
@@ -35,6 +35,4 @@ export function useCreateOrganizationForm() {
     },
     validateInputOnChange: true,
   })
-
-  return { form }
 }

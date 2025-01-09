@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -31,18 +32,44 @@ export class OrganizationMembersService {
       .exec()
 
     if (!organization) {
-      throw new NotFoundException()
-    }
-    if (organization.members.some((member) => member.userId === userId)) {
-      throw new BadRequestException()
+      throw new NotFoundException('La organización solicitada no existe')
     }
 
-    organization.members.push({
-      userId,
-      status: MemberStatus.PENDING,
-      lastAccessedAt: null,
-    })
-    await organization.save()
+    const member = organization.members.find((m) => m.userId === userId)
+
+    switch (member?.status) {
+      case MemberStatus.MEMBER:
+      case MemberStatus.OWNER:
+        throw new ConflictException('Ya formas parte de esta organización')
+      case MemberStatus.PENDING:
+        throw new ConflictException(
+          'Ya tienes una solicitud pendiente para unirte a esta organización',
+        )
+      case MemberStatus.BLOCKED:
+        throw new ConflictException(
+          'No puedes enviar una solicitud a esta organización porque estás bloqueado. Si crees que esto es un error, comunicate con el administrador de la organización',
+        )
+      case MemberStatus.REJECTED:
+        throw new ConflictException(
+          'No puedes solicitar acceso a esta organización porque tienes una solicitud rechazada anteriormente. Si crees que esto es un error, concomunicate con el administrador de la organización',
+        )
+      case MemberStatus.DELETED:
+        member.status = MemberStatus.PENDING
+        await organization.save()
+        break
+      case undefined:
+        organization.members.push({
+          userId,
+          status: MemberStatus.PENDING,
+          lastAccessedAt: null,
+        })
+        await organization.save()
+        break
+      default:
+        throw new Error(
+          `El usuario '${userId}' tiene un estado inválido en la organización '${organizationId}'`,
+        )
+    }
   }
 
   async findAll(

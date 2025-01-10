@@ -1,40 +1,28 @@
 import { useEffect, useState } from 'react'
 
-import { useNavigate } from '@tanstack/react-router'
+import { Button, Group, Loader, Modal, Text, TextInput } from '@mantine/core'
 
-import {
-  Code,
-  Group,
-  Loader,
-  Modal,
-  Text,
-  TextInput,
-  lighten,
-  useMantineTheme,
-} from '@mantine/core'
-
-import { IconPlus } from '@tabler/icons-react'
+import { IconPencil, IconReload } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
-import { useCreateOrganizationForm } from '@MyOrganizations/hooks/useCreateOrganizationForm'
-import { useCreateOrganizationMutation } from '@MyOrganizations/hooks/useCreateOrganizationMutation'
+import { useEditOrganizationForm } from '@Organization/hooks/useEditOrganizationForm'
+import { useEditOrganizationMutation } from '@Organization/hooks/useEditOrganizationMutation'
 
-type MyOrganizationsModalCreateProps = {
+type OrganizationsModalEditProps = {
   isOpen: boolean
   onClose: () => void
+  organizationId: string
 }
 
-export function MyOrganizationsModalCreate({
+export function OrganizationsModalEdit({
   isOpen,
   onClose,
-}: MyOrganizationsModalCreateProps) {
-  const theme = useMantineTheme()
+  organizationId,
+}: OrganizationsModalEditProps) {
+  const { isPending, mutateAsync } = useEditOrganizationMutation(organizationId)
 
-  const navigate = useNavigate()
-  const { isPending, mutateAsync } = useCreateOrganizationMutation()
-
-  const form = useCreateOrganizationForm()
+  const form = useEditOrganizationForm(organizationId)
   const [isTestValid, setIsTestValid] = useState(true)
 
   useEffect(() => {
@@ -52,13 +40,17 @@ export function MyOrganizationsModalCreate({
   }
 
   const handleSubmit = form.onSubmit(async (values) => {
-    const resp = await mutateAsync({
+    await mutateAsync({
       name: values.name,
       recordRegex: values.regex,
     })
+    form.setInitialValues({
+      name: values.name,
+      regex: values.regex.slice(1, values.regex.length - 1),
+      regexTest: '',
+    })
     form.reset()
     onClose()
-    void navigate({ to: `/organization/${resp.data._id}` })
   })
 
   const color: string | undefined =
@@ -73,13 +65,13 @@ export function MyOrganizationsModalCreate({
     <Modal
       opened={isOpen}
       onClose={handleClose}
-      title="Crear organización"
+      title="Editar organización"
       styles={{ title: { fontWeight: 700 } }}
       closeButtonProps={{
         disabled: isPending,
       }}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={() => form.reset()}>
         <fieldset
           style={{ margin: 0, padding: 0, border: 'none' }}
           disabled={isPending}
@@ -128,35 +120,39 @@ export function MyOrganizationsModalCreate({
             mb="sm"
           />
           <Text mb="lg" size="sm" c="dimmed">
-            Una{' '}
-            <Text
-              component="a"
-              href="https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Regular_expressions#escribir_un_patr%C3%B3n_de_expresi%C3%B3n_regular"
-              referrerPolicy="no-referrer"
-              target="_blank"
-              td="underline"
-              c={lighten(theme.colors.dark[2], 0.15)}
-            >
-              Expresión Regular
+            <Text span fw={700}>
+              IMPORTANTE:
             </Text>{' '}
-            es una secuencia de caracteres que define un patrón de búsqueda. En
-            este caso se usará para validar que los expedientes de los proyectos
-            sean válidos. Si quieres permitir cualquier valor para los
-            expedientes puedes dejar el valor por defecto <Code>.*</Code>.
+            Actualizar el patrón de la expresión regular solo afectará a los
+            nuevos proyectos que crees y a los proyectos existentes cuyo
+            expediente decidas cambiar.
           </Text>
-          <Group justify="end">
+          <Group justify="space-between">
+            <Button
+              type="reset"
+              variant="transparent"
+              rightSection={<IconReload size={16} stroke={2.5} />}
+              color="dark.2"
+              disabled={isPending || !form.isDirty()}
+            >
+              Restablecer
+            </Button>
             <PrimaryButton
               type="submit"
               rightSection={
                 isPending ? (
                   <Loader size="14" color="dark.2" />
                 ) : (
-                  <IconPlus size={16} stroke={3} />
+                  <IconPencil size={16} stroke={2.5} />
                 )
               }
-              disabled={isPending}
+              disabled={
+                isPending ||
+                !form.isValid() ||
+                !(form.isDirty('name') || form.isDirty('regex'))
+              }
             >
-              {isPending ? 'Creando organización' : 'Crear organización'}
+              {isPending ? 'Editando organización' : 'Editar organización'}
             </PrimaryButton>
           </Group>
         </fieldset>

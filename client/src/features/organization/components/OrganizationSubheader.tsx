@@ -1,6 +1,11 @@
 import { Skeleton } from '@mantine/core'
 
-import { IconBox, IconUsers, IconUsersPlus } from '@tabler/icons-react'
+import {
+  IconBox,
+  IconSettings,
+  IconUsers,
+  IconUsersPlus,
+} from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
 import {
@@ -48,7 +53,11 @@ export function OrganizationSubheader({
       to: `/organization/${organizationId}/requests`,
       hidden: isLoading || data?.userStatus !== MemberStatus.Owner,
     },
-    // { label: 'Configuración', Icon: IconX },
+    {
+      label: 'Ajustes',
+      Icon: IconSettings,
+      to: `/organization/${organizationId}/settings`,
+    },
   ]
 
   return (

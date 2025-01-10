@@ -61,7 +61,7 @@ function RouteComponent() {
       <MembersSection
         title="Solicitudes rechazadas"
         memberStatus={MemberStatus.Rejected}
-        Icon={IconUserQuestion}
+        Icon={IconUserX}
         emptyMessage="No hay solicitudes rechazadas en esta organización"
         actions={[
           {

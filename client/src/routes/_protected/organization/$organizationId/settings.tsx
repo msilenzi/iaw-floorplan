@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { Box, Button, Group, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -7,6 +7,7 @@ import { MemberStatus } from '@Common/api/generated'
 import { Popconfirm } from '@Common/ui/Popconfirm'
 
 import { OrganizationsModalEdit } from '@Organization/components/OrganizationsModalEdit'
+import { useOrganizationExitMutation } from '@Organization/hooks/useOrganizationExitMutation'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
 export const Route = createFileRoute(
@@ -26,7 +27,7 @@ function RouteComponent() {
   }
 
   if (userStatus === MemberStatus.Member) {
-    return <ExitSetting />
+    return <ExitSetting organizationId={organizationId} />
   }
 
   return null
@@ -55,7 +56,15 @@ function EditSetting({ organizationId }: { organizationId: string }) {
   )
 }
 
-function ExitSetting() {
+function ExitSetting({ organizationId }: { organizationId: string }) {
+  const { mutateAsync, isPending } = useOrganizationExitMutation(organizationId)
+  const navigate = useNavigate()
+
+  async function handleClick() {
+    await mutateAsync()
+    void navigate({ to: '/' })
+  }
+
   return (
     <Group align="center" justify="space-between" wrap="nowrap">
       <Box>
@@ -69,10 +78,14 @@ function ExitSetting() {
         title="¿Seguro que salir de la organización?"
         description="Esta acción no se puede deshacer"
         innerProps={{
-          confirmBtn: { color: 'red' },
+          confirmBtn: {
+            color: 'red',
+            onClick: () => void handleClick(),
+            loading: isPending,
+          },
         }}
       >
-        <Button color="red" variant="filled">
+        <Button color="red" variant="filled" loading={isPending}>
           Salir
         </Button>
       </Popconfirm>

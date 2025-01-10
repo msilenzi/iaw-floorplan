@@ -6,16 +6,13 @@ import { MemberStatus } from '@Common/api/generated'
 import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
 
 import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
-import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 import { MembersTable, MembersTableAction } from './MembersTable'
 
 type MembersSectionProps = {
   title: string
-  organizationId: string
   memberStatus: MemberStatus
-  searchValue: string
-  searchField: 'name' | 'email'
   Icon: TablerIcon
   emptyMessage: string
   actions?: MembersTableAction[]
@@ -23,16 +20,14 @@ type MembersSectionProps = {
 
 export function MembersSection({
   title,
-  organizationId,
   memberStatus,
-  searchValue,
-  searchField,
   Icon,
   emptyMessage,
   actions,
 }: MembersSectionProps) {
-  const organizationQuery = useOrganizationQuery(organizationId)
-  const userStatus = organizationQuery.data?.userStatus
+  const organizationId = useOrganizationStore((state) => state.organizationId!)
+  const searchValue = useOrganizationStore((state) => state.searchValue)
+  const searchField = useOrganizationStore((state) => state.searchField)
 
   const { data, isLoading } = useOrganizationMembersQuery(organizationId)
 
@@ -56,12 +51,7 @@ export function MembersSection({
       {!isLoading && filteredData.length === 0 ? (
         <Text mt="sm">{emptyMessage}</Text>
       ) : (
-        <MembersTable
-          data={filteredData}
-          isLoading={isLoading}
-          actions={actions}
-          userStatus={userStatus!}
-        />
+        <MembersTable data={filteredData} actions={actions} />
       )}
     </AccordionDataContainer>
   )

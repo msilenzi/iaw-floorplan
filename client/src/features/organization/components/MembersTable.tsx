@@ -8,6 +8,9 @@ import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
 
+import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
+import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
+
 export type MembersTableAction = {
   onClick: (member: OrganizationMemberDto) => void
   Icon: TablerIcon
@@ -17,17 +20,14 @@ export type MembersTableAction = {
 
 type MembersTableProps = {
   data: OrganizationMemberDto[]
-  isLoading: boolean
-  userStatus: MemberStatus
   actions?: MembersTableAction[]
 }
 
-export function MembersTable({
-  data,
-  isLoading,
-  userStatus,
-  actions,
-}: MembersTableProps) {
+export function MembersTable({ data, actions }: MembersTableProps) {
+  const organizationId = useOrganizationStore((state) => state.organizationId!)
+  const userStatus = useOrganizationStore((state) => state.userStatus!)
+  const { isLoading } = useOrganizationMembersQuery(organizationId)
+
   return (
     <DataTable
       data={data}

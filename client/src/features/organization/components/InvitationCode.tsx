@@ -11,11 +11,11 @@ import { IconCopy, IconCopyCheck, IconUserPlus } from '@tabler/icons-react'
 
 import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
 
-type InvitationCodeProps = {
-  organizationId: string
-}
+import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
-export function InvitationCode({ organizationId }: InvitationCodeProps) {
+export function InvitationCode() {
+  const organizationId = useOrganizationStore((state) => state.organizationId)
+
   return (
     <AccordionDataContainer title="Invita a otros usuarios" Icon={IconUserPlus}>
       <Text mb="xs" mt="xs">
@@ -25,7 +25,7 @@ export function InvitationCode({ organizationId }: InvitationCodeProps) {
         <Title order={3} ff="monospace">
           {organizationId}
         </Title>
-        <CopyButton value={organizationId}>
+        <CopyButton value={organizationId ?? ''}>
           {({ copied, copy }) => (
             <Tooltip
               color="dark"

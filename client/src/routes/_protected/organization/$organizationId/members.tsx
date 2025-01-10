@@ -68,21 +68,15 @@ function RouteComponent() {
       <MembersSection
         title="Propietario"
         memberStatus={MemberStatus.Owner}
-        searchValue={searchValue}
-        searchField={searchField!}
         Icon={IconUserShield}
         emptyMessage="No hay miembro propietario para esta organización"
-        organizationId={organizationId}
       />
 
       <MembersSection
         title="Miembros activos"
         memberStatus={MemberStatus.Member}
-        searchValue={searchValue}
-        searchField={searchField!}
         Icon={IconUser}
         emptyMessage="No hay miembros activos en esta organización"
-        organizationId={organizationId}
         actions={[
           {
             label: 'Bloquear',
@@ -103,11 +97,8 @@ function RouteComponent() {
         <MembersSection
           title="Miembros bloqueados"
           memberStatus={MemberStatus.Blocked}
-          searchValue={searchValue}
-          searchField={searchField!}
           Icon={IconUserCancel}
           emptyMessage="No hay miembros bloqueados en esta organización"
-          organizationId={organizationId}
           actions={[
             {
               label: 'Desbloquear',

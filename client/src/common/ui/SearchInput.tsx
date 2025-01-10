@@ -6,7 +6,7 @@ import classes from './SearchInput.module.css'
 
 type SearchInputProps = {
   value: string
-  setValue: React.Dispatch<React.SetStateAction<string>>
+  setValue: (value: string) => void
 } & TextInputProps
 
 export function SearchInput({ value, setValue, ...props }: SearchInputProps) {

@@ -2,23 +2,23 @@ import { useState } from 'react'
 
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Group, Select, Stack, Text } from '@mantine/core'
+import { Group, Select, Stack } from '@mantine/core'
 
 import {
   IconUser,
   IconUserCancel,
+  IconUserCheck,
   IconUserShield,
-  TablerIcon,
 } from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
-import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
 
-import { MembersTable } from '@Organization/components/MembersTable'
+import { MembersSection } from '@Organization/components/MembersSection'
 import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+import { useUpdateMemberStatusMutation } from '@Organization/hooks/useUpdateMemberStatusMutation'
 
 export const Route = createFileRoute(
   '/_protected/organization/$organizationId/members',
@@ -34,6 +34,8 @@ function RouteComponent() {
 
   const membersQuery = useOrganizationMembersQuery(organizationId)
   const { isLoading } = membersQuery
+
+  const { mutateAsync } = useUpdateMemberStatusMutation()
 
   const [searchValue, setSearchValue] = useState('')
   const [searchField, setSearchField] = useState<'name' | 'email' | null>(
@@ -70,6 +72,7 @@ function RouteComponent() {
         searchField={searchField!}
         Icon={IconUserShield}
         emptyMessage="No hay miembro propietario para esta organización"
+        organizationId={organizationId}
       />
 
       <MembersSection
@@ -77,9 +80,23 @@ function RouteComponent() {
         memberStatus={MemberStatus.Member}
         searchValue={searchValue}
         searchField={searchField!}
-        showActions
         Icon={IconUser}
         emptyMessage="No hay miembros activos en esta organización"
+        organizationId={organizationId}
+        actions={[
+          {
+            label: 'Bloquear',
+            Icon: IconUserCancel,
+            color: 'red',
+            onClick: (m) => {
+              void mutateAsync({
+                organizationId: organizationId,
+                memberId: m.user_id,
+                newStatus: MemberStatus.Blocked,
+              })
+            },
+          },
+        ]}
       />
 
       {userStatus === MemberStatus.Owner && (
@@ -88,68 +105,25 @@ function RouteComponent() {
           memberStatus={MemberStatus.Blocked}
           searchValue={searchValue}
           searchField={searchField!}
-          showActions
           Icon={IconUserCancel}
           emptyMessage="No hay miembros bloqueados en esta organización"
+          organizationId={organizationId}
+          actions={[
+            {
+              label: 'Desbloquear',
+              Icon: IconUserCheck,
+              color: 'teal',
+              onClick: (m) => {
+                void mutateAsync({
+                  organizationId: organizationId,
+                  memberId: m.user_id,
+                  newStatus: MemberStatus.Member,
+                })
+              },
+            },
+          ]}
         />
       )}
     </Stack>
-  )
-}
-
-type MembersSectionProps = {
-  title: string
-  memberStatus: MemberStatus
-  searchValue: string
-  searchField: 'name' | 'email'
-  showActions?: boolean
-  Icon: TablerIcon
-  emptyMessage: string
-}
-
-export function MembersSection({
-  title,
-  memberStatus,
-  searchValue,
-  searchField,
-  showActions = false,
-  Icon,
-  emptyMessage,
-}: MembersSectionProps) {
-  const { organizationId } = Route.useParams()
-
-  const organizationQuery = useOrganizationQuery(organizationId)
-  const userStatus = organizationQuery.data?.userStatus
-
-  const { data, isLoading } = useOrganizationMembersQuery(organizationId)
-
-  const filteredData =
-    data
-      ?.filter(
-        (member) =>
-          member.status === memberStatus &&
-          member[searchField].toLowerCase().includes(searchValue.toLowerCase()),
-      )
-      .sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
-      ) ?? []
-
-  return (
-    <AccordionDataContainer
-      title={title}
-      Icon={Icon}
-      dataLength={filteredData?.length}
-    >
-      {!isLoading && filteredData.length === 0 ? (
-        <Text mt="sm">{emptyMessage}</Text>
-      ) : (
-        <MembersTable
-          data={filteredData}
-          isLoading={isLoading}
-          showActions={showActions}
-          userStatus={userStatus!}
-        />
-      )}
-    </AccordionDataContainer>
   )
 }

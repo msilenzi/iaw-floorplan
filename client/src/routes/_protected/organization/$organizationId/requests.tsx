@@ -2,34 +2,19 @@ import { useState } from 'react'
 
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
-import {
-  ActionIcon,
-  CopyButton,
-  Group,
-  Select,
-  Stack,
-  Text,
-  Title,
-  Tooltip,
-} from '@mantine/core'
+import { Group, Select, Stack } from '@mantine/core'
 
-import {
-  IconCopy,
-  IconCopyCheck,
-  IconUserPlus,
-  IconUserQuestion,
-  IconUserX,
-  TablerIcon,
-} from '@tabler/icons-react'
+import { IconUserCheck, IconUserQuestion, IconUserX } from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
-import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
 
-import { MembersTable } from '@Organization/components/MembersTable'
+import { InvitationCode } from '@Organization/components/InvitationCode'
+import { MembersSection } from '@Organization/components/MembersSection'
 import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+import { useUpdateMemberStatusMutation } from '@Organization/hooks/useUpdateMemberStatusMutation'
 
 export const Route = createFileRoute(
   '/_protected/organization/$organizationId/requests',
@@ -48,6 +33,8 @@ function RouteComponent() {
   const membersQuery = useOrganizationMembersQuery(organizationId)
   const { isLoading } = membersQuery
 
+  const { mutateAsync } = useUpdateMemberStatusMutation()
+
   const [searchValue, setSearchValue] = useState('')
   const [searchField, setSearchField] = useState<'name' | 'email' | null>(
     'name',
@@ -64,36 +51,7 @@ function RouteComponent() {
 
   return (
     <Stack gap="sm" mb="xl">
-      <AccordionDataContainer
-        title="Invita a otros usuarios"
-        Icon={IconUserPlus}
-      >
-        <Text mb="xs" mt="xs">
-          Comparta el siguiente código para que otras personas puedan unirse:
-        </Text>
-        <Group align="center" justify="start" gap="xs">
-          <Title order={3} ff="monospace">
-            {organizationId}
-          </Title>
-          <CopyButton value={organizationId}>
-            {({ copied, copy }) => (
-              <Tooltip
-                color="dark"
-                label={copied ? 'Copiado' : 'Copiar'}
-                position="right"
-              >
-                <ActionIcon
-                  variant="transparent"
-                  color={copied ? 'teal.6' : 'dark.1'}
-                  onClick={copy}
-                >
-                  {copied ? <IconCopyCheck /> : <IconCopy />}
-                </ActionIcon>
-              </Tooltip>
-            )}
-          </CopyButton>
-        </Group>
-      </AccordionDataContainer>
+      <InvitationCode organizationId={organizationId} />
 
       <RefetchBtn query={membersQuery} ms="auto" mt="lg" />
 
@@ -118,80 +76,63 @@ function RouteComponent() {
 
       <MembersSection
         title="Solicitudes pendientes"
+        organizationId={organizationId}
         memberStatus={MemberStatus.Pending}
         searchValue={searchValue}
         searchField={searchField!}
-        showActions
         Icon={IconUserQuestion}
         emptyMessage="No hay solicitudes pendientes en esta organización"
+        actions={[
+          {
+            label: 'Aceptar',
+            Icon: IconUserCheck,
+            color: 'teal',
+            onClick: (m) => {
+              void mutateAsync({
+                organizationId: organizationId,
+                memberId: m.user_id,
+                newStatus: MemberStatus.Member,
+              })
+            },
+          },
+          {
+            label: 'Rechazar',
+            Icon: IconUserX,
+            color: 'red',
+            onClick: (m) => {
+              void mutateAsync({
+                organizationId: organizationId,
+                memberId: m.user_id,
+                newStatus: MemberStatus.Rejected,
+              })
+            },
+          },
+        ]}
       />
 
       <MembersSection
         title="Solicitudes rechazadas"
+        organizationId={organizationId}
         memberStatus={MemberStatus.Rejected}
         searchValue={searchValue}
         searchField={searchField!}
-        showActions
-        Icon={IconUserX}
+        Icon={IconUserQuestion}
         emptyMessage="No hay solicitudes rechazadas en esta organización"
+        actions={[
+          {
+            label: 'Aceptar',
+            Icon: IconUserCheck,
+            color: 'teal',
+            onClick: (m) => {
+              void mutateAsync({
+                organizationId: organizationId,
+                memberId: m.user_id,
+                newStatus: MemberStatus.Member,
+              })
+            },
+          },
+        ]}
       />
     </Stack>
-  )
-}
-
-type MembersSectionProps = {
-  title: string
-  memberStatus: MemberStatus
-  searchValue: string
-  searchField: 'name' | 'email'
-  showActions?: boolean
-  Icon: TablerIcon
-  emptyMessage: string
-}
-
-export function MembersSection({
-  title,
-  memberStatus,
-  searchValue,
-  searchField,
-  showActions = false,
-  Icon,
-  emptyMessage,
-}: MembersSectionProps) {
-  const { organizationId } = Route.useParams()
-
-  const organizationQuery = useOrganizationQuery(organizationId)
-  const userStatus = organizationQuery.data?.userStatus
-
-  const { data, isLoading } = useOrganizationMembersQuery(organizationId)
-
-  const filteredData =
-    data
-      ?.filter(
-        (member) =>
-          member.status === memberStatus &&
-          member[searchField].toLowerCase().includes(searchValue.toLowerCase()),
-      )
-      .sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
-      ) ?? []
-
-  return (
-    <AccordionDataContainer
-      title={title}
-      Icon={Icon}
-      dataLength={filteredData?.length}
-    >
-      {!isLoading && filteredData.length === 0 ? (
-        <Text mt="sm">{emptyMessage}</Text>
-      ) : (
-        <MembersTable
-          data={filteredData}
-          isLoading={isLoading}
-          showActions={showActions}
-          userStatus={userStatus!}
-        />
-      )}
-    </AccordionDataContainer>
   )
 }

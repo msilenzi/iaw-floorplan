@@ -1,25 +1,32 @@
-import { ActionIcon, Group, Text } from '@mantine/core'
-import { useHover } from '@mantine/hooks'
+import { DefaultMantineColor, Group, Menu, Text } from '@mantine/core'
 
-import { IconDotsVertical } from '@tabler/icons-react'
+import { TablerIcon } from '@tabler/icons-react'
 
 import { MemberStatus, OrganizationMemberDto } from '@Common/api/generated'
 import { DataTable } from '@Common/components/DataTable'
 import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
+import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
+
+export type MembersTableAction = {
+  onClick: (member: OrganizationMemberDto) => void
+  Icon: TablerIcon
+  label: string
+  color?: DefaultMantineColor
+}
 
 type MembersTableProps = {
   data: OrganizationMemberDto[]
   isLoading: boolean
   userStatus: MemberStatus
-  showActions: boolean
+  actions?: MembersTableAction[]
 }
 
 export function MembersTable({
   data,
   isLoading,
   userStatus,
-  showActions,
+  actions,
 }: MembersTableProps) {
   return (
     <DataTable
@@ -64,9 +71,8 @@ export function MembersTable({
           exclude: userStatus !== MemberStatus.Owner,
           key: 'user_id',
           label: '',
-          renderRow: (_, rowData) => (
-            <TableButton show={showActions} member={rowData} />
-          ),
+          renderRow: (_, rowData) =>
+            actions ? <TableButton actions={actions} member={rowData} /> : null,
           props: { th: { w: 50 } },
         },
       ]}
@@ -75,23 +81,28 @@ export function MembersTable({
 }
 
 type TableButton = {
-  show: boolean
   member: OrganizationMemberDto
+  actions: MembersTableAction[]
 }
 
-function TableButton({ show }: TableButton) {
-  const { hovered, ref } = useHover()
-
-  if (!show) return null
-
+function TableButton({ member, actions }: TableButton) {
   return (
-    <ActionIcon
-      size="md"
-      variant={hovered ? 'default' : 'transparent'}
-      color={hovered ? undefined : 'dimmed'}
-      ref={ref}
-    >
-      <IconDotsVertical />
-    </ActionIcon>
+    <Menu withArrow position="left" shadow="md">
+      <Menu.Target>
+        <TableActionButton />
+      </Menu.Target>
+      <Menu.Dropdown>
+        {actions.map(({ label, Icon, color, onClick }) => (
+          <Menu.Item
+            key={label}
+            leftSection={<Icon width={20} height={20} stroke={1.5} />}
+            color={color}
+            onClick={() => onClick(member)}
+          >
+            {label}
+          </Menu.Item>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
   )
 }

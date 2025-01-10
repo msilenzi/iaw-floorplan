@@ -105,14 +105,15 @@ type AlertErrorProps = {
 function AlertError({ error, isError, isPending }: AlertErrorProps) {
   if (isPending || !isError) return null
 
-  let title: string = 'Error de conexión'
-  let description: string = 'No pudimos establecer la conexión con el servidor'
+  let title = 'Error de conexión'
+  let description = 'No pudimos establecer la conexión con el servidor'
 
   if (isAxiosError(error) && isServerException(error.response?.data)) {
     const e = error.response.data
     if (e.statusCode >= 500) {
-      title = 'Algo salió mal'
-      description = 'No pudimos acceder a la organización'
+      title = '¡Ups! Algo salió mal'
+      description =
+        'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
     } else if (e.statusCode >= 400) {
       title = 'No puedes unirte a esta organización'
       description = e.message

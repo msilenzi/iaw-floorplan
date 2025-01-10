@@ -17,7 +17,7 @@ export function OrganizationMemberSearch({
   const setSearchField = useOrganizationStore((state) => state.setSearchField)
 
   return (
-    <Group mt="xs" align="center" justify="center">
+    <Group align="center" justify="center" mb="md">
       <SearchInput
         value={searchValue}
         setValue={(value) => setSearchValue(value)}

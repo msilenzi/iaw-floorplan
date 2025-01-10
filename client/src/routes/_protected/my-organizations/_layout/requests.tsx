@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { ActionIcon, Group, Text } from '@mantine/core'
+import { ActionIcon, Group, Stack, Text } from '@mantine/core'
 
 import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
@@ -44,7 +44,7 @@ function RouteComponent() {
   )
 
   return (
-    <>
+    <Stack gap="xl" mb="xl">
       <Group>
         <RefetchBtn query={query} ms="auto" />
       </Group>
@@ -100,7 +100,7 @@ function RouteComponent() {
           />
         )}
       </AccordionDataContainer>
-    </>
+    </Stack>
   )
 }
 

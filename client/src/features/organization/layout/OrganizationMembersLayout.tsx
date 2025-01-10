@@ -51,10 +51,10 @@ export function OrganizationMembersLayout({
   }
 
   return (
-    <Stack gap="sm" mb="xl">
+    <Stack gap="xl" mb="xl">
       {header}
-      <RefetchBtn query={membersQuery} ms="auto" mt="lg" />
       <OrganizationMemberSearch isLoading={membersQuery.isLoading} />
+      <RefetchBtn query={membersQuery} ms="auto" />
       {children}
     </Stack>
   )

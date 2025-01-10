@@ -1,8 +1,4 @@
-import { useState } from 'react'
-
 import { createFileRoute } from '@tanstack/react-router'
-
-import { Group, Select, Stack } from '@mantine/core'
 
 import {
   IconUser,
@@ -12,13 +8,11 @@ import {
 } from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
-import { RefetchBtn } from '@Common/ui/RefetchBtn'
-import { SearchInput } from '@Common/ui/SearchInput'
 
 import { MembersSection } from '@Organization/components/MembersSection'
-import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useUpdateMemberStatusMutation } from '@Organization/hooks/useUpdateMemberStatusMutation'
+import { OrganizationMembersLayout } from '@Organization/layout/OrganizationMembersLayout'
 
 export const Route = createFileRoute(
   '/_protected/organization/$organizationId/members',
@@ -32,39 +26,10 @@ function RouteComponent() {
   const organizationQuery = useOrganizationQuery(organizationId)
   const userStatus = organizationQuery.data?.userStatus
 
-  const membersQuery = useOrganizationMembersQuery(organizationId)
-  const { isLoading } = membersQuery
-
   const { mutateAsync } = useUpdateMemberStatusMutation()
 
-  const [searchValue, setSearchValue] = useState('')
-  const [searchField, setSearchField] = useState<'name' | 'email' | null>(
-    'name',
-  )
-
   return (
-    <Stack gap="sm" mb="xl">
-      <RefetchBtn query={membersQuery} ms="auto" />
-
-      <Group mt="xs" align="center" justify="center">
-        <SearchInput
-          value={searchValue}
-          setValue={setSearchValue}
-          placeholder={`Buscar por ${searchField === 'name' ? 'nombre' : 'correo'}`}
-          disabled={isLoading}
-        />
-        <Select
-          value={searchField}
-          onChange={(value) => setSearchField(value as 'name' | 'email')}
-          data={[
-            { label: 'Nombre', value: 'name' },
-            { label: 'Correo', value: 'email' },
-          ]}
-          w="12ch"
-          allowDeselect={false}
-        />
-      </Group>
-
+    <OrganizationMembersLayout organizationId={organizationId}>
       <MembersSection
         title="Propietario"
         memberStatus={MemberStatus.Owner}
@@ -115,6 +80,6 @@ function RouteComponent() {
           ]}
         />
       )}
-    </Stack>
+    </OrganizationMembersLayout>
   )
 }

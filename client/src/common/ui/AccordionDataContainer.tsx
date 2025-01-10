@@ -25,7 +25,7 @@ export default function AccordionDataContainer({
   const theme = useMantineTheme()
 
   return (
-    <Accordion mt="xl" variant="filled" defaultValue={title}>
+    <Accordion variant="filled" defaultValue={title}>
       <Accordion.Item value={title}>
         <Accordion.Control icon={<Icon />}>
           <Group align="center" gap="xs">

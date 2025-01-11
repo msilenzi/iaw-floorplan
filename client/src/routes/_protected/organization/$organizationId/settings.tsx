@@ -4,6 +4,7 @@ import { Box, Button, Group, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
 import { MemberStatus } from '@Common/api/generated'
+import { useCountdownTimer } from '@Common/hooks/useCountdownTimer'
 import { Popconfirm } from '@Common/ui/Popconfirm'
 
 import { OrganizationsModalEdit } from '@Organization/components/OrganizationsModalEdit'
@@ -60,7 +61,9 @@ function ExitSetting({ organizationId }: { organizationId: string }) {
   const { mutateAsync, isPending } = useOrganizationExitMutation(organizationId)
   const navigate = useNavigate()
 
-  async function handleClick() {
+  const { counter, start, reset } = useCountdownTimer(3)
+
+  async function handleExit() {
     await mutateAsync()
     void navigate({ to: '/' })
   }
@@ -75,17 +78,25 @@ function ExitSetting({ organizationId }: { organizationId: string }) {
         </Text>
       </Box>
       <Popconfirm
-        title="¿Seguro que salir de la organización?"
+        title="¿Seguro que desea salir de la organización?"
         description="Esta acción no se puede deshacer"
+        confirmText={counter !== 0 ? `Confirmar (${counter})` : 'Confirmar'}
         innerProps={{
           confirmBtn: {
             color: 'red',
-            onClick: () => void handleClick(),
+            onClick: () => void handleExit(),
             loading: isPending,
+            disabled: counter !== 0,
           },
+          popover: { onClose: reset },
         }}
       >
-        <Button color="red" variant="filled" loading={isPending}>
+        <Button
+          color="red"
+          variant="filled"
+          loading={isPending}
+          onClick={start}
+        >
           Salir
         </Button>
       </Popconfirm>

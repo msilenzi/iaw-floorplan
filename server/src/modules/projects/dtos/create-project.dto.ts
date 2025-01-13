@@ -4,12 +4,10 @@ import {
   ArrayNotEmpty,
   IsArray,
   IsEnum,
-  IsMongoId,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator'
-import { Types } from 'mongoose'
 
 import { IsTrimmedString } from 'src/common/decorators'
 import { ProjectPurpose } from '../types/project-purpose.enum'
@@ -19,11 +17,6 @@ import { ProjectOwnerDto } from './project-owner.dto'
 import { ProjectProfessionalDto } from './project-professional.dto'
 
 export class CreateProjectDto {
-  @IsMongoId({ message: 'organizationId no es un id válido' })
-  // @Transform(() => Types.ObjectId)
-  @ApiProperty({ type: String })
-  readonly organizationId: Types.ObjectId
-
   @IsTrimmedString({
     isEmptyMessage: 'El expediente es obligatorio',
     isNotStringMessage: 'Expediente inválido',
@@ -50,7 +43,7 @@ export class CreateProjectDto {
     isEmptyMessage: 'La ubicación no puede estar vacía',
     isNotStringMessage: 'Ubicación inválida',
   })
-  readonly location: string
+  readonly location?: string
 
   @IsOptional()
   @IsArray({ message: 'Las referencias deben ser un arreglo' })
@@ -79,6 +72,7 @@ export class CreateProjectDto {
   @Type(() => ProjectProfessionalDto)
   readonly technicalDirectors?: ProjectProfessionalDto[]
 
+  @IsOptional()
   @ApiProperty({ enum: ProjectStatus, enumName: 'ProjectStatus' })
   @IsEnum(ProjectStatus, { message: 'Tipo de proyecto inválido' })
   readonly status?: ProjectStatus

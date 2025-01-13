@@ -11,7 +11,7 @@ import {
 } from './project-professional.schema'
 
 @Schema({
-  collection: 'organization',
+  collection: 'projects',
   timestamps: { createdAt: true, updatedAt: false },
   toJSON: { versionKey: false },
   toObject: { versionKey: false },
@@ -56,15 +56,15 @@ export class Project {
 
   /** Propietario */
   @Prop({ type: ProjectOwnerSchema, required: false })
-  owner?: Types.Subdocument<ProjectOwner>
+  owner?: ProjectOwner
 
   /** Proyectistas */
-  @Prop({ type: [ProjectProfessionalSchema], required: false })
-  designers?: Types.ArraySubdocument<ProjectProfessional[]>
+  @Prop({ type: [{ type: ProjectProfessionalSchema }], required: false })
+  designers?: ProjectProfessional[]
 
   /** Dirección técnica */
-  @Prop({ type: [ProjectProfessionalSchema], required: false })
-  technicalDirectors?: Types.ArraySubdocument<ProjectProfessional[]>
+  @Prop({ type: [{ type: ProjectProfessionalSchema }], required: false })
+  technicalDirectors?: ProjectProfessional[]
 
   /** Status */
   @Prop({ type: String, required: false, enum: ProjectStatus })
@@ -82,4 +82,4 @@ export type ProjectDocument = HydratedDocument<Project>
 export const ProjectSchema = SchemaFactory.createForClass(Project)
 
 ProjectSchema.index({ organizationId: 1 })
-ProjectSchema.index({ recordNumber: 1, organizationId: 1 }, { unique: true })
+ProjectSchema.index({ record: 1, organizationId: 1 }, { unique: true })

@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  HttpStatus,
   ValidationError,
   ValidationPipeOptions,
 } from '@nestjs/common'
@@ -25,8 +26,8 @@ const exceptionFactory: ValidationPipeOptions['exceptionFactory'] = (
   const data = processErrors(errors)
 
   return new BadRequestException({
-    statusCode: 400,
-    error: 'Validation error',
+    statusCode: HttpStatus.BAD_REQUEST,
+    error: 'VALIDATION_ERROR',
     data,
   })
 }

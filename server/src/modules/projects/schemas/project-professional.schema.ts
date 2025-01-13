@@ -12,7 +12,7 @@ export class ProjectProfessional {
   cityRegistration?: string
 
   @Prop({ type: String, required: false })
-  dni_cuit?: string
+  dniCuit?: string
 
   @Prop({ type: String, required: false })
   address?: string

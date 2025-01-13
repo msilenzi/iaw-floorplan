@@ -15,7 +15,7 @@ export const IsTrimmedString = ({
   validationOptions,
 }: IsTrimmedStringOptions) => {
   return applyDecorators(
-    Trim(),
+    Trim(validationOptions),
     IsString({ ...validationOptions, message: isNotStringMessage }),
     IsNotEmpty({ ...validationOptions, message: isEmptyMessage }),
   )

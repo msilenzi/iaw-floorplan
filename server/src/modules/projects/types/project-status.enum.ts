@@ -1,7 +1,7 @@
 //prettier-ignore
 
 export enum ProjectStatus {
-  APROBED     = 'APROBED',
-  NOT_APROBED = 'NOT_APROBED',
+  APPROVED    = 'APPROVED',
+  NOT_APPROVED = 'NOT_APPROVED',
   PENDING     = 'PENDING',
 }

@@ -8,14 +8,19 @@ import {
   Post,
 } from '@nestjs/common'
 
-import { CreateProjectDto } from './dto/create-project.dto'
-import { UpdateProjectDto } from './dto/update-project.dto'
+import { Protected } from '../auth/decorators/protected.decorator'
+import { CreateProjectDto } from './dtos/create-project.dto'
+import { UpdateProjectDto } from './dtos/update-project.dto'
 import { ProjectsService } from './projects.service'
 
+@Protected()
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  /**
+   * Crea un nuevo proyecto para una organización.
+   */
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectsService.create(createProjectDto)

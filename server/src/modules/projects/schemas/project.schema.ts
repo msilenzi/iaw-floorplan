@@ -47,8 +47,8 @@ export class Project {
   /** Referencias */
   // @Prop({ type: String, required: false })
   // references?: string
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Project' }], required: false })
-  references?: Types.ObjectId[]
+  @Prop({ type: [String], required: false })
+  references?: string[]
 
   /** Antecedentes */
   @Prop({ type: String, required: false })

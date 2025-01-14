@@ -68,6 +68,10 @@ export class Project {
   @Prop({ type: String, required: false, enum: ProjectStatus })
   status?: ProjectStatus
 
+  /** Otras exigencias */
+  @Prop({ type: Object, required: false })
+  otherRequirements?: Record<string, string>
+
   @Prop({ type: String, required: true })
   createdBy: string
 
@@ -82,5 +86,5 @@ export const ProjectSchema = SchemaFactory.createForClass(Project)
 ProjectSchema.index({ organizationId: 1 })
 ProjectSchema.index({ record: 1, organizationId: 1 }, { unique: true })
 
-// No es necesario, Mongo usa el id del proyecto y no aprovecha este índice
+// No es necesario, Mongo usa el id del proyecto y no aprovecha este índice:
 // ProjectSchema.index({ _id: 1, organizationId: 1 }, { unique: true })

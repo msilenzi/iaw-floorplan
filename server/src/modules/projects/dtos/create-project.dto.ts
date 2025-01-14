@@ -10,6 +10,7 @@ import {
 } from 'class-validator'
 
 import { IsTrimmedString } from 'src/common/decorators'
+import { IsOptionalNotNullableObjectStrings } from 'src/common/decorators/validators/is-optional-not-nullable-object-strings.decorator'
 import { ProjectPurpose } from '../types/project-purpose.enum'
 import { ProjectStatus } from '../types/project-status.enum'
 import { ProjectType } from '../types/project-type.enum'
@@ -76,4 +77,10 @@ export class CreateProjectDto {
   @ApiProperty({ enum: ProjectStatus, enumName: 'ProjectStatus' })
   @IsEnum(ProjectStatus, { message: 'Tipo de proyecto inválido' })
   readonly status?: ProjectStatus
+
+  @IsOptionalNotNullableObjectStrings({
+    message:
+      "'otras exigencias' debe ser un objeto donde todos los valores son strings, o undefined",
+  })
+  otherRequirements?: Record<string, string>
 }

@@ -127,12 +127,12 @@ export function OrganizationsModalEdit({
             nuevos proyectos que crees y a los proyectos existentes cuyo
             expediente decidas cambiar.
           </Text>
-          <Group justify="space-between">
+          <Group justify="space-between" pt="sm">
             <Button
               type="reset"
-              variant="transparent"
+              variant="filled"
               rightSection={<IconReload size={16} stroke={2.5} />}
-              color="dark.2"
+              color="dark.5"
               disabled={isPending || !form.isDirty()}
             >
               Restablecer

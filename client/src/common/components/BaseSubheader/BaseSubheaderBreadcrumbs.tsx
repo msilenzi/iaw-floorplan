@@ -12,7 +12,7 @@ export function BaseSubheaderBreadcrumbs({
   breadcrumbs,
 }: SubheaderBreadcrumbsProps) {
   return (
-    <Breadcrumbs pb="sm" styles={{ separator: { opacity: 0.5 } }}>
+    <Breadcrumbs pb="0.25rem" styles={{ separator: { opacity: 0.5 } }}>
       {breadcrumbs.map(({ label, to }) => (
         <Anchor
           key={to}

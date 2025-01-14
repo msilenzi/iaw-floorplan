@@ -69,7 +69,7 @@ export class OrganizationsService {
     )
 
     member.lastAccessedAt = new Date()
-    organization.save() // Guarda los cambios en segundo plano
+    await organization.save()
 
     return {
       ...this._stripMembers(organization),
@@ -77,9 +77,9 @@ export class OrganizationsService {
     }
   }
 
-  update(organization: OrganizationDocument, dto: UpdateOrganizationDto) {
+  async update(organization: OrganizationDocument, dto: UpdateOrganizationDto) {
     Object.assign(organization, dto)
-    organization.save() // Guarda los cambios en segundo plano
+    await organization.save()
     return this._stripMembers(organization)
   }
 

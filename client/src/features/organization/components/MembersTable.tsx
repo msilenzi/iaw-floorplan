@@ -86,10 +86,13 @@ type TableButton = {
 }
 
 function TableButton({ member, actions }: TableButton) {
+  const organizationId = useOrganizationStore((state) => state.organizationId!)
+  const { isFetching } = useOrganizationMembersQuery(organizationId)
+
   return (
     <Menu withArrow position="left" shadow="md">
       <Menu.Target>
-        <TableActionButton />
+        <TableActionButton loading={isFetching} />
       </Menu.Target>
       <Menu.Dropdown>
         {actions.map(({ label, Icon, color, onClick }) => (

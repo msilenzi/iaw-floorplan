@@ -19,7 +19,7 @@ export function BaseSubheader({ breadcrumbs, children, tabs }: SubheaderProps) {
     >
       <Container size="md">
         <BaseSubheaderBreadcrumbs breadcrumbs={breadcrumbs} />
-        <Box mb="3rem">{children}</Box>
+        <Box mb="2rem">{children}</Box>
         <BaseSubheaderTabs tabs={tabs} />
       </Container>
     </Box>

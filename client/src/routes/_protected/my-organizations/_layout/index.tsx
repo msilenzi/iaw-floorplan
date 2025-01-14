@@ -28,7 +28,9 @@ function RouteComponent() {
 
   const [searchValue, setSearchValue] = useState('')
 
-  if (!isLoading && data?.length === 0) {
+  const activeOrganizations = filterActiveOrganizations(data)
+
+  if (!isLoading && activeOrganizations.length === 0) {
     return (
       <Box m="0" style={{ maxWidth: rem('500px') }}>
         <Space h="lg" />
@@ -36,15 +38,22 @@ function RouteComponent() {
           No se encontraron organizaciones
         </Title>
         <Text style={{ textWrap: 'balance' }} mb="lg">
-          Parece que todavía no perteneces a ninguna organización. Podés crear
-          una nueva o unirte a una utilizando su código.
+          Parece que todavía no pertenecés a ninguna organización. Podés crear
+          una nueva, o unirte a una utilizando su código.
+        </Text>
+        <Text style={{ textWrap: 'balance' }} mb="lg">
+          En la sección <i>&quot;Mis solicitudes&quot;</i> podés ver el estado
+          de tus solicitudes.
         </Text>
         <MyOrganizationsAddBtn />
       </Box>
     )
   }
 
-  const activeOrganizations = filterOrganizations(data, searchValue)
+  const searchedOrganizations = searchOrganizations(
+    activeOrganizations,
+    searchValue,
+  )
 
   return (
     <Stack gap="sm" pb="xl" align="center">
@@ -55,10 +64,17 @@ function RouteComponent() {
         disabled={isLoading}
       />
       <RefetchBtn query={query} ms="auto" mt="xl" />
-      <OrganizationsTable
-        organizations={activeOrganizations}
-        isLoading={isLoading}
-      />
+      {searchedOrganizations.length === 0 ? (
+        <Text>
+          No se encontraron organizaciones con el nombre &quot;{searchValue}
+          &quot;
+        </Text>
+      ) : (
+        <OrganizationsTable
+          organizations={searchedOrganizations}
+          isLoading={isLoading}
+        />
+      )}
     </Stack>
   )
 }
@@ -139,17 +155,23 @@ function OrganizationsTable({
   )
 }
 
-function filterOrganizations(
-  data: BasicOrganizationDto[] | undefined,
+function filterActiveOrganizations(
+  organizations?: BasicOrganizationDto[],
+): BasicOrganizationDto[] {
+  return (
+    organizations?.filter(
+      ({ status }) =>
+        status === MemberStatus.Owner || status === MemberStatus.Member,
+    ) ?? []
+  )
+}
+
+function searchOrganizations(
+  organizations: BasicOrganizationDto[],
   searchValue: string,
 ): BasicOrganizationDto[] {
-  if (!data) return []
-
-  return data
-    .filter(({ status, name }) => {
-      if (status !== MemberStatus.Owner && status !== MemberStatus.Member) {
-        return false
-      }
+  return organizations
+    .filter(({ name }) => {
       return name.toLowerCase().includes(searchValue.toLowerCase())
     })
     .sort(

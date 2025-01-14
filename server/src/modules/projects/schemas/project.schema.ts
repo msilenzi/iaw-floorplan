@@ -45,8 +45,6 @@ export class Project {
   //      parámetros como F.O.T y F.O.S.
 
   /** Referencias */
-  // @Prop({ type: String, required: false })
-  // references?: string
   @Prop({ type: [String], required: false })
   references?: string[]
 
@@ -83,3 +81,6 @@ export const ProjectSchema = SchemaFactory.createForClass(Project)
 
 ProjectSchema.index({ organizationId: 1 })
 ProjectSchema.index({ record: 1, organizationId: 1 }, { unique: true })
+
+// No es necesario, Mongo usa el id del proyecto y no aprovecha este índice
+// ProjectSchema.index({ _id: 1, organizationId: 1 }, { unique: true })

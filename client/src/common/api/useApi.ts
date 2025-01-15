@@ -9,11 +9,13 @@ import {
   Configuration,
   OrganizationMembersApi,
   OrganizationsApi,
+  ProjectsApi,
 } from './generated'
 
 type ApisInstances = {
   organizationsApi: OrganizationsApi
   organizationMembersApi: OrganizationMembersApi
+  projectsApi: ProjectsApi
 }
 
 type ApiStore = {
@@ -39,6 +41,7 @@ const useApiStore = create<ApiStore>()(
       const apis: ApisInstances = {
         organizationsApi: new OrganizationsApi(configuration),
         organizationMembersApi: new OrganizationMembersApi(configuration),
+        projectsApi: new ProjectsApi(configuration),
       }
       set({ apis, apisAvailable: true }, undefined, 'apiStore/initialize')
     },

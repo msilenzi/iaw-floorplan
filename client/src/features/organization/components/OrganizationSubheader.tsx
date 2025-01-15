@@ -1,11 +1,15 @@
-import { Skeleton } from '@mantine/core'
+import { Group, Skeleton } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 
 import {
   IconBox,
+  IconPlus,
   IconSettings,
   IconUsers,
   IconUsersPlus,
 } from '@tabler/icons-react'
+
+import { ProjectModalCreate } from '@/features/project/components/ProjectModalCreate/ProjectModalCreate'
 
 import { MemberStatus } from '@Common/api/generated'
 import {
@@ -13,6 +17,7 @@ import {
   type SubheaderBreadcrumb,
   type SubheaderTab,
 } from '@Common/components/BaseSubheader'
+import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
@@ -24,6 +29,7 @@ export function OrganizationSubheader({
   organizationId,
 }: OrganizationSubheaderProps) {
   const { isLoading, data } = useOrganizationQuery(organizationId)
+  const [isOpen, { open, close }] = useDisclosure(false)
 
   const breadcrumbs: SubheaderBreadcrumb[] = [
     {
@@ -62,11 +68,23 @@ export function OrganizationSubheader({
 
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
-      <Skeleton visible={isLoading} w={isLoading ? 300 : '100%'}>
-        <BaseSubheader.Title>
-          {isLoading ? 'Is loading' : data?.name}
-        </BaseSubheader.Title>
-      </Skeleton>
+      <Group justify="space-between">
+        <Skeleton visible={isLoading} w={isLoading ? 300 : 'fit-content'}>
+          <BaseSubheader.Title>
+            {isLoading ? 'Is loading' : data?.name}
+          </BaseSubheader.Title>
+        </Skeleton>
+        <Skeleton visible={isLoading} w="fit-content">
+          <PrimaryButton
+            rightSection={<IconPlus size={16} stroke={3} />}
+            size="sm"
+            onClick={open}
+          >
+            Agregar
+          </PrimaryButton>
+        </Skeleton>
+      </Group>
+      <ProjectModalCreate isOpen={isOpen} onClose={close} />
     </BaseSubheader>
   )
 }

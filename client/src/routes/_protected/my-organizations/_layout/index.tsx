@@ -64,7 +64,7 @@ function RouteComponent() {
         disabled={isLoading}
       />
       <RefetchBtn query={query} ms="auto" mt="xl" />
-      {searchedOrganizations.length === 0 ? (
+      {!isLoading && searchedOrganizations.length === 0 ? (
         <Text>
           No se encontraron organizaciones con el nombre &quot;{searchValue}
           &quot;

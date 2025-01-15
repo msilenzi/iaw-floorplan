@@ -9,6 +9,7 @@ import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
 
 import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
+import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 export type MembersTableAction = {
@@ -24,8 +25,11 @@ type MembersTableProps = {
 }
 
 export function MembersTable({ data, actions }: MembersTableProps) {
-  const organizationId = useOrganizationStore((state) => state.organizationId!)
-  const userStatus = useOrganizationStore((state) => state.userStatus!)
+  const organizationId = useOrganizationStore((state) => state.organizationId)
+
+  const organizationQuery = useOrganizationQuery(organizationId)
+  const userStatus = organizationQuery.data?.userStatus
+
   const { isLoading } = useOrganizationMembersQuery(organizationId)
 
   return (

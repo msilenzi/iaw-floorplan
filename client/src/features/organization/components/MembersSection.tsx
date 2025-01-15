@@ -25,7 +25,7 @@ export function MembersSection({
   emptyMessage,
   actions,
 }: MembersSectionProps) {
-  const organizationId = useOrganizationStore((state) => state.organizationId!)
+  const organizationId = useOrganizationStore((state) => state.organizationId)
   const searchValue = useOrganizationStore((state) => state.searchValue)
   const searchField = useOrganizationStore((state) => state.searchField)
 

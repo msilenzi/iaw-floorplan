@@ -29,7 +29,7 @@ function RouteComponent() {
   const { mutateAsync } = useUpdateMemberStatusMutation()
 
   return (
-    <OrganizationMembersLayout organizationId={organizationId}>
+    <OrganizationMembersLayout>
       <MembersSection
         title="Propietario"
         memberStatus={MemberStatus.Owner}

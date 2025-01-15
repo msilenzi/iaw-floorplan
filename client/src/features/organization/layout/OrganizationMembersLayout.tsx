@@ -13,23 +13,20 @@ import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 type OrganizationMembersLayoutProps = {
-  organizationId: string
   requiredStatus?: MemberStatus
   header?: React.ReactNode
   children: React.ReactNode
 }
 
 export function OrganizationMembersLayout({
-  organizationId,
   requiredStatus,
   header,
   children,
 }: OrganizationMembersLayoutProps) {
   const navigate = useNavigate()
 
-  const setOrganizationId = useOrganizationStore((s) => s.setOrganizationId)
-  const setUserStatus = useOrganizationStore((s) => s.setUserStatus)
-  const reset = useOrganizationStore((s) => s.reset)
+  const organizationId = useOrganizationStore((s) => s.organizationId)
+  const clearSearch = useOrganizationStore((s) => s.clearSearch)
 
   const organizationQuery = useOrganizationQuery(organizationId)
   const userStatus = organizationQuery.data?.userStatus
@@ -37,12 +34,16 @@ export function OrganizationMembersLayout({
   const membersQuery = useOrganizationMembersQuery(organizationId)
 
   useEffect(() => {
-    setOrganizationId(organizationId)
-    if (userStatus) setUserStatus(userStatus)
-    return () => reset()
-  }, [organizationId, reset, setOrganizationId, setUserStatus, userStatus])
+    if (organizationId && requiredStatus && requiredStatus !== userStatus) {
+      void navigate({
+        to: '/organization/$organizationId',
+        params: { organizationId },
+      })
+    }
+    return () => clearSearch()
+  }, [clearSearch, navigate, organizationId, requiredStatus, userStatus])
 
-  if (requiredStatus && requiredStatus !== userStatus) {
+  if (organizationId && requiredStatus && requiredStatus !== userStatus) {
     void navigate({
       to: '/organization/$organizationId',
       params: { organizationId },

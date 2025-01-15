@@ -1,28 +1,24 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-import { MemberStatus } from '@Common/api/generated'
-
 type SearchField = 'name' | 'email'
 
 type OrganizationState = {
-  organizationId: string | null
-  userStatus: MemberStatus | null
+  organizationId?: string
   searchValue: string
   searchField: SearchField
 }
 
 type OrganizationActions = {
   setOrganizationId: (organizationId: string) => void
-  setUserStatus: (userStatus: MemberStatus) => void
   setSearchValue: (searchValue: string) => void
   setSearchField: (searchField: SearchField) => void
-  reset: () => void
+  clear: () => void
+  clearSearch: () => void
 }
 
 const initialState: OrganizationState = {
-  organizationId: null,
-  userStatus: null,
+  organizationId: undefined,
   searchValue: '',
   searchField: 'name',
 }
@@ -37,10 +33,6 @@ export const useOrganizationStore = create<OrganizationStore>()(
       set({ organizationId }, undefined, 'organization/setOrganizationId')
     },
 
-    setUserStatus(userStatus) {
-      set({ userStatus }, undefined, 'organization/setUserStatus')
-    },
-
     setSearchValue(searchValue) {
       set({ searchValue }, undefined, 'organization/setSearchValue')
     },
@@ -49,8 +41,15 @@ export const useOrganizationStore = create<OrganizationStore>()(
       set({ searchField }, undefined, 'organization/setSearchField')
     },
 
-    reset() {
-      set(initialState, undefined, 'organization/reset')
+    clear() {
+      console.log('clear')
+      set(initialState, undefined, 'organization/clear')
+    },
+
+    clearSearch() {
+      console.log('clearSearch')
+      const { searchField, searchValue } = initialState
+      set({ searchField, searchValue }, undefined, 'organization/clearSearch')
     },
   })),
 )

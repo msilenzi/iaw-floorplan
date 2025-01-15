@@ -21,7 +21,6 @@ function RouteComponent() {
 
   return (
     <OrganizationMembersLayout
-      organizationId={organizationId}
       header={<InvitationCode />}
       requiredStatus={MemberStatus.Owner}
     >

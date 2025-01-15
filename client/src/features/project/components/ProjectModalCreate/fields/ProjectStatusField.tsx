@@ -1,10 +1,13 @@
 import { Select } from '@mantine/core'
 
+import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
 import { displayProjectStatus } from '@/features/project/utils/displayProjectStatus'
 
 import { ProjectStatus } from '@Common/api/generated'
 
 export function ProjectStatusField() {
+  const form = useCreateProjectForm()
+
   return (
     <Select
       label="Estado"
@@ -17,6 +20,8 @@ export function ProjectStatusField() {
         option: { textTransform: 'capitalize' },
         input: { textTransform: 'capitalize' },
       }}
+      key={form.key('status')}
+      {...form.getInputProps('status')}
     />
   )
 }

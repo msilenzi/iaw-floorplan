@@ -1,10 +1,13 @@
 import { Select } from '@mantine/core'
 
+import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
 import { displayProjectPurpose } from '@/features/project/utils/displayProjectPurpose'
 
 import { ProjectPurpose } from '@Common/api/generated'
 
 export function ProjectPurposeField() {
+  const form = useCreateProjectForm()
+
   return (
     <Select
       label="Destino"
@@ -19,6 +22,8 @@ export function ProjectPurposeField() {
       }}
       allowDeselect={false}
       withAsterisk
+      key={form.key('purpose')}
+      {...form.getInputProps('purpose')}
     />
   )
 }

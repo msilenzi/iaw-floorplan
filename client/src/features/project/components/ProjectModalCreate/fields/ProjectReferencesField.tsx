@@ -18,7 +18,7 @@ export function ProjectReferencesField() {
 function Reference() {
   return (
     <Group gap="xs">
-      <TextInput flex={1} />
+      <TextInput flex={1} placeholder="Nro. expediente" />
       <CloseButton />
     </Group>
   )

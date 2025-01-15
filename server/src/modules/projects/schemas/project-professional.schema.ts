@@ -5,14 +5,14 @@ export class ProjectProfessional {
   @Prop({ type: String, required: true })
   fullName: string
 
+  @Prop({ type: String, required: true })
+  dniCuit: string
+
   @Prop({ type: String, required: false })
   provinceRegistration?: string
 
   @Prop({ type: String, required: false })
   cityRegistration?: string
-
-  @Prop({ type: String, required: false })
-  dniCuit?: string
 
   @Prop({ type: String, required: false })
   address?: string

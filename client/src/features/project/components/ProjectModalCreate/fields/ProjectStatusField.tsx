@@ -17,7 +17,6 @@ export function ProjectStatusField() {
         option: { textTransform: 'capitalize' },
         input: { textTransform: 'capitalize' },
       }}
-      allowDeselect={false}
     />
   )
 }

@@ -4,7 +4,6 @@ import {
   Group,
   Select,
   Stack,
-  Text,
   TextInput,
   Title,
 } from '@mantine/core'
@@ -21,12 +20,27 @@ export function Professional({ title }: ProfessionalProps) {
           <Title order={5}>{title}</Title>
           <CloseButton />
         </Group>
-        <TextInput label="Nombre" />
+        <TextInput
+          label="Nombre"
+          withAsterisk
+          placeholder="Lionel Andrés Messi Cuccittini"
+        />
         <DniCuit />
-        <TextInput label="Dirección" />
+        <TextInput
+          label="Dirección"
+          placeholder="Av. Siempreviva 742, Springfield, USA"
+        />
         <Group>
-          <TextInput flex={1} label="Matrícula provincial" />
-          <TextInput flex={1} label="Matrícula municipal" />
+          <TextInput
+            flex={1}
+            label="Matrícula provincial"
+            placeholder="CAPBA 1234"
+          />
+          <TextInput
+            flex={1}
+            label="Matrícula municipal"
+            placeholder="MLP 5678"
+          />
         </Group>
       </Stack>
     </Fieldset>
@@ -36,7 +50,6 @@ export function Professional({ title }: ProfessionalProps) {
 function DniCuit() {
   return (
     <>
-      <Text size="sm">DNI o CUIT</Text>
       <Group gap="sm">
         <Select
           data={[
@@ -46,8 +59,16 @@ function DniCuit() {
           w={'10ch'}
           allowDeselect={false}
           defaultValue="dni"
+          withAsterisk
+          label="Tipo"
         />
-        <TextInput flex={1} />
+        {/* TODO: cambiar si cambia el tipo */}
+        <TextInput
+          flex={1}
+          withAsterisk
+          label="DNI o CUIT"
+          placeholder="12345678"
+        />
       </Group>
     </>
   )

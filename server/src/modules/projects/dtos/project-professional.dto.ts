@@ -10,6 +10,12 @@ export class ProjectProfessionalDto {
   readonly fullName: string
 
   @IsOptional()
+  @Matches(/(^\d{8}$)|(^(30|33|34)-\d{8}-\d)$/, {
+    message: 'No es un DNI o CUIT válido',
+  })
+  readonly dniCuit: string
+
+  @IsOptional()
   @IsTrimmedString({
     isEmptyMessage: 'La matrícula provincial no puede estar vacía',
     isNotStringMessage: 'Matrícula provincial inválida',
@@ -22,12 +28,6 @@ export class ProjectProfessionalDto {
     isNotStringMessage: 'Matrícula municipal inválida',
   })
   readonly cityRegistration?: string
-
-  @IsOptional()
-  @Matches(/(^\d{8}$)|(^(30|33|34)-\d{8}-\d)$/, {
-    message: 'No es un DNI o CUIT válido',
-  })
-  readonly dniCuit?: string
 
   @IsOptional()
   @IsOptional()

@@ -4,7 +4,7 @@ import { useCreateProjectForm } from '@/features/project/context/CreateProjectFo
 
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
 
-import { AddFieldButton } from '../AddFieldButton'
+import { FormSectionHeader } from '../FormSectionHeader'
 
 export function ProjectReferencesField() {
   const form = useCreateProjectForm()
@@ -16,7 +16,10 @@ export function ProjectReferencesField() {
 
   return (
     <>
-      <AddFieldButton onClick={addItem}>Añadir referencia</AddFieldButton>
+      <FormSectionHeader
+        title="Referencias"
+        rightSection={<FormSectionHeader.AddButton onClick={addItem} />}
+      />
       {form.getValues().references.map((_, i) => (
         <Reference key={ids[i]} index={i} removeItem={removeItem} />
       ))}

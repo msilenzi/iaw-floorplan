@@ -4,7 +4,7 @@ import { useCreateProjectForm } from '@/features/project/context/CreateProjectFo
 
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
 
-import { AddFieldButton } from '../AddFieldButton'
+import { FormSectionHeader } from '../FormSectionHeader'
 
 export function ProjectOtherRequirementsField() {
   const form = useCreateProjectForm()
@@ -16,7 +16,10 @@ export function ProjectOtherRequirementsField() {
 
   return (
     <>
-      <AddFieldButton onClick={addItem}>Añadir campo</AddFieldButton>
+      <FormSectionHeader
+        title="Otras exigencias"
+        rightSection={<FormSectionHeader.AddButton onClick={addItem} />}
+      />
       {form.getValues().otherRequirements.map((_, i) => (
         <Group wrap="nowrap" gap="xs" key={ids[i]} align="start">
           <TextInput
@@ -29,6 +32,7 @@ export function ProjectOtherRequirementsField() {
             value=":"
             disabled
             w="1ch"
+            ms={-6}
             styles={{
               input: {
                 paddingInline: 0,

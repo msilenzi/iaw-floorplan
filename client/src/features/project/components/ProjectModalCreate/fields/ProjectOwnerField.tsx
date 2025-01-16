@@ -1,23 +1,27 @@
-import { Group, Switch, TextInput, Title } from '@mantine/core'
+import { Group, Switch, TextInput } from '@mantine/core'
 
 import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
+
+import { FormSectionHeader } from '../FormSectionHeader'
 
 export function ProjectOwnerField() {
   const form = useCreateProjectForm()
 
   return (
     <>
-      <Group justify="space-between">
-        <Title order={4}>Propietario</Title>
-        <Switch
-          style={{ cursor: 'pointer' }}
-          styles={{
-            track: { cursor: 'pointer' },
-          }}
-          key={form.key('ownerEnabled')}
-          {...form.getInputProps('ownerEnabled', { type: 'checkbox' })}
-        />
-      </Group>
+      <FormSectionHeader
+        title="Propietario"
+        rightSection={
+          <Switch
+            style={{ cursor: 'pointer' }}
+            styles={{
+              track: { cursor: 'pointer' },
+            }}
+            key={form.key('ownerEnabled')}
+            {...form.getInputProps('ownerEnabled', { type: 'checkbox' })}
+          />
+        }
+      />
       {form.getValues().ownerEnabled && (
         <>
           <Group gap="sm" align="start">

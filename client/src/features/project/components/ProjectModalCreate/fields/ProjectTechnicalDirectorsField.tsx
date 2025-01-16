@@ -1,12 +1,17 @@
-import { AddFieldButton } from '../AddFieldButton'
+import { FormSectionHeader } from '../FormSectionHeader'
 import { Professional } from '../Professional'
 
 export function ProjectTechnicalDirectorsField() {
   return (
     <>
-      <AddFieldButton onClick={() => console.log('dirección técnica')}>
-        Añadir dirección técnica
-      </AddFieldButton>
+      <FormSectionHeader
+        title="Dirección técnica"
+        rightSection={
+          <FormSectionHeader.AddButton
+            onClick={() => console.log('dirección técnica')}
+          />
+        }
+      />
       <Professional title="Dirección técnica" />
     </>
   )

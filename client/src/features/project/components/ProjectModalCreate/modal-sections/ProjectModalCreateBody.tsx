@@ -1,5 +1,6 @@
 import { Box, Container, Flex, Modal, Stack, Title } from '@mantine/core'
 
+import { FormSectionHeader } from '../FormSectionHeader'
 import { ProjectBackgroundField } from '../fields/ProjectBackgroundField'
 import { ProjectDesignersField } from '../fields/ProjectDesignersField'
 import { ProjectLocationField } from '../fields/ProjectLocationField'
@@ -19,7 +20,8 @@ export function ProjectModalCreateBody() {
       <Container size="md" mt="xs">
         <Flex direction="row" wrap="wrap" gap="lg">
           <Stack flex={1} miw={350} gap="lg">
-            <FormSection title="Información general">
+            <FormSection>
+              <FormSectionHeader title="Información general" />
               <ProjectRecordField />
               <ProjectNameField />
               <ProjectTypeField />
@@ -28,10 +30,10 @@ export function ProjectModalCreateBody() {
               <ProjectStatusField />
               <ProjectBackgroundField />
             </FormSection>
-            <FormSection title="Referencias">
+            <FormSection>
               <ProjectReferencesField />
             </FormSection>
-            <FormSection title="Otras exigencias">
+            <FormSection>
               <ProjectOtherRequirementsField />
             </FormSection>
           </Stack>
@@ -41,11 +43,11 @@ export function ProjectModalCreateBody() {
               <ProjectOwnerField />
             </FormSection>
 
-            <FormSection title="Proyectistas">
+            <FormSection>
               <ProjectDesignersField />
             </FormSection>
 
-            <FormSection title="Dirección técnica">
+            <FormSection>
               <ProjectTechnicalDirectorsField />
             </FormSection>
           </Stack>
@@ -56,11 +58,10 @@ export function ProjectModalCreateBody() {
 }
 
 type FormSectionProps = {
-  title?: string
   children: React.ReactNode
 }
 
-function FormSection({ title, children }: FormSectionProps) {
+function FormSection({ children }: FormSectionProps) {
   return (
     <Box
       bg="dark.7"
@@ -69,10 +70,7 @@ function FormSection({ title, children }: FormSectionProps) {
       p="md"
       variant="filled"
     >
-      <Stack gap="sm">
-        {title && <Title order={4}>{title}</Title>}
-        {children}
-      </Stack>
+      <Stack gap="sm">{children}</Stack>
     </Box>
   )
 }

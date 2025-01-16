@@ -1,12 +1,17 @@
-import { AddFieldButton } from '../AddFieldButton'
+import { FormSectionHeader } from '../FormSectionHeader'
 import { Professional } from '../Professional'
 
 export function ProjectDesignersField() {
   return (
     <>
-      <AddFieldButton onClick={() => console.log('proyectista')}>
-        Añadir proyectista
-      </AddFieldButton>
+      <FormSectionHeader
+        title="Proyectistas"
+        rightSection={
+          <FormSectionHeader.AddButton
+            onClick={() => console.log('proyectista')}
+          />
+        }
+      />
       <Professional title="Proyectista" />
     </>
   )

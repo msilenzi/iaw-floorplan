@@ -44,8 +44,10 @@ export function CreateProjectFormProvider({
       location: trimmedStrOrUndef(values.location!),
       status: values.status ?? undefined,
       background: trimmedStrOrUndef(values.background!),
+      references: values.references
+        .map((value) => trimmedStrOrUndef(value))
+        .filter((value) => value != undefined),
       // TODO:
-      references: values.references,
       otherRequirements: values.otherRequirements,
       ownerEnabled: values.ownerEnabled,
       owner: values.owner,

@@ -18,7 +18,7 @@ export function CreateProjectFormProvider({
 
   const form = useForm<CreateProjectForm>({
     mode: 'uncontrolled',
-    validateInputOnBlur: true,
+    validateInputOnBlur: true, // Deshabilitar si hay problemas de rendimiento
 
     initialValues: {
       record: '',
@@ -29,7 +29,7 @@ export function CreateProjectFormProvider({
       status: undefined,
       background: '',
       references: [],
-      otherRequirements: undefined,
+      otherRequirements: [],
       ownerEnabled: false,
       owner: undefined,
       designers: [],
@@ -74,6 +74,34 @@ export function CreateProjectFormProvider({
       // location
       // status
       // background
+      // references
+
+      otherRequirements: {
+        key(value, values /* , path */) {
+          const trimmedKey = value.trim()
+          if (trimmedKey.length === 0) return 'La clave es obligatoria'
+
+          const keyCount = values.otherRequirements.reduce(
+            (count, { key }) => (key.trim() === trimmedKey ? count + 1 : count),
+            0,
+          )
+          if (keyCount > 1) return `La clave '${trimmedKey}' está duplicada`
+          return null
+
+          // Esta versión solo marca las claves duplicadas posteriores.
+          // Si es la primera vez que aparece no la marca como duplicada.
+          // const reqmts = values.otherRequirements
+          // const keyPos: number = +path.split('.')[1]
+          // for (let i = keyPos - 1; i >= 0; i--) {
+          //   const currKey = reqmts[i].key.trim()
+          //   if (currKey === trimmedKey) {
+          //     return `La clave '${currKey}' está duplicada`
+          //   }
+          // }
+          // return null
+        },
+        value: isNotEmpty('El valor es obligatorio'),
+      },
     },
   })
 

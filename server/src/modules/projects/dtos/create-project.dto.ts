@@ -10,12 +10,12 @@ import {
 } from 'class-validator'
 
 import { IsTrimmedString } from 'src/common/decorators'
-import { IsOptionalNotNullableObjectStrings } from 'src/common/decorators/validators/is-optional-not-nullable-object-strings.decorator'
 import { ProjectPurpose } from '../types/project-purpose.enum'
 import { ProjectStatus } from '../types/project-status.enum'
 import { ProjectType } from '../types/project-type.enum'
 import { ProjectOwnerDto } from './project-owner.dto'
 import { ProjectProfessionalDto } from './project-professional.dto'
+import { ProjectRequirementDto } from './project-requirement.dto'
 
 export class CreateProjectDto {
   @IsTrimmedString({
@@ -62,10 +62,12 @@ export class CreateProjectDto {
 
   @IsOptional()
   @ValidateNested()
+  @Type(() => ProjectOwnerDto)
   readonly owner?: ProjectOwnerDto
 
   @IsOptional()
   @ValidateNested({ each: true })
+  @Type(() => ProjectProfessionalDto)
   readonly designers?: ProjectProfessionalDto[]
 
   @IsOptional()
@@ -78,9 +80,8 @@ export class CreateProjectDto {
   @IsEnum(ProjectStatus, { message: 'Tipo de proyecto inválido' })
   readonly status?: ProjectStatus
 
-  @IsOptionalNotNullableObjectStrings({
-    message:
-      "'otras exigencias' debe ser un objeto donde todos los valores son strings, o undefined",
-  })
-  otherRequirements?: Record<string, string>
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => ProjectRequirementDto)
+  otherRequirements?: ProjectRequirementDto[]
 }

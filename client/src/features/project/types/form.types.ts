@@ -1,5 +1,6 @@
 import {
   ProjectPurpose,
+  ProjectRequirementDto,
   ProjectStatus,
   ProjectType,
 } from '@Common/api/generated'
@@ -33,7 +34,7 @@ export type CreateProjectForm = {
   status?: ProjectStatus
   background?: string
   references: Array<string>
-  otherRequirements?: Record<string, string>
+  otherRequirements: Array<ProjectRequirementDto>
   ownerEnabled: boolean
   owner?: ProjectOwnerForm
   designers: Array<ProjectProfessionalForm>

@@ -13,7 +13,6 @@ export function AddFieldButton({ onClick, children }: AddFieldButtonProps) {
       color="dark.2"
       bd="1px dashed var(--mantine-color-dark-4)"
       onClick={onClick}
-      mb="xs"
     >
       {children}
     </Button>

@@ -9,6 +9,10 @@ import {
   ProjectProfessional,
   ProjectProfessionalSchema,
 } from './project-professional.schema'
+import {
+  ProjectRequirement,
+  ProjectRequirementSchema,
+} from './project-requirement'
 
 @Schema({
   collection: 'projects',
@@ -69,8 +73,8 @@ export class Project {
   status?: ProjectStatus
 
   /** Otras exigencias */
-  @Prop({ type: Object, required: false })
-  otherRequirements?: Record<string, string>
+  @Prop({ type: [{ type: ProjectRequirementSchema }], required: false })
+  otherRequirements?: ProjectRequirement[]
 
   @Prop({ type: String, required: true })
   createdBy: string

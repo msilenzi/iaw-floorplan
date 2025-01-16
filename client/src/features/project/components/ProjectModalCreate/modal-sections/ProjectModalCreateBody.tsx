@@ -82,7 +82,7 @@ function FormSection({ title, children }: FormSectionProps) {
       p="md"
       variant="filled"
     >
-      <Stack gap="0.5rem">
+      <Stack gap="sm">
         {title && <Title order={4}>{title}</Title>}
         {children}
       </Stack>

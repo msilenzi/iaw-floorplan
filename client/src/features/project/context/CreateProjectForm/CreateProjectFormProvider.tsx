@@ -31,7 +31,7 @@ export function CreateProjectFormProvider({
       references: [],
       otherRequirements: [],
       ownerEnabled: false,
-      owner: undefined,
+      owner: { fullName: '', dni: '', address: '' },
       designers: [],
       technicalDirectors: [],
     },
@@ -50,7 +50,13 @@ export function CreateProjectFormProvider({
       // TODO:
       otherRequirements: values.otherRequirements,
       ownerEnabled: values.ownerEnabled,
-      owner: values.owner,
+      owner: values.ownerEnabled
+        ? {
+            fullName: values.owner!.fullName.trim(),
+            dni: values.owner!.dni.trim(),
+            address: trimmedStrOrUndef(values.owner!.address!),
+          }
+        : undefined,
       designers: values.designers,
       technicalDirectors: values.technicalDirectors,
     }),
@@ -101,6 +107,21 @@ export function CreateProjectFormProvider({
           // return null
         },
         value: isNotEmpty('El valor es obligatorio'),
+      },
+
+      owner: {
+        fullName(value, { ownerEnabled }) {
+          if (!ownerEnabled) return null
+          if (value.trim().length === 0) return 'El nombre es obligatorio'
+          return null
+        },
+        dni(value, { ownerEnabled }) {
+          if (!ownerEnabled) return null
+          if (!/^\d{8}$/.test(value)) {
+            return 'El DNI debe tener 8 dígitos'
+          }
+          return null
+        },
       },
     },
   })

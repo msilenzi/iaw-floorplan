@@ -1,13 +1,4 @@
-import {
-  Box,
-  Container,
-  Flex,
-  Group,
-  Modal,
-  Stack,
-  Switch,
-  Title,
-} from '@mantine/core'
+import { Box, Container, Flex, Modal, Stack, Title } from '@mantine/core'
 
 import { ProjectBackgroundField } from '../fields/ProjectBackgroundField'
 import { ProjectDesignersField } from '../fields/ProjectDesignersField'
@@ -47,10 +38,6 @@ export function ProjectModalCreateBody() {
 
           <Stack flex={1} miw={350} gap="lg">
             <FormSection>
-              <Group justify="space-between">
-                <Title order={4}>Propietario</Title>
-                <Switch />
-              </Group>
               <ProjectOwnerField />
             </FormSection>
 

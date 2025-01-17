@@ -1,7 +1,7 @@
 export type ServerException = {
   statusCode: number
-  message: string
   error?: string
+  message: string
 }
 
 export function isServerException(error: unknown): error is ServerException {

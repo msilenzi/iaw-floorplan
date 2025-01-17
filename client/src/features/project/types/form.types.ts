@@ -13,30 +13,30 @@ export enum IdentificationType {
 export type ProjectOwnerForm = {
   fullName: string
   dni: string
-  address?: string
+  address: string
 }
 
 export type ProjectProfessionalForm = {
   fullName: string
   dniCuit: string
-  provinceRegistration?: string
-  cityRegistration?: string
-  address?: string
+  provinceRegistration: string
+  cityRegistration: string
+  address: string
   identificationType: IdentificationType
 }
 
 export type CreateProjectForm = {
   record: string
-  name?: string
-  type?: ProjectType | null
-  purpose?: ProjectPurpose
-  location?: string
-  status?: ProjectStatus
-  background?: string
+  name: string
+  type: ProjectType | null
+  purpose: ProjectPurpose | null
+  location: string
+  status: ProjectStatus | null
+  background: string
   references: Array<string>
   otherRequirements: Array<ProjectRequirementDto>
   ownerEnabled: boolean
-  owner?: ProjectOwnerForm
+  owner: ProjectOwnerForm
   designers: Array<ProjectProfessionalForm>
   technicalDirectors: Array<ProjectProfessionalForm>
 }

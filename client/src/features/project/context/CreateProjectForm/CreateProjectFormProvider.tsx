@@ -1,5 +1,11 @@
 import { isNotEmpty, useForm } from '@mantine/form'
 
+import {
+  CreateProjectDto,
+  ProjectPurpose,
+  ProjectType,
+} from '@Common/api/generated'
+
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
@@ -20,17 +26,20 @@ export function CreateProjectFormProvider({
   const organizationId = useOrganizationStore((s) => s.organizationId)
   const { data } = useOrganizationQuery(organizationId)
 
-  const form = useForm<CreateProjectForm>({
+  const form = useForm<
+    CreateProjectForm,
+    (values: CreateProjectForm) => CreateProjectDto
+  >({
     mode: 'uncontrolled',
     validateInputOnBlur: true, // Deshabilitar si hay problemas de rendimiento
 
     initialValues: {
       record: '',
       name: '',
-      type: undefined,
-      purpose: undefined,
+      type: null,
+      purpose: null,
       location: '',
-      status: undefined,
+      status: null,
       background: '',
       references: [],
       otherRequirements: [],
@@ -42,23 +51,24 @@ export function CreateProjectFormProvider({
 
     transformValues: (values) => ({
       record: values.record.trim(),
-      name: trimmedStrOrUndef(values.name!),
-      type: values.type,
-      purpose: values.purpose,
-      location: trimmedStrOrUndef(values.location!),
+      name: trimmedStrOrUndef(values.name),
+      type: values.type as ProjectType,
+      purpose: values.purpose as ProjectPurpose,
+      location: trimmedStrOrUndef(values.location),
       status: values.status ?? undefined,
-      background: trimmedStrOrUndef(values.background!),
-      references: values.references
-        .map((value) => trimmedStrOrUndef(value))
-        .filter((value) => value != undefined),
-      // TODO:
+      background: trimmedStrOrUndef(values.background),
+      references:
+        values.references.length !== 0
+          ? values.references
+              .map((value) => trimmedStrOrUndef(value))
+              .filter((value) => value != undefined)
+          : undefined,
       otherRequirements: values.otherRequirements,
-      ownerEnabled: values.ownerEnabled,
       owner: values.ownerEnabled
         ? {
-            fullName: values.owner!.fullName.trim(),
-            dni: values.owner!.dni.trim(),
-            address: trimmedStrOrUndef(values.owner!.address!),
+            fullName: values.owner.fullName.trim(),
+            dni: values.owner.dni.trim(),
+            address: trimmedStrOrUndef(values.owner.address),
           }
         : undefined,
 
@@ -67,11 +77,9 @@ export function CreateProjectFormProvider({
           ({
             fullName: value.fullName.trim(),
             dniCuit: value.dniCuit.trim(),
-            address: trimmedStrOrUndef(value.address!),
-            provinceRegistration: trimmedStrOrUndef(
-              value.provinceRegistration!,
-            ),
-            cityRegistration: trimmedStrOrUndef(value.cityRegistration!),
+            address: trimmedStrOrUndef(value.address),
+            provinceRegistration: trimmedStrOrUndef(value.provinceRegistration),
+            cityRegistration: trimmedStrOrUndef(value.cityRegistration),
           }) as ProjectProfessionalForm,
       ),
 
@@ -80,11 +88,9 @@ export function CreateProjectFormProvider({
           ({
             fullName: value.fullName.trim(),
             dniCuit: value.dniCuit.trim(),
-            address: trimmedStrOrUndef(value.address!),
-            provinceRegistration: trimmedStrOrUndef(
-              value.provinceRegistration!,
-            ),
-            cityRegistration: trimmedStrOrUndef(value.cityRegistration!),
+            address: trimmedStrOrUndef(value.address),
+            provinceRegistration: trimmedStrOrUndef(value.provinceRegistration),
+            cityRegistration: trimmedStrOrUndef(value.cityRegistration),
           }) as ProjectProfessionalForm,
       ),
     }),
@@ -210,5 +216,6 @@ export function CreateProjectFormProvider({
 }
 
 function trimmedStrOrUndef(value: string): string | undefined {
-  return value.trim().length > 0 ? value.trim() : undefined
+  const trimmedValue = value.trim()
+  return trimmedValue.length !== 0 ? trimmedValue : undefined
 }

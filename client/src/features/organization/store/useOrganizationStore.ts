@@ -42,12 +42,10 @@ export const useOrganizationStore = create<OrganizationStore>()(
     },
 
     clear() {
-      console.log('clear')
       set(initialState, undefined, 'organization/clear')
     },
 
     clearSearch() {
-      console.log('clearSearch')
       const { searchField, searchValue } = initialState
       set({ searchField, searchValue }, undefined, 'organization/clearSearch')
     },

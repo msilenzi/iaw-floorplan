@@ -9,7 +9,7 @@ type UseKeyedArrayFormFieldProps<
 > = KField extends keyof TForm
   ? TForm[KField] extends Array<infer TField>
     ? {
-        form: UseFormReturnType<TForm>
+        form: UseFormReturnType<TForm, (values: TForm) => unknown>
         fieldName: KField
         initialValue: TField
       }

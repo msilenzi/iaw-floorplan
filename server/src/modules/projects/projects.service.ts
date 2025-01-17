@@ -26,11 +26,15 @@ export class ProjectsService {
     sub: string,
   ): Promise<Project> {
     await this._validateRecord(organization, dto.record)
-    return this.projectModel.create({
+
+    const project = new this.projectModel({
       ...dto,
       organizationId: organization._id,
       createdBy: sub,
     })
+
+    await project.save()
+    return project
   }
 
   findAll(organization: OrganizationDocument): Promise<Project[]> {

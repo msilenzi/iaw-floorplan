@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { ApiProperty } from '@nestjs/swagger'
 import { HydratedDocument, Types } from 'mongoose'
 
 import { ProjectPurpose } from '../types/project-purpose.enum'
@@ -79,6 +80,7 @@ export class Project {
   @Prop({ type: String, required: true })
   createdBy: string
 
+  @ApiProperty({ type: String })
   _id: Types.ObjectId
   createdAt: Date
 }

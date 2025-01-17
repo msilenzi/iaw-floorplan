@@ -1,9 +1,20 @@
+import { isAxiosError } from 'axios'
+
+import { Link, useNavigate } from '@tanstack/react-router'
+
 import { Modal } from '@mantine/core'
+
+import { isDuplicatedRecordException } from '@Common/api/types/DuplicatedRecordException'
+import { isServerException } from '@Common/api/types/ServerException'
+import useNotifications from '@Common/hooks/useNotifications'
+
+import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 import {
   CreateProjectFormProvider,
   useCreateProjectForm,
 } from '../../context/CreateProjectForm'
+import { useCreateProjectMutation } from '../../hooks/useCreateProjectMutation'
 import { ProjectModalCreateBody } from './modal-sections/ProjectModalCreateBody'
 import { ProjectModalCreateHeader } from './modal-sections/ProjectModalCreateHeader'
 
@@ -21,26 +32,78 @@ export function ProjectModalCreate(props: ProjectModalCreateProps) {
 }
 
 function Content({ isOpen, onClose }: ProjectModalCreateProps) {
+  const organizationId = useOrganizationStore((s) => s.organizationId)
+  const { mutateAsync, isPending } = useCreateProjectMutation(organizationId!)
+  const navigate = useNavigate()
+
   const form = useCreateProjectForm()
 
+  const { showErrorNotification } = useNotifications()
+
   function handleClose() {
-    // TODO: si el formulario tiene campos editados mostrar una alerta
+    if (isPending) return
     onClose()
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    return form.onSubmit((values) => {
-      console.log('create project submit', values)
-    })(e)
-  }
+  const handleSubmit = form.onSubmit(async (values) => {
+    try {
+      const resp = await mutateAsync(values)
+      void navigate({
+        to: '/project/$projectId',
+        params: { projectId: resp._id },
+      })
+    } catch (error) {
+      let title = 'Error de conexión'
+      let message = 'No pudimos establecer la conexión con el servidor'
+
+      if (isAxiosError(error) && isServerException(error.response?.data)) {
+        const e = error.response.data
+        if (isDuplicatedRecordException(e)) {
+          form.setFieldError(
+            'record',
+            <>
+              {e.message}. Hacé{' '}
+              <Link
+                to="/project/$projectId"
+                params={{ projectId: e.data.existingProjectId }}
+                style={{ color: 'inherit' }}
+              >
+                click acá
+              </Link>{' '}
+              para ver el proyecto
+            </>,
+          )
+          return
+        } else {
+          if (e.statusCode >= 500) {
+            title = '¡Ups! Algo salió mal'
+            message =
+              'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
+          } else if (e.statusCode >= 400) {
+            title = 'No pudimos crear el proyecto'
+            message = `${e.message}`
+          }
+        }
+      }
+      showErrorNotification({ title, message })
+    }
+  })
 
   return (
     <Modal.Root opened={isOpen} onClose={handleClose} fullScreen>
       <form onSubmit={handleSubmit}>
-        <Modal.Content bg="dark.8">
-          <ProjectModalCreateHeader handleClose={handleClose} />
-          <ProjectModalCreateBody />
-        </Modal.Content>
+        <fieldset
+          style={{ border: 'none', padding: 0, margin: 0 }}
+          disabled={isPending}
+        >
+          <Modal.Content bg="dark.8">
+            <ProjectModalCreateHeader
+              handleClose={handleClose}
+              isLoading={isPending}
+            />
+            <ProjectModalCreateBody />
+          </Modal.Content>
+        </fieldset>
       </form>
     </Modal.Root>
   )

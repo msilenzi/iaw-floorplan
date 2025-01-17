@@ -6,10 +6,12 @@ import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
 type ProjectModalCreateHeaderProps = {
   handleClose: () => void
+  isLoading: boolean
 }
 
 export function ProjectModalCreateHeader({
   handleClose,
+  isLoading,
 }: ProjectModalCreateHeaderProps) {
   return (
     <Modal.Header bg="dark.8">
@@ -23,6 +25,7 @@ export function ProjectModalCreateHeader({
             <PrimaryButton
               type="submit"
               rightSection={<IconPlus size={16} stroke={2.5} />}
+              loading={isLoading}
             >
               Crear
             </PrimaryButton>

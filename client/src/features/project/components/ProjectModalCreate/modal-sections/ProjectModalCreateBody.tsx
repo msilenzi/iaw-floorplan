@@ -1,8 +1,8 @@
-import { Box, Container, Flex, Modal, Stack, Title } from '@mantine/core'
+import { Box, Container, Flex, Modal, Stack } from '@mantine/core'
 
 import { FormSectionHeader } from '../FormSectionHeader'
+import { ProfessionalsList } from '../ProfessionalsList'
 import { ProjectBackgroundField } from '../fields/ProjectBackgroundField'
-import { ProjectDesignersField } from '../fields/ProjectDesignersField'
 import { ProjectLocationField } from '../fields/ProjectLocationField'
 import { ProjectNameField } from '../fields/ProjectNameField'
 import { ProjectOtherRequirementsField } from '../fields/ProjectOtherRequirementsField'
@@ -11,7 +11,6 @@ import { ProjectPurposeField } from '../fields/ProjectPurposeField'
 import { ProjectRecordField } from '../fields/ProjectRecordField'
 import { ProjectReferencesField } from '../fields/ProjectReferencesField'
 import { ProjectStatusField } from '../fields/ProjectStatusField'
-import { ProjectTechnicalDirectorsField } from '../fields/ProjectTechnicalDirectorsField'
 import { ProjectTypeField } from '../fields/ProjectTypeField'
 
 export function ProjectModalCreateBody() {
@@ -44,11 +43,14 @@ export function ProjectModalCreateBody() {
             </FormSection>
 
             <FormSection>
-              <ProjectDesignersField />
+              <ProfessionalsList field="designers" title="Proyectistas" />
             </FormSection>
 
             <FormSection>
-              <ProjectTechnicalDirectorsField />
+              <ProfessionalsList
+                field="technicalDirectors"
+                title="Dirección técnica"
+              />
             </FormSection>
           </Stack>
         </Flex>

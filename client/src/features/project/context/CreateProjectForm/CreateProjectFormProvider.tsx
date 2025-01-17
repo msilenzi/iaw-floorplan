@@ -3,7 +3,11 @@ import { isNotEmpty, useForm } from '@mantine/form'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
-import { CreateProjectForm } from '../../types/form.types'
+import {
+  CreateProjectForm,
+  IdentificationType,
+  ProjectProfessionalForm,
+} from '../../types/form.types'
 import { CreateProjectFormContext } from './CreateProjectFormContext'
 
 type CreateProjectFormProviderProps = {
@@ -57,8 +61,32 @@ export function CreateProjectFormProvider({
             address: trimmedStrOrUndef(values.owner!.address!),
           }
         : undefined,
-      designers: values.designers,
-      technicalDirectors: values.technicalDirectors,
+
+      designers: values.designers.map(
+        (value) =>
+          ({
+            fullName: value.fullName.trim(),
+            dniCuit: value.dniCuit.trim(),
+            address: trimmedStrOrUndef(value.address!),
+            provinceRegistration: trimmedStrOrUndef(
+              value.provinceRegistration!,
+            ),
+            cityRegistration: trimmedStrOrUndef(value.cityRegistration!),
+          }) as ProjectProfessionalForm,
+      ),
+
+      technicalDirectors: values.technicalDirectors.map(
+        (value) =>
+          ({
+            fullName: value.fullName.trim(),
+            dniCuit: value.dniCuit.trim(),
+            address: trimmedStrOrUndef(value.address!),
+            provinceRegistration: trimmedStrOrUndef(
+              value.provinceRegistration!,
+            ),
+            cityRegistration: trimmedStrOrUndef(value.cityRegistration!),
+          }) as ProjectProfessionalForm,
+      ),
     }),
 
     validate: {
@@ -71,16 +99,9 @@ export function CreateProjectFormProvider({
         return null
       },
 
-      // name
-
       type: isNotEmpty('El tipo de obra es obligatorio'),
 
       purpose: isNotEmpty('El destino de la obra es obligatorio'),
-
-      // location
-      // status
-      // background
-      // references
 
       otherRequirements: {
         key(value, values /* , path */) {
@@ -95,16 +116,18 @@ export function CreateProjectFormProvider({
           return null
 
           // Esta versión solo marca las claves duplicadas posteriores.
-          // Si es la primera vez que aparece no la marca como duplicada.
-          // const reqmts = values.otherRequirements
-          // const keyPos: number = +path.split('.')[1]
-          // for (let i = keyPos - 1; i >= 0; i--) {
-          //   const currKey = reqmts[i].key.trim()
-          //   if (currKey === trimmedKey) {
-          //     return `La clave '${currKey}' está duplicada`
-          //   }
-          // }
-          // return null
+          // Si es la primera vez que aparece no la marca como duplicada:
+          /*
+            const reqmts = values.otherRequirements
+            const keyPos: number = +path.split('.')[1]
+            for (let i = keyPos - 1; i >= 0; i--) {
+              const currKey = reqmts[i].key.trim()
+              if (currKey === trimmedKey) {
+                return `La clave '${currKey}' está duplicada`
+              }
+            }
+            return null
+          */
         },
         value: isNotEmpty('El valor es obligatorio'),
       },
@@ -119,6 +142,59 @@ export function CreateProjectFormProvider({
           if (!ownerEnabled) return null
           if (!/^\d{8}$/.test(value)) {
             return 'El DNI debe tener 8 dígitos'
+          }
+          return null
+        },
+      },
+
+      designers: {
+        fullName: isNotEmpty('El nombre es obligatorio'),
+
+        dniCuit(value, values, path) {
+          const index = +path.split('.')[1]
+          const identificationType = values.designers[index].identificationType
+
+          if (!Object.values(IdentificationType).includes(identificationType)) {
+            return 'Tipo de documento inválido'
+          }
+          if (
+            identificationType === IdentificationType.DNI &&
+            !/\d{8}/.test(value)
+          ) {
+            return 'El DNI debe tener 8 dígitos'
+          }
+          if (
+            identificationType === IdentificationType.CUIT &&
+            !/^\d{2}-\d{8}-\d$/.test(value)
+          ) {
+            return 'CUIT inválido'
+          }
+          return null
+        },
+      },
+
+      technicalDirectors: {
+        fullName: isNotEmpty('El nombre es obligatorio'),
+
+        dniCuit(value, values, path) {
+          const index = +path.split('.')[1]
+          const identificationType =
+            values.technicalDirectors[index].identificationType
+
+          if (!Object.values(IdentificationType).includes(identificationType)) {
+            return 'Tipo de documento inválido'
+          }
+          if (
+            identificationType === IdentificationType.DNI &&
+            !/\d{8}/.test(value)
+          ) {
+            return 'El DNI debe tener 8 dígitos'
+          }
+          if (
+            identificationType === IdentificationType.CUIT &&
+            !/^\d{2}-\d{8}-\d$/.test(value)
+          ) {
+            return 'CUIT inválido'
           }
           return null
         },

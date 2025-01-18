@@ -63,11 +63,13 @@ function ShowError({ error }: { error: Error }) {
   }
 
   return (
-    <BasicCtaBanner
-      title={title}
-      description={description}
-      buttonText="Volver al inicio"
-      onClick={() => void navigate({ to: '/my-organizations' })}
-    />
+    <SectionContainer>
+      <BasicCtaBanner
+        title={title}
+        description={description}
+        buttonText="Volver al inicio"
+        onClick={() => void navigate({ to: '/my-organizations' })}
+      />
+    </SectionContainer>
   )
 }

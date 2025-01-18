@@ -8,8 +8,8 @@ import { isServerException } from '@Common/api/types/ServerException'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
+import { useJoinOrganizationForm } from '@MyOrganizations/hooks/useJoinOrganizationForm'
 import { useJoinOrganizationMutation } from '@MyOrganizations/hooks/useJoinOrganizationMutation'
-import { useJointOrganizationForm } from '@MyOrganizations/hooks/useJointOrganizationForm'
 
 type MyOrganizationsModalJoinProps = {
   isOpen: boolean
@@ -25,7 +25,7 @@ export function MyOrganizationsModalJoin({
 
   const { showSuccessNotification } = useNotifications()
 
-  const form = useJointOrganizationForm()
+  const form = useJoinOrganizationForm()
 
   function handleClose() {
     if (!isPending) onClose()

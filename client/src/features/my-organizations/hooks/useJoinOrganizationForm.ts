@@ -2,12 +2,12 @@ import { useForm } from '@mantine/form'
 
 import { isMongoId } from '@Common/utils/validators/isMongoId'
 
-type JointOrganizationForm = {
+type JoinOrganizationForm = {
   organizationId: string
 }
 
-export function useJointOrganizationForm() {
-  return useForm<JointOrganizationForm>({
+export function useJoinOrganizationForm() {
+  return useForm<JoinOrganizationForm>({
     mode: 'controlled',
     initialValues: {
       organizationId: '',

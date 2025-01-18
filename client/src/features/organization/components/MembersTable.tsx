@@ -8,7 +8,7 @@ import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
 
-import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
+import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 

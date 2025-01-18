@@ -3,9 +3,9 @@ import { Text } from '@mantine/core'
 import { TablerIcon } from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
-import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
+import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 
-import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
+import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 import { MembersTable, MembersTableAction } from './MembersTable'

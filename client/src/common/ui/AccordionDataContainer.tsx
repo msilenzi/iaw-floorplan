@@ -16,7 +16,7 @@ type AccordionDataContainerProps = {
   children: React.ReactNode
 }
 
-export default function AccordionDataContainer({
+export function AccordionDataContainer({
   title,
   dataLength,
   Icon,

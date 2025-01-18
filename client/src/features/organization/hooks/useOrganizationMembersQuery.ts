@@ -4,7 +4,7 @@ import { useApi } from '@Common/api/useApi'
 
 import { ORGANIZATION_QUERY_KEY } from './useOrganizationQuery'
 
-export default function useOrganizationMembersQuery(organizationId?: string) {
+export function useOrganizationMembersQuery(organizationId?: string) {
   const { apisAvailable, organizationMembersApi } = useApi()
 
   return useQuery({

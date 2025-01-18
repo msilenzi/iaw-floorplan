@@ -6,7 +6,7 @@ import { Modal } from '@mantine/core'
 
 import { isDuplicatedRecordException } from '@Common/api/types/DuplicatedRecordException'
 import { isServerException } from '@Common/api/types/ServerException'
-import useNotifications from '@Common/hooks/useNotifications'
+import { useNotifications } from '@Common/hooks/useNotifications'
 
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 

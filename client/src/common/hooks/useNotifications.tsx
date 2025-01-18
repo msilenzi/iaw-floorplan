@@ -7,7 +7,7 @@ type CustomNotificationData = {
   autoClose?: NotificationData['autoClose']
 }
 
-export default function useNotifications() {
+export function useNotifications() {
   function showSuccessNotification({
     title,
     message,
@@ -26,7 +26,7 @@ export default function useNotifications() {
   function showErrorNotification({
     title,
     message,
-    autoClose = false, // Por defecto no se cierran automáticamente
+    autoClose = 15_000,
   }: CustomNotificationData) {
     notifications.show({
       title: <Text fw={700}>{title}</Text>,

@@ -9,7 +9,7 @@ import {
 
 import { IconCopy, IconCopyCheck, IconUserPlus } from '@tabler/icons-react'
 
-import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
+import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 

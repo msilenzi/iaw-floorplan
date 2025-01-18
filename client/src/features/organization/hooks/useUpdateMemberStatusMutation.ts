@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { MemberStatus } from '@Common/api/generated'
 import { isServerException } from '@Common/api/types/ServerException'
 import { useApi } from '@Common/api/useApi'
-import useNotifications from '@Common/hooks/useNotifications'
+import { useNotifications } from '@Common/hooks/useNotifications'
 
 import { ORGANIZATION_QUERY_KEY } from './useOrganizationQuery'
 

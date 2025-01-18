@@ -8,7 +8,7 @@ import { MemberStatus } from '@Common/api/generated'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 
 import { OrganizationMemberSearch } from '@Organization/components/OrganizationMemberSearch'
-import useOrganizationMembersQuery from '@Organization/hooks/useOrganizationMembersQuery'
+import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 

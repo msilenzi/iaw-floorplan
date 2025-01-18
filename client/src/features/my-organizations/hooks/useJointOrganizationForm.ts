@@ -6,7 +6,7 @@ type JointOrganizationForm = {
   organizationId: string
 }
 
-export default function useJointOrganizationForm() {
+export function useJointOrganizationForm() {
   return useForm<JointOrganizationForm>({
     mode: 'controlled',
     initialValues: {

@@ -5,11 +5,11 @@ import { Alert, Group, Loader, Modal, TextInput } from '@mantine/core'
 import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react'
 
 import { isServerException } from '@Common/api/types/ServerException'
-import useNotifications from '@Common/hooks/useNotifications'
+import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 
 import { useJoinOrganizationMutation } from '@MyOrganizations/hooks/useJoinOrganizationMutation'
-import useJointOrganizationForm from '@MyOrganizations/hooks/useJointOrganizationForm'
+import { useJointOrganizationForm } from '@MyOrganizations/hooks/useJointOrganizationForm'
 
 type MyOrganizationsModalJoinProps = {
   isOpen: boolean

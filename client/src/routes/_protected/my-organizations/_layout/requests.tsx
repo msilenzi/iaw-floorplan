@@ -6,7 +6,7 @@ import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
 import { DataTable } from '@Common/components/DataTable'
-import AccordionDataContainer from '@Common/ui/AccordionDataContainer'
+import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 import { Popconfirm } from '@Common/ui/Popconfirm'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 

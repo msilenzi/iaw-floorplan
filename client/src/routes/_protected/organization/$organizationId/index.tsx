@@ -80,10 +80,14 @@ type ProjectsTableProps = {
 }
 
 function ProjectsTable({ projects, isLoading }: ProjectsTableProps) {
+  const organizationId = Route.useParams().organizationId
   const navigate = useNavigate()
 
   function handleClick(projectId: string) {
-    void navigate({ to: '/project/$projectId', params: { projectId } })
+    void navigate({
+      to: '/project/$organizationId/$projectId',
+      params: { organizationId, projectId },
+    })
   }
 
   return (
@@ -109,10 +113,16 @@ function ProjectsTable({ projects, isLoading }: ProjectsTableProps) {
           label: 'Expediente y nombre',
           renderRow: (value, values) => (
             <>
-              <Text fw={700} m={0} inline truncate>
+              <Text fw={700} m={0} truncate style={{ lineHeight: 1.35 }}>
                 {value}
               </Text>
-              <Text c="dimmed" fz="sm" m={0} inline truncate>
+              <Text
+                c="dimmed"
+                fz="sm"
+                m={0}
+                truncate
+                style={{ lineHeight: 1.35 }}
+              >
                 {values.name}
               </Text>
             </>

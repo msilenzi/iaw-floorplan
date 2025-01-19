@@ -69,9 +69,9 @@ export function OrganizationSubheader({
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
       <Group justify="space-between">
-        <Skeleton visible={isLoading} w={isLoading ? 300 : 'fit-content'}>
+        <Skeleton visible={isLoading} w="fit-content">
           <BaseSubheader.Title>
-            {isLoading ? 'Is loading' : data?.name}
+            {isLoading ? 'Cargando organización' : data?.name}
           </BaseSubheader.Title>
         </Skeleton>
         <Skeleton visible={isLoading} w="fit-content">

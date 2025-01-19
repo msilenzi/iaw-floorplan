@@ -32,8 +32,8 @@ export function ProjectModalCreate(props: ProjectModalCreateProps) {
 }
 
 function Content({ isOpen, onClose }: ProjectModalCreateProps) {
-  const organizationId = useOrganizationStore((s) => s.organizationId)
-  const { mutateAsync, isPending } = useCreateProjectMutation(organizationId!)
+  const organizationId = useOrganizationStore((s) => s.organizationId!)
+  const { mutateAsync, isPending } = useCreateProjectMutation(organizationId)
   const navigate = useNavigate()
 
   const form = useCreateProjectForm()
@@ -49,8 +49,8 @@ function Content({ isOpen, onClose }: ProjectModalCreateProps) {
     try {
       const resp = await mutateAsync(values)
       void navigate({
-        to: '/project/$projectId',
-        params: { projectId: resp._id },
+        to: '/project/$organizationId/$projectId',
+        params: { organizationId, projectId: resp._id },
       })
     } catch (error) {
       if (
@@ -63,8 +63,8 @@ function Content({ isOpen, onClose }: ProjectModalCreateProps) {
           <>
             {e.message}. Hacé{' '}
             <Link
-              to="/project/$projectId"
-              params={{ projectId: e.data.existingProjectId }}
+              to="/project/$organizationId/$projectId"
+              params={{ organizationId, projectId: e.data.existingProjectId }}
               style={{ color: 'inherit' }}
             >
               click acá

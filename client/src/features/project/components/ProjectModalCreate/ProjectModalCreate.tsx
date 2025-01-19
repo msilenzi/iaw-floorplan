@@ -5,8 +5,8 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { Modal } from '@mantine/core'
 
 import { isDuplicatedRecordException } from '@Common/api/types/DuplicatedRecordException'
-import { isServerException } from '@Common/api/types/ServerException'
 import { useNotifications } from '@Common/hooks/useNotifications'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 
 import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
@@ -53,39 +53,31 @@ function Content({ isOpen, onClose }: ProjectModalCreateProps) {
         params: { projectId: resp._id },
       })
     } catch (error) {
-      let title = 'Error de conexión'
-      let message = 'No pudimos establecer la conexión con el servidor'
-
-      if (isAxiosError(error) && isServerException(error.response?.data)) {
+      if (
+        isAxiosError(error) &&
+        isDuplicatedRecordException(error.response?.data)
+      ) {
         const e = error.response.data
-        if (isDuplicatedRecordException(e)) {
-          form.setFieldError(
-            'record',
-            <>
-              {e.message}. Hacé{' '}
-              <Link
-                to="/project/$projectId"
-                params={{ projectId: e.data.existingProjectId }}
-                style={{ color: 'inherit' }}
-              >
-                click acá
-              </Link>{' '}
-              para ver el proyecto
-            </>,
-          )
-          return
-        } else {
-          if (e.statusCode >= 500) {
-            title = '¡Ups! Algo salió mal'
-            message =
-              'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
-          } else if (e.statusCode >= 400) {
-            title = 'No pudimos crear el proyecto'
-            message = `${e.message}`
-          }
-        }
+        form.setFieldError(
+          'record',
+          <>
+            {e.message}. Hacé{' '}
+            <Link
+              to="/project/$projectId"
+              params={{ projectId: e.data.existingProjectId }}
+              style={{ color: 'inherit' }}
+            >
+              click acá
+            </Link>{' '}
+            para ver el proyecto
+          </>,
+        )
+      } else {
+        const errorResponse = getErrorResponse(error, {
+          title: 'No pudimos crear el proyecto',
+        })
+        showErrorNotification(errorResponse)
       }
-      showErrorNotification({ title, message })
     }
   })
 

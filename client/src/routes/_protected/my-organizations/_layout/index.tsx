@@ -1,19 +1,17 @@
 import { useState } from 'react'
 
-import { isAxiosError } from 'axios'
-
 import { UseQueryResult, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { Box, Space, Stack, Text, Title, rem } from '@mantine/core'
 
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
-import { isServerException } from '@Common/api/types/ServerException'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 
 import { MyOrganizationsAddBtn } from '@MyOrganizations/components/MyOrganizationAddBtn'
 import {
@@ -90,20 +88,9 @@ function RouteComponent() {
 function MyOrganizationsError({ query }: { query: UseQueryResult }) {
   const { error } = query
 
-  let title = 'Error de conexión'
-  let message = 'No pudimos establecer la conexión con el servidor.'
-
-  if (isAxiosError(error) && isServerException(error.response?.data)) {
-    const e = error.response.data
-    if (e.statusCode >= 500) {
-      title = '¡Ups! Algo salió mal'
-      message =
-        'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
-    } else if (e.statusCode >= 400) {
-      title = 'No pudimos listar las organizaciones'
-      message = e.message
-    }
-  }
+  const { title, message } = getErrorResponse(error, {
+    title: 'No pudimos listar las organizaciones',
+  })
 
   return (
     <Stack gap="md" align="start">

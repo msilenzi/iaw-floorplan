@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
 
-import { isAxiosError } from 'axios'
-
 import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router'
 
-import { isServerException } from '@Common/api/types/ServerException'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { SectionContainer } from '@Common/components/SectionContainer'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 
 import { OrganizationSubheader } from '@Organization/components/OrganizationSubheader'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
@@ -47,26 +45,15 @@ function RouteComponent() {
 function ShowError({ error }: { error: Error }) {
   const navigate = useNavigate()
 
-  let title = 'Error de conexión'
-  let description = 'No pudimos establecer la conexión con el servidor'
-
-  if (isAxiosError(error) && isServerException(error.response?.data)) {
-    const e = error.response.data
-    if (e.statusCode >= 500) {
-      title = '¡Ups! Algo salió mal'
-      description =
-        'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
-    } else if (e.statusCode >= 400) {
-      title = 'No pudimos obtener la organización'
-      description = `${e.message}`
-    }
-  }
+  const { title, message } = getErrorResponse(error, {
+    title: 'No pudimos obtener la organización',
+  })
 
   return (
     <SectionContainer>
       <BasicCtaBanner
         title={title}
-        description={description}
+        description={message}
         buttonText="Volver al inicio"
         onClick={() => void navigate({ to: '/my-organizations' })}
       />

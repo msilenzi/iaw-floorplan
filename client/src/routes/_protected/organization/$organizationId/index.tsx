@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react'
 
-import { isAxiosError } from 'axios'
-
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { Stack, Text } from '@mantine/core'
@@ -11,11 +9,11 @@ import { displayProjectPurpose } from '@/features/project/utils/displayProjectPu
 import { displayProjectType } from '@/features/project/utils/displayProjectType'
 
 import { Project } from '@Common/api/generated'
-import { isServerException } from '@Common/api/types/ServerException'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 
 export const Route = createFileRoute(
   '/_protected/organization/$organizationId/',
@@ -151,20 +149,9 @@ function ProjectsError({ organizationId }: { organizationId: string }) {
   const query = useProjectsQuery(organizationId)
   const { error } = query
 
-  let title = 'Error de conexión'
-  let message = 'No pudimos establecer la conexión con el servidor.'
-
-  if (isAxiosError(error) && isServerException(error.response?.data)) {
-    const e = error.response.data
-    if (e.statusCode >= 500) {
-      title = '¡Ups! Algo salió mal'
-      message =
-        'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
-    } else if (e.statusCode >= 400) {
-      title = 'No pudimos actualizar la información de la organización'
-      message = e.message
-    }
-  }
+  const { title, message } = getErrorResponse(error, {
+    title: 'No pudimos actualizar la información de la organización',
+  })
 
   return (
     <Stack gap="md" align="start">

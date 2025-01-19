@@ -1,12 +1,10 @@
-import { isAxiosError } from 'axios'
-
 import { Alert, Group, Loader, Modal, TextInput } from '@mantine/core'
 
 import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react'
 
-import { isServerException } from '@Common/api/types/ServerException'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 
 import { useJoinOrganizationForm } from '@MyOrganizations/hooks/useJoinOrganizationForm'
 import { useJoinOrganizationMutation } from '@MyOrganizations/hooks/useJoinOrganizationMutation'
@@ -105,24 +103,13 @@ type AlertErrorProps = {
 function AlertError({ error, isError, isPending }: AlertErrorProps) {
   if (isPending || !isError) return null
 
-  let title = 'Error de conexión'
-  let description = 'No pudimos establecer la conexión con el servidor'
-
-  if (isAxiosError(error) && isServerException(error.response?.data)) {
-    const e = error.response.data
-    if (e.statusCode >= 500) {
-      title = '¡Ups! Algo salió mal'
-      description =
-        'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
-    } else if (e.statusCode >= 400) {
-      title = 'No puedes unirte a esta organización'
-      description = e.message
-    }
-  }
+  const { title, message } = getErrorResponse(error, {
+    title: 'No puedes unirte a esta organización',
+  })
 
   return (
     <Alert variant="light" color="red" icon={<IconInfoCircle />} title={title}>
-      {description}
+      {message}
     </Alert>
   )
 }

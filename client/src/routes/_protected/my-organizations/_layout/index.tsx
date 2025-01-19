@@ -1,11 +1,15 @@
 import { useState } from 'react'
 
-import { useQueryClient } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
+
+import { UseQueryResult, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { Box, Space, Stack, Text, Title, rem } from '@mantine/core'
 
 import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
+import { isServerException } from '@Common/api/types/ServerException'
+import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
@@ -24,11 +28,15 @@ export const Route = createFileRoute('/_protected/my-organizations/_layout/')({
 
 function RouteComponent() {
   const query = useOrganizationsQuery()
-  const { data, isLoading } = query
+  const { data, isLoading, isError } = query
 
   const [searchValue, setSearchValue] = useState('')
 
   const activeOrganizations = filterActiveOrganizations(data)
+
+  if (isError) {
+    return <MyOrganizationsError query={query} />
+  }
 
   if (!isLoading && activeOrganizations.length === 0) {
     return (
@@ -75,6 +83,32 @@ function RouteComponent() {
           isLoading={isLoading}
         />
       )}
+    </Stack>
+  )
+}
+
+function MyOrganizationsError({ query }: { query: UseQueryResult }) {
+  const { error } = query
+
+  let title = 'Error de conexión'
+  let message = 'No pudimos establecer la conexión con el servidor.'
+
+  if (isAxiosError(error) && isServerException(error.response?.data)) {
+    const e = error.response.data
+    if (e.statusCode >= 500) {
+      title = '¡Ups! Algo salió mal'
+      message =
+        'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
+    } else if (e.statusCode >= 400) {
+      title = 'No pudimos listar las organizaciones'
+      message = e.message
+    }
+  }
+
+  return (
+    <Stack gap="md" align="start">
+      <RefetchBtn query={query} ms="auto" mt="xl" />
+      <BasicCtaBanner title={title} description={message} />
     </Stack>
   )
 }

@@ -10,6 +10,7 @@ import { GetOrganization } from '../organizations/decorators/get-organization.de
 import { OrganizationDocument } from '../organizations/schemas/organization.schema'
 import { MemberStatus } from '../organizations/types/member-status.enum'
 import { CreateProjectDto } from './dtos/create-project.dto'
+import { ProjectFindOneDto } from './dtos/project-find-one.dto'
 import { UpdateProjectDto } from './dtos/update-project.dto'
 import { ProjectsService } from './projects.service'
 import { Project } from './schemas/project.schema'
@@ -58,7 +59,7 @@ export class ProjectsController {
   findOne(
     @Param('projectId', ParseMongoIdPipe) projectId: Types.ObjectId,
     @GetOrganization() organization: OrganizationDocument,
-  ) {
+  ): Promise<ProjectFindOneDto> {
     return this.projectsService.findOne(projectId, organization._id)
   }
 

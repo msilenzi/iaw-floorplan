@@ -45,10 +45,6 @@ export class Project {
   @Prop({ type: String, required: false })
   location?: string
 
-  // TODO Otras exigencias. Se puede indicar la zonificación que corresponde
-  //      según el Codigo de Planeamiento. Se pueden indicar superficie y otros
-  //      parámetros como F.O.T y F.O.S.
-
   /** Referencias */
   @Prop({ type: [String], required: false })
   references?: string[]
@@ -75,6 +71,7 @@ export class Project {
 
   /** Otras exigencias */
   @Prop({ type: [{ type: ProjectRequirementSchema }], required: false })
+  @ApiProperty({ type: [ProjectRequirement] })
   otherRequirements?: ProjectRequirement[]
 
   @Prop({ type: String, required: true })

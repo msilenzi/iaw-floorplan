@@ -9,7 +9,9 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
 import { OrganizationDocument } from '../organizations/schemas/organization.schema'
+import { UsersService } from '../users/users.service'
 import { CreateProjectDto } from './dtos/create-project.dto'
+import { ProjectFindOneDto } from './dtos/project-find-one.dto'
 import { UpdateProjectDto } from './dtos/update-project.dto'
 import { Project, ProjectDocument } from './schemas/project.schema'
 
@@ -18,6 +20,7 @@ export class ProjectsService {
   constructor(
     @InjectModel(Project.name)
     private readonly projectModel: Model<Project>,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(
@@ -44,12 +47,10 @@ export class ProjectsService {
   async findOne(
     projectId: Types.ObjectId,
     organizationId: Types.ObjectId,
-  ): Promise<Project> {
-    const project = await this.projectModel
-      .findOne({ organizationId, _id: projectId })
-      .exec()
-    if (!project) throw new NotFoundException('El proyecto no existe')
-    return project
+  ): Promise<ProjectFindOneDto> {
+    const project = await this._getProject(projectId, organizationId)
+    const user = await this.usersService._fetchUser(project.createdBy)
+    return { ...project.toObject(), createdBy: user }
   }
 
   async update(
@@ -60,10 +61,7 @@ export class ProjectsService {
     if (updateProjectDto.record) {
       await this._validateRecord(organization, updateProjectDto.record)
     }
-    const project = (await this.findOne(
-      projectId,
-      organization._id,
-    )) as ProjectDocument
+    const project = await this._getProject(projectId, organization._id)
     Object.assign(project, updateProjectDto)
     project.save()
     return project
@@ -101,5 +99,16 @@ export class ProjectsService {
         },
       })
     }
+  }
+
+  private async _getProject(
+    projectId: Types.ObjectId,
+    organizationId: Types.ObjectId,
+  ): Promise<ProjectDocument> {
+    const project = await this.projectModel
+      .findOne({ organizationId, _id: projectId })
+      .exec()
+    if (!project) throw new NotFoundException('El proyecto no existe')
+    return project
   }
 }

@@ -5,6 +5,7 @@ import {
   Organization,
   OrganizationSchema,
 } from '../organizations/schemas/organization.schema'
+import { UsersModule } from '../users/users.module'
 import { ProjectsController } from './projects.controller'
 import { ProjectsService } from './projects.service'
 import { Project, ProjectSchema } from './schemas/project.schema'
@@ -15,6 +16,7 @@ import { Project, ProjectSchema } from './schemas/project.schema'
       { name: Project.name, schema: ProjectSchema },
       { name: Organization.name, schema: OrganizationSchema },
     ]),
+    UsersModule,
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService],

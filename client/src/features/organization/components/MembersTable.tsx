@@ -42,7 +42,7 @@ export function MembersTable({ data, actions }: MembersTableProps) {
         {
           key: 'name',
           label: 'Nombre',
-          renderRow: (value, { picture }) => (
+          rowRender: (value, { picture }) => (
             <Group wrap="nowrap">
               <UserAvatar
                 username={value}
@@ -59,14 +59,13 @@ export function MembersTable({ data, actions }: MembersTableProps) {
         {
           key: 'email',
           label: 'Correo',
-          renderRow: (value) => value,
           hideBreakpoint: 'xs',
         },
         {
           exclude: userStatus !== MemberStatus.Owner,
           key: 'lastAccessedAt',
           label: 'Último acceso',
-          renderRow: (value) => <LastAccessedAtTd value={value!} />,
+          rowRender: (value) => <LastAccessedAtTd value={value!} />,
           props: {
             th: { w: 120 },
           },
@@ -75,7 +74,7 @@ export function MembersTable({ data, actions }: MembersTableProps) {
           exclude: userStatus !== MemberStatus.Owner,
           key: 'user_id',
           label: '',
-          renderRow: (_, rowData) =>
+          rowRender: (_, rowData) =>
             actions ? <TableButton actions={actions} member={rowData} /> : null,
           props: { th: { w: 50 } },
         },

@@ -96,14 +96,14 @@ function BodyContent<T extends object>({
       key={rowData[rowKey] as React.Key}
       {...(typeof props?.tr === 'function' ? props.tr(rowData) : props?.tr)}
     >
-      {columnsConfiguration.map(({ key, renderRow, props, hideBreakpoint }) => (
+      {columnsConfiguration.map(({ key, rowRender, props, hideBreakpoint }) => (
         <Table.Td
           key={key as React.Key}
           {...(typeof props?.td === 'function' ? props.td(rowData) : props?.td)}
           data-hide-breakpoint={hideBreakpoint}
         >
           {/* @ts-expect-error funciona bien */}
-          {renderRow(rowData[key], rowData)}
+          {rowRender ? rowRender(rowData[key], rowData) : rowData[key]}
         </Table.Td>
       ))}
     </Table.Tr>

@@ -111,7 +111,7 @@ function ProjectsTable({ projects, isLoading }: ProjectsTableProps) {
         {
           key: 'record',
           label: 'Expediente y nombre',
-          renderRow: (value, values) => (
+          rowRender: (value, values) => (
             <>
               <Text fw={700} m={0} truncate style={{ lineHeight: 1.35 }}>
                 {value}
@@ -131,7 +131,7 @@ function ProjectsTable({ projects, isLoading }: ProjectsTableProps) {
         {
           key: 'type',
           label: 'Tipo de obra',
-          renderRow: (value) => (
+          rowRender: (value) => (
             <Text tt="capitalize" size="sm" truncate>
               {displayProjectType(value)}
             </Text>
@@ -142,7 +142,7 @@ function ProjectsTable({ projects, isLoading }: ProjectsTableProps) {
         {
           key: 'purpose',
           label: 'Destino',
-          renderRow: (value) => (
+          rowRender: (value) => (
             <Text tt="capitalize" size="sm" truncate>
               {displayProjectPurpose(value)}
             </Text>

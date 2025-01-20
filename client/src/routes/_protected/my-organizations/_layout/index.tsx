@@ -150,12 +150,11 @@ function OrganizationsTable({
         {
           key: 'name',
           label: 'Nombre',
-          renderRow: (value) => value,
         },
         {
           key: 'status',
           label: 'Estado',
-          renderRow: (value) => displayMemberStatus(value),
+          rowRender: (value) => displayMemberStatus(value),
           props: {
             th: { w: 100 },
             td: { tt: 'capitalize' },
@@ -165,7 +164,7 @@ function OrganizationsTable({
         {
           key: 'lastAccessedAt',
           label: 'Último acceso',
-          renderRow: (value) => <LastAccessedAtTd value={value} />,
+          rowRender: (value) => <LastAccessedAtTd value={value} />,
           props: {
             th: { w: 120 },
           },

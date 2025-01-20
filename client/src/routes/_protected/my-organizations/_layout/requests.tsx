@@ -65,12 +65,11 @@ function RouteComponent() {
               {
                 key: 'name',
                 label: 'Organización',
-                renderRow: (value) => value,
               },
               {
                 key: '_id',
                 label: '',
-                renderRow: (value) => <CancelRequestBtn requestId={value} />,
+                rowRender: (value) => <CancelRequestBtn requestId={value} />,
                 props: { th: { w: 50 } },
               },
             ]}
@@ -90,13 +89,7 @@ function RouteComponent() {
             isLoading={isLoading}
             loadingRowsLength={3}
             rowKey="_id"
-            columnsConfiguration={[
-              {
-                key: 'name',
-                label: 'Organización',
-                renderRow: (value) => value,
-              },
-            ]}
+            columnsConfiguration={[{ key: 'name', label: 'Organización' }]}
           />
         )}
       </AccordionDataContainer>

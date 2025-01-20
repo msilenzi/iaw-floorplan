@@ -19,7 +19,7 @@ export type DataColumnConfiguration<
         th?: TableThProps
         td?: TableTdProps | ((rowData: TData) => TableTdProps)
       }
-      renderRow: (value: TData[K], rowData: TData) => React.ReactNode
+      rowRender?: (value: TData[K], rowData: TData) => React.ReactNode
     }
   : never
 

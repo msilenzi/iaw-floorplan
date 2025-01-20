@@ -36,16 +36,8 @@ function InfoOtherRequirementsContent() {
       isLoading={isLoading}
       loadingRowsLength={3}
       columnsConfiguration={[
-        {
-          key: 'key',
-          label: 'Clave',
-          renderRow: (value) => value,
-        },
-        {
-          key: 'value',
-          label: 'Valor',
-          renderRow: (value) => value,
-        },
+        { key: 'key', label: 'Clave' },
+        { key: 'value', label: 'Valor' },
       ]}
       props={{
         table: {

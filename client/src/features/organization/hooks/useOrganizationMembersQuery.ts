@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { useApi } from '@Common/api/useApi'
+import { useApi } from '@Common/api'
 
 import { ORGANIZATION_QUERY_KEY } from './useOrganizationQuery'
 

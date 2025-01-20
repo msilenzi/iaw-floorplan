@@ -13,6 +13,8 @@ import '@mantine/core/styles.css'
 import { Notifications } from '@mantine/notifications'
 import '@mantine/notifications/styles.css'
 
+import { ApiProvider } from '@Common/api/index.ts'
+
 // Create a new router instance
 const router = createRouter({ routeTree })
 
@@ -36,10 +38,12 @@ createRoot(document.getElementById('root')!).render(
           audience: import.meta.env.VITE_AUTH0_AUDIENCE,
         }}
       >
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <Notifications position="top-right" />
-        </QueryClientProvider>
+        <ApiProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <Notifications position="top-right" />
+          </QueryClientProvider>
+        </ApiProvider>
       </Auth0Provider>
     </MantineProvider>
   </StrictMode>,

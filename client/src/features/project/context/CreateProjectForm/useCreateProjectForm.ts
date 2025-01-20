@@ -5,7 +5,7 @@ import { CreateProjectFormContext } from './CreateProjectFormContext'
 export function useCreateProjectForm() {
   const form = useContext(CreateProjectFormContext)
   if (!form) {
-    throw new Error('useProjectForm must be used inside ProjectFormProvider')
+    throw new Error('useProjectForm must be used within ProjectFormProvider')
   }
   return form
 }

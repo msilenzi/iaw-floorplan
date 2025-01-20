@@ -8,7 +8,7 @@ import { isDuplicatedRecordException } from '@Common/api/types/DuplicatedRecordE
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 
 import {
   CreateProjectFormProvider,
@@ -32,7 +32,8 @@ export function ProjectModalCreate(props: ProjectModalCreateProps) {
 }
 
 function Content({ isOpen, onClose }: ProjectModalCreateProps) {
-  const organizationId = useOrganizationStore((s) => s.organizationId!)
+  const { organizationId } = useCurrentOrganization()
+
   const { mutateAsync, isPending } = useCreateProjectMutation(organizationId)
   const navigate = useNavigate()
 

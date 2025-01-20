@@ -11,10 +11,10 @@ import { IconCopy, IconCopyCheck, IconUserPlus } from '@tabler/icons-react'
 
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 
 export function InvitationCode() {
-  const organizationId = useOrganizationStore((state) => state.organizationId)
+  const { organizationId } = useCurrentOrganization()
 
   return (
     <AccordionDataContainer title="Invita a otros usuarios" Icon={IconUserPlus}>

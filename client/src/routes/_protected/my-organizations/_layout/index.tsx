@@ -65,7 +65,8 @@ function RouteComponent() {
     <Stack gap="sm" pb="xl" align="center">
       <SearchInput
         value={searchValue}
-        setValue={setSearchValue}
+        onChange={(e) => setSearchValue(e.currentTarget.value)}
+        onClear={() => setSearchValue('')}
         placeholder="Buscar por nombre"
         disabled={isLoading}
       />

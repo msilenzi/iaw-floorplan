@@ -17,7 +17,7 @@ import {
   CreateProjectForm,
   IdentificationType,
   ProjectProfessionalForm,
-} from '../../types/form.types'
+} from '../../types/create-project-form.types'
 import { FormSectionHeader } from './FormSectionHeader'
 
 type ProfessionalField = keyof {

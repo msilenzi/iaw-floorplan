@@ -2,11 +2,12 @@ import { Text, TextInput } from '@mantine/core'
 
 import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
 
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 export function ProjectRecordField() {
-  const organizationId = useOrganizationStore((s) => s.organizationId)
+  const { organizationId } = useCurrentOrganization()
+
   const { data: organization, isLoading } = useOrganizationQuery(organizationId)
 
   const form = useCreateProjectForm()

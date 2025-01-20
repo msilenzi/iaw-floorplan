@@ -5,21 +5,18 @@ import { IconSearch } from '@tabler/icons-react'
 import classes from './SearchInput.module.css'
 
 type SearchInputProps = {
-  value: string
-  setValue: (value: string) => void
+  onClear: () => void
 } & TextInputProps
 
-export function SearchInput({ value, setValue, ...props }: SearchInputProps) {
+export function SearchInput({ onClear, ...props }: SearchInputProps) {
   return (
     <TextInput
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
       leftSection={<IconSearch size={16} />}
       rightSection={
         <CloseButton
           aria-label="Limpiar búsqueda"
-          onClick={() => setValue('')}
-          style={{ display: value ? undefined : 'none' }}
+          onClick={onClear}
+          style={{ display: props.value ? undefined : 'none' }}
         />
       }
       rightSectionPointerEvents="all"

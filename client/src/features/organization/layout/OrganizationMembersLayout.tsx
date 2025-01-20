@@ -8,9 +8,10 @@ import { MemberStatus } from '@Common/api/generated'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 
 import { OrganizationMemberSearch } from '@Organization/components/OrganizationMemberSearch'
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
+import { MemberSearchFormProvider } from '@Organization/context/MemberSearchForm/MemberSearchFormProvider'
 import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 type OrganizationMembersLayoutProps = {
   requiredStatus?: MemberStatus
@@ -25,8 +26,7 @@ export function OrganizationMembersLayout({
 }: OrganizationMembersLayoutProps) {
   const navigate = useNavigate()
 
-  const organizationId = useOrganizationStore((s) => s.organizationId)
-  const clearSearch = useOrganizationStore((s) => s.clearSearch)
+  const { organizationId } = useCurrentOrganization()
 
   const organizationQuery = useOrganizationQuery(organizationId)
   const userStatus = organizationQuery.data?.userStatus
@@ -40,8 +40,7 @@ export function OrganizationMembersLayout({
         params: { organizationId },
       })
     }
-    return () => clearSearch()
-  }, [clearSearch, navigate, organizationId, requiredStatus, userStatus])
+  }, [requiredStatus, organizationId, userStatus, navigate])
 
   if (organizationId && requiredStatus && requiredStatus !== userStatus) {
     void navigate({
@@ -52,11 +51,13 @@ export function OrganizationMembersLayout({
   }
 
   return (
-    <Stack gap="xl" mb="xl">
-      {header}
-      <OrganizationMemberSearch isLoading={membersQuery.isLoading} />
-      <RefetchBtn query={membersQuery} ms="auto" />
-      {children}
-    </Stack>
+    <MemberSearchFormProvider>
+      <Stack gap="xl" mb="xl">
+        {header}
+        <OrganizationMemberSearch isLoading={membersQuery.isLoading} />
+        <RefetchBtn query={membersQuery} ms="auto" />
+        {children}
+      </Stack>
+    </MemberSearchFormProvider>
   )
 }

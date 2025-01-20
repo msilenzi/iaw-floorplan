@@ -8,9 +8,9 @@ import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
 
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 export type MembersTableAction = {
   onClick: (member: OrganizationMemberDto) => void
@@ -25,7 +25,7 @@ type MembersTableProps = {
 }
 
 export function MembersTable({ data, actions }: MembersTableProps) {
-  const organizationId = useOrganizationStore((state) => state.organizationId)
+  const { organizationId } = useCurrentOrganization()
 
   const organizationQuery = useOrganizationQuery(organizationId)
   const userStatus = organizationQuery.data?.userStatus
@@ -89,7 +89,8 @@ type TableButton = {
 }
 
 function TableButton({ member, actions }: TableButton) {
-  const organizationId = useOrganizationStore((state) => state.organizationId!)
+  const { organizationId } = useCurrentOrganization()
+
   const { isFetching } = useOrganizationMembersQuery(organizationId)
 
   return (

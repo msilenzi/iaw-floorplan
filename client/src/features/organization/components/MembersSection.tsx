@@ -5,8 +5,9 @@ import { TablerIcon } from '@tabler/icons-react'
 import { MemberStatus } from '@Common/api/generated'
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
+import { useMemberSearchForm } from '@Organization/context/MemberSearchForm/MemberSearchFormContext'
 import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 import { MembersTable, MembersTableAction } from './MembersTable'
 
@@ -25,9 +26,9 @@ export function MembersSection({
   emptyMessage,
   actions,
 }: MembersSectionProps) {
-  const organizationId = useOrganizationStore((state) => state.organizationId)
-  const searchValue = useOrganizationStore((state) => state.searchValue)
-  const searchField = useOrganizationStore((state) => state.searchField)
+  const { organizationId } = useCurrentOrganization()
+  const form = useMemberSearchForm()
+  const { searchValue, searchField } = form.getValues()
 
   const { data, isLoading } = useOrganizationMembersQuery(organizationId)
 

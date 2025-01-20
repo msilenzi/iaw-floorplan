@@ -2,7 +2,7 @@ import { Group, Select } from '@mantine/core'
 
 import { SearchInput } from '@Common/ui/SearchInput'
 
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
+import { useMemberSearchForm } from '@Organization/context/MemberSearchForm/MemberSearchFormContext'
 
 type OrganizationMemberSearchProps = {
   isLoading: boolean
@@ -11,28 +11,26 @@ type OrganizationMemberSearchProps = {
 export function OrganizationMemberSearch({
   isLoading,
 }: OrganizationMemberSearchProps) {
-  const searchValue = useOrganizationStore((state) => state.searchValue)
-  const searchField = useOrganizationStore((state) => state.searchField)
-  const setSearchValue = useOrganizationStore((state) => state.setSearchValue)
-  const setSearchField = useOrganizationStore((state) => state.setSearchField)
+  const form = useMemberSearchForm()
 
   return (
     <Group align="center" justify="center" mb="md">
       <SearchInput
-        value={searchValue}
-        setValue={(value) => setSearchValue(value)}
-        placeholder={`Buscar por ${searchField === 'name' ? 'nombre' : 'correo'}`}
+        placeholder={`Buscar por ${form.getValues().searchField === 'name' ? 'nombre' : 'correo'}`}
         disabled={isLoading}
+        onClear={() => form.setFieldValue('searchValue', '')}
+        key={form.key('searchValue')}
+        {...form.getInputProps('searchValue')}
       />
       <Select
-        value={searchField}
-        onChange={(value) => setSearchField(value as 'name' | 'email')}
         data={[
           { label: 'Nombre', value: 'name' },
           { label: 'Correo', value: 'email' },
         ]}
         w="12ch"
         allowDeselect={false}
+        key={form.key('searchField')}
+        {...form.getInputProps('searchField')}
       />
     </Group>
   )

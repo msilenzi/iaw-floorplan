@@ -6,14 +6,14 @@ import {
   ProjectType,
 } from '@Common/api/generated'
 
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-import { useOrganizationStore } from '@Organization/store/useOrganizationStore'
 
 import {
   CreateProjectForm,
   IdentificationType,
   ProjectProfessionalForm,
-} from '../../types/form.types'
+} from '../../types/create-project-form.types'
 import { CreateProjectFormContext } from './CreateProjectFormContext'
 
 type CreateProjectFormProviderProps = {
@@ -23,7 +23,7 @@ type CreateProjectFormProviderProps = {
 export function CreateProjectFormProvider({
   children,
 }: CreateProjectFormProviderProps) {
-  const organizationId = useOrganizationStore((s) => s.organizationId)
+  const { organizationId } = useCurrentOrganization()
   const { data } = useOrganizationQuery(organizationId)
 
   const form = useForm<

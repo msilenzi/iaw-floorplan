@@ -1,14 +1,14 @@
 import type { CreateProjectDto } from '@Common/api'
 import type {
-  CreateProjectForm,
+  ProjectFormValues,
   ProjectProfessionalForm,
-} from '@Project/types/create-project-form.types'
+} from '@Project/types/ProjectForm.types'
 
 import { isNotEmpty, useForm } from '@mantine/form'
 
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-import { IdentificationType } from '@Project/types/create-project-form.types'
+import { IdentificationType } from '@Project/types/ProjectForm.types'
 
 import { CreateProjectFormContext } from './CreateProjectFormContext'
 
@@ -23,8 +23,8 @@ export function CreateProjectFormProvider({
   const { data } = useOrganizationQuery(organizationId)
 
   const form = useForm<
-    CreateProjectForm,
-    (values: CreateProjectForm) => CreateProjectDto
+    ProjectFormValues,
+    (values: ProjectFormValues) => CreateProjectDto
   >({
     mode: 'uncontrolled',
     validateInputOnBlur: true, // Deshabilitar si hay problemas de rendimiento

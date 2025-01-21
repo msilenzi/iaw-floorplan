@@ -1,7 +1,7 @@
 import type {
-  CreateProjectForm,
+  ProjectFormValues,
   ProjectProfessionalForm,
-} from '@Project/types/create-project-form.types'
+} from '@Project/types/ProjectForm.types'
 
 import { useState } from 'react'
 
@@ -17,14 +17,14 @@ import {
 
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
 import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
-import { IdentificationType } from '@Project/types/create-project-form.types'
+import { IdentificationType } from '@Project/types/ProjectForm.types'
 
 import { FormSectionHeader } from './FormSectionHeader'
 
 type ProfessionalField = keyof {
-  [K in keyof CreateProjectForm as CreateProjectForm[K] extends ProjectProfessionalForm[]
+  [K in keyof ProjectFormValues as ProjectFormValues[K] extends ProjectProfessionalForm[]
     ? K
-    : never]: CreateProjectForm[K]
+    : never]: ProjectFormValues[K]
 }
 
 type ProfessionalsListProps = {

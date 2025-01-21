@@ -25,7 +25,7 @@ export type ProjectProfessionalForm = {
   identificationType: IdentificationType
 }
 
-export type CreateProjectForm = {
+export type ProjectFormValues = {
   record: string
   name: string
   type: ProjectType | null

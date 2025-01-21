@@ -13,7 +13,7 @@ import {
 } from '@Project/context/CreateProjectForm'
 import { useCreateProjectMutation } from '@Project/hooks/useCreateProjectMutation'
 
-import { ProjectModalCreateBody } from './modal-sections/ProjectModalCreateBody'
+import { ProjectModalCreateBody } from './modal-sections/ProjectModalBody'
 import { ProjectModalCreateHeader } from './modal-sections/ProjectModalCreateHeader'
 
 type ProjectModalCreateProps = {

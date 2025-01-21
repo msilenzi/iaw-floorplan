@@ -17,7 +17,7 @@ import { MemberStatus } from '@Common/api'
 import { BaseSubheader } from '@Common/components/BaseSubheader'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-import { ProjectModalCreate } from '@Project/components/ProjectModalCreate/ProjectModalCreate'
+import { ProjectModalCreate } from '@Project/components/ProjectModal/ProjectModalCreate'
 
 type OrganizationSubheaderProps = {
   organizationId: string

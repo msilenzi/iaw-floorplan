@@ -28,7 +28,10 @@ declare module '@tanstack/react-router' {
 
 const queryClient = new QueryClient()
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')
+if (root == null) throw new Error('Root element not found.')
+
+createRoot(root).render(
   <StrictMode>
     <MantineProvider defaultColorScheme="dark">
       <Auth0Provider

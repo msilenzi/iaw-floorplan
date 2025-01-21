@@ -14,7 +14,7 @@ type UserAvatarProps = Omit<Props, 'src' | 'alt' | 'onError' | 'color' | 'name'>
 export function UserAvatar({ username, picture, ...props }: UserAvatarProps) {
   const [pictureError, setPictureError] = useState(false)
 
-  if (!picture || picture === '' || pictureError) {
+  if (picture == null || picture === '' || pictureError) {
     return (
       <Avatar
         radius="xl"

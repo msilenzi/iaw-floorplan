@@ -11,6 +11,6 @@ export function useProjectQuery(organizationId?: string, projectId?: string) {
     queryKey: [PROJECT_QUERY_KEY, organizationId, projectId],
     queryFn: async () =>
       (await projectsApi.findOne(projectId!, organizationId!)).data,
-    enabled: !!organizationId && !!projectId && apisAvailable,
+    enabled: organizationId != null && projectId != null && apisAvailable,
   })
 }

@@ -29,7 +29,7 @@ export function BasicCtaBanner({
         {description}
       </Text>
 
-      {buttonText && (
+      {buttonText != null && (
         <PrimaryButton
           onClick={onClick}
           rightSection={ButtonIcon && <ButtonIcon size={16} stroke={3} />}

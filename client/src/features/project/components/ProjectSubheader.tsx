@@ -68,7 +68,7 @@ export function ProjectSubheader({
               ? 'Cargando proyecto'
               : (projectQuery.data?.name ?? projectQuery.data?.record)}
           </BaseSubheader.Title>
-          {projectQuery.data?.name && projectQuery.data.record && (
+          {projectQuery.data?.name != null && projectQuery.data.record && (
             <Text c="dimmed" fw={700} lineClamp={1}>
               {projectQuery.data.record}
             </Text>

@@ -14,7 +14,7 @@ export function InfoItem({ label, data, dataProps }: InfoItemProps) {
   const { organizationId, projectId } = useCurrentProject()
   const { isLoading } = useProjectQuery(organizationId, projectId)
 
-  if (!isLoading && !data) return null
+  if (!isLoading && data == null) return null
 
   return (
     <Stack gap="0.1rem">

@@ -12,6 +12,6 @@ export function useOrganizationMembersQuery(organizationId?: string) {
     queryFn: async () => {
       return (await organizationMembersApi.findAllMembers(organizationId!)).data
     },
-    enabled: !!organizationId && apisAvailable,
+    enabled: organizationId != null && apisAvailable,
   })
 }

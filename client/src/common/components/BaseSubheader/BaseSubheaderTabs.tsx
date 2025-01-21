@@ -27,7 +27,7 @@ export function BaseSubheaderTabs({ tabs }: SubheaderTabsProps) {
     >
       <Tabs.List classNames={{ list: classes.tabList }}>
         {tabs
-          .filter(({ hidden }) => !hidden)
+          .filter(({ hidden }) => !(hidden ?? false))
           .map(({ Icon, label, to }) => (
             <Tabs.Tab
               key={to}

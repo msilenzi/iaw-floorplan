@@ -49,7 +49,7 @@ export function InfoGeneralInformation() {
       <InfoItem
         label="Antecedentes"
         data={
-          data?.background ? (
+          data?.background != null ? (
             <ScrollArea.Autosize mah={480} offsetScrollbars scrollbarSize={6}>
               <Spoiler
                 maxHeight={120}
@@ -70,7 +70,7 @@ export function InfoGeneralInformation() {
       <InfoItem
         label="Fecha de creación"
         data={
-          data?.createdAt
+          data?.createdAt != null
             ? new Date(data.createdAt).toLocaleString('es-AR', {
                 dateStyle: 'long',
               })

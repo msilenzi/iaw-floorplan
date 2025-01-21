@@ -7,7 +7,7 @@ type LastAccessedAtTdProps = {
 }
 
 export function LastAccessedAtTd({ value }: LastAccessedAtTdProps) {
-  if (value) return new Date(value).toLocaleDateString('es-ES')
+  if (value != null) return new Date(value).toLocaleDateString('es-ES')
   return (
     <Text span size="sm" c="dimmed" fs="italic">
       No accedido

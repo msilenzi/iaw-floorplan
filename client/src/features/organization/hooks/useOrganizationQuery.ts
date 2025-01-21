@@ -10,6 +10,6 @@ export function useOrganizationQuery(organizationId?: string) {
   return useQuery({
     queryKey: [ORGANIZATION_QUERY_KEY, organizationId],
     queryFn: async () => (await organizationsApi.findOne(organizationId!)).data,
-    enabled: !!organizationId && apisAvailable,
+    enabled: organizationId != null && apisAvailable,
   })
 }

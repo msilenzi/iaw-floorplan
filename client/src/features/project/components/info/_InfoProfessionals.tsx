@@ -64,7 +64,7 @@ export function ProfessionalItem({
       </Group>
       <InfoItem label="Dirección" data={address} />
       <Group>
-        {provinceRegistration && (
+        {provinceRegistration != null && (
           <Box flex={1}>
             <InfoItem
               label="Matrícula provincial"
@@ -72,7 +72,7 @@ export function ProfessionalItem({
             />
           </Box>
         )}
-        {cityRegistration && (
+        {cityRegistration != null && (
           <Box flex={1}>
             <InfoItem label="Matrícula municipal" data={cityRegistration} />
           </Box>

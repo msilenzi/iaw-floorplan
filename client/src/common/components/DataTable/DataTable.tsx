@@ -13,7 +13,9 @@ export function DataTable<T extends object>({
   props,
 }: DataTableProps<T>) {
   // Procesa solo las columnas visibles (exclude = false | undefined)
-  const activeColumns = columnsConfiguration.filter(({ exclude }) => !exclude)
+  const activeColumns = columnsConfiguration.filter(
+    ({ exclude }) => !(exclude ?? false),
+  )
 
   return (
     <Table

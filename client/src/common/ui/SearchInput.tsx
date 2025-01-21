@@ -16,7 +16,7 @@ export function SearchInput({ onClear, ...props }: SearchInputProps) {
         <CloseButton
           aria-label="Limpiar búsqueda"
           onClick={onClear}
-          style={{ display: props.value ? undefined : 'none' }}
+          style={{ display: props.value != null ? undefined : 'none' }}
         />
       }
       rightSectionPointerEvents="all"

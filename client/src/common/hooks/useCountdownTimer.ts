@@ -10,7 +10,7 @@ export function useCountdownTimer(max: number) {
     if (counter === 0) return
 
     // Limpiar intervalo existente antes de crear uno nuevo
-    if (intervalRef.current) clearInterval(intervalRef.current)
+    if (intervalRef.current != null) clearInterval(intervalRef.current)
 
     intervalRef.current = setInterval(() => {
       setCounter((prev) => {

@@ -70,6 +70,7 @@ export default tseslint.config(
         'error',
         { ignoreArrowShorthand: true },
       ],
+      '@typescript-eslint/no-non-null-assertion': 'warn',
 
       // ⚙️ Other rules
       '@typescript-eslint/consistent-type-exports': [

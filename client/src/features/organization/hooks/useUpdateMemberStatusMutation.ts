@@ -1,7 +1,8 @@
+import type { MemberStatus } from '@Common/api'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
-import type { MemberStatus } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 

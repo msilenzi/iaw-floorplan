@@ -1,9 +1,7 @@
 import { useState } from 'react'
 
 import { useAuth0 } from '@auth0/auth0-react'
-
 import { Group, Menu, Text, UnstyledButton } from '@mantine/core'
-
 import { IconChevronDown, IconLogout } from '@tabler/icons-react'
 
 import { UserAvatar } from '@Common/ui/UserAvatar'

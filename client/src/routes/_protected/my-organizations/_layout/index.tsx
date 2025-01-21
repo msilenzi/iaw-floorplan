@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
+import type { BasicOrganizationDto } from '@Common/api/generated'
 import type { UseQueryResult } from '@tanstack/react-query'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Box, rem, Space, Stack, Text, Title } from '@mantine/core'
 
-import { Box, Space, Stack, Text, Title, rem } from '@mantine/core'
-
-import type { BasicOrganizationDto } from '@Common/api/generated'
 import { MemberStatus } from '@Common/api/generated'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
@@ -14,7 +14,6 @@ import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-
 import { MyOrganizationsAddBtn } from '@MyOrganizations/components/MyOrganizationAddBtn'
 import {
   ORGANIZATIONS_QUERY_KEY,

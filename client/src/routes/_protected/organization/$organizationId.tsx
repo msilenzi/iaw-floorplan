@@ -1,9 +1,8 @@
-import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
 
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { SectionContainer } from '@Common/components/SectionContainer'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-
 import { OrganizationSubheader } from '@Organization/components/OrganizationSubheader'
 import { CurrentOrganizationProvider } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'

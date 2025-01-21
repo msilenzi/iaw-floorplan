@@ -1,5 +1,4 @@
 import { Button, Container, Group, Modal, Title } from '@mantine/core'
-
 import { IconPlus } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'

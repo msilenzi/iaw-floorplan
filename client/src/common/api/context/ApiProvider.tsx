@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import type { ApiContextType } from '../types'
+
 import { useAuth0 } from '@auth0/auth0-react'
 
 import {
@@ -8,7 +10,6 @@ import {
   OrganizationsApi,
   ProjectsApi,
 } from '../generated'
-import type { ApiContextType } from '../types'
 import { ApiContext } from './ApiContext'
 
 type ApiProviderProps = {

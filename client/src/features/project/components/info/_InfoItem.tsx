@@ -1,4 +1,5 @@
 import type { TextProps } from '@mantine/core'
+
 import { Skeleton, Stack, Text } from '@mantine/core'
 
 import { useCurrentProject } from '../../context/CurrentProject'

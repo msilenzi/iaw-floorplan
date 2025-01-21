@@ -1,3 +1,5 @@
+import type { ProjectFindOneDto } from '@Common/api/generated'
+
 import {
   Group,
   ScrollArea,
@@ -12,8 +14,6 @@ import { useProjectQuery } from '@/features/project/hooks/useProjectQuery'
 import { displayProjectPurpose } from '@/features/project/utils/displayProjectPurpose'
 import { displayProjectStatus } from '@/features/project/utils/displayProjectStatus'
 import { displayProjectType } from '@/features/project/utils/displayProjectType'
-
-import type { ProjectFindOneDto } from '@Common/api/generated'
 import { UserAvatar } from '@Common/ui/UserAvatar'
 
 import { useCurrentProject } from '../../context/CurrentProject'

@@ -1,15 +1,14 @@
-import { Text } from '@mantine/core'
-
+import type { MembersTableAction } from './MembersTable'
+import type { MemberStatus } from '@Common/api/generated'
 import type { TablerIcon } from '@tabler/icons-react'
 
-import type { MemberStatus } from '@Common/api/generated'
-import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
+import { Text } from '@mantine/core'
 
+import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useMemberSearchForm } from '@Organization/context/MemberSearchForm/MemberSearchFormContext'
 import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 
-import type { MembersTableAction } from './MembersTable'
 import { MembersTable } from './MembersTable'
 
 type MembersSectionProps = {

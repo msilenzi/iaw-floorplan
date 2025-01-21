@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 
-import { useNavigate } from '@tanstack/react-router'
+import type { MemberStatus } from '@Common/api/generated'
 
+import { useNavigate } from '@tanstack/react-router'
 import { Stack } from '@mantine/core'
 
-import type { MemberStatus } from '@Common/api/generated'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
-
 import { OrganizationMemberSearch } from '@Organization/components/OrganizationMemberSearch'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { MemberSearchFormProvider } from '@Organization/context/MemberSearchForm/MemberSearchFormProvider'

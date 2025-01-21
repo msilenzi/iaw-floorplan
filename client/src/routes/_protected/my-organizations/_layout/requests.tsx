@@ -1,16 +1,14 @@
+import type { BasicOrganizationDto } from '@Common/api/generated'
+
 import { createFileRoute } from '@tanstack/react-router'
-
 import { ActionIcon, Group, Stack, Text } from '@mantine/core'
-
 import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
-import type { BasicOrganizationDto } from '@Common/api/generated'
 import { MemberStatus } from '@Common/api/generated'
 import { DataTable } from '@Common/components/DataTable'
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 import { Popconfirm } from '@Common/ui/Popconfirm'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
-
 import { useDeleteRequestMutation } from '@MyOrganizations/hooks/useDeleteRequestMutation'
 import { useOrganizationsQuery } from '@MyOrganizations/hooks/useOrganizationsQuery'
 

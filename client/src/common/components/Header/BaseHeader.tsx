@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-
 import { Container, Group, Title } from '@mantine/core'
 
 import classes from './BaseHeader.module.css'

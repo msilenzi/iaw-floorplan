@@ -1,5 +1,10 @@
 import { useState } from 'react'
 
+import type {
+  CreateProjectForm,
+  ProjectProfessionalForm,
+} from '../../types/create-project-form.types'
+
 import {
   Accordion,
   Center,
@@ -13,10 +18,6 @@ import {
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
 
 import { useCreateProjectForm } from '../../context/CreateProjectForm'
-import type {
-  CreateProjectForm,
-  ProjectProfessionalForm,
-} from '../../types/create-project-form.types'
 import { IdentificationType } from '../../types/create-project-form.types'
 import { FormSectionHeader } from './FormSectionHeader'
 

@@ -1,7 +1,7 @@
 import type { MenuProps } from '@mantine/core'
+
 import { Menu } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-
 import { IconBuildingPlus, IconBuildings, IconPlus } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'

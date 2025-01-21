@@ -1,13 +1,11 @@
 import { isAxiosError } from 'axios'
 
 import { Link, useNavigate } from '@tanstack/react-router'
-
 import { Modal } from '@mantine/core'
 
 import { isDuplicatedRecordException } from '@Common/api/types/DuplicatedRecordException'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 
 import {

@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useApi } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-
 import { ORGANIZATIONS_QUERY_KEY } from '@MyOrganizations/hooks/useOrganizationsQuery'
 
 export function useOrganizationExitMutation(organizationId: string) {

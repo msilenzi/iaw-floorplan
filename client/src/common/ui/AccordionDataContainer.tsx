@@ -1,13 +1,13 @@
+import type { TablerIcon } from '@tabler/icons-react'
+
 import {
   Accordion,
   Badge,
   Group,
-  Title,
   lighten,
+  Title,
   useMantineTheme,
 } from '@mantine/core'
-
-import type { TablerIcon } from '@tabler/icons-react'
 
 type AccordionDataContainerProps = {
   title: string

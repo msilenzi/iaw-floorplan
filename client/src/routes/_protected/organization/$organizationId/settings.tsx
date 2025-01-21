@@ -1,12 +1,10 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-
 import { Box, Button, Group, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
 import { MemberStatus } from '@Common/api/generated'
 import { useCountdownTimer } from '@Common/hooks/useCountdownTimer'
 import { Popconfirm } from '@Common/ui/Popconfirm'
-
 import { OrganizationsModalEdit } from '@Organization/components/OrganizationsModalEdit'
 import { useOrganizationExitMutation } from '@Organization/hooks/useOrganizationExitMutation'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'

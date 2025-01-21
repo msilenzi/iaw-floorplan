@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import type { AvatarProps, ElementProps } from '@mantine/core'
+
 import { Avatar } from '@mantine/core'
 
 type Props = {

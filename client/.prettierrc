@@ -12,28 +12,30 @@
   "arrowParens": "always",
   "proseWrap": "preserve",
 
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
   "importOrder": [
     "^react$",
-
+    "",
+    "<BUILT_IN_MODULES>",
     "<THIRD_PARTY_MODULES>",
-
+    "",
+    "<TYPES>",
+    "",
     "^@auth0/(.*)$",
     "(^@tanstack/(.*)$)|(routeTree.gen.ts$)",
     "^@mantine/(.*)$",
     "^@tabler/(.*)$",
-
+    "",
     "^@/(?!.*[.]css$).*$",
     "^@Common/(?!.*[.]css$).*$",
     "^@Home/(?!.*[.]css$).*$",
     "^@MyOrganizations/(?!.*[.]css$).*$",
     "^@Organization/(?!.*[.]css$).*$",
-
+    "^@Project/(?!.*[.]css$).*$",
+    "",
     "^(?!.*[.]css$)[./].*$",
+    "",
     ".css$"
   ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "importOrderParserPlugins": ["typescript", "jsx"],
-  "importOrderSideEffects": true
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"]
 }

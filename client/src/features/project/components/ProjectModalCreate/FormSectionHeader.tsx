@@ -1,5 +1,4 @@
 import { ActionIcon, Group, Title } from '@mantine/core'
-
 import { IconPlus } from '@tabler/icons-react'
 
 type FormSectionHeaderProps = {

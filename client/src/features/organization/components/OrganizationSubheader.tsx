@@ -1,6 +1,10 @@
+import type {
+  SubheaderBreadcrumb,
+  SubheaderTab,
+} from '@Common/components/BaseSubheader'
+
 import { Group, Skeleton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-
 import {
   IconBox,
   IconPlus,
@@ -10,15 +14,9 @@ import {
 } from '@tabler/icons-react'
 
 import { ProjectModalCreate } from '@/features/project/components/ProjectModalCreate/ProjectModalCreate'
-
 import { MemberStatus } from '@Common/api/generated'
 import { BaseSubheader } from '@Common/components/BaseSubheader'
-import type {
-  SubheaderBreadcrumb,
-  SubheaderTab,
-} from '@Common/components/BaseSubheader'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
-
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
 type OrganizationSubheaderProps = {

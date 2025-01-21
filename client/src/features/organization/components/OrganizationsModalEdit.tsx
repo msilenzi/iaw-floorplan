@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
 
 import { Button, Group, Loader, Modal, Text, TextInput } from '@mantine/core'
-
 import { IconPencil, IconReload } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
-
 import { useEditOrganizationForm } from '@Organization/hooks/useEditOrganizationForm'
 import { useEditOrganizationMutation } from '@Organization/hooks/useEditOrganizationMutation'
 

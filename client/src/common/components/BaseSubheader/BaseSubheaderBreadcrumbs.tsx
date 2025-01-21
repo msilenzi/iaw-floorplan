@@ -1,8 +1,7 @@
-import { Link } from '@tanstack/react-router'
-
-import { Anchor, Breadcrumbs } from '@mantine/core'
-
 import type { SubheaderBreadcrumb } from './subheader.types'
+
+import { Link } from '@tanstack/react-router'
+import { Anchor, Breadcrumbs } from '@mantine/core'
 
 type SubheaderBreadcrumbsProps = {
   breadcrumbs: SubheaderBreadcrumb[]

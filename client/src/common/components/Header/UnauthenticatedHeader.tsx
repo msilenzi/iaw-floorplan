@@ -1,5 +1,4 @@
 import { useAuth0 } from '@auth0/auth0-react'
-
 import { Button } from '@mantine/core'
 
 import { BaseHeader } from './BaseHeader'

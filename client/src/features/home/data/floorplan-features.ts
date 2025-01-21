@@ -1,3 +1,5 @@
+import type { TablerIcon } from '@tabler/icons-react'
+
 import {
   IconBrain,
   IconBuilding,
@@ -6,7 +8,6 @@ import {
   IconUpload,
   IconUsers,
 } from '@tabler/icons-react'
-import type { TablerIcon } from '@tabler/icons-react'
 
 export type FeatureType = {
   title: string

@@ -1,7 +1,8 @@
+import type { CreateProjectDto } from '@Common/api'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
-import type { CreateProjectDto } from '@Common/api'
 
 import { PROJECTS_QUERY_KEY } from './useProjectsQuery'
 

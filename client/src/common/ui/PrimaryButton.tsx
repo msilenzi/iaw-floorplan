@@ -1,6 +1,7 @@
 import { forwardRef } from 'react'
 
 import type { ButtonProps, ElementProps } from '@mantine/core'
+
 import { Button } from '@mantine/core'
 
 type PrimaryButtonProps = ButtonProps &

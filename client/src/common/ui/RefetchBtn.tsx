@@ -1,8 +1,7 @@
+import type { ButtonProps, ElementProps } from '@mantine/core'
 import type { UseQueryResult } from '@tanstack/react-query'
 
-import type { ButtonProps, ElementProps } from '@mantine/core'
 import { ActionIcon, Button, Loader } from '@mantine/core'
-
 import { IconReload } from '@tabler/icons-react'
 
 import classes from './RefetchBtn.module.css'

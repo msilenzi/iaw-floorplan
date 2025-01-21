@@ -1,11 +1,9 @@
 import { Alert, Group, Loader, Modal, TextInput } from '@mantine/core'
-
 import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react'
 
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-
 import { useJoinOrganizationForm } from '@MyOrganizations/hooks/useJoinOrganizationForm'
 import { useJoinOrganizationMutation } from '@MyOrganizations/hooks/useJoinOrganizationMutation'
 

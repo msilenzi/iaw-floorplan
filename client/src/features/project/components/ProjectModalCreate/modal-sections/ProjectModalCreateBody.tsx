@@ -1,7 +1,5 @@
 import { Box, Container, Flex, Modal, Stack } from '@mantine/core'
 
-import { FormSectionHeader } from '../FormSectionHeader'
-import { ProfessionalsList } from '../ProfessionalsList'
 import { ProjectBackgroundField } from '../fields/ProjectBackgroundField'
 import { ProjectLocationField } from '../fields/ProjectLocationField'
 import { ProjectNameField } from '../fields/ProjectNameField'
@@ -12,6 +10,8 @@ import { ProjectRecordField } from '../fields/ProjectRecordField'
 import { ProjectReferencesField } from '../fields/ProjectReferencesField'
 import { ProjectStatusField } from '../fields/ProjectStatusField'
 import { ProjectTypeField } from '../fields/ProjectTypeField'
+import { FormSectionHeader } from '../FormSectionHeader'
+import { ProfessionalsList } from '../ProfessionalsList'
 
 export function ProjectModalCreateBody() {
   return (

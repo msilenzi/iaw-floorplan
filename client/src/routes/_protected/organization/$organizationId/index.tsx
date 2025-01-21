@@ -1,14 +1,13 @@
 import { useMemo, useState } from 'react'
 
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import type { Project } from '@Common/api/generated'
 
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Stack, Text } from '@mantine/core'
 
 import { useProjectsQuery } from '@/features/project/hooks/useProjectsQuery'
 import { displayProjectPurpose } from '@/features/project/utils/displayProjectPurpose'
 import { displayProjectType } from '@/features/project/utils/displayProjectType'
-
-import type { Project } from '@Common/api/generated'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'

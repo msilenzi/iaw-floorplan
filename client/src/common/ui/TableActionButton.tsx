@@ -1,8 +1,8 @@
 import { forwardRef, useState } from 'react'
 
 import type { ActionIconProps, ElementProps } from '@mantine/core'
-import { ActionIcon } from '@mantine/core'
 
+import { ActionIcon } from '@mantine/core'
 import { IconDotsVertical } from '@tabler/icons-react'
 
 type TableActionButtonProps = ActionIconProps &

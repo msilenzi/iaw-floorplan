@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-
 import {
   IconUser,
   IconUserCancel,
@@ -8,7 +7,6 @@ import {
 } from '@tabler/icons-react'
 
 import { MemberStatus } from '@Common/api/generated'
-
 import { MembersSection } from '@Organization/components/MembersSection'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useUpdateMemberStatusMutation } from '@Organization/hooks/useUpdateMemberStatusMutation'

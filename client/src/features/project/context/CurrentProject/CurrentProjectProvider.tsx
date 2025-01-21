@@ -1,5 +1,6 @@
-import { CurrentProjectContext } from './CurrentProjectContext'
 import type { CurrentProjectContextType } from './CurrentProjectContext'
+
+import { CurrentProjectContext } from './CurrentProjectContext'
 
 type CurrentProjectProviderProps = {
   children: React.ReactNode

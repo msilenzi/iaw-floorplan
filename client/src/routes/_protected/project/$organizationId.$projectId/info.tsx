@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-
 import { Flex, Stack } from '@mantine/core'
 
 import { InfoDesigners } from '@/features/project/components/info/InfoDesigners'

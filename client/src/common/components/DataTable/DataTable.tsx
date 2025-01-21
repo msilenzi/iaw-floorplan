@@ -1,6 +1,6 @@
-import { Skeleton, Table, useMantineTheme } from '@mantine/core'
-
 import type { DataTableProps } from './dataTable.types'
+
+import { Skeleton, Table, useMantineTheme } from '@mantine/core'
 
 import classes from './DataTable.module.css'
 

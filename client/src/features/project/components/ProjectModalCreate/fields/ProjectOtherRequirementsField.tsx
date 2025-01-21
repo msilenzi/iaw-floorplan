@@ -1,7 +1,6 @@
 import { CloseButton, Group, TextInput } from '@mantine/core'
 
 import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
-
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
 
 import { FormSectionHeader } from '../FormSectionHeader'

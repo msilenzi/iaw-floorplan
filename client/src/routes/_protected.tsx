@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 
 import { useAuth0 } from '@auth0/auth0-react'
-
-import { Outlet, createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router'
 
 import { AuthenticatedHeader } from '@Common/components/Header'
 import { LoadingPage } from '@Common/components/LoadingPage'

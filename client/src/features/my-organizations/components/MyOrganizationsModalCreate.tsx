@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react'
 
 import { useNavigate } from '@tanstack/react-router'
-
 import {
   Code,
   Group,
+  lighten,
   Loader,
   Modal,
   Text,
   TextInput,
-  lighten,
   useMantineTheme,
 } from '@mantine/core'
-
 import { IconPlus } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
-
 import { useCreateOrganizationForm } from '@MyOrganizations/hooks/useCreateOrganizationForm'
 import { useCreateOrganizationMutation } from '@MyOrganizations/hooks/useCreateOrganizationMutation'
 

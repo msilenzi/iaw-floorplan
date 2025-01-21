@@ -1,7 +1,6 @@
 import { Text, TextInput } from '@mantine/core'
 
 import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
-
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 

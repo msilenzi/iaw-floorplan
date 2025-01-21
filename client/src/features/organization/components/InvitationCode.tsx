@@ -6,11 +6,9 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core'
-
 import { IconCopy, IconCopyCheck, IconUserPlus } from '@tabler/icons-react'
 
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
-
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 
 export function InvitationCode() {

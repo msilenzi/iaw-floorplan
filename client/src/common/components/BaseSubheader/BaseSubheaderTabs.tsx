@@ -1,8 +1,7 @@
-import { useLocation, useNavigate } from '@tanstack/react-router'
-
-import { Tabs } from '@mantine/core'
-
 import type { SubheaderTab } from './subheader.types'
+
+import { useLocation, useNavigate } from '@tanstack/react-router'
+import { Tabs } from '@mantine/core'
 
 import classes from './BaseSubheaderTabs.module.css'
 

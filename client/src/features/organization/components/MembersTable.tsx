@@ -1,15 +1,14 @@
+import type { OrganizationMemberDto } from '@Common/api/generated'
 import type { DefaultMantineColor } from '@mantine/core'
-import { Group, Menu, Text } from '@mantine/core'
-
 import type { TablerIcon } from '@tabler/icons-react'
 
-import type { OrganizationMemberDto } from '@Common/api/generated'
+import { Group, Menu, Text } from '@mantine/core'
+
 import { MemberStatus } from '@Common/api/generated'
 import { DataTable } from '@Common/components/DataTable'
 import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
-
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'

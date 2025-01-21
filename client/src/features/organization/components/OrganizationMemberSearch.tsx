@@ -1,7 +1,6 @@
 import { Group, Select } from '@mantine/core'
 
 import { SearchInput } from '@Common/ui/SearchInput'
-
 import { useMemberSearchForm } from '@Organization/context/MemberSearchForm/MemberSearchFormContext'
 
 type OrganizationMemberSearchProps = {

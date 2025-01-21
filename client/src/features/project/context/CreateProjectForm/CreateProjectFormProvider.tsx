@@ -1,14 +1,14 @@
-import { isNotEmpty, useForm } from '@mantine/form'
-
-import type { CreateProjectDto } from '@Common/api/generated'
-
-import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
-import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-
 import type {
   CreateProjectForm,
   ProjectProfessionalForm,
 } from '../../types/create-project-form.types'
+import type { CreateProjectDto } from '@Common/api/generated'
+
+import { isNotEmpty, useForm } from '@mantine/form'
+
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
+import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+
 import { IdentificationType } from '../../types/create-project-form.types'
 import { CreateProjectFormContext } from './CreateProjectFormContext'
 

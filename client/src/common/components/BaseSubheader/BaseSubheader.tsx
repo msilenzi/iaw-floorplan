@@ -1,8 +1,9 @@
+import type { SubheaderBreadcrumb, SubheaderTab } from './subheader.types'
+
 import { Box, Container, Title } from '@mantine/core'
 
 import { BaseSubheaderBreadcrumbs } from './BaseSubheaderBreadcrumbs'
 import { BaseSubheaderTabs } from './BaseSubheaderTabs'
-import type { SubheaderBreadcrumb, SubheaderTab } from './subheader.types'
 
 type SubheaderProps = {
   breadcrumbs: SubheaderBreadcrumb[]

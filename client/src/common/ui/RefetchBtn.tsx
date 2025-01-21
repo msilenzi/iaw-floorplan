@@ -19,14 +19,16 @@ export function RefetchBtn({ query, ...props }: RefetchBtnProps) {
       fw={400}
       onClick={() => !query.isFetching && void query.refetch()}
       className={classes.refetchBtn}
-      styles={{
-        ...props.styles,
+      styles={(...args) => ({
+        ...(typeof props.styles === 'function'
+          ? props.styles(...args)
+          : props.styles),
         section: {
           marginInlineStart: '0.15rem',
           marginBottom: '-0.1rem',
           verticalAlign: 'center',
         },
-      }}
+      })}
       rightSection={
         query.isFetching ? (
           <Loader size="12" mx={5} color="dark.2" />

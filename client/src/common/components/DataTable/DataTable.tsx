@@ -72,7 +72,7 @@ function BodyLoading<T extends object>({
       {columnsConfiguration.map(({ key, props, hideBreakpoint }) => (
         <Table.Td
           key={key as string}
-          {...props?.td}
+          {...(typeof props?.td === 'function' ? {} : props?.td)}
           data-hide-breakpoint={hideBreakpoint}
         >
           <Skeleton height={theme.spacing.lg} />

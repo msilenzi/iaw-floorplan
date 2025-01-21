@@ -25,7 +25,7 @@ export function InvitationCode() {
         <Title order={3} ff="monospace">
           {organizationId}
         </Title>
-        <CopyButton value={organizationId ?? ''}>
+        <CopyButton value={organizationId}>
           {({ copied, copy }) => (
             <Tooltip
               color="dark"

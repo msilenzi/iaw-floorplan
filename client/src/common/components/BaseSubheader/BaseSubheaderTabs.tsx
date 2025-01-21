@@ -23,7 +23,7 @@ export function BaseSubheaderTabs({ tabs }: SubheaderTabsProps) {
         tab: classes.tab,
       }}
       value={location.pathname}
-      onChange={(value) => void navigate({ to: value! })}
+      onChange={(value) => value != null && void navigate({ to: value })}
     >
       <Tabs.List classNames={{ list: classes.tabList }}>
         {tabs

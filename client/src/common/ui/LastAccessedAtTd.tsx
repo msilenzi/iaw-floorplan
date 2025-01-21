@@ -3,7 +3,7 @@ import { Text } from '@mantine/core'
 import type { BasicOrganizationDto } from '@Common/api/generated'
 
 type LastAccessedAtTdProps = {
-  value: BasicOrganizationDto['lastAccessedAt']
+  value?: BasicOrganizationDto['lastAccessedAt']
 }
 
 export function LastAccessedAtTd({ value }: LastAccessedAtTdProps) {

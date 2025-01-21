@@ -67,7 +67,7 @@ export function MembersTable({ data, actions }: MembersTableProps) {
           exclude: userStatus !== MemberStatus.Owner,
           key: 'lastAccessedAt',
           label: 'Último acceso',
-          rowRender: (value) => <LastAccessedAtTd value={value!} />,
+          rowRender: (value) => <LastAccessedAtTd value={value} />,
           props: {
             th: { w: 120 },
           },

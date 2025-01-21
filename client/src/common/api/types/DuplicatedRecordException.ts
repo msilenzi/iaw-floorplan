@@ -1,5 +1,5 @@
-import type { ServerException } from './ServerException'
 import type { Prettify } from '@Common/types/Prettify.type'
+import type { ServerException } from './ServerException'
 
 import { isServerException } from './ServerException'
 

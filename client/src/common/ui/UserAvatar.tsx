@@ -1,6 +1,6 @@
-import { useState } from 'react'
-
 import type { AvatarProps, ElementProps } from '@mantine/core'
+
+import { useState } from 'react'
 
 import { Avatar } from '@mantine/core'
 

@@ -1,6 +1,6 @@
-import { forwardRef } from 'react'
-
 import type { ButtonProps, ElementProps } from '@mantine/core'
+
+import { forwardRef } from 'react'
 
 import { Button } from '@mantine/core'
 

@@ -1,9 +1,9 @@
-import { useState } from 'react'
-
 import type {
   CreateProjectForm,
   ProjectProfessionalForm,
 } from '@Project/types/create-project-form.types'
+
+import { useState } from 'react'
 
 import {
   Accordion,

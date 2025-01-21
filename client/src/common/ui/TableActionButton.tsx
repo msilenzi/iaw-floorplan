@@ -1,6 +1,6 @@
-import { forwardRef, useState } from 'react'
-
 import type { ActionIconProps, ElementProps } from '@mantine/core'
+
+import { forwardRef, useState } from 'react'
 
 import { ActionIcon } from '@mantine/core'
 import { IconDotsVertical } from '@tabler/icons-react'

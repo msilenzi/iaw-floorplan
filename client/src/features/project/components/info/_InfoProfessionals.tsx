@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
-
 import type { ProjectProfessional } from '@Common/api'
+
+import { Fragment } from 'react'
 
 import { Box, Divider, Group, Stack } from '@mantine/core'
 

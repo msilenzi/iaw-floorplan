@@ -1,4 +1,5 @@
-import { CloseButton, TextInput, type TextInputProps } from '@mantine/core'
+import { CloseButton, TextInput } from '@mantine/core'
+import type { TextInputProps } from '@mantine/core'
 
 import { IconSearch } from '@tabler/icons-react'
 

@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import {
-  type BasicOrganizationDto,
-  type CreateOrganizationDto,
-  useApi,
-} from '@Common/api'
+import { useApi } from '@Common/api'
+import type { BasicOrganizationDto, CreateOrganizationDto } from '@Common/api'
 
 import { ORGANIZATIONS_QUERY_KEY } from './useOrganizationsQuery'
 

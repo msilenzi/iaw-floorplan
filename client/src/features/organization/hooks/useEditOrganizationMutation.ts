@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { type UpdateOrganizationDto, useApi } from '@Common/api'
+import { useApi } from '@Common/api'
+import type { UpdateOrganizationDto } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 

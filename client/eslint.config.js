@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import importPlugin from 'eslint-plugin-import'
 import eslintPluginPrettier from 'eslint-plugin-prettier'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -18,6 +19,8 @@ export default tseslint.config(
       ...tseslint.configs.stylisticTypeChecked,
       eslintConfigPrettier,
       pluginQuery.configs['flat/recommended'],
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -30,6 +33,11 @@ export default tseslint.config(
     },
     settings: {
       react: { version: '18.3' },
+      'import/resolver': {
+        typescript: {
+          project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        },
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -45,6 +53,9 @@ export default tseslint.config(
       ],
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
+
+      //
+      // typescript-eslint:
 
       // 🎨 Stylistic rules
       '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
@@ -72,11 +83,17 @@ export default tseslint.config(
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/no-import-type-side-effects': 'error',
 
-      //! NO
-      // '@typescript-eslint/no-unsafe-type-assertion': 'error',
-      // '@typescript-eslint/prefer-readonly-parameter-types': 'error',
+      //
+      // eslint-import-plugin
+
+      'import/no-deprecated': 'error',
+      'import/no-empty-named-blocks': 'error',
+      'import/no-self-import': 'error',
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+      'import/first': 'error',
+      'import/no-default-export': 'error',
+      // No compatible con la configuración moderna de eslint:
+      // 'import/no-unused-modules': ['off', { unusedExports: true }],
     },
   },
 )
-
-// noImplicitReturns

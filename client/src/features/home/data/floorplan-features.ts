@@ -5,8 +5,8 @@ import {
   IconScissors,
   IconUpload,
   IconUsers,
-  type TablerIcon,
 } from '@tabler/icons-react'
+import type { TablerIcon } from '@tabler/icons-react'
 
 export type FeatureType = {
   title: string

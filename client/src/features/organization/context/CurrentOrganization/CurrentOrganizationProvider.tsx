@@ -1,7 +1,5 @@
-import {
-  CurrentOrganizationContext,
-  type CurrentOrganizationType,
-} from './CurrentOrganizationContext'
+import { CurrentOrganizationContext } from './CurrentOrganizationContext'
+import type { CurrentOrganizationType } from './CurrentOrganizationContext'
 
 type CurrentOrganizationProviderProps = {
   children: React.ReactNode

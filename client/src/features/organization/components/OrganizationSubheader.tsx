@@ -12,10 +12,10 @@ import {
 import { ProjectModalCreate } from '@/features/project/components/ProjectModalCreate/ProjectModalCreate'
 
 import { MemberStatus } from '@Common/api/generated'
-import {
-  BaseSubheader,
-  type SubheaderBreadcrumb,
-  type SubheaderTab,
+import { BaseSubheader } from '@Common/components/BaseSubheader'
+import type {
+  SubheaderBreadcrumb,
+  SubheaderTab,
 } from '@Common/components/BaseSubheader'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 

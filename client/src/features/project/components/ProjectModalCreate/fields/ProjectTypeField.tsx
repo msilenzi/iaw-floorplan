@@ -1,8 +1,8 @@
 import { Select } from '@mantine/core'
 
-import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
-import { displayProjectType } from '@/features/project/utils/displayProjectType'
-import { ProjectType } from '@Common/api/generated'
+import { ProjectType } from '@Common/api'
+import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
+import { displayProjectType } from '@Project/utils/displayProjectType'
 
 export function ProjectTypeField() {
   const form = useCreateProjectForm()

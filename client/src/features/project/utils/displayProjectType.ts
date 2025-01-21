@@ -1,4 +1,4 @@
-import { ProjectType } from '@Common/api/generated'
+import { ProjectType } from '@Common/api'
 
 export function displayProjectType(type: ProjectType) {
   switch (type) {

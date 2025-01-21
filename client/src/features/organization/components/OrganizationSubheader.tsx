@@ -13,11 +13,11 @@ import {
   IconUsersPlus,
 } from '@tabler/icons-react'
 
-import { ProjectModalCreate } from '@/features/project/components/ProjectModalCreate/ProjectModalCreate'
-import { MemberStatus } from '@Common/api/generated'
+import { MemberStatus } from '@Common/api'
 import { BaseSubheader } from '@Common/components/BaseSubheader'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+import { ProjectModalCreate } from '@Project/components/ProjectModalCreate/ProjectModalCreate'
 
 type OrganizationSubheaderProps = {
   organizationId: string

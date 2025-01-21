@@ -1,18 +1,18 @@
 import { useMemo, useState } from 'react'
 
-import type { Project } from '@Common/api/generated'
+import type { Project } from '@Common/api'
 
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Stack, Text } from '@mantine/core'
 
-import { useProjectsQuery } from '@/features/project/hooks/useProjectsQuery'
-import { displayProjectPurpose } from '@/features/project/utils/displayProjectPurpose'
-import { displayProjectType } from '@/features/project/utils/displayProjectType'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { useProjectsQuery } from '@Project/hooks/useProjectsQuery'
+import { displayProjectPurpose } from '@Project/utils/displayProjectPurpose'
+import { displayProjectType } from '@Project/utils/displayProjectType'
 
 export const Route = createFileRoute(
   '/_protected/organization/$organizationId/',

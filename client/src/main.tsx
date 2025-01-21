@@ -14,7 +14,7 @@ import { Notifications } from '@mantine/notifications'
 
 import '@mantine/notifications/styles.css'
 
-import { ApiProvider } from '@Common/api/index.ts'
+import { ApiProvider } from '@Common/api'
 
 // Create a new router instance
 const router = createRouter({ routeTree })

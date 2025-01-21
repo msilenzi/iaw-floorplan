@@ -1,10 +1,10 @@
-import type { BasicOrganizationDto } from '@Common/api/generated'
+import type { BasicOrganizationDto } from '@Common/api'
 
 import { createFileRoute } from '@tanstack/react-router'
 import { ActionIcon, Group, Stack, Text } from '@mantine/core'
 import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
-import { MemberStatus } from '@Common/api/generated'
+import { MemberStatus } from '@Common/api'
 import { DataTable } from '@Common/components/DataTable'
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 import { Popconfirm } from '@Common/ui/Popconfirm'

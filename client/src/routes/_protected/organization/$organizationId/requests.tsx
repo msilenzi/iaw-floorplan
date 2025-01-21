@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { IconUserCheck, IconUserQuestion, IconUserX } from '@tabler/icons-react'
 
-import { MemberStatus } from '@Common/api/generated'
+import { MemberStatus } from '@Common/api'
 import { InvitationCode } from '@Organization/components/InvitationCode'
 import { MembersSection } from '@Organization/components/MembersSection'
 import { useUpdateMemberStatusMutation } from '@Organization/hooks/useUpdateMemberStatusMutation'

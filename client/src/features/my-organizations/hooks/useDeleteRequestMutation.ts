@@ -4,8 +4,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
 
-import '@Common/api/generated'
-
 import { ORGANIZATIONS_QUERY_KEY } from './useOrganizationsQuery'
 
 export function useDeleteRequestMutation() {

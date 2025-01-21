@@ -3,7 +3,7 @@ import type {
   ProjectRequirementDto,
   ProjectStatus,
   ProjectType,
-} from '@Common/api/generated'
+} from '@Common/api'
 
 export enum IdentificationType {
   DNI = 'dni',

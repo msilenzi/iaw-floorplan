@@ -1,9 +1,8 @@
 import { Stack, Text, Title } from '@mantine/core'
 
 import { DataTable } from '@Common/components/DataTable'
-
-import { useCurrentProject } from '../../context/CurrentProject'
-import { useProjectQuery } from '../../hooks/useProjectQuery'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 export function InfoOtherRequirements() {
   return (

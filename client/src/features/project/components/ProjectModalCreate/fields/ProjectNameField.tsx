@@ -1,6 +1,6 @@
 import { TextInput } from '@mantine/core'
 
-import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
+import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
 
 export function ProjectNameField() {
   const form = useCreateProjectForm()

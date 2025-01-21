@@ -1,4 +1,4 @@
-import { ProjectPurpose } from '@Common/api/generated'
+import { ProjectPurpose } from '@Common/api'
 
 export function displayProjectPurpose(purpose: ProjectPurpose) {
   switch (purpose) {

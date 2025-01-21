@@ -2,8 +2,8 @@ import type { TextProps } from '@mantine/core'
 
 import { Skeleton, Stack, Text } from '@mantine/core'
 
-import { useCurrentProject } from '../../context/CurrentProject'
-import { useProjectQuery } from '../../hooks/useProjectQuery'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 type InfoItemProps = {
   label: string

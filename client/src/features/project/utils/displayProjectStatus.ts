@@ -1,4 +1,4 @@
-import { ProjectStatus } from '@Common/api/generated'
+import { ProjectStatus } from '@Common/api'
 
 export function displayProjectStatus(status: ProjectStatus) {
   switch (status) {

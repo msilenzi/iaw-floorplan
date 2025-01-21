@@ -1,15 +1,15 @@
+import type { CreateProjectDto } from '@Common/api'
 import type {
   CreateProjectForm,
   ProjectProfessionalForm,
-} from '../../types/create-project-form.types'
-import type { CreateProjectDto } from '@Common/api/generated'
+} from '@Project/types/create-project-form.types'
 
 import { isNotEmpty, useForm } from '@mantine/form'
 
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+import { IdentificationType } from '@Project/types/create-project-form.types'
 
-import { IdentificationType } from '../../types/create-project-form.types'
 import { CreateProjectFormContext } from './CreateProjectFormContext'
 
 type CreateProjectFormProviderProps = {

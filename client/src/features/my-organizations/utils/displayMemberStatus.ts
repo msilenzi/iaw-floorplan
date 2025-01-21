@@ -1,4 +1,4 @@
-import { MemberStatus } from '@Common/api/generated'
+import { MemberStatus } from '@Common/api'
 
 export function displayMemberStatus(status: MemberStatus) {
   switch (status) {

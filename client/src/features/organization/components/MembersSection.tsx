@@ -1,5 +1,5 @@
 import type { MembersTableAction } from './MembersTable'
-import type { MemberStatus } from '@Common/api/generated'
+import type { MemberStatus } from '@Common/api'
 import type { TablerIcon } from '@tabler/icons-react'
 
 import { Text } from '@mantine/core'

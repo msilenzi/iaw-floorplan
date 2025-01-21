@@ -1,4 +1,4 @@
-import type { ProjectFindOneDto } from '@Common/api/generated'
+import type { ProjectFindOneDto } from '@Common/api'
 
 import {
   Group,
@@ -10,13 +10,13 @@ import {
   useMantineTheme,
 } from '@mantine/core'
 
-import { useProjectQuery } from '@/features/project/hooks/useProjectQuery'
-import { displayProjectPurpose } from '@/features/project/utils/displayProjectPurpose'
-import { displayProjectStatus } from '@/features/project/utils/displayProjectStatus'
-import { displayProjectType } from '@/features/project/utils/displayProjectType'
 import { UserAvatar } from '@Common/ui/UserAvatar'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useProjectQuery } from '@Project/hooks/useProjectQuery'
+import { displayProjectPurpose } from '@Project/utils/displayProjectPurpose'
+import { displayProjectStatus } from '@Project/utils/displayProjectStatus'
+import { displayProjectType } from '@Project/utils/displayProjectType'
 
-import { useCurrentProject } from '../../context/CurrentProject'
 import { InfoItem } from './_InfoItem'
 
 export function InfoGeneralInformation() {

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import type {
   CreateProjectForm,
   ProjectProfessionalForm,
-} from '../../types/create-project-form.types'
+} from '@Project/types/create-project-form.types'
 
 import {
   Accordion,
@@ -16,9 +16,9 @@ import {
 } from '@mantine/core'
 
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
+import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
+import { IdentificationType } from '@Project/types/create-project-form.types'
 
-import { useCreateProjectForm } from '../../context/CreateProjectForm'
-import { IdentificationType } from '../../types/create-project-form.types'
 import { FormSectionHeader } from './FormSectionHeader'
 
 type ProfessionalField = keyof {

@@ -1,4 +1,4 @@
-import type { BasicOrganizationDto } from '@Common/api/generated'
+import type { BasicOrganizationDto } from '@Common/api'
 
 import { Text } from '@mantine/core'
 

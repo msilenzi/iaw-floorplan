@@ -1,6 +1,6 @@
 import { isAxiosError } from 'axios'
 
-import { isServerException } from '@Common/api/types/ServerException'
+import { isServerException } from '@Common/api'
 
 type ErrorResponse = {
   title: string

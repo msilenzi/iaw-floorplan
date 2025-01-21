@@ -27,8 +27,9 @@
       "@Home/*": ["./src/features/home/*"],
       "@MyOrganizations/*": ["./src/features/my-organizations/*"],
       "@Organization/*": ["./src/features/organization/*"],
+      "@Project/*": ["./src/features/project/*"],
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "scripts"]
 }

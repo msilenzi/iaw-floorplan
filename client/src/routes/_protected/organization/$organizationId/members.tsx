@@ -6,7 +6,7 @@ import {
   IconUserShield,
 } from '@tabler/icons-react'
 
-import { MemberStatus } from '@Common/api/generated'
+import { MemberStatus } from '@Common/api'
 import { MembersSection } from '@Organization/components/MembersSection'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { useUpdateMemberStatusMutation } from '@Organization/hooks/useUpdateMemberStatusMutation'

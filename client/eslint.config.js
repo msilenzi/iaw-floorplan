@@ -92,6 +92,7 @@ export default tseslint.config(
       'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
       'import/first': 'error',
       'import/no-default-export': 'error',
+      'import/no-useless-path-segments': ['error', { noUselessIndex: true }],
       // No compatible con la configuración moderna de eslint:
       // 'import/no-unused-modules': ['off', { unusedExports: true }],
     },

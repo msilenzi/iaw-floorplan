@@ -1,6 +1,6 @@
 import { Group, Switch, TextInput } from '@mantine/core'
 
-import { useCreateProjectForm } from '@/features/project/context/CreateProjectForm'
+import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
 
 import { FormSectionHeader } from '../FormSectionHeader'
 

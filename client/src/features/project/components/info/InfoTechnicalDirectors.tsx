@@ -1,7 +1,8 @@
 import { Stack, Text, Title } from '@mantine/core'
 
-import { useCurrentProject } from '../../context/CurrentProject'
-import { useProjectQuery } from '../../hooks/useProjectQuery'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useProjectQuery } from '@Project/hooks/useProjectQuery'
+
 import { InfoProfessionals } from './_InfoProfessionals'
 
 export function InfoTechnicalDirectors() {

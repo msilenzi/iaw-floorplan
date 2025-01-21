@@ -1,11 +1,11 @@
 import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
 
-import { ProjectSubheader } from '@/features/project/components/ProjectSubheader'
-import { CurrentProjectProvider } from '@/features/project/context/CurrentProject'
-import { useProjectQuery } from '@/features/project/hooks/useProjectQuery'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { SectionContainer } from '@Common/components/SectionContainer'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { ProjectSubheader } from '@Project/components/ProjectSubheader'
+import { CurrentProjectProvider } from '@Project/context/CurrentProject'
+import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 export const Route = createFileRoute(
   '/_protected/project/$organizationId/$projectId',

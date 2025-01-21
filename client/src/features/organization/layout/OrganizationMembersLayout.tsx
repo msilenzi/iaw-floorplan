@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import type { MemberStatus } from '@Common/api/generated'
+import type { MemberStatus } from '@Common/api'
 
 import { useNavigate } from '@tanstack/react-router'
 import { Stack } from '@mantine/core'

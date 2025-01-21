@@ -3,16 +3,16 @@ import { isAxiosError } from 'axios'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Modal } from '@mantine/core'
 
-import { isDuplicatedRecordException } from '@Common/api/types/DuplicatedRecordException'
+import { isDuplicatedRecordException } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
-
 import {
   CreateProjectFormProvider,
   useCreateProjectForm,
-} from '../../context/CreateProjectForm'
-import { useCreateProjectMutation } from '../../hooks/useCreateProjectMutation'
+} from '@Project/context/CreateProjectForm'
+import { useCreateProjectMutation } from '@Project/hooks/useCreateProjectMutation'
+
 import { ProjectModalCreateBody } from './modal-sections/ProjectModalCreateBody'
 import { ProjectModalCreateHeader } from './modal-sections/ProjectModalCreateHeader'
 

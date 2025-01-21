@@ -1,7 +1,8 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core'
 
-import { useCurrentProject } from '../../context/CurrentProject'
-import { useProjectQuery } from '../../hooks/useProjectQuery'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useProjectQuery } from '@Project/hooks/useProjectQuery'
+
 import { InfoItem } from './_InfoItem'
 
 export function InfoOwner() {

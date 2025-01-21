@@ -1,11 +1,12 @@
 import { Fragment } from 'react'
 
-import type { ProjectProfessional } from '@Common/api/generated'
+import type { ProjectProfessional } from '@Common/api'
 
 import { Box, Divider, Group, Stack } from '@mantine/core'
 
-import { useCurrentProject } from '../../context/CurrentProject'
-import { useProjectQuery } from '../../hooks/useProjectQuery'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useProjectQuery } from '@Project/hooks/useProjectQuery'
+
 import { InfoItem } from './_InfoItem'
 
 type InfoProfessionalsProps = {

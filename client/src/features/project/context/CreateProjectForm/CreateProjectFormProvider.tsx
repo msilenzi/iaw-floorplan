@@ -1,19 +1,15 @@
 import { isNotEmpty, useForm } from '@mantine/form'
 
-import {
-  CreateProjectDto,
-  ProjectPurpose,
-  ProjectType,
-} from '@Common/api/generated'
+import type { CreateProjectDto } from '@Common/api/generated'
 
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
-import {
+import type {
   CreateProjectForm,
-  IdentificationType,
   ProjectProfessionalForm,
 } from '../../types/create-project-form.types'
+import { IdentificationType } from '../../types/create-project-form.types'
 import { CreateProjectFormContext } from './CreateProjectFormContext'
 
 type CreateProjectFormProviderProps = {
@@ -52,8 +48,8 @@ export function CreateProjectFormProvider({
     transformValues: (values) => ({
       record: values.record.trim(),
       name: trimmedStrOrUndef(values.name),
-      type: values.type as ProjectType,
-      purpose: values.purpose as ProjectPurpose,
+      type: values.type!,
+      purpose: values.purpose!,
       location: trimmedStrOrUndef(values.location),
       status: values.status ?? undefined,
       background: trimmedStrOrUndef(values.background),

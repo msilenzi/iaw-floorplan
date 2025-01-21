@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core'
 
-import { BasicOrganizationDto } from '@Common/api/generated'
+import type { BasicOrganizationDto } from '@Common/api/generated'
 
 type LastAccessedAtTdProps = {
   value: BasicOrganizationDto['lastAccessedAt']

@@ -1,6 +1,6 @@
 import { Box, Text, Title, rem } from '@mantine/core'
 
-import { TablerIcon } from '@tabler/icons-react'
+import type { TablerIcon } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 

@@ -1,4 +1,4 @@
-import {
+import type {
   ProjectPurpose,
   ProjectRequirementDto,
   ProjectStatus,
@@ -33,10 +33,10 @@ export type CreateProjectForm = {
   location: string
   status: ProjectStatus | null
   background: string
-  references: Array<string>
-  otherRequirements: Array<ProjectRequirementDto>
+  references: string[]
+  otherRequirements: ProjectRequirementDto[]
   ownerEnabled: boolean
   owner: ProjectOwnerForm
-  designers: Array<ProjectProfessionalForm>
-  technicalDirectors: Array<ProjectProfessionalForm>
+  designers: ProjectProfessionalForm[]
+  technicalDirectors: ProjectProfessionalForm[]
 }

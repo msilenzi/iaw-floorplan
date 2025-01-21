@@ -1,8 +1,10 @@
-import { DefaultMantineColor, Group, Menu, Text } from '@mantine/core'
+import type { DefaultMantineColor } from '@mantine/core'
+import { Group, Menu, Text } from '@mantine/core'
 
-import { TablerIcon } from '@tabler/icons-react'
+import type { TablerIcon } from '@tabler/icons-react'
 
-import { MemberStatus, OrganizationMemberDto } from '@Common/api/generated'
+import type { OrganizationMemberDto } from '@Common/api/generated'
+import { MemberStatus } from '@Common/api/generated'
 import { DataTable } from '@Common/components/DataTable'
 import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { TableActionButton } from '@Common/ui/TableActionButton'

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { UseFormReturnType } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 import { randomId } from '@mantine/hooks'
 
 type UseKeyedArrayFormFieldProps<

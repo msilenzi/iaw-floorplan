@@ -13,15 +13,15 @@ import {
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
 
 import { useCreateProjectForm } from '../../context/CreateProjectForm'
-import {
+import type {
   CreateProjectForm,
-  IdentificationType,
   ProjectProfessionalForm,
 } from '../../types/create-project-form.types'
+import { IdentificationType } from '../../types/create-project-form.types'
 import { FormSectionHeader } from './FormSectionHeader'
 
 type ProfessionalField = keyof {
-  [K in keyof CreateProjectForm as CreateProjectForm[K] extends Array<ProjectProfessionalForm>
+  [K in keyof CreateProjectForm as CreateProjectForm[K] extends ProjectProfessionalForm[]
     ? K
     : never]: CreateProjectForm[K]
 }

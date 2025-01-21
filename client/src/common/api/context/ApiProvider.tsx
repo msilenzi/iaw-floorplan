@@ -8,7 +8,7 @@ import {
   OrganizationsApi,
   ProjectsApi,
 } from '../generated'
-import { ApiContextType } from '../types'
+import type { ApiContextType } from '../types'
 import { ApiContext } from './ApiContext'
 
 type ApiProviderProps = {

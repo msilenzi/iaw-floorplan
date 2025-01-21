@@ -1,4 +1,5 @@
-import { Skeleton, Stack, Text, TextProps } from '@mantine/core'
+import type { TextProps } from '@mantine/core'
+import { Skeleton, Stack, Text } from '@mantine/core'
 
 import { useCurrentProject } from '../../context/CurrentProject'
 import { useProjectQuery } from '../../hooks/useProjectQuery'

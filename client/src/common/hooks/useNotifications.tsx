@@ -1,5 +1,6 @@
 import { Text } from '@mantine/core'
-import { NotificationData, notifications } from '@mantine/notifications'
+import type { NotificationData } from '@mantine/notifications'
+import { notifications } from '@mantine/notifications'
 
 type CustomNotificationData = {
   title: string

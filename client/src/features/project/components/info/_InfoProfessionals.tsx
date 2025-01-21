@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 
 import { Box, Divider, Group, Stack } from '@mantine/core'
 
-import { ProjectProfessional } from '@Common/api/generated'
+import type { ProjectProfessional } from '@Common/api/generated'
 
 import { useCurrentProject } from '../../context/CurrentProject'
 import { useProjectQuery } from '../../hooks/useProjectQuery'

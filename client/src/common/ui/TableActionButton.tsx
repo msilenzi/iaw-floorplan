@@ -1,6 +1,7 @@
 import { forwardRef, useState } from 'react'
 
-import { ActionIcon, ActionIconProps, ElementProps } from '@mantine/core'
+import type { ActionIconProps, ElementProps } from '@mantine/core'
+import { ActionIcon } from '@mantine/core'
 
 import { IconDotsVertical } from '@tabler/icons-react'
 
@@ -21,11 +22,11 @@ export const TableActionButton = forwardRef<
       ref={ref}
       {...props}
       onMouseEnter={(e) => {
-        props?.onMouseEnter?.(e)
+        props.onMouseEnter?.(e)
         setHovered(true)
       }}
       onMouseLeave={(e) => {
-        props?.onMouseLeave?.(e)
+        props.onMouseLeave?.(e)
         setHovered(false)
       }}
     >

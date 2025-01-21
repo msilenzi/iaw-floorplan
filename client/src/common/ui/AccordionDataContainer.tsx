@@ -7,7 +7,7 @@ import {
   useMantineTheme,
 } from '@mantine/core'
 
-import { TablerIcon } from '@tabler/icons-react'
+import type { TablerIcon } from '@tabler/icons-react'
 
 type AccordionDataContainerProps = {
   title: string

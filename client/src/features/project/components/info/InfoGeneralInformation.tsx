@@ -13,7 +13,7 @@ import { displayProjectPurpose } from '@/features/project/utils/displayProjectPu
 import { displayProjectStatus } from '@/features/project/utils/displayProjectStatus'
 import { displayProjectType } from '@/features/project/utils/displayProjectType'
 
-import { ProjectFindOneDto } from '@Common/api/generated'
+import type { ProjectFindOneDto } from '@Common/api/generated'
 import { UserAvatar } from '@Common/ui/UserAvatar'
 
 import { useCurrentProject } from '../../context/CurrentProject'
@@ -37,7 +37,7 @@ export function InfoGeneralInformation() {
       />
       <InfoItem
         label="Destino"
-        data={data?.purpose ? displayProjectPurpose(data?.purpose) : undefined}
+        data={data?.purpose ? displayProjectPurpose(data.purpose) : undefined}
         dataProps={{ tt: 'capitalize' }}
       />
       <InfoItem label="Ubicación" data={data?.location} />
@@ -60,7 +60,7 @@ export function InfoGeneralInformation() {
                   content: { whiteSpace: 'pre-line' },
                 }}
               >
-                {data?.background}
+                {data.background}
               </Spoiler>
             </ScrollArea.Autosize>
           ) : undefined

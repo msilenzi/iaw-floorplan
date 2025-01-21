@@ -1,6 +1,7 @@
-import { Prettify } from '@Common/types/Prettify.type'
+import type { Prettify } from '@Common/types/Prettify.type'
 
-import { ServerException, isServerException } from './ServerException'
+import type { ServerException } from './ServerException'
+import { isServerException } from './ServerException'
 
 export type DuplicatedRecordException = Prettify<
   ServerException & {

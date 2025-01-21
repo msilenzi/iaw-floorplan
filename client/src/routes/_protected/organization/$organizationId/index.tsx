@@ -8,7 +8,7 @@ import { useProjectsQuery } from '@/features/project/hooks/useProjectsQuery'
 import { displayProjectPurpose } from '@/features/project/utils/displayProjectPurpose'
 import { displayProjectType } from '@/features/project/utils/displayProjectType'
 
-import { Project } from '@Common/api/generated'
+import type { Project } from '@Common/api/generated'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'

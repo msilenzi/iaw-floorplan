@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router'
 
 import { Stack } from '@mantine/core'
 
-import { MemberStatus } from '@Common/api/generated'
+import type { MemberStatus } from '@Common/api/generated'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 
 import { OrganizationMemberSearch } from '@Organization/components/OrganizationMemberSearch'

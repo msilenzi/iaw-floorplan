@@ -1,12 +1,7 @@
-import { UseQueryResult } from '@tanstack/react-query'
+import type { UseQueryResult } from '@tanstack/react-query'
 
-import {
-  ActionIcon,
-  Button,
-  ButtonProps,
-  ElementProps,
-  Loader,
-} from '@mantine/core'
+import type { ButtonProps, ElementProps } from '@mantine/core'
+import { ActionIcon, Button, Loader } from '@mantine/core'
 
 import { IconReload } from '@tabler/icons-react'
 

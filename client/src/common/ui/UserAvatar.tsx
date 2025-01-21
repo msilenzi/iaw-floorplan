@@ -1,11 +1,13 @@
 import { useState } from 'react'
 
-import { Avatar, AvatarProps, ElementProps } from '@mantine/core'
+import type { AvatarProps, ElementProps } from '@mantine/core'
+import { Avatar } from '@mantine/core'
 
-interface Props extends AvatarProps, ElementProps<'div', keyof AvatarProps> {
+type Props = {
   username: string
   picture?: string
-}
+} & AvatarProps &
+  ElementProps<'div', keyof AvatarProps>
 
 type UserAvatarProps = Omit<Props, 'src' | 'alt' | 'onError' | 'color' | 'name'>
 

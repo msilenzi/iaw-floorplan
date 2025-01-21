@@ -14,7 +14,8 @@ export default tseslint.config(
   {
     extends: [
       js.configs.recommended,
-      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.strictTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
       eslintConfigPrettier,
       pluginQuery.configs['flat/recommended'],
     ],
@@ -27,7 +28,9 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    settings: { react: { version: '18.3' } },
+    settings: {
+      react: { version: '18.3' },
+    },
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
@@ -42,6 +45,38 @@ export default tseslint.config(
       ],
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
+
+      // 🎨 Stylistic rules
+      '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+
+      // 🔒 Strict rules
+      '@typescript-eslint/restrict-template-expressions': [
+        'error',
+        { allowNumber: true },
+      ],
+      '@typescript-eslint/no-confusing-void-expression': [
+        'error',
+        { ignoreArrowShorthand: true },
+      ],
+
+      // ⚙️ Other rules
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        { fixMixedExportsWithInlineTypeSpecifier: true },
+      ],
+      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-useless-empty-export': 'error',
+      '@typescript-eslint/prefer-enum-initializers': 'error',
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
+      '@typescript-eslint/no-import-type-side-effects': 'error',
+
+      //! NO
+      // '@typescript-eslint/no-unsafe-type-assertion': 'error',
+      // '@typescript-eslint/prefer-readonly-parameter-types': 'error',
     },
   },
 )
+
+// noImplicitReturns

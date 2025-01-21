@@ -29,7 +29,7 @@ export type DataColumnsConfiguration<TData extends object> = Array<
 
 export type DataTableProps<TData extends object> = {
   data: TData[]
-  columnsConfiguration: DataColumnConfiguration<TData>[]
+  columnsConfiguration: Array<DataColumnConfiguration<TData>>
   isLoading: boolean
   loadingRowsLength: number
   rowKey: keyof TData

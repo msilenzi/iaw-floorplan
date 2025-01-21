@@ -4,7 +4,8 @@ import { ActionIcon, Group, Stack, Text } from '@mantine/core'
 
 import { IconUserQuestion, IconUserX, IconX } from '@tabler/icons-react'
 
-import { BasicOrganizationDto, MemberStatus } from '@Common/api/generated'
+import type { BasicOrganizationDto } from '@Common/api/generated'
+import { MemberStatus } from '@Common/api/generated'
 import { DataTable } from '@Common/components/DataTable'
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 import { Popconfirm } from '@Common/ui/Popconfirm'

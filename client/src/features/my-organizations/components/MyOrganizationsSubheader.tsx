@@ -2,11 +2,11 @@ import { Group } from '@mantine/core'
 
 import { IconBuilding, IconUserPlus } from '@tabler/icons-react'
 
-import {
-  BaseSubheader,
+import type {
   SubheaderBreadcrumb,
   SubheaderTab,
 } from '@Common/components/BaseSubheader'
+import { BaseSubheader } from '@Common/components/BaseSubheader'
 
 import { MyOrganizationsAddBtn } from './MyOrganizationAddBtn'
 

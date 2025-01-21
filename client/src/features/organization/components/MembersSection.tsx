@@ -1,15 +1,16 @@
 import { Text } from '@mantine/core'
 
-import { TablerIcon } from '@tabler/icons-react'
+import type { TablerIcon } from '@tabler/icons-react'
 
-import { MemberStatus } from '@Common/api/generated'
+import type { MemberStatus } from '@Common/api/generated'
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useMemberSearchForm } from '@Organization/context/MemberSearchForm/MemberSearchFormContext'
 import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
 
-import { MembersTable, MembersTableAction } from './MembersTable'
+import type { MembersTableAction } from './MembersTable'
+import { MembersTable } from './MembersTable'
 
 type MembersSectionProps = {
   title: string
@@ -47,7 +48,7 @@ export function MembersSection({
     <AccordionDataContainer
       title={title}
       Icon={Icon}
-      dataLength={filteredData?.length}
+      dataLength={filteredData.length}
     >
       {!isLoading && filteredData.length === 0 ? (
         <Text mt="sm">{emptyMessage}</Text>

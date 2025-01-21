@@ -1,4 +1,5 @@
-import { Menu, MenuProps } from '@mantine/core'
+import type { MenuProps } from '@mantine/core'
+import { Menu } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
 import { IconBuildingPlus, IconBuildings, IconPlus } from '@tabler/icons-react'

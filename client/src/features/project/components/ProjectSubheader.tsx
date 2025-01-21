@@ -2,11 +2,11 @@ import { Group, Skeleton, Text } from '@mantine/core'
 
 import { IconInfoSquare, IconMap, IconPaperclip } from '@tabler/icons-react'
 
-import {
-  BaseSubheader,
+import type {
   SubheaderBreadcrumb,
   SubheaderTab,
 } from '@Common/components/BaseSubheader'
+import { BaseSubheader } from '@Common/components/BaseSubheader'
 
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 

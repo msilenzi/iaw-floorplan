@@ -10,7 +10,7 @@
     "tscheck": "tsc --noEmit -p ./tsconfig.app.json",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "api:generate": "openapi-generator-cli generate -i http://localhost:3000/docs-json -g typescript-axios -o ./src/common/api/generated"
+    "api:generate": "openapi-generator-cli generate -i http://localhost:3000/docs-json -g typescript-axios -o ./src/common/api/generated --skip-validate-spec"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",

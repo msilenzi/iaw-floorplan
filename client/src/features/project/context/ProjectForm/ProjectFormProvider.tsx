@@ -60,42 +60,61 @@ export function ProjectFormProvider({
       location: trimmedStrOrUndef(values.location),
       status: values.status ?? undefined,
       background: trimmedStrOrUndef(values.background),
+
       references:
-        values.references.length !== 0
-          ? values.references
+        values.references.length === 0
+          ? undefined
+          : values.references
               .map((value) => trimmedStrOrUndef(value))
-              .filter((value) => value != undefined)
-          : undefined,
-      otherRequirements: values.otherRequirements,
-      owner: values.ownerEnabled
-        ? {
+              .filter((value) => value != undefined),
+
+      otherRequirements:
+        values.otherRequirements.length === 0
+          ? undefined
+          : values.otherRequirements.map((value) => ({
+              key: value.key.trim(),
+              value: value.value.trim(),
+            })),
+
+      owner: !values.ownerEnabled
+        ? undefined
+        : {
             fullName: values.owner.fullName.trim(),
             dni: values.owner.dni.trim(),
             address: trimmedStrOrUndef(values.owner.address),
-          }
-        : undefined,
+          },
 
-      designers: values.designers.map(
-        (value) =>
-          ({
-            fullName: value.fullName.trim(),
-            dniCuit: value.dniCuit.trim(),
-            address: trimmedStrOrUndef(value.address),
-            provinceRegistration: trimmedStrOrUndef(value.provinceRegistration),
-            cityRegistration: trimmedStrOrUndef(value.cityRegistration),
-          }) as ProjectProfessionalForm,
-      ),
+      designers:
+        values.designers.length === 0
+          ? undefined
+          : values.designers.map(
+              (value) =>
+                ({
+                  fullName: value.fullName.trim(),
+                  dniCuit: value.dniCuit.trim(),
+                  address: trimmedStrOrUndef(value.address),
+                  provinceRegistration: trimmedStrOrUndef(
+                    value.provinceRegistration,
+                  ),
+                  cityRegistration: trimmedStrOrUndef(value.cityRegistration),
+                }) as ProjectProfessionalForm,
+            ),
 
-      technicalDirectors: values.technicalDirectors.map(
-        (value) =>
-          ({
-            fullName: value.fullName.trim(),
-            dniCuit: value.dniCuit.trim(),
-            address: trimmedStrOrUndef(value.address),
-            provinceRegistration: trimmedStrOrUndef(value.provinceRegistration),
-            cityRegistration: trimmedStrOrUndef(value.cityRegistration),
-          }) as ProjectProfessionalForm,
-      ),
+      technicalDirectors:
+        values.technicalDirectors.length === 0
+          ? undefined
+          : values.technicalDirectors.map(
+              (value) =>
+                ({
+                  fullName: value.fullName.trim(),
+                  dniCuit: value.dniCuit.trim(),
+                  address: trimmedStrOrUndef(value.address),
+                  provinceRegistration: trimmedStrOrUndef(
+                    value.provinceRegistration,
+                  ),
+                  cityRegistration: trimmedStrOrUndef(value.cityRegistration),
+                }) as ProjectProfessionalForm,
+            ),
     }),
 
     validate: {
@@ -124,8 +143,8 @@ export function ProjectFormProvider({
           if (keyCount > 1) return `La clave '${trimmedKey}' está duplicada`
           return null
 
-          // Esta versión solo marca las claves duplicadas posteriores.
-          // Si es la primera vez que aparece no la marca como duplicada:
+          // La siguiente versión solo marca las claves duplicadas posteriores,
+          // si es la primera vez que aparece no la marca como duplicada:
           /*
             const reqmts = values.otherRequirements
             const keyPos: number = +path.split('.')[1]

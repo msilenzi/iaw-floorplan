@@ -58,11 +58,17 @@ export class ProjectsService {
     projectId: Types.ObjectId,
     updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
-    if (updateProjectDto.record) {
+    const project = await this._getProject(projectId, organization._id)
+    if (updateProjectDto.record && updateProjectDto.record !== project.record) {
       await this._validateRecord(organization, updateProjectDto.record)
     }
-    const project = await this._getProject(projectId, organization._id)
-    Object.assign(project, updateProjectDto)
+
+    Object.entries(updateProjectDto).forEach(([key, value]) => {
+      if (value === undefined) return
+      // @ts-expect-error funciona bien
+      project[key] = value !== null ? value : undefined
+    })
+
     project.save()
     return project
   }

@@ -83,5 +83,5 @@ export class CreateProjectDto {
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ProjectRequirementDto)
-  otherRequirements?: ProjectRequirementDto[]
+  readonly otherRequirements?: ProjectRequirementDto[]
 }

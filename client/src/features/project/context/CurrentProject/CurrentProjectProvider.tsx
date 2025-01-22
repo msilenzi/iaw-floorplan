@@ -1,10 +1,14 @@
+import type { CurrentOrganizationType } from '@Organization/context/CurrentOrganization/CurrentOrganizationContext'
 import type { CurrentProjectContextType } from './CurrentProjectContext'
+
+import { CurrentOrganizationProvider } from '@Organization/context/CurrentOrganization'
 
 import { CurrentProjectContext } from './CurrentProjectContext'
 
 type CurrentProjectProviderProps = {
   children: React.ReactNode
-} & CurrentProjectContextType
+} & CurrentProjectContextType &
+  CurrentOrganizationType
 
 export function CurrentProjectProvider({
   organizationId,
@@ -12,13 +16,10 @@ export function CurrentProjectProvider({
   children,
 }: CurrentProjectProviderProps) {
   return (
-    <CurrentProjectContext.Provider
-      value={{
-        organizationId,
-        projectId,
-      }}
-    >
-      {children}
-    </CurrentProjectContext.Provider>
+    <CurrentOrganizationProvider organizationId={organizationId}>
+      <CurrentProjectContext.Provider value={{ projectId }}>
+        {children}
+      </CurrentProjectContext.Provider>
+    </CurrentOrganizationProvider>
   )
 }

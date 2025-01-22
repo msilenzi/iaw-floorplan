@@ -13,7 +13,7 @@ import { ProjectTypeField } from '../fields/ProjectTypeField'
 import { FormSectionHeader } from '../FormSectionHeader'
 import { ProfessionalsList } from '../ProfessionalsList'
 
-export function ProjectModalCreateBody() {
+export function ProjectModalBody() {
   return (
     <Modal.Body>
       <Container size="md" mt="xs">

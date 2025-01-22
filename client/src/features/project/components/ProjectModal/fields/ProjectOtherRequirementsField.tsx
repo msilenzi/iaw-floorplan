@@ -1,12 +1,12 @@
 import { CloseButton, Group, TextInput } from '@mantine/core'
 
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
-import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
+import { useProjectForm } from '@Project/context/ProjectForm'
 
 import { FormSectionHeader } from '../FormSectionHeader'
 
 export function ProjectOtherRequirementsField() {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
   const { ids, addItem, removeItem } = useKeyedArrayFormField({
     form,
     fieldName: 'otherRequirements',

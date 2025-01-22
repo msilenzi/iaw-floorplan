@@ -16,7 +16,7 @@ import {
 } from '@mantine/core'
 
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
-import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
+import { useProjectForm } from '@Project/context/ProjectForm'
 import { IdentificationType } from '@Project/types/ProjectForm.types'
 
 import { FormSectionHeader } from './FormSectionHeader'
@@ -33,8 +33,7 @@ type ProfessionalsListProps = {
 }
 
 export function ProfessionalsList({ field, title }: ProfessionalsListProps) {
-  const form = useCreateProjectForm()
-
+  const form = useProjectForm()
   const { ids, addItem, removeItem } = useKeyedArrayFormField({
     form,
     fieldName: field,
@@ -79,7 +78,7 @@ type AccordionItemProps = {
 }
 
 function AccordionItem({ field, id, index, removeItem }: AccordionItemProps) {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
 
   const [fullName, setFullName] = useState(
     form.getValues()[field][index].fullName,
@@ -110,7 +109,7 @@ type ProfessionalProps = {
 }
 
 export function Professional({ field, index }: ProfessionalProps) {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
 
   return (
     <>
@@ -156,7 +155,8 @@ type DniCuitProps = {
 }
 
 function DniCuit({ field, index }: DniCuitProps) {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
+
   const [currentType, setCurrentType] = useState(
     form.getValues()[field][index].identificationType,
   )

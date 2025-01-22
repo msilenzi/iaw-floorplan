@@ -1,9 +1,9 @@
 import { TextInput } from '@mantine/core'
 
-import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
+import { useProjectForm } from '@Project/context/ProjectForm'
 
 export function ProjectLocationField() {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
 
   return (
     <TextInput

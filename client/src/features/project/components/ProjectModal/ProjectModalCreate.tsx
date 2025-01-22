@@ -8,12 +8,12 @@ import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import {
-  CreateProjectFormProvider,
-  useCreateProjectForm,
-} from '@Project/context/CreateProjectForm'
+  ProjectFormProvider,
+  useProjectForm,
+} from '@Project/context/ProjectForm'
 import { useCreateProjectMutation } from '@Project/hooks/useCreateProjectMutation'
 
-import { ProjectModalCreateBody } from './modal-sections/ProjectModalBody'
+import { ProjectModalBody } from './modal-sections/ProjectModalBody'
 import { ProjectModalCreateHeader } from './modal-sections/ProjectModalCreateHeader'
 
 type ProjectModalCreateProps = {
@@ -23,9 +23,9 @@ type ProjectModalCreateProps = {
 
 export function ProjectModalCreate(props: ProjectModalCreateProps) {
   return (
-    <CreateProjectFormProvider>
+    <ProjectFormProvider>
       <Content {...props} />
-    </CreateProjectFormProvider>
+    </ProjectFormProvider>
   )
 }
 
@@ -35,7 +35,7 @@ function Content({ isOpen, onClose }: ProjectModalCreateProps) {
   const { mutateAsync, isPending } = useCreateProjectMutation(organizationId)
   const navigate = useNavigate()
 
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
 
   const { showErrorNotification } = useNotifications()
 
@@ -92,7 +92,7 @@ function Content({ isOpen, onClose }: ProjectModalCreateProps) {
               handleClose={handleClose}
               isLoading={isPending}
             />
-            <ProjectModalCreateBody />
+            <ProjectModalBody />
           </Modal.Content>
         </fieldset>
       </form>

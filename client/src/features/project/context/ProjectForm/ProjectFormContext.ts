@@ -1,10 +1,9 @@
 import type { CreateProjectDto } from '@Common/api'
-import type { UseFormReturnType } from '@mantine/form'
 import type { ProjectFormValues } from '@Project/types/ProjectForm.types'
 
-import { createContext } from 'react'
+import { createFormContext } from '@mantine/form'
 
-export const CreateProjectFormContext = createContext<UseFormReturnType<
+export const [FormProvider, useProjectForm, useForm] = createFormContext<
   ProjectFormValues,
   (values: ProjectFormValues) => CreateProjectDto
-> | null>(null)
+>()

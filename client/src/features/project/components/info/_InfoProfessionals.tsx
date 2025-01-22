@@ -6,6 +6,7 @@ import { Box, Divider, Group, Stack } from '@mantine/core'
 
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
+import { isDni } from '@Project/utils/isDni'
 
 import { InfoItem } from './_InfoItem'
 
@@ -51,8 +52,6 @@ export function ProfessionalItem({
   cityRegistration,
   provinceRegistration,
 }: ProfessionalItemProps) {
-  const isDni = /^\d{8}$/.test(dniCuit ?? '')
-
   return (
     <Stack gap="xs">
       <Group>
@@ -60,7 +59,10 @@ export function ProfessionalItem({
           <InfoItem label="Nombre" data={fullName} />
         </Box>
         <Box w="15ch">
-          <InfoItem label={isDni ? 'DNI' : 'CUIT'} data={dniCuit} />
+          <InfoItem
+            label={isDni(dniCuit ?? '') ? 'DNI' : 'CUIT'}
+            data={dniCuit}
+          />
         </Box>
       </Group>
       <InfoItem label="Dirección" data={address} />

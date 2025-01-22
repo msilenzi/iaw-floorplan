@@ -1,9 +1,9 @@
 import { Textarea } from '@mantine/core'
 
-import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
+import { useProjectForm } from '@Project/context/ProjectForm'
 
 export function ProjectBackgroundField() {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
 
   return (
     <Textarea

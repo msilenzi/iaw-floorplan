@@ -1,31 +1,38 @@
-import type { CreateProjectDto } from '@Common/api'
+import type { UseFormInput } from '@mantine/form'
 import type {
   ProjectFormValues,
   ProjectProfessionalForm,
 } from '@Project/types/ProjectForm.types'
 
-import { isNotEmpty, useForm } from '@mantine/form'
+import { isNotEmpty } from '@mantine/form'
 
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { IdentificationType } from '@Project/types/ProjectForm.types'
+import { isCuit } from '@Project/utils/isCuit'
+import { isDni } from '@Project/utils/isDni'
+import { trimmedStrOrUndef } from '@Project/utils/trimmedStrOrUndef'
 
-import { CreateProjectFormContext } from './CreateProjectFormContext'
+import { FormProvider, useForm } from './ProjectFormContext'
 
-type CreateProjectFormProviderProps = {
+type ProjectFormProviderProps = {
   children: React.ReactNode
+  formOptions?: UseFormInput<
+    ProjectFormValues,
+    (values: ProjectFormValues) => unknown
+  >
 }
 
-export function CreateProjectFormProvider({
+export function ProjectFormProvider({
   children,
-}: CreateProjectFormProviderProps) {
+  formOptions,
+}: ProjectFormProviderProps) {
   const { organizationId } = useCurrentOrganization()
   const { data } = useOrganizationQuery(organizationId)
 
-  const form = useForm<
-    ProjectFormValues,
-    (values: ProjectFormValues) => CreateProjectDto
-  >({
+  const form = useForm({
+    ...formOptions,
+
     mode: 'uncontrolled',
     validateInputOnBlur: true, // Deshabilitar si hay problemas de rendimiento
 
@@ -142,7 +149,7 @@ export function CreateProjectFormProvider({
         },
         dni(value, { ownerEnabled }) {
           if (!ownerEnabled) return null
-          if (!/^\d{8}$/.test(value)) {
+          if (!isDni(value)) {
             return 'El DNI debe tener 8 dígitos'
           }
           return null
@@ -159,15 +166,12 @@ export function CreateProjectFormProvider({
           if (!Object.values(IdentificationType).includes(identificationType)) {
             return 'Tipo de documento inválido'
           }
-          if (
-            identificationType === IdentificationType.DNI &&
-            !/\d{8}/.test(value)
-          ) {
+          if (identificationType === IdentificationType.DNI && !isDni(value)) {
             return 'El DNI debe tener 8 dígitos'
           }
           if (
             identificationType === IdentificationType.CUIT &&
-            !/^\d{2}-\d{8}-\d$/.test(value)
+            !isCuit(value)
           ) {
             return 'CUIT inválido'
           }
@@ -186,15 +190,12 @@ export function CreateProjectFormProvider({
           if (!Object.values(IdentificationType).includes(identificationType)) {
             return 'Tipo de documento inválido'
           }
-          if (
-            identificationType === IdentificationType.DNI &&
-            !/\d{8}/.test(value)
-          ) {
+          if (identificationType === IdentificationType.DNI && !isDni(value)) {
             return 'El DNI debe tener 8 dígitos'
           }
           if (
             identificationType === IdentificationType.CUIT &&
-            !/^\d{2}-\d{8}-\d$/.test(value)
+            !isCuit(value)
           ) {
             return 'CUIT inválido'
           }
@@ -204,14 +205,5 @@ export function CreateProjectFormProvider({
     },
   })
 
-  return (
-    <CreateProjectFormContext.Provider value={form}>
-      {children}
-    </CreateProjectFormContext.Provider>
-  )
-}
-
-function trimmedStrOrUndef(value: string): string | undefined {
-  const trimmedValue = value.trim()
-  return trimmedValue.length !== 0 ? trimmedValue : undefined
+  return <FormProvider form={form}>{children}</FormProvider>
 }

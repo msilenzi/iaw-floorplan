@@ -1,7 +1,6 @@
 import { createContext } from 'react'
 
 export type CurrentProjectContextType = {
-  organizationId: string
   projectId: string
 }
 

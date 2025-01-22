@@ -1,12 +1,12 @@
 import { CloseButton, Group, TextInput } from '@mantine/core'
 
 import { useKeyedArrayFormField } from '@Common/hooks/useKeyedArrayFormField'
-import { useCreateProjectForm } from '@Project/context/CreateProjectForm'
+import { useProjectForm } from '@Project/context/ProjectForm'
 
 import { FormSectionHeader } from '../FormSectionHeader'
 
 export function ProjectReferencesField() {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
   const { addItem, removeItem, ids } = useKeyedArrayFormField({
     form,
     fieldName: 'references',
@@ -32,7 +32,7 @@ type ReferenceProps = {
 }
 
 function Reference({ index, removeItem }: ReferenceProps) {
-  const form = useCreateProjectForm()
+  const form = useProjectForm()
 
   return (
     <Group gap="xs">

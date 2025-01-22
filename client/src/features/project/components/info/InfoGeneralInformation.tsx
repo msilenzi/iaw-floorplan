@@ -17,7 +17,7 @@ import { displayProjectPurpose } from '@Project/utils/displayProjectPurpose'
 import { displayProjectStatus } from '@Project/utils/displayProjectStatus'
 import { displayProjectType } from '@Project/utils/displayProjectType'
 
-import { InfoItem } from './_InfoItem'
+import { InfoItem } from './InfoItem'
 
 export function InfoGeneralInformation() {
   const theme = useMantineTheme()

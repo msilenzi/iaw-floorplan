@@ -8,7 +8,7 @@ import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 import { isDni } from '@Project/utils/isDni'
 
-import { InfoItem } from './_InfoItem'
+import { InfoItem } from './InfoItem'
 
 type InfoProfessionalsProps = {
   professionals?: ProjectProfessional[]

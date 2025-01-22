@@ -3,7 +3,7 @@ import { Box, Group, Stack, Text, Title } from '@mantine/core'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
-import { InfoItem } from './_InfoItem'
+import { InfoItem } from './InfoItem'
 
 export function InfoOwner() {
   return (

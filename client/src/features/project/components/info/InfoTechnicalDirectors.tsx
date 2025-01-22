@@ -3,7 +3,7 @@ import { Stack, Text, Title } from '@mantine/core'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
-import { InfoProfessionals } from './_InfoProfessionals'
+import { InfoProfessionals } from './InfoProfessionals'
 
 export function InfoTechnicalDirectors() {
   return (

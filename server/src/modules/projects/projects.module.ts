@@ -6,9 +6,9 @@ import {
   OrganizationSchema,
 } from '../organizations/schemas/organization.schema'
 import { UsersModule } from '../users/users.module'
-import { ProjectsController } from './projects.controller'
-import { ProjectsService } from './projects.service'
+import { ProjectsController } from './controllers/projects.controller'
 import { Project, ProjectSchema } from './schemas/project.schema'
+import { ProjectsService } from './services/projects.service'
 
 @Module({
   imports: [

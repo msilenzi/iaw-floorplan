@@ -2,6 +2,7 @@
  * Agregar algunos tipados adicionales para Express
  */
 
+import { Member } from 'src/modules/organizations/schemas/member.schema'
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
 
 export {}
@@ -21,6 +22,7 @@ declare global {
 
     interface Request {
       organization?: OrganizationDocument
+      member?: Member
     }
   }
 }

@@ -3,25 +3,22 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { InjectModel } from '@nestjs/mongoose'
 import { Request } from 'express'
-import { Model } from 'mongoose'
 
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
 import { ALLOWED_MEMBER_STATUS_KEY } from '../decorators/allowed-member-status.decorator'
-import { Organization } from '../schemas/organization.schema'
+import { OrganizationMembersService } from '../services/organization-members.service'
+import { OrganizationsService } from '../services/organizations.service'
 import { MemberStatus } from '../types/member-status.enum'
 
 @Injectable()
 export class AllowedMemberStatusGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-
-    @InjectModel(Organization.name)
-    private readonly organizationModel: Model<Organization>,
+    private readonly organizationsService: OrganizationsService,
+    private readonly organizationMembersService: OrganizationMembersService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -40,21 +37,20 @@ export class AllowedMemberStatusGuard implements CanActivate {
       request.params?.organizationId,
     )
 
-    const organization = await this.organizationModel
-      .findById(organizationId)
-      .exec()
-    if (!organization) {
-      throw new NotFoundException('La organización no existe')
-    }
+    const organization =
+      await this.organizationsService._findOrganizationById(organizationId)
 
-    const member = organization.members.find(
-      (m) => m.userId === userId && allowedMemberStatus.includes(m.status),
+    const member = this.organizationMembersService._findMember(
+      organization,
+      userId,
     )
-    if (!member) {
+
+    if (!allowedMemberStatus.includes(member.status)) {
       throw new ForbiddenException('No puedes acceder a esta organización')
     }
 
     request.organization = organization
+    request.member = member
     return true
   }
 }

@@ -10,16 +10,16 @@ import {
   Post,
 } from '@nestjs/common'
 import { ApiParam } from '@nestjs/swagger'
-import { Types } from 'mongoose'
 
-import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
 import { Protected } from 'src/modules/auth/decorators/protected.decorator'
 import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
+import { GetMember } from '../decorators/get-member.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { OrganizationMemberDto } from '../dtos/organization-member.dto'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
+import { Member } from '../schemas/member.schema'
 import { OrganizationDocument } from '../schemas/organization.schema'
 import { OrganizationMembersService } from '../services/organization-members.service'
 import { MemberStatus } from '../types/member-status.enum'
@@ -37,10 +37,10 @@ export class OrganizationMembersController {
   @Post()
   @ApiParam({ name: 'organizationId', type: String })
   async createMember(
-    @Param('organizationId', ParseMongoIdPipe) organizationId: Types.ObjectId,
-    @Sub() sub: string,
+    @GetOrganization() organization: OrganizationDocument,
+    @GetMember() member: Member,
   ): Promise<BasicOrganizationDto> {
-    return await this.organizationMembersService.create(organizationId, sub)
+    return await this.organizationMembersService.create(organization, member)
   }
 
   /**
@@ -52,9 +52,9 @@ export class OrganizationMembersController {
   @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
   findAllMembers(
     @GetOrganization() organization: OrganizationDocument,
-    @Sub() sub: string,
+    @GetMember() member: Member,
   ): Promise<OrganizationMemberDto[]> {
-    return this.organizationMembersService.findAll(organization, sub)
+    return this.organizationMembersService.findAll(organization, member)
   }
 
   /**

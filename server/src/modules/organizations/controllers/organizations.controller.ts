@@ -3,11 +3,13 @@ import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
 import { Protected } from '../../auth/decorators/protected.decorator'
 import { Sub } from '../../auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
+import { GetMember } from '../decorators/get-member.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
 import { OrganizationDto } from '../dtos/organization.dto'
 import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
+import { Member } from '../schemas/member.schema'
 import { OrganizationDocument } from '../schemas/organization.schema'
 import { OrganizationsService } from '../services/organizations.service'
 import { MemberStatus } from '../types/member-status.enum'
@@ -45,9 +47,9 @@ export class OrganizationsController {
   @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
   findOne(
     @GetOrganization() organization: OrganizationDocument,
-    @Sub() sub: string,
+    @GetMember() member: Member,
   ): Promise<OrganizationDto> {
-    return this.organizationsService.findOne(organization, sub)
+    return this.organizationsService.findOne(organization, member)
   }
 
   /**

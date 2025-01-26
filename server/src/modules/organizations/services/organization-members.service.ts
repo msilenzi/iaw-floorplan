@@ -5,8 +5,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
-import { InjectModel } from '@nestjs/mongoose'
-import { Model, Types } from 'mongoose'
 
 import { UsersService } from 'src/modules/users/users.service'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
@@ -21,26 +19,12 @@ import { MemberStatus } from '../types/member-status.enum'
 
 @Injectable()
 export class OrganizationMembersService {
-  constructor(
-    private readonly usersService: UsersService,
-    @InjectModel(Organization.name)
-    private readonly organizationModel: Model<Organization>,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   async create(
-    organizationId: Types.ObjectId,
-    userId: string,
+    organization: OrganizationDocument,
+    member: Member,
   ): Promise<BasicOrganizationDto> {
-    const organization = await this.organizationModel
-      .findById(organizationId)
-      .exec()
-
-    if (!organization) {
-      throw new NotFoundException('La organización solicitada no existe')
-    }
-
-    const member = organization.members.find((m) => m.userId === userId)
-
     switch (member?.status) {
       case MemberStatus.MEMBER:
       case MemberStatus.OWNER:
@@ -61,37 +45,35 @@ export class OrganizationMembersService {
         member.status = MemberStatus.PENDING
         await organization.save()
         return {
-          _id: organizationId.toString(),
+          _id: organization._id.toString(),
           lastAccessedAt: member.lastAccessedAt?.toISOString() ?? null,
           name: organization.name,
           status: member.status,
         }
       case undefined:
         organization.members.push({
-          userId,
+          userId: member.userId,
           status: MemberStatus.PENDING,
           lastAccessedAt: null,
         })
         await organization.save()
         return {
-          _id: organizationId.toString(),
+          _id: organization._id.toString(),
           lastAccessedAt: null,
           name: organization.name,
           status: MemberStatus.PENDING,
         }
       default:
         throw new Error(
-          `El usuario '${userId}' tiene un estado inválido en la organización '${organizationId}'`,
+          `El usuario '${member.userId}' tiene un estado inválido en la organización '${organization._id}'`,
         )
     }
   }
 
   async findAll(
     organization: OrganizationDocument,
-    userId: string,
+    member: Member,
   ): Promise<OrganizationMemberDto[]> {
-    const member = this._findMember(organization, userId)
-
     switch (member.status) {
       // Devuelve la información de todos los miembros:
       case MemberStatus.OWNER:
@@ -157,7 +139,7 @@ export class OrganizationMembersService {
     organization.save()
   }
 
-  public _findMember(organization: Organization, userId: string): Member {
+  _findMember(organization: Organization, userId: string): Member {
     const member = organization.members.find(
       (member) => member.userId === userId,
     )
@@ -165,6 +147,15 @@ export class OrganizationMembersService {
       throw new NotFoundException(`No existe un miembro con el id ${userId}`)
     }
     return member
+  }
+
+  _isActiveMember(member: Member): boolean {
+    // Solo hay un propietario y puede haber N miembros, por lo cual
+    // es preferible verificar primero por MemberStatus.MEMBER.
+    return (
+      member.status === MemberStatus.MEMBER ||
+      member.status === MemberStatus.OWNER
+    )
   }
 
   private async _fetchMembers(
@@ -184,14 +175,5 @@ export class OrganizationMembersService {
         lastAccessedAt: includeLastAccessedAt ? lastAccessedAt : undefined,
       }
     })
-  }
-
-  _isActiveMember(member: Member): boolean {
-    // Solo hay un propietario y puede haber N miembros, por lo cual
-    // es preferible verificar primero por MemberStatus.MEMBER.
-    return (
-      member.status === MemberStatus.MEMBER ||
-      member.status === MemberStatus.OWNER
-    )
   }
 }

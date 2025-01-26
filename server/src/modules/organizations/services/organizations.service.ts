@@ -1,22 +1,21 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
+import { Model, Types } from 'mongoose'
 
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
 import { OrganizationDto } from '../dtos/organization.dto'
 import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
+import { Member } from '../schemas/member.schema'
 import {
   Organization,
   OrganizationDocument,
 } from '../schemas/organization.schema'
 import { MemberStatus } from '../types/member-status.enum'
-import { OrganizationMembersService } from './organization-members.service'
 
 @Injectable()
 export class OrganizationsService {
   constructor(
-    private readonly organizationMembersService: OrganizationMembersService,
     @InjectModel(Organization.name)
     private readonly organizationModel: Model<Organization>,
   ) {}
@@ -61,13 +60,8 @@ export class OrganizationsService {
 
   async findOne(
     organization: OrganizationDocument,
-    userId: string,
+    member: Member,
   ): Promise<OrganizationDto> {
-    const member = this.organizationMembersService._findMember(
-      organization,
-      userId,
-    )
-
     member.lastAccessedAt = new Date()
     await organization.save()
 
@@ -86,6 +80,18 @@ export class OrganizationsService {
   // remove(id: number) {
   //   return `This action removes a #${id} organization`
   // }
+
+  async _findOrganizationById(
+    organizationId: Types.ObjectId,
+  ): Promise<OrganizationDocument> {
+    const organization = await this.organizationModel
+      .findById(organizationId)
+      .exec()
+    if (!organization) {
+      throw new NotFoundException('La organización no existe')
+    }
+    return organization
+  }
 
   private _stripMembers(organization: OrganizationDocument) {
     const organizationsObj = organization.toObject()

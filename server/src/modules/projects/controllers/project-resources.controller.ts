@@ -12,6 +12,9 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiConsumes } from '@nestjs/swagger'
 
 import { Protected } from 'src/modules/auth/decorators/protected.decorator'
+import { Sub } from 'src/modules/auth/decorators/sub.decorator'
+import { GetOrganization } from 'src/modules/organizations/decorators/get-organization.decorator'
+import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
 import { GetProject } from '../decorators/get-project.decorator'
 import { ProjectAccess } from '../decorators/project-access.decorator'
 import { CreateProjectResourceDto } from '../dtos/create-project-resource.dto'
@@ -34,7 +37,7 @@ export class ProjectResourcesController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({ maxSize: mibToBytes(1) }),
+          new MaxFileSizeValidator({ maxSize: mibToBytes(5) }),
           new FileTypeValidator({
             fileType: /^(image\/(jpeg|png)|application\/pdf)$/,
           }),
@@ -42,8 +45,16 @@ export class ProjectResourcesController {
       }),
     )
     file: Express.Multer.File,
+    @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
+    @Sub() sub: string,
   ) {
-    return this.projectResourcesService.create(dto, file, project)
+    return this.projectResourcesService.create(
+      dto,
+      file,
+      organization,
+      project,
+      sub,
+    )
   }
 }

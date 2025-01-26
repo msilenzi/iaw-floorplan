@@ -18,6 +18,9 @@ export class ProjectResource {
   name: string
 
   @Prop({ type: String, required: true })
+  mimetype: string
+
+  @Prop({ type: String, required: true })
   createdBy: string
 
   @ApiProperty({ type: String })

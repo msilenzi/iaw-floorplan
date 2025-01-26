@@ -42,6 +42,25 @@ class EnvironmentVariables {
   readonly AUTH0_MANAGEMENT_TOKEN: string
 
   //
+  // AWS S3
+
+  @IsString()
+  @IsNotEmpty()
+  readonly S3_REGION: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly S3_ACCESS_KEY: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly S3_SECRET_KEY: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly S3_BUCKET: string
+
+  //
   // MongoDB
 
   @IsString()

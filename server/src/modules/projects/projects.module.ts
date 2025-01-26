@@ -3,8 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose'
 
 import { OrganizationsModule } from '../organizations/organizations.module'
 import { UsersModule } from '../users/users.module'
+import { ProjectResourcesController } from './controllers/project-resources.controller'
 import { ProjectsController } from './controllers/projects.controller'
 import { Project, ProjectSchema } from './schemas/project.schema'
+import { ProjectResourcesService } from './services/project-resources.service'
 import { ProjectsService } from './services/projects.service'
 
 @Module({
@@ -13,7 +15,7 @@ import { ProjectsService } from './services/projects.service'
     UsersModule,
     OrganizationsModule,
   ],
-  controllers: [ProjectsController],
-  providers: [ProjectsService],
+  controllers: [ProjectsController, ProjectResourcesController],
+  providers: [ProjectsService, ProjectResourcesService],
 })
 export class ProjectsModule {}

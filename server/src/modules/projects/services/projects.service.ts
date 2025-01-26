@@ -10,6 +10,7 @@ import { Model, Types } from 'mongoose'
 
 import { OrganizationDocument } from '../../organizations/schemas/organization.schema'
 import { UsersService } from '../../users/users.service'
+import { BasicProjectDto } from '../dtos/basic-project.dto'
 import { CreateProjectDto } from '../dtos/create-project.dto'
 import { ProjectFindOneDto } from '../dtos/project-find-one.dto'
 import { UpdateProjectDto } from '../dtos/update-project.dto'
@@ -40,8 +41,15 @@ export class ProjectsService {
     return project
   }
 
-  findAll(organization: OrganizationDocument): Promise<Project[]> {
-    return this.projectModel.find({ organizationId: organization._id }).exec()
+  async findAll(
+    organization: OrganizationDocument,
+  ): Promise<BasicProjectDto[]> {
+    return await this.projectModel
+      .find(
+        { organizationId: organization._id },
+        { _id: 1, record: 1, name: 1, type: 1, purpose: 1 },
+      )
+      .exec()
   }
 
   async findOne(project: ProjectDocument): Promise<ProjectFindOneDto> {

@@ -8,6 +8,7 @@ import { GetOrganization } from '../../organizations/decorators/get-organization
 import { OrganizationDocument } from '../../organizations/schemas/organization.schema'
 import { GetProject } from '../decorators/get-project.decorator'
 import { ProjectAccess } from '../decorators/project-access.decorator'
+import { BasicProjectDto } from '../dtos/basic-project.dto'
 import { CreateProjectDto } from '../dtos/create-project.dto'
 import { ProjectFindOneDto } from '../dtos/project-find-one.dto'
 import { UpdateProjectDto } from '../dtos/update-project.dto'
@@ -47,7 +48,7 @@ export class ProjectsController {
   findAll(
     @Query('organizationId', ParseOrganizationQueryPipe)
     organization: OrganizationDocument,
-  ): Promise<Project[]> {
+  ): Promise<BasicProjectDto[]> {
     return this.projectsService.findAll(organization)
   }
 

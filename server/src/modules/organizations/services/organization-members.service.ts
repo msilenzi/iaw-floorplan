@@ -91,11 +91,11 @@ export class OrganizationMembersService {
     }
   }
 
-  updateStatus(
+  async updateStatus(
     organization: OrganizationDocument,
     memberId: string,
     { newMemberStatus }: UpdateMemberStatusDto,
-  ): void {
+  ): Promise<void> {
     const member = this._findMember(organization, memberId)
 
     const { MEMBER, BLOCKED, PENDING, REJECTED } = MemberStatus
@@ -112,10 +112,13 @@ export class OrganizationMembersService {
     }
 
     member.status = newMemberStatus
-    organization.save()
+    await organization.save()
   }
 
-  remove(organization: OrganizationDocument, userId: string): void {
+  async remove(
+    organization: OrganizationDocument,
+    userId: string,
+  ): Promise<void> {
     const memberIndex = organization.members.findIndex(
       (member) => member.userId === userId,
     )
@@ -136,7 +139,7 @@ export class OrganizationMembersService {
         throw new ForbiddenException()
     }
 
-    organization.save()
+    await organization.save()
   }
 
   _findMember(organization: Organization, userId: string): Member {

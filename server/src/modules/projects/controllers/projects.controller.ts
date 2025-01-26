@@ -1,22 +1,21 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common'
-import { ApiParam } from '@nestjs/swagger'
-import { Types } from 'mongoose'
+import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common'
+import { ApiQuery } from '@nestjs/swagger'
 
-import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
+import { ParseOrganizationQueryPipe } from 'src/modules/organizations/pipes/parse-organization-query.pipe'
 import { Protected } from '../../auth/decorators/protected.decorator'
 import { Sub } from '../../auth/decorators/sub.decorator'
-import { AllowedMemberStatus } from '../../organizations/decorators/allowed-member-status.decorator'
 import { GetOrganization } from '../../organizations/decorators/get-organization.decorator'
 import { OrganizationDocument } from '../../organizations/schemas/organization.schema'
-import { MemberStatus } from '../../organizations/types/member-status.enum'
+import { GetProject } from '../decorators/get-project.decorator'
+import { ProjectAccess } from '../decorators/project-access.decorator'
 import { CreateProjectDto } from '../dtos/create-project.dto'
 import { ProjectFindOneDto } from '../dtos/project-find-one.dto'
 import { UpdateProjectDto } from '../dtos/update-project.dto'
-import { Project } from '../schemas/project.schema'
+import { Project, ProjectDocument } from '../schemas/project.schema'
 import { ProjectsService } from '../services/projects.service'
 
-@Protected(AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER))
-@Controller('organizations/:organizationId/projects')
+@Protected()
+@Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
@@ -27,8 +26,10 @@ export class ProjectsController {
    * el proyecto, devuelve 403.
    */
   @Post()
+  @ApiQuery({ name: 'organizationId', type: String })
   create(
-    @GetOrganization() organization: OrganizationDocument,
+    @Query('organizationId', ParseOrganizationQueryPipe)
+    organization: OrganizationDocument,
     @Body() createProjectDto: CreateProjectDto,
     @Sub() sub: string,
   ): Promise<Project> {
@@ -42,8 +43,10 @@ export class ProjectsController {
    * el proyecto, devuelve 403.
    */
   @Get()
+  @ApiQuery({ name: 'organizationId', type: String })
   findAll(
-    @GetOrganization() organization: OrganizationDocument,
+    @Query('organizationId', ParseOrganizationQueryPipe)
+    organization: OrganizationDocument,
   ): Promise<Project[]> {
     return this.projectsService.findAll(organization)
   }
@@ -55,26 +58,25 @@ export class ProjectsController {
    * el proyecto, devuelve 403.
    */
   @Get(':projectId')
-  @ApiParam({ name: 'projectId', type: String })
-  findOne(
-    @Param('projectId', ParseMongoIdPipe) projectId: Types.ObjectId,
-    @GetOrganization() organization: OrganizationDocument,
-  ): Promise<ProjectFindOneDto> {
-    return this.projectsService.findOne(projectId, organization._id)
+  @ProjectAccess()
+  findOne(@GetProject() project: ProjectDocument): Promise<ProjectFindOneDto> {
+    return this.projectsService.findOne(project)
   }
 
+  /**
+   * Actualiza la información de un proyecto.
+   *
+   * Si el usuario no es un miembro activo de la organización a la que pertenece
+   * el proyecto, devuelve 403.
+   */
   @Patch(':projectId')
-  @ApiParam({ name: 'projectId', type: String })
+  @ProjectAccess()
   update(
     @GetOrganization() organization: OrganizationDocument,
-    @Param('projectId', ParseMongoIdPipe) projectId: Types.ObjectId,
+    @GetProject() project: ProjectDocument,
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
-    return this.projectsService.update(
-      organization,
-      projectId,
-      updateProjectDto,
-    )
+    return this.projectsService.update(organization, project, updateProjectDto)
   }
 
   // @Delete(':projectId')

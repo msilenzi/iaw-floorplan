@@ -9,8 +9,7 @@ export function useProjectQuery(organizationId: string, projectId: string) {
 
   return useQuery({
     queryKey: [PROJECT_QUERY_KEY, organizationId, projectId],
-    queryFn: async () =>
-      (await projectsApi.findOne(projectId, organizationId)).data,
+    queryFn: async () => (await projectsApi.findOne(projectId)).data,
     enabled: apisAvailable,
   })
 }

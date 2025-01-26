@@ -4,6 +4,7 @@
 
 import { Member } from 'src/modules/organizations/schemas/member.schema'
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
+import { ProjectDocument } from 'src/modules/projects/schemas/project.schema'
 
 export {}
 
@@ -23,6 +24,7 @@ declare global {
     interface Request {
       organization?: OrganizationDocument
       member?: Member
+      project?: ProjectDocument
     }
   }
 }

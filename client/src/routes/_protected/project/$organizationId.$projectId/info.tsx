@@ -34,7 +34,7 @@ function RouteComponent() {
         </Button>
       </Group>
 
-      <Flex direction="row" wrap="wrap" gap="lg">
+      <Flex direction="row" wrap="wrap" gap="lg" pb="lg">
         <Stack flex={1} miw={350} gap="xl">
           <InfoGeneralInformation />
           <InfoReferences />

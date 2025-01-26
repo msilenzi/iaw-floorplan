@@ -16,7 +16,7 @@ export function useEditProjectMutation(
 
   return useMutation({
     async mutationFn(data: UpdateProjectDto) {
-      return await projectsApi.update(projectId, organizationId, data)
+      return await projectsApi.update(projectId, data)
     },
     onSuccess() {
       void queryClient.invalidateQueries({

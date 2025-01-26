@@ -44,38 +44,40 @@ export class ProjectsService {
     return this.projectModel.find({ organizationId: organization._id }).exec()
   }
 
-  async findOne(
-    projectId: Types.ObjectId,
-    organizationId: Types.ObjectId,
-  ): Promise<ProjectFindOneDto> {
-    const project = await this._getProject(projectId, organizationId)
+  async findOne(project: ProjectDocument): Promise<ProjectFindOneDto> {
     const user = await this.usersService._fetchUser(project.createdBy)
     return { ...project.toObject(), createdBy: user }
   }
 
   async update(
     organization: OrganizationDocument,
-    projectId: Types.ObjectId,
+    project: ProjectDocument,
     updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
-    const project = await this._getProject(projectId, organization._id)
     if (updateProjectDto.record && updateProjectDto.record !== project.record) {
       await this._validateRecord(organization, updateProjectDto.record)
     }
 
+    // Eliminar los datos que se recibió con null:
     Object.entries(updateProjectDto).forEach(([key, value]) => {
       if (value === undefined) return
       // @ts-expect-error funciona bien
       project[key] = value !== null ? value : undefined
     })
 
-    project.save()
+    await project.save()
     return project
   }
 
   // remove(projectId: Types.ObjectId) {
   //   return `This action removes a #${projectId} project`
   // }
+
+  async _getProject(projectId: Types.ObjectId): Promise<ProjectDocument> {
+    const project = await this.projectModel.findById(projectId).exec()
+    if (!project) throw new NotFoundException('El proyecto no existe')
+    return project
+  }
 
   private async _validateRecord(
     organization: OrganizationDocument,
@@ -105,16 +107,5 @@ export class ProjectsService {
         },
       })
     }
-  }
-
-  private async _getProject(
-    projectId: Types.ObjectId,
-    organizationId: Types.ObjectId,
-  ): Promise<ProjectDocument> {
-    const project = await this.projectModel
-      .findOne({ organizationId, _id: projectId })
-      .exec()
-    if (!project) throw new NotFoundException('El proyecto no existe')
-    return project
   }
 }

@@ -1,4 +1,4 @@
-import type { UpdateProjectDto } from '@Common/api'
+import type { ProjectUpdateDto } from '@Common/api'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -15,7 +15,7 @@ export function useEditProjectMutation(
   const queryClient = useQueryClient()
 
   return useMutation({
-    async mutationFn(data: UpdateProjectDto) {
+    async mutationFn(data: ProjectUpdateDto) {
       return await projectsApi.update(projectId, data)
     },
     onSuccess() {

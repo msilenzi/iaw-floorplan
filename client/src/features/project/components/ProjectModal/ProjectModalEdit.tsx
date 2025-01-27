@@ -1,4 +1,4 @@
-import type { UpdateProjectDto } from '@Common/api'
+import type { ProjectUpdateDto } from '@Common/api'
 
 import { useEffect } from 'react'
 
@@ -70,7 +70,7 @@ function Content({ isOpen, onClose }: ProjectModalEditProps) {
     if (data == undefined) return
 
     try {
-      const ownerValue: () => UpdateProjectDto['owner'] = () => {
+      const ownerValue: () => ProjectUpdateDto['owner'] = () => {
         if (!form.getValues().ownerEnabled) return data.owner ? null : undefined
         if (!data.owner || form.isDirty('owner')) return values.owner
         return undefined
@@ -79,7 +79,7 @@ function Content({ isOpen, onClose }: ProjectModalEditProps) {
       // null: eliminar,
       // undefined: no modificado
       // value: actualizar
-      const modifiedValues: UpdateProjectDto = {
+      const modifiedValues: ProjectUpdateDto = {
         record: form.isDirty('record') ? values.record : undefined,
         name: form.isDirty('name') ? (values.name ?? null) : undefined,
         type: form.isDirty('type') ? values.type : undefined,

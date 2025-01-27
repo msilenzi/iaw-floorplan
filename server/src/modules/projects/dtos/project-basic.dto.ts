@@ -4,7 +4,7 @@ import { Types } from 'mongoose'
 import { ProjectPurpose } from '../types/project-purpose.enum'
 import { ProjectType } from '../types/project-type.enum'
 
-export class BasicProjectDto {
+export class ProjectBasicDto {
   @ApiProperty({ type: String })
   readonly _id: Types.ObjectId
 

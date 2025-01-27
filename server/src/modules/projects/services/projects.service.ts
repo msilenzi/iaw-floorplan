@@ -10,10 +10,10 @@ import { Model, Types } from 'mongoose'
 
 import { OrganizationDocument } from '../../organizations/schemas/organization.schema'
 import { UsersService } from '../../users/users.service'
-import { BasicProjectDto } from '../dtos/basic-project.dto'
-import { CreateProjectDto } from '../dtos/create-project.dto'
+import { ProjectBasicDto } from '../dtos/project-basic.dto'
+import { ProjectCreateDto } from '../dtos/project-create.dto'
 import { ProjectFindOneDto } from '../dtos/project-find-one.dto'
-import { UpdateProjectDto } from '../dtos/update-project.dto'
+import { ProjectUpdateDto } from '../dtos/project-update.dto'
 import { Project, ProjectDocument } from '../schemas/project.schema'
 
 @Injectable()
@@ -26,7 +26,7 @@ export class ProjectsService {
 
   async create(
     organization: OrganizationDocument,
-    dto: CreateProjectDto,
+    dto: ProjectCreateDto,
     sub: string,
   ): Promise<Project> {
     await this._validateRecord(organization, dto.record)
@@ -43,7 +43,7 @@ export class ProjectsService {
 
   async findAll(
     organization: OrganizationDocument,
-  ): Promise<BasicProjectDto[]> {
+  ): Promise<ProjectBasicDto[]> {
     return await this.projectModel
       .find(
         { organizationId: organization._id },
@@ -60,14 +60,14 @@ export class ProjectsService {
   async update(
     organization: OrganizationDocument,
     project: ProjectDocument,
-    updateProjectDto: UpdateProjectDto,
+    projectUpdateDto: ProjectUpdateDto,
   ): Promise<Project> {
-    if (updateProjectDto.record && updateProjectDto.record !== project.record) {
-      await this._validateRecord(organization, updateProjectDto.record)
+    if (projectUpdateDto.record && projectUpdateDto.record !== project.record) {
+      await this._validateRecord(organization, projectUpdateDto.record)
     }
 
     // Eliminar los datos que se recibió con null:
-    Object.entries(updateProjectDto).forEach(([key, value]) => {
+    Object.entries(projectUpdateDto).forEach(([key, value]) => {
       if (value === undefined) return
       // @ts-expect-error funciona bien
       project[key] = value !== null ? value : undefined

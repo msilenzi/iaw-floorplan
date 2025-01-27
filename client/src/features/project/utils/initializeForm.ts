@@ -1,5 +1,5 @@
 import type {
-  CreateProjectDto,
+  ProjectCreateDto,
   ProjectFindOneDto,
   ProjectProfessional,
 } from '@Common/api'
@@ -29,7 +29,7 @@ function initializeProfessionals(
 }
 
 export function initializeForm(
-  data: ProjectFindOneDto | CreateProjectDto,
+  data: ProjectFindOneDto | ProjectCreateDto,
 ): ProjectFormValues {
   return {
     record: data.record,

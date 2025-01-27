@@ -5,9 +5,9 @@ import { Model, Types } from 'mongoose'
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
 import { S3Service } from 'src/modules/s3/s3.service'
 import { UsersService } from 'src/modules/users/users.service'
-import { CreateProjectResourceDto } from '../dtos/create-project-resource.dto'
-import { FindAllProjectResourcesDto } from '../dtos/find-all-project-resources.dto'
-import { FindOneProjectResourceDto } from '../dtos/find-one-project-resource.dto'
+import { ProjectResourceCreateDto } from '../dtos/project-resource-create.dto'
+import { ProjectResourceFindOneDto } from '../dtos/project-resource-find-one.dto'
+import { ProjectResourcesFindAllDto } from '../dtos/project-resources-find-all.dto'
 import { ProjectResource } from '../schemas/project-resource.schema'
 import { ProjectDocument } from '../schemas/project.schema'
 
@@ -21,7 +21,7 @@ export class ProjectResourcesService {
   ) {}
 
   async create(
-    dto: CreateProjectResourceDto,
+    dto: ProjectResourceCreateDto,
     file: Express.Multer.File,
     organization: OrganizationDocument,
     project: ProjectDocument,
@@ -46,7 +46,7 @@ export class ProjectResourcesService {
 
   async findAll(
     project: ProjectDocument,
-  ): Promise<FindAllProjectResourcesDto[]> {
+  ): Promise<ProjectResourcesFindAllDto[]> {
     const resources = await this.projectResourcesModel
       .find({ projectId: project._id })
       .lean()
@@ -71,7 +71,7 @@ export class ProjectResourcesService {
     organization: OrganizationDocument,
     project: ProjectDocument,
     resourceId: Types.ObjectId,
-  ): Promise<FindOneProjectResourceDto> {
+  ): Promise<ProjectResourceFindOneDto> {
     const resource = await this.projectResourcesModel
       .findById(resourceId)
       .lean()

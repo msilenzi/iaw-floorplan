@@ -17,7 +17,7 @@ import { ProjectOwnerDto } from './project-owner.dto'
 import { ProjectProfessionalDto } from './project-professional.dto'
 import { ProjectRequirementDto } from './project-requirement.dto'
 
-export class UpdateProjectDto {
+export class ProjectUpdateDto {
   @IsOptional()
   @IsTrimmedString({
     isEmptyMessage: 'El expediente es obligatorio',

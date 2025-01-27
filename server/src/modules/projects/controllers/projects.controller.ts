@@ -8,10 +8,10 @@ import { GetOrganization } from '../../organizations/decorators/get-organization
 import { OrganizationDocument } from '../../organizations/schemas/organization.schema'
 import { GetProject } from '../decorators/get-project.decorator'
 import { ProjectAccess } from '../decorators/project-access.decorator'
-import { BasicProjectDto } from '../dtos/basic-project.dto'
-import { CreateProjectDto } from '../dtos/create-project.dto'
+import { ProjectBasicDto } from '../dtos/project-basic.dto'
+import { ProjectCreateDto } from '../dtos/project-create.dto'
 import { ProjectFindOneDto } from '../dtos/project-find-one.dto'
-import { UpdateProjectDto } from '../dtos/update-project.dto'
+import { ProjectUpdateDto } from '../dtos/project-update.dto'
 import { Project, ProjectDocument } from '../schemas/project.schema'
 import { ProjectsService } from '../services/projects.service'
 
@@ -31,10 +31,10 @@ export class ProjectsController {
   create(
     @Query('organizationId', ParseOrganizationQueryPipe)
     organization: OrganizationDocument,
-    @Body() createProjectDto: CreateProjectDto,
+    @Body() projectCreateDto: ProjectCreateDto,
     @Sub() sub: string,
   ): Promise<Project> {
-    return this.projectsService.create(organization, createProjectDto, sub)
+    return this.projectsService.create(organization, projectCreateDto, sub)
   }
 
   /**
@@ -48,7 +48,7 @@ export class ProjectsController {
   findAll(
     @Query('organizationId', ParseOrganizationQueryPipe)
     organization: OrganizationDocument,
-  ): Promise<BasicProjectDto[]> {
+  ): Promise<ProjectBasicDto[]> {
     return this.projectsService.findAll(organization)
   }
 
@@ -75,9 +75,9 @@ export class ProjectsController {
   update(
     @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
-    @Body() updateProjectDto: UpdateProjectDto,
+    @Body() projectUpdateDto: ProjectUpdateDto,
   ) {
-    return this.projectsService.update(organization, project, updateProjectDto)
+    return this.projectsService.update(organization, project, projectUpdateDto)
   }
 
   // @Delete(':projectId')

@@ -1,4 +1,4 @@
-import type { CreateProjectDto } from '@Common/api'
+import type { ProjectCreateDto } from '@Common/api'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -11,7 +11,7 @@ export function useCreateProjectMutation(organizationId: string) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    async mutationFn(dto: CreateProjectDto) {
+    async mutationFn(dto: ProjectCreateDto) {
       return (await projectsApi.create(organizationId, dto)).data
     },
     onSuccess() {

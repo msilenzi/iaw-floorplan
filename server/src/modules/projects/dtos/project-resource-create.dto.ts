@@ -3,7 +3,7 @@ import { Matches, MaxLength, MinLength } from 'class-validator'
 
 import { IsTrimmedString } from 'src/common/decorators'
 
-export class CreateProjectResourceDto {
+export class ProjectResourceCreateDto {
   @ApiProperty({ type: String, format: 'binary', required: true })
   readonly file: Express.Multer.File
 

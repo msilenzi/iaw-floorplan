@@ -21,7 +21,7 @@ import { GetOrganization } from 'src/modules/organizations/decorators/get-organi
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
 import { GetProject } from '../decorators/get-project.decorator'
 import { ProjectAccess } from '../decorators/project-access.decorator'
-import { CreateProjectResourceDto } from '../dtos/create-project-resource.dto'
+import { ProjectResourceCreateDto } from '../dtos/project-resource-create.dto'
 import { ProjectDocument } from '../schemas/project.schema'
 import { ProjectResourcesService } from '../services/project-resources.service'
 import { mibToBytes } from '../utils/mibToBytes'
@@ -37,7 +37,7 @@ export class ProjectResourcesController {
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   create(
-    @Body() dto: CreateProjectResourceDto,
+    @Body() dto: ProjectResourceCreateDto,
     @UploadedFile(
       new ParseFilePipe({
         validators: [

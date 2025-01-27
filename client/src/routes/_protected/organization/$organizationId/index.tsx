@@ -1,4 +1,4 @@
-import type { BasicProjectDto } from '@Common/api'
+import type { ProjectBasicDto } from '@Common/api'
 
 import { useMemo, useState } from 'react'
 
@@ -27,7 +27,7 @@ function RouteComponent() {
 
   const [search, setSearch] = useState('')
 
-  const sortedProjectsByRecord: BasicProjectDto[] = useMemo(() => {
+  const sortedProjectsByRecord: ProjectBasicDto[] = useMemo(() => {
     if (!data) return []
     return [...data].sort((a, b) => a.record.localeCompare(b.record))
   }, [data])
@@ -75,7 +75,7 @@ function RouteComponent() {
 }
 
 type ProjectsTableProps = {
-  projects: BasicProjectDto[]
+  projects: ProjectBasicDto[]
   isLoading: boolean
 }
 

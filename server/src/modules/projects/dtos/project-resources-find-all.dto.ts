@@ -3,7 +3,7 @@ import { Types } from 'mongoose'
 
 import { User } from 'src/modules/users/types/user.type'
 
-export class FindAllProjectResourcesDto {
+export class ProjectResourcesFindAllDto {
   @ApiProperty({ type: String })
   readonly _id: Types.ObjectId
 

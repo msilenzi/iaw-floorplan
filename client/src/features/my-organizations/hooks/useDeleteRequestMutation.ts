@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
 
-import { ORGANIZATIONS_QUERY_KEY } from './useOrganizationsQuery'
+import { getOrganizationsQueryKey } from './useOrganizationsQuery'
 
 export function useDeleteRequestMutation() {
   const { organizationMembersApi } = useApi()
@@ -17,7 +17,7 @@ export function useDeleteRequestMutation() {
     },
     onSuccess(deletedId) {
       queryClient.setQueryData(
-        [ORGANIZATIONS_QUERY_KEY],
+        getOrganizationsQueryKey(),
         (oldData: BasicOrganizationDto[]) =>
           oldData.filter(({ _id }) => _id !== deletedId),
       )

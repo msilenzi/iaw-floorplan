@@ -16,7 +16,7 @@ import { SearchInput } from '@Common/ui/SearchInput'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { MyOrganizationsAddBtn } from '@MyOrganizations/components/MyOrganizationAddBtn'
 import {
-  ORGANIZATIONS_QUERY_KEY,
+  getOrganizationsQueryKey,
   useOrganizationsQuery,
 } from '@MyOrganizations/hooks/useOrganizationsQuery'
 import { displayMemberStatus } from '@MyOrganizations/utils/displayMemberStatus'
@@ -121,7 +121,7 @@ function OrganizationsTable({
     })
 
     queryClient.setQueryData(
-      [ORGANIZATIONS_QUERY_KEY],
+      getOrganizationsQueryKey(),
       (oldData: BasicOrganizationDto[]) => {
         return oldData.map((org) => {
           if (org._id !== organizationId) return org

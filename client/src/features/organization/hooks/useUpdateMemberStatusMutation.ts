@@ -6,7 +6,7 @@ import { useApi } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 
-import { ORGANIZATION_QUERY_KEY } from './useOrganizationQuery'
+import { getOrganizationMembersQueryKey } from './useOrganizationMembersQuery'
 
 type UpdateOptions = {
   organizationId: string
@@ -30,7 +30,7 @@ export function useUpdateMemberStatusMutation() {
     },
     onSuccess(_, { organizationId }) {
       void queryClient.invalidateQueries({
-        queryKey: [ORGANIZATION_QUERY_KEY, organizationId, 'members'],
+        queryKey: getOrganizationMembersQueryKey(organizationId),
       })
       showSuccessNotification({
         title: 'Miembro actualizado con éxito',

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
 
-import { ORGANIZATIONS_QUERY_KEY } from './useOrganizationsQuery'
+import { getOrganizationsQueryKey } from './useOrganizationsQuery'
 
 export function useJoinOrganizationMutation() {
   const { organizationMembersApi } = useApi()
@@ -14,7 +14,7 @@ export function useJoinOrganizationMutation() {
     },
     onSuccess() {
       void queryClient.invalidateQueries({
-        queryKey: [ORGANIZATIONS_QUERY_KEY],
+        queryKey: getOrganizationsQueryKey(),
         exact: true,
       })
     },

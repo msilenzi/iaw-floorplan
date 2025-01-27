@@ -3,7 +3,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useApi } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-import { ORGANIZATIONS_QUERY_KEY } from '@MyOrganizations/hooks/useOrganizationsQuery'
+import { getOrganizationsQueryKey } from '@MyOrganizations/hooks/useOrganizationsQuery'
+
+import { getOrganizationQueryKey } from './useOrganizationQuery'
 
 export function useOrganizationExitMutation(organizationId: string) {
   const { organizationMembersApi } = useApi()
@@ -17,10 +19,10 @@ export function useOrganizationExitMutation(organizationId: string) {
     },
     onSuccess() {
       void queryClient.invalidateQueries({
-        queryKey: [ORGANIZATIONS_QUERY_KEY],
+        queryKey: getOrganizationsQueryKey(),
       })
       queryClient.removeQueries({
-        queryKey: [ORGANIZATIONS_QUERY_KEY, organizationId],
+        queryKey: getOrganizationQueryKey(organizationId),
       })
       showSuccessNotification({
         title: 'Saliste de la organización',

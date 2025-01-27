@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
 
-import { PROJECT_QUERY_KEY } from './useProjectQuery'
-import { PROJECTS_QUERY_KEY } from './useProjectsQuery'
+import { getProjectQueryKey } from './useProjectQuery'
+import { getProjectsQueryKey } from './useProjectsQuery'
 
 export function useEditProjectMutation(
   organizationId: string,
@@ -20,10 +20,10 @@ export function useEditProjectMutation(
     },
     onSuccess() {
       void queryClient.invalidateQueries({
-        queryKey: [PROJECT_QUERY_KEY, organizationId, projectId],
+        queryKey: getProjectQueryKey(organizationId, projectId),
       })
       void queryClient.invalidateQueries({
-        queryKey: [PROJECTS_QUERY_KEY, organizationId],
+        queryKey: getProjectsQueryKey(organizationId),
       })
     },
   })

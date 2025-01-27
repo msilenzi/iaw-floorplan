@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
 
-import { ORGANIZATIONS_QUERY_KEY } from './useOrganizationsQuery'
+import { getOrganizationsQueryKey } from './useOrganizationsQuery'
 
 export function useCreateOrganizationMutation() {
   const { organizationsApi } = useApi()
@@ -16,7 +16,7 @@ export function useCreateOrganizationMutation() {
     },
     onSuccess(response) {
       queryClient.setQueryData(
-        [ORGANIZATIONS_QUERY_KEY],
+        getOrganizationsQueryKey(),
         (oldData: BasicOrganizationDto[]) => [
           ...oldData,
           { ...response.data, lastAccessedAt: new Date() },

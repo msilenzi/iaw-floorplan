@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Types } from 'mongoose'
 
-import { User } from 'src/modules/users/types/user.type'
+import { UserDto } from 'src/modules/users/dtos/user.dto'
 
 export class ProjectResourcesFindAllDto {
   @ApiProperty({ type: String })
@@ -11,7 +11,7 @@ export class ProjectResourcesFindAllDto {
 
   readonly mimetype: string
 
-  readonly createdBy: User
+  readonly createdBy: UserDto
 
   readonly createdAt: Date
 }

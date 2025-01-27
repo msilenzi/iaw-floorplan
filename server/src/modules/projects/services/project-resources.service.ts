@@ -1,15 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import {
-  GetObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from '@aws-sdk/client-s3'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { Model, Types } from 'mongoose'
 
-import cfg from 'src/cfg'
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
+import { S3Service } from 'src/modules/s3/s3.service'
 import { UsersService } from 'src/modules/users/users.service'
 import { CreateProjectResourceDto } from '../dtos/create-project-resource.dto'
 import { FindAllProjectResourcesDto } from '../dtos/find-all-project-resources.dto'
@@ -19,16 +13,9 @@ import { ProjectDocument } from '../schemas/project.schema'
 
 @Injectable()
 export class ProjectResourcesService {
-  private readonly s3 = new S3Client({
-    region: cfg.S3_REGION,
-    credentials: {
-      accessKeyId: cfg.S3_ACCESS_KEY,
-      secretAccessKey: cfg.S3_SECRET_KEY,
-    },
-  })
-
   constructor(
     private readonly usersService: UsersService,
+    private readonly s3Service: S3Service,
     @InjectModel(ProjectResource.name)
     private readonly projectResourcesModel: Model<ProjectResource>,
   ) {}
@@ -47,15 +34,12 @@ export class ProjectResourcesService {
       createdBy: sub,
     })
 
-    await this.s3.send(
-      new PutObjectCommand({
-        Bucket: cfg.S3_BUCKET,
-        Key: this._getResourceKey(organization.id, project.id, resource.id),
-        Body: file.buffer,
-        ContentType: file.mimetype,
-        CacheControl: 'max-age=31536000, immutable',
-      }),
-    )
+    await this.s3Service.upload({
+      Key: this._getResourceKey(organization.id, project.id, resource.id),
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      CacheControl: 'max-age=31536000, immutable',
+    })
 
     await resource.save()
   }
@@ -100,11 +84,11 @@ export class ProjectResourcesService {
     }
 
     const [url, user] = await Promise.all([
-      this._getFileUrl(
+      this.s3Service.getUrl(
         this._getResourceKey(
           organization.id,
           project.id,
-          resource._id.toString(),
+          resourceId.toString(),
         ),
       ),
       this.usersService._fetchUser(resource.createdBy),
@@ -126,16 +110,5 @@ export class ProjectResourcesService {
     resourceId: string,
   ): string {
     return `org-${organizationId}/proj-${projectId}/res-${resourceId}`
-  }
-
-  private async _getFileUrl(key: string): Promise<string> {
-    return await getSignedUrl(
-      this.s3,
-      new GetObjectCommand({
-        Bucket: cfg.S3_BUCKET,
-        Key: key,
-      }),
-      { expiresIn: 3_600 }, // 1 hora
-    )
   }
 }

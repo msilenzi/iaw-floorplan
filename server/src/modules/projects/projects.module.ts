@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 
 import { OrganizationsModule } from '../organizations/organizations.module'
+import { S3Module } from '../s3/s3.module'
 import { UsersModule } from '../users/users.module'
 import { ProjectResourcesController } from './controllers/project-resources.controller'
 import { ProjectsController } from './controllers/projects.controller'
@@ -19,8 +20,9 @@ import { ProjectsService } from './services/projects.service'
       { name: Project.name, schema: ProjectSchema },
       { name: ProjectResource.name, schema: ProjectResourceSchema },
     ]),
-    UsersModule,
     OrganizationsModule,
+    S3Module,
+    UsersModule,
   ],
   controllers: [ProjectsController, ProjectResourcesController],
   providers: [ProjectsService, ProjectResourcesService],

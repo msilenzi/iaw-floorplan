@@ -4,14 +4,17 @@ import {
   FileTypeValidator,
   Get,
   MaxFileSizeValidator,
+  Param,
   ParseFilePipe,
   Post,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiConsumes } from '@nestjs/swagger'
+import { ApiConsumes, ApiParam } from '@nestjs/swagger'
+import { Types } from 'mongoose'
 
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
 import { Protected } from 'src/modules/auth/decorators/protected.decorator'
 import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { GetOrganization } from 'src/modules/organizations/decorators/get-organization.decorator'
@@ -62,5 +65,19 @@ export class ProjectResourcesController {
   @Get()
   findAll(@GetProject() project: ProjectDocument) {
     return this.projectResourcesService.findAll(project)
+  }
+
+  @Get(':resourceId')
+  @ApiParam({ name: 'resourceId', type: String })
+  findOne(
+    @GetOrganization() organization: OrganizationDocument,
+    @GetProject() project: ProjectDocument,
+    @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,
+  ) {
+    return this.projectResourcesService.findOne(
+      organization,
+      project,
+      resourceId,
+    )
   }
 }

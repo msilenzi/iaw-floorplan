@@ -10,7 +10,10 @@ type Props = {
 } & AvatarProps &
   ElementProps<'div', keyof AvatarProps>
 
-type UserAvatarProps = Omit<Props, 'src' | 'alt' | 'onError' | 'color' | 'name'>
+export type UserAvatarProps = Omit<
+  Props,
+  'src' | 'alt' | 'onError' | 'color' | 'name'
+>
 
 export function UserAvatar({ username, picture, ...props }: UserAvatarProps) {
   const [pictureError, setPictureError] = useState(false)

@@ -41,7 +41,11 @@ export function RefetchBtn({ query, ...props }: RefetchBtnProps) {
       disabled={query.isFetching || query.isLoading}
     >
       Actualizado a las{' '}
-      {new Date(query.dataUpdatedAt).toLocaleTimeString('es-ES')}
+      {new Date(query.dataUpdatedAt).toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      })}
     </Button>
   )
 }

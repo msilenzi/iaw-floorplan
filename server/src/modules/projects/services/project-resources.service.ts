@@ -7,8 +7,12 @@ import { S3Service } from 'src/modules/s3/s3.service'
 import { UsersService } from 'src/modules/users/users.service'
 import { ProjectResourceCreateDto } from '../dtos/project-resource-create.dto'
 import { ProjectResourceFindOneDto } from '../dtos/project-resource-find-one.dto'
+import { ProjectResourceUpdateDto } from '../dtos/project-resource-update.dto'
 import { ProjectResourcesFindAllDto } from '../dtos/project-resources-find-all.dto'
-import { ProjectResource } from '../schemas/project-resource.schema'
+import {
+  ProjectResource,
+  ProjectResourceDocument,
+} from '../schemas/project-resource.schema'
 import { ProjectDocument } from '../schemas/project.schema'
 
 @Injectable()
@@ -72,24 +76,11 @@ export class ProjectResourcesService {
     project: ProjectDocument,
     resourceId: Types.ObjectId,
   ): Promise<ProjectResourceFindOneDto> {
-    const resource = await this.projectResourcesModel
-      .findById(resourceId)
-      .lean()
-      .exec()
-
-    if (!resource) {
-      throw new NotFoundException(
-        `No existe un recurso con el id ${resourceId}`,
-      )
-    }
+    const resource = await this._getResource(resourceId)
 
     const [url, user] = await Promise.all([
       this.s3Service.getUrl(
-        this._getResourceKey(
-          organization.id,
-          project.id,
-          resourceId.toString(),
-        ),
+        this._getResourceKey(organization.id, project.id, resource.id),
       ),
       this.usersService._fetchUser(resource.createdBy),
     ])
@@ -104,11 +95,32 @@ export class ProjectResourcesService {
     }
   }
 
+  async update(resourceId: Types.ObjectId, dto: ProjectResourceUpdateDto) {
+    const resource = await this._getResource(resourceId)
+    Object.assign(resource, dto)
+    await resource.save()
+    return resource
+  }
+
   private _getResourceKey(
     organizationId: string,
     projectId: string,
     resourceId: string,
   ): string {
     return `org-${organizationId}/proj-${projectId}/res-${resourceId}`
+  }
+
+  private async _getResource(
+    resourceId: Types.ObjectId,
+  ): Promise<ProjectResourceDocument> {
+    const resource = await this.projectResourcesModel
+      .findById(resourceId)
+      .exec()
+    if (!resource) {
+      throw new NotFoundException(
+        `No existe un recurso con el id ${resourceId}`,
+      )
+    }
+    return resource
   }
 }

@@ -5,8 +5,8 @@ import cfg from './cfg'
 import { AuthModule } from './modules/auth/auth.module'
 import { OrganizationsModule } from './modules/organizations/organizations.module'
 import { ProjectsModule } from './modules/projects/projects.module'
+import { S3Module } from './modules/s3/s3.module'
 import { UsersModule } from './modules/users/users.module'
-import { S3Module } from './modules/s3/s3.module';
 
 @Module({
   imports: [

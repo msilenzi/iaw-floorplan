@@ -6,6 +6,7 @@ import {
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
+  Patch,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -22,6 +23,7 @@ import { OrganizationDocument } from 'src/modules/organizations/schemas/organiza
 import { GetProject } from '../decorators/get-project.decorator'
 import { ProjectAccess } from '../decorators/project-access.decorator'
 import { ProjectResourceCreateDto } from '../dtos/project-resource-create.dto'
+import { ProjectResourceUpdateDto } from '../dtos/project-resource-update.dto'
 import { ProjectDocument } from '../schemas/project.schema'
 import { ProjectResourcesService } from '../services/project-resources.service'
 import { mibToBytes } from '../utils/mibToBytes'
@@ -79,5 +81,14 @@ export class ProjectResourcesController {
       project,
       resourceId,
     )
+  }
+
+  @Patch(':resourceId')
+  @ApiParam({ name: 'resourceId', type: String })
+  update(
+    @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,
+    @Body() dto: ProjectResourceUpdateDto,
+  ) {
+    return this.projectResourcesService.update(resourceId, dto)
   }
 }

@@ -1,16 +1,12 @@
-import type { ProjectFindOneDto } from '@Common/api'
-
 import {
-  Group,
   ScrollArea,
   Spoiler,
   Stack,
-  Text,
   Title,
   useMantineTheme,
 } from '@mantine/core'
 
-import { UserAvatar } from '@Common/ui/UserAvatar'
+import { UserInfo } from '@Common/ui/UserInfo'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 import { displayProjectPurpose } from '@Project/utils/displayProjectPurpose'
@@ -66,7 +62,10 @@ export function InfoGeneralInformation() {
           ) : undefined
         }
       />
-      <InfoItem label="Creado por" data={<UserInfo data={data} />} />
+      <InfoItem
+        label="Creado por"
+        data={data ? <UserInfo user={data.createdBy} /> : null}
+      />
       <InfoItem
         label="Fecha de creación"
         data={
@@ -77,28 +76,6 @@ export function InfoGeneralInformation() {
             : undefined
         }
       />
-    </Stack>
-  )
-}
-
-function UserInfo({ data }: { data?: ProjectFindOneDto }) {
-  if (!data) return undefined
-
-  return (
-    <Stack gap="xs">
-      <Group gap="xs" align="center">
-        <UserAvatar
-          picture={data.createdBy.picture}
-          username={data.createdBy.name}
-          size="md"
-        />
-        <Stack gap="0">
-          <Text style={{ lineHeight: 1.3 }}>{data.createdBy.name}</Text>
-          <Text style={{ lineHeight: 1.3 }} c="dimmed" size="sm">
-            {data.createdBy.email}
-          </Text>
-        </Stack>
-      </Group>
     </Stack>
   )
 }

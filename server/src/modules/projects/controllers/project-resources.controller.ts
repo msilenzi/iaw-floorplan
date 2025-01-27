@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   FileTypeValidator,
+  Get,
   MaxFileSizeValidator,
   ParseFilePipe,
   Post,
@@ -56,5 +57,10 @@ export class ProjectResourcesController {
       project,
       sub,
     )
+  }
+
+  @Get()
+  findAll(@GetProject() project: ProjectDocument) {
+    return this.projectResourcesService.findAll(project)
   }
 }

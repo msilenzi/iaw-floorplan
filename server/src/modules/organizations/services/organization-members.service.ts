@@ -166,9 +166,7 @@ export class OrganizationMembersService {
     includeLastAccessedAt: boolean,
   ): Promise<OrganizationMemberDto[]> {
     const membersMap = new Map(members.map((member) => [member.userId, member]))
-
-    const usersIds = members.map(({ userId }) => userId)
-    const users = await this.usersService._fetchUsers(usersIds)
+    const users = await this.usersService._fetchUsers([...membersMap.keys()])
 
     return users.map((user) => {
       const { status, lastAccessedAt } = membersMap.get(user.user_id)!

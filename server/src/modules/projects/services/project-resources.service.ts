@@ -5,7 +5,9 @@ import { Model } from 'mongoose'
 
 import cfg from 'src/cfg'
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
+import { UsersService } from 'src/modules/users/users.service'
 import { CreateProjectResourceDto } from '../dtos/create-project-resource.dto'
+import { FindAllProjectResourcesDto } from '../dtos/find-all-project-resources.dto'
 import { ProjectResource } from '../schemas/project-resource.schema'
 import { ProjectDocument } from '../schemas/project.schema'
 
@@ -20,6 +22,7 @@ export class ProjectResourcesService {
   })
 
   constructor(
+    private readonly usersService: UsersService,
     @InjectModel(ProjectResource.name)
     private readonly projectResourcesModel: Model<ProjectResource>,
   ) {}
@@ -41,7 +44,7 @@ export class ProjectResourcesService {
     await this.s3.send(
       new PutObjectCommand({
         Bucket: cfg.S3_BUCKET,
-        Key: `org-${organization._id.toString()}/proj-${project._id.toString()}/res-${resource._id}`,
+        Key: `org-${organization._id}/proj-${project._id}/res-${resource._id}`,
         Body: file.buffer,
         ContentType: file.mimetype,
         CacheControl: 'max-age=31536000, immutable',
@@ -49,5 +52,28 @@ export class ProjectResourcesService {
     )
 
     await resource.save()
+  }
+
+  async findAll(
+    project: ProjectDocument,
+  ): Promise<FindAllProjectResourcesDto[]> {
+    const resources = await this.projectResourcesModel
+      .find({ projectId: project._id })
+      .lean()
+      .exec()
+
+    if (!resources.length) return []
+
+    const usersIds = [...new Set(resources.map((res) => res.createdBy))]
+    const users = await this.usersService._fetchUsers(usersIds)
+    const usersMap = new Map(users.map((user) => [user.user_id, user]))
+
+    return resources.map((res) => ({
+      _id: res._id,
+      createdAt: res.createdAt,
+      mimetype: res.mimetype,
+      name: res.name,
+      createdBy: usersMap.get(res.createdBy)!,
+    }))
   }
 }

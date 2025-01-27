@@ -12,6 +12,7 @@ import { Project } from './project.schema'
 })
 export class ProjectResource {
   @Prop({ type: Types.ObjectId, ref: Project.name, required: true })
+  @ApiProperty({ type: String })
   projectId: Types.ObjectId
 
   @Prop({ type: String, required: true })

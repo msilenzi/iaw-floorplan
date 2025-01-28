@@ -1,8 +1,10 @@
 import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
+import { Group, Loader } from '@mantine/core'
 
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { SectionContainer } from '@Common/components/SectionContainer'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { ProjectSubheader } from '@Project/components/ProjectSubheader'
 import { CurrentProjectProvider } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
@@ -15,10 +17,33 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { organizationId, projectId } = Route.useParams()
-  const { isError, error } = useProjectQuery(organizationId, projectId)
+  const organizationQuery = useOrganizationQuery(organizationId)
+  const projectQuery = useProjectQuery(organizationId, projectId)
 
-  if (isError) {
-    return <ShowError error={error} />
+  if (organizationQuery.isLoading) {
+    return (
+      <Group mt={'20dvh'} w="100%" justify="center">
+        <Loader size={'6rem'} color="dark.5" />
+      </Group>
+    )
+  }
+
+  if (organizationQuery.isError) {
+    return (
+      <ShowError
+        error={organizationQuery.error}
+        defaultTitle="No pudimos obtener la organización"
+      />
+    )
+  }
+
+  if (projectQuery.isError) {
+    return (
+      <ShowError
+        error={projectQuery.error}
+        defaultTitle="No pudimos obtener el proyecto"
+      />
+    )
   }
 
   return (
@@ -34,12 +59,15 @@ function RouteComponent() {
   )
 }
 
-function ShowError({ error }: { error: Error }) {
+type ShowErrorProps = {
+  error: Error
+  defaultTitle: string
+}
+
+function ShowError({ error, defaultTitle }: ShowErrorProps) {
   const navigate = useNavigate()
 
-  const { title, message } = getErrorResponse(error, {
-    title: 'No pudimos obtener el proyecto',
-  })
+  const { title, message } = getErrorResponse(error, { title: defaultTitle })
 
   return (
     <SectionContainer>

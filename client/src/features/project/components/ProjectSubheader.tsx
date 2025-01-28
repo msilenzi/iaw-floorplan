@@ -4,9 +4,17 @@ import type {
 } from '@Common/components/BaseSubheader'
 
 import { Group, Skeleton, Text } from '@mantine/core'
-import { IconInfoSquare, IconMap, IconPaperclip } from '@tabler/icons-react'
+import { useDisclosure } from '@mantine/hooks'
+import {
+  IconInfoSquare,
+  IconMap,
+  IconPaperclip,
+  IconPlus,
+} from '@tabler/icons-react'
 
+import { UploadResourceModal } from '@/features/project-resources/components/UploadResourceModal'
 import { BaseSubheader } from '@Common/components/BaseSubheader'
+import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
 import { useProjectQuery } from '../hooks/useProjectQuery'
@@ -22,6 +30,7 @@ export function ProjectSubheader({
 }: ProjectSubheaderProps) {
   const organizationQuery = useOrganizationQuery(organizationId)
   const projectQuery = useProjectQuery(organizationId, projectId)
+  const [isOpen, { open, close }] = useDisclosure(false)
 
   const BASE_PATH = `/project/${organizationId}/${projectId}`
 
@@ -60,7 +69,7 @@ export function ProjectSubheader({
 
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
-      <Group justify="space-between">
+      <Group justify="space-between" align="ceneter">
         <Skeleton visible={projectQuery.isLoading} w="fit-content">
           <BaseSubheader.Title>
             {projectQuery.isLoading
@@ -73,7 +82,17 @@ export function ProjectSubheader({
             </Text>
           )}
         </Skeleton>
+        <Skeleton visible={projectQuery.isLoading} w="fit-content">
+          <PrimaryButton
+            rightSection={<IconPlus size={16} stroke={3} />}
+            size="sm"
+            onClick={open}
+          >
+            Agregar
+          </PrimaryButton>
+        </Skeleton>
       </Group>
+      <UploadResourceModal isOpen={isOpen} onClose={close} />
     </BaseSubheader>
   )
 }

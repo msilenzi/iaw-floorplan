@@ -1,7 +1,7 @@
 import type { ProjectResourcesFindAllDto } from '@Common/api'
 import type { UseQueryResult } from '@tanstack/react-query'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { createFileRoute } from '@tanstack/react-router'
 import { Group, Menu, Stack, Text } from '@mantine/core'
@@ -9,6 +9,7 @@ import { useDisclosure } from '@mantine/hooks'
 import { IconEdit } from '@tabler/icons-react'
 
 import { RenameResourceModal } from '@/features/project-resources/components/RenameResourceModal'
+import { ViewResourceModal } from '@/features/project-resources/components/ViewResourceModal'
 import { useProjectResourcesQuery } from '@/features/project-resources/hooks/useProjectResourcesQuery'
 import { getResourceIcon } from '@/features/project-resources/utils/getResourceIcon'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
@@ -92,61 +93,89 @@ type ResourcesTableProps = {
 }
 
 export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
+  const [isOpen, { open, close }] = useDisclosure(false)
+  const resourceRef = useRef('')
+
+  function showModal(resourceId: string) {
+    resourceRef.current = resourceId
+    open()
+  }
+
   return (
-    <DataTable
-      data={resources}
-      isLoading={isLoading}
-      loadingRowsLength={5}
-      rowKey="_id"
-      columnsConfiguration={[
-        {
-          key: 'name',
-          label: 'Nombre',
-          rowRender: (value, rowData) => {
-            const Icon = getResourceIcon(rowData.mimetype)
-            return (
-              <Group align="center">
-                <Icon />
-                {value}
-              </Group>
-            )
+    <>
+      <DataTable
+        data={resources}
+        isLoading={isLoading}
+        loadingRowsLength={5}
+        rowKey="_id"
+        props={{
+          table: { highlightOnHover: true, style: { cursor: 'pointer' } },
+        }}
+        columnsConfiguration={[
+          {
+            key: 'name',
+            label: 'Nombre',
+            rowRender: (value, rowData) => {
+              const Icon = getResourceIcon(rowData.mimetype)
+              return (
+                <Group align="center">
+                  <Icon />
+                  {value}
+                </Group>
+              )
+            },
+            props: {
+              td: (rowData) => ({ onClick: () => showModal(rowData._id) }),
+            },
           },
-        },
-        {
-          key: 'createdAt',
-          label: 'Fecha de creación',
-          rowRender: (value) => new Date(value).toLocaleDateString(),
-          props: {
-            th: { w: '20ch' },
+          {
+            key: 'createdAt',
+            label: 'Fecha de creación',
+            rowRender: (value) =>
+              new Date(value).toLocaleDateString('es-AR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              }),
+            props: {
+              th: { w: '20ch' },
+              td: (rowData) => ({ onClick: () => showModal(rowData._id) }),
+            },
+            hideBreakpoint: 'xs',
           },
-          hideBreakpoint: 'xs',
-        },
-        {
-          key: 'createdBy',
-          label: 'Creado por',
-          rowRender: (value) => (
-            <UserInfo
-              user={value}
-              innerProps={{
-                avatar: { size: 'sm' },
-                name: { fz: 'sm' },
-                email: { hidden: true },
-              }}
-            />
-          ),
-          props: {
-            th: { w: '30ch' },
+          {
+            key: 'createdBy',
+            label: 'Creado por',
+            rowRender: (value) => (
+              <UserInfo
+                user={value}
+                innerProps={{
+                  avatar: { size: 'sm' },
+                  name: { fz: 'sm' },
+                  email: { hidden: true },
+                }}
+              />
+            ),
+            props: {
+              th: { w: '30ch' },
+              td: (rowData) => ({ onClick: () => showModal(rowData._id) }),
+            },
+            hideBreakpoint: 'sm',
           },
-          hideBreakpoint: 'sm',
-        },
-        {
-          key: '_id',
-          label: '',
-          rowRender: (_, rowData) => <TableButton resource={rowData} />,
-          props: { th: { w: 50 } },
-        },
-      ]}
-    />
+          {
+            key: '_id',
+            label: '',
+            rowRender: (_, rowData) => <TableButton resource={rowData} />,
+            props: { th: { w: 50 } },
+          },
+        ]}
+      />
+      <ViewResourceModal
+        isOpen={isOpen}
+        onClose={close}
+        resourceId={resourceRef.current}
+      />
+    </>
   )
 }
 

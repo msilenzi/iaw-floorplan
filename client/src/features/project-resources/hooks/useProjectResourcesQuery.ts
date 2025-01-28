@@ -7,7 +7,7 @@ export function getProjectResourcesQueryKey(
   organizationId: string,
   projectId: string,
 ) {
-  return [...getProjectQueryKey(organizationId, projectId), 'projects']
+  return [...getProjectQueryKey(organizationId, projectId), 'resources']
 }
 
 export function useProjectResourcesQuery(

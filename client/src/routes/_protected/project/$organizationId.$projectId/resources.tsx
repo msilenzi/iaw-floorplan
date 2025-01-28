@@ -4,14 +4,18 @@ import type { UseQueryResult } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { createFileRoute } from '@tanstack/react-router'
-import { Group, Stack, Text } from '@mantine/core'
+import { Group, Menu, Stack, Text } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { IconEdit } from '@tabler/icons-react'
 
+import { RenameResourceModal } from '@/features/project-resources/components/RenameResourceModal'
 import { useProjectResourcesQuery } from '@/features/project-resources/hooks/useProjectResourcesQuery'
 import { getResourceIcon } from '@/features/project-resources/utils/getResourceIcon'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
+import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 
@@ -100,7 +104,6 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
           label: 'Nombre',
           rowRender: (value, rowData) => {
             const Icon = getResourceIcon(rowData.mimetype)
-
             return (
               <Group align="center">
                 <Icon />
@@ -108,6 +111,15 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
               </Group>
             )
           },
+        },
+        {
+          key: 'createdAt',
+          label: 'Fecha de creación',
+          rowRender: (value) => new Date(value).toLocaleDateString(),
+          props: {
+            th: { w: '20ch' },
+          },
+          hideBreakpoint: 'xs',
         },
         {
           key: 'createdBy',
@@ -123,12 +135,49 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
             />
           ),
           props: {
-            th: { w: 200 },
+            th: { w: '30ch' },
           },
           hideBreakpoint: 'sm',
         },
+        {
+          key: '_id',
+          label: '',
+          rowRender: (_, rowData) => <TableButton resource={rowData} />,
+          props: { th: { w: 50 } },
+        },
       ]}
     />
+  )
+}
+
+type TableButtonProps = {
+  resource: ProjectResourcesFindAllDto
+}
+
+function TableButton({ resource }: TableButtonProps) {
+  const [isOpen, { open, close }] = useDisclosure(false)
+
+  return (
+    <>
+      <Menu withArrow position="left" shadow="md">
+        <Menu.Target>
+          <TableActionButton />
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item
+            leftSection={<IconEdit width={20} height={20} stroke={1.5} />}
+            onClick={open}
+          >
+            Renombrar
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+      <RenameResourceModal
+        isOpen={isOpen}
+        onClose={close}
+        resource={resource}
+      />
+    </>
   )
 }
 

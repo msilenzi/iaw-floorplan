@@ -53,6 +53,7 @@ export class ProjectResourcesService {
   ): Promise<ProjectResourcesFindAllDto[]> {
     const resources = await this.projectResourcesModel
       .find({ projectId: project._id })
+      .sort('name')
       .lean()
       .exec()
 

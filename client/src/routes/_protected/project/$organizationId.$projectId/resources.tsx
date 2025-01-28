@@ -8,10 +8,6 @@ import { Group, Menu, Stack, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconEdit } from '@tabler/icons-react'
 
-import { RenameResourceModal } from '@/features/project-resources/components/RenameResourceModal'
-import { ViewResourceModal } from '@/features/project-resources/components/ViewResourceModal'
-import { useProjectResourcesQuery } from '@/features/project-resources/hooks/useProjectResourcesQuery'
-import { getResourceIcon } from '@/features/project-resources/utils/getResourceIcon'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
@@ -19,6 +15,10 @@ import { SearchInput } from '@Common/ui/SearchInput'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { RenameResourceModal } from '@ProjectResources/components/RenameResourceModal'
+import { ViewResourceModal } from '@ProjectResources/components/ViewResourceModal'
+import { useProjectResourcesQuery } from '@ProjectResources/hooks/useProjectResourcesQuery'
+import { getResourceIcon } from '@ProjectResources/utils/getResourceIcon'
 
 export const Route = createFileRoute(
   '/_protected/project/$organizationId/$projectId/resources',

@@ -12,10 +12,10 @@ import {
   IconPlus,
 } from '@tabler/icons-react'
 
-import { UploadResourceModal } from '@/features/project-resources/components/UploadResourceModal'
 import { BaseSubheader } from '@Common/components/BaseSubheader'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+import { UploadResourceModal } from '@ProjectResources/components/UploadResourceModal'
 
 import { useProjectQuery } from '../hooks/useProjectQuery'
 

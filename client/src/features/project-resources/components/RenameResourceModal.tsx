@@ -3,7 +3,9 @@ import type { ProjectResourcesFindAllDto } from '@Common/api'
 import { Button, Group, Loader, Modal, Stack, TextInput } from '@mantine/core'
 import { IconPencil, IconReload } from '@tabler/icons-react'
 
+import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 
 import { useProjectResourceUpdateMutation } from '../hooks/useProjectResourceUpdateMutation'
 import { useRenameResourceForm } from '../hooks/useRenameResourceForm'
@@ -22,6 +24,7 @@ export function RenameResourceModal({
   const { isPending, mutateAsync } = useProjectResourceUpdateMutation(
     resource._id,
   )
+  const { showErrorNotification } = useNotifications()
 
   const form = useRenameResourceForm(resource)
 
@@ -30,12 +33,19 @@ export function RenameResourceModal({
   }
 
   const handleSubmit = form.onSubmit(async (values) => {
-    await mutateAsync(values)
-    form.setInitialValues({
-      name: values.name,
-    })
-    form.reset()
-    onClose()
+    try {
+      await mutateAsync(values)
+      form.setInitialValues({
+        name: values.name,
+      })
+      form.reset()
+      onClose()
+    } catch (error) {
+      const errorResponse = getErrorResponse(error, {
+        title: 'No pudimos renombrar el recurso',
+      })
+      showErrorNotification(errorResponse)
+    }
   })
 
   return (

@@ -1,5 +1,3 @@
-import type { UploadResourceValues } from '../types/UploadResourceForm'
-
 import {
   FileInput,
   Group,
@@ -8,10 +6,12 @@ import {
   Stack,
   TextInput,
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
 import { IconPlus } from '@tabler/icons-react'
 
+import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
+import { getErrorResponse } from '@Common/utils/errorHandling'
+import { useUploadResourceForm } from '@ProjectResources/hooks/useUploadResourceForm'
 
 import { useProjectResourceUploadMutation } from '../hooks/useProjectResourceUploadMutation'
 
@@ -25,45 +25,24 @@ export function UploadResourceModal({
   onClose,
 }: UploadResourceModalProps) {
   const { isPending, mutateAsync } = useProjectResourceUploadMutation()
+  const { showErrorNotification, showSuccessNotification } = useNotifications()
 
-  const form = useForm<UploadResourceValues>({
-    initialValues: {
-      name: '',
-      file: null,
-    },
-    validate: {
-      name: (value) => {
-        if (value.length === 0) return 'El nombre es requerido'
-        if (value.length < 3) {
-          return 'El nombre debe tener al menos 3 caracteres'
-        }
-        if (value.length > 50) {
-          return 'El nombre debe tener como máximo 50 caracteres'
-        }
-        if (!/^[a-zA-Z0-9_\-\s]+$/.test(value)) {
-          return 'El nombre solo puede contener letras, números, espacios, guiones y guiones bajos'
-        }
-        return null
-      },
-      file: (value) => {
-        if (!value) return 'El archivo es requerido'
-        if (value.size > 5 * 1024 * 1024) {
-          return 'El archivo no puede pesar más de 5 MiB'
-        }
-        return null
-      },
-    },
-  })
+  const form = useUploadResourceForm()
 
   const handleSubmit = form.onSubmit(async (values) => {
     try {
       await mutateAsync(values)
       form.reset()
       onClose()
-      // TODO: mostar notificación de éxito
+      showSuccessNotification({
+        title: 'Recurso subido con éxito',
+        message: `El recurso ${values.name} fue subido correctamente`,
+      })
     } catch (error) {
-      // TODO: mostar notificación de error
-      console.error('Error al subir el recurso:', error)
+      const errorResponse = getErrorResponse(error, {
+        title: 'No pudimos subir el recurso',
+      })
+      showErrorNotification(errorResponse)
     }
   })
 

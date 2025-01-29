@@ -1,12 +1,4 @@
-import {
-  Box,
-  CloseButton,
-  Group,
-  Skeleton,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core'
+import { Box, Skeleton, Stack, Text, Title } from '@mantine/core'
 import { IconScissors } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
@@ -16,38 +8,13 @@ import { useCurrentResource } from '@ProjectResources/context/CurrentResource/us
 
 import { useProjectResourceQuery } from '../../hooks/useProjectResourceQuery'
 
-type ViewResourceDataProps = {
-  onClose: () => void
-}
-
-export function ViewResourceData({ onClose }: ViewResourceDataProps) {
+export function ViewResourceData() {
   const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
   const { data, isLoading } = useProjectResourceQuery(projectId, resourceId)
 
   return (
     <Stack gap="lg">
-      {/* HEADER: */}
-      <Group align="baseline" wrap="nowrap">
-        <Skeleton
-          visible={isLoading}
-          maw={'100%'}
-          style={{ overflowWrap: 'break-word', overflow: 'hidden' }}
-        >
-          <Title
-            order={2}
-            component="h2"
-            mb="xs"
-            flex={1}
-            maw={'100%'}
-            style={{ overflowWrap: 'break-word', overflow: 'hidden' }}
-          >
-            {data?.name ?? 'Recurso'}
-          </Title>
-        </Skeleton>
-        <CloseButton onClick={onClose} />
-      </Group>
-
       {/* DATA */}
       <Stack gap="sm">
         <DataItem label="Fecha de creación">
@@ -73,7 +40,7 @@ export function ViewResourceData({ onClose }: ViewResourceDataProps) {
         </DataItem>
       </Stack>
 
-      {/* RESOURCES */}
+      {/* RECORTES */}
       <Stack gap="sm">
         <Title order={3}>Recortes</Title>
         <PrimaryButton
@@ -86,9 +53,6 @@ export function ViewResourceData({ onClose }: ViewResourceDataProps) {
         </Text>
       </Stack>
     </Stack>
-
-    // Data
-    // Recortes
   )
 }
 

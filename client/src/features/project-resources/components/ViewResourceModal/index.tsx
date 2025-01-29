@@ -1,8 +1,9 @@
-import { Box, Group, Modal, Paper } from '@mantine/core'
+import { Modal, Stack } from '@mantine/core'
 
 import { CurrentResourceProvider } from '@ProjectResources/context/CurrentResource/CurrentResourceProvider'
 
-import { ViewResourceData } from './ViewResourceData'
+import { ViewResourceBody } from './ViewResourceBody'
+import { ViewResourceHeader } from './ViewResourceHeader'
 
 type ViewResourceModalProps = {
   isOpen: boolean
@@ -18,16 +19,13 @@ export function ViewResourceModal({
   return (
     <CurrentResourceProvider resourceId={resourceId}>
       <Modal.Root opened={isOpen} onClose={onClose} fullScreen>
-        <Modal.Content bg="dark.8">
-          <Group h="100dvh" p="xs">
-            <Box h="100%" w={250}>
-              <ViewResourceData onClose={onClose} />
-            </Box>
-
-            <Paper h="100%" p="md" radius="md" shadow="xl" flex={1} bg="dark.7">
-              {resourceId}
-            </Paper>
-          </Group>
+        <Modal.Content bg="dark.8" p={0}>
+          <Modal.Body h="100%" p={0}>
+            <Stack h={'100%'} gap={0}>
+              <ViewResourceHeader />
+              <ViewResourceBody />
+            </Stack>
+          </Modal.Body>
         </Modal.Content>
       </Modal.Root>
     </CurrentResourceProvider>

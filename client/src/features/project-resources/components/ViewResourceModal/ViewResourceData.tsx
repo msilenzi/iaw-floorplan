@@ -12,19 +12,17 @@ import { IconScissors } from '@tabler/icons-react'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useCurrentResource } from '@ProjectResources/context/CurrentResource/useCurrentResource'
 
 import { useProjectResourceQuery } from '../../hooks/useProjectResourceQuery'
 
 type ViewResourceDataProps = {
-  resourceId: string
   onClose: () => void
 }
 
-export function ViewResourceData({
-  resourceId,
-  onClose,
-}: ViewResourceDataProps) {
+export function ViewResourceData({ onClose }: ViewResourceDataProps) {
   const { projectId } = useCurrentProject()
+  const { resourceId } = useCurrentResource()
   const { data, isLoading } = useProjectResourceQuery(projectId, resourceId)
 
   return (

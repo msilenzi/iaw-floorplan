@@ -35,8 +35,19 @@ export function ViewResourceData({
     <Stack gap="lg">
       {/* HEADER: */}
       <Group align="baseline" wrap="nowrap">
-        <Skeleton visible={isLoading}>
-          <Title order={2} component="h2" mb="xs" flex={1}>
+        <Skeleton
+          visible={isLoading}
+          maw={'100%'}
+          style={{ overflowWrap: 'break-word', overflow: 'hidden' }}
+        >
+          <Title
+            order={2}
+            component="h2"
+            mb="xs"
+            flex={1}
+            maw={'100%'}
+            style={{ overflowWrap: 'break-word', overflow: 'hidden' }}
+          >
             {data?.name ?? 'Recurso'}
           </Title>
         </Skeleton>

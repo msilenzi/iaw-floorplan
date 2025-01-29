@@ -19,8 +19,8 @@ export function useUploadResourceForm() {
       name: validateResourceName,
       file: (value) => {
         if (!value) return 'El archivo es requerido'
-        if (value.size > mibToBytes(5)) {
-          return 'El archivo no puede pesar más de 5 MiB'
+        if (value.size > mibToBytes(15)) {
+          return 'El archivo no puede pesar más de 15 MiB'
         }
         return null
       },

@@ -108,7 +108,7 @@ export class ProjectResourcesService {
     projectId: string,
     resourceId: string,
   ): string {
-    return `org-${organizationId}/proj-${projectId}/res-${resourceId}`
+    return `org-${organizationId}/proj-${projectId}/res-${resourceId}/res-${resourceId}`
   }
 
   private async _getResource(

@@ -69,7 +69,7 @@ export function ProjectSubheader({
 
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
-      <Group justify="space-between" align="ceneter" wrap="nowrap">
+      <Group justify="space-between" align="center" wrap="nowrap">
         <Skeleton visible={projectQuery.isLoading} w="fit-content">
           <BaseSubheader.Title>
             {projectQuery.isLoading
@@ -82,7 +82,7 @@ export function ProjectSubheader({
             </Text>
           )}
         </Skeleton>
-        <Skeleton visible={projectQuery.isLoading} w="fit-content">
+        <Skeleton visible={projectQuery.isLoading} w="fit-content" h="100%">
           <PrimaryButton
             rightSection={<IconPlus size={16} stroke={3} />}
             size="sm"

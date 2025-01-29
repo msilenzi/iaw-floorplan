@@ -118,9 +118,11 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
             rowRender: (value, rowData) => {
               const Icon = getResourceIcon(rowData.mimetype)
               return (
-                <Group align="center">
+                <Group align="center" wrap="nowrap">
                   <Icon />
-                  {value}
+                  <Text fs="sm" truncate>
+                    {value}
+                  </Text>
                 </Group>
               )
             },

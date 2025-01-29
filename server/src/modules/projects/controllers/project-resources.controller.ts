@@ -43,7 +43,7 @@ export class ProjectResourcesController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({ maxSize: mibToBytes(5) }),
+          new MaxFileSizeValidator({ maxSize: mibToBytes(15) }),
           new FileTypeValidator({
             fileType: /^(image\/(jpeg|png)|application\/pdf)$/,
           }),

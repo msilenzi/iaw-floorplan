@@ -30,7 +30,7 @@ const breadcrumbs: SubheaderBreadcrumb[] = [
 export function MyOrganizationsSubheader() {
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
-      <Group justify="space-between">
+      <Group justify="space-between" wrap="nowrap">
         <BaseSubheader.Title>Mis organizaciones</BaseSubheader.Title>
         <MyOrganizationsAddBtn position="bottom-end" />
       </Group>

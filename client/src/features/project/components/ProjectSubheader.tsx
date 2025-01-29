@@ -69,7 +69,7 @@ export function ProjectSubheader({
 
   return (
     <BaseSubheader breadcrumbs={breadcrumbs} tabs={tabs}>
-      <Group justify="space-between" align="ceneter">
+      <Group justify="space-between" align="ceneter" wrap="nowrap">
         <Skeleton visible={projectQuery.isLoading} w="fit-content">
           <BaseSubheader.Title>
             {projectQuery.isLoading

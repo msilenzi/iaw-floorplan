@@ -15,8 +15,8 @@ type InfoProfessionalsProps = {
 }
 
 export function InfoProfessionals({ professionals }: InfoProfessionalsProps) {
-  const { organizationId, projectId } = useCurrentProject()
-  const { isLoading } = useProjectQuery(organizationId, projectId)
+  const { projectId } = useCurrentProject()
+  const { isLoading } = useProjectQuery(projectId)
 
   if (isLoading) {
     return (

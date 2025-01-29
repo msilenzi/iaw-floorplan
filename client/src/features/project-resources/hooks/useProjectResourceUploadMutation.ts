@@ -8,7 +8,7 @@ import { useCurrentProject } from '@Project/context/CurrentProject'
 import { getProjectResourcesQueryKey } from './useProjectResourcesQuery'
 
 export function useProjectResourceUploadMutation() {
-  const { organizationId, projectId } = useCurrentProject()
+  const { projectId } = useCurrentProject()
   const { projectsResourcesApi } = useApi()
   const queryClient = useQueryClient()
 
@@ -19,7 +19,7 @@ export function useProjectResourceUploadMutation() {
     },
     onSuccess() {
       void queryClient.invalidateQueries({
-        queryKey: getProjectResourcesQueryKey(organizationId, projectId),
+        queryKey: getProjectResourcesQueryKey(projectId),
       })
     },
   })

@@ -18,8 +18,8 @@ import { InfoItem } from './InfoItem'
 export function InfoGeneralInformation() {
   const theme = useMantineTheme()
 
-  const { organizationId, projectId } = useCurrentProject()
-  const { data } = useProjectQuery(organizationId, projectId)
+  const { projectId } = useCurrentProject()
+  const { data } = useProjectQuery(projectId)
 
   return (
     <Stack gap="lg">

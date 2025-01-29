@@ -20,7 +20,7 @@ export function useEditProjectMutation(
     },
     onSuccess() {
       void queryClient.invalidateQueries({
-        queryKey: getProjectQueryKey(organizationId, projectId),
+        queryKey: getProjectQueryKey(projectId),
       })
       void queryClient.invalidateQueries({
         queryKey: getProjectsQueryKey(organizationId),

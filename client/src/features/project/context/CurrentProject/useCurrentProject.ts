@@ -1,12 +1,9 @@
 import { useContext } from 'react'
 
-import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
-
 import { CurrentProjectContext } from './CurrentProjectContext'
 
 export function useCurrentProject() {
   const context = useContext(CurrentProjectContext)
-  const { organizationId } = useCurrentOrganization()
 
   if (!context) {
     throw new Error(
@@ -14,8 +11,5 @@ export function useCurrentProject() {
     )
   }
 
-  return {
-    organizationId,
-    projectId: context.projectId,
-  }
+  return { projectId: context.projectId }
 }

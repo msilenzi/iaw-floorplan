@@ -15,8 +15,8 @@ export function InfoTechnicalDirectors() {
 }
 
 function InfoTechnicalDirectorsContent() {
-  const { organizationId, projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectQuery(organizationId, projectId)
+  const { projectId } = useCurrentProject()
+  const { data, isLoading } = useProjectQuery(projectId)
 
   if (
     !isLoading &&

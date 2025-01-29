@@ -15,8 +15,8 @@ export function InfoDesigners() {
 }
 
 function InfoDesignersContent() {
-  const { organizationId, projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectQuery(organizationId, projectId)
+  const { projectId } = useCurrentProject()
+  const { data, isLoading } = useProjectQuery(projectId)
 
   if (!isLoading && (!data?.designers || data.designers.length === 0)) {
     return (

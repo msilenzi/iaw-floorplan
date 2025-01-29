@@ -10,6 +10,7 @@ import { Modal } from '@mantine/core'
 import { isDuplicatedRecordException } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import {
   ProjectFormProvider,
@@ -43,8 +44,9 @@ export function ProjectModalEdit(props: ProjectModalEditProps) {
 }
 
 function Content({ isOpen, onClose }: ProjectModalEditProps) {
-  const { organizationId, projectId } = useCurrentProject()
-  const { data } = useProjectQuery(organizationId, projectId)
+  const { organizationId } = useCurrentOrganization()
+  const { projectId } = useCurrentProject()
+  const { data } = useProjectQuery(projectId)
 
   const { mutateAsync, isPending } = useEditProjectMutation(
     organizationId,

@@ -24,12 +24,8 @@ export function ViewResourceData({
   resourceId,
   onClose,
 }: ViewResourceDataProps) {
-  const { organizationId, projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectResourceQuery(
-    organizationId,
-    projectId,
-    resourceId,
-  )
+  const { projectId } = useCurrentProject()
+  const { data, isLoading } = useProjectResourceQuery(projectId, resourceId)
 
   return (
     <Stack gap="lg">

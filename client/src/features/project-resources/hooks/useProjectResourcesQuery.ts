@@ -3,21 +3,15 @@ import { useQuery } from '@tanstack/react-query'
 import { useApi } from '@Common/api'
 import { getProjectQueryKey } from '@Project/hooks/useProjectQuery'
 
-export function getProjectResourcesQueryKey(
-  organizationId: string,
-  projectId: string,
-) {
-  return [...getProjectQueryKey(organizationId, projectId), 'resources']
+export function getProjectResourcesQueryKey(projectId: string) {
+  return [...getProjectQueryKey(projectId), 'resources']
 }
 
-export function useProjectResourcesQuery(
-  organizationId: string,
-  projectId: string,
-) {
+export function useProjectResourcesQuery(projectId: string) {
   const { projectsResourcesApi, apisAvailable } = useApi()
 
   return useQuery({
-    queryKey: getProjectResourcesQueryKey(organizationId, projectId),
+    queryKey: getProjectResourcesQueryKey(projectId),
     queryFn: async () => (await projectsResourcesApi.findAll(projectId)).data,
     enabled: apisAvailable,
   })

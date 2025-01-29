@@ -27,8 +27,8 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  const { organizationId, projectId } = Route.useParams()
-  const query = useProjectResourcesQuery(organizationId, projectId)
+  const { projectId } = Route.useParams()
+  const query = useProjectResourcesQuery(projectId)
   const { data, isLoading, isError } = query
 
   const [searchValue, setSearchValue] = useState('')

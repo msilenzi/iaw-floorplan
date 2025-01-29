@@ -4,6 +4,7 @@ import { Group, Loader } from '@mantine/core'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { SectionContainer } from '@Common/components/SectionContainer'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { CurrentOrganizationProvider } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { ProjectSubheader } from '@Project/components/ProjectSubheader'
 import { CurrentProjectProvider } from '@Project/context/CurrentProject'
@@ -18,7 +19,7 @@ export const Route = createFileRoute(
 function RouteComponent() {
   const { organizationId, projectId } = Route.useParams()
   const organizationQuery = useOrganizationQuery(organizationId)
-  const projectQuery = useProjectQuery(organizationId, projectId)
+  const projectQuery = useProjectQuery(projectId)
 
   if (organizationQuery.isLoading) {
     return (
@@ -47,15 +48,17 @@ function RouteComponent() {
   }
 
   return (
-    <CurrentProjectProvider
-      organizationId={organizationId}
-      projectId={projectId}
-    >
-      <ProjectSubheader organizationId={organizationId} projectId={projectId} />
-      <SectionContainer>
-        <Outlet />
-      </SectionContainer>
-    </CurrentProjectProvider>
+    <CurrentOrganizationProvider organizationId={organizationId}>
+      <CurrentProjectProvider projectId={projectId}>
+        <ProjectSubheader
+          organizationId={organizationId}
+          projectId={projectId}
+        />
+        <SectionContainer>
+          <Outlet />
+        </SectionContainer>
+      </CurrentProjectProvider>
+    </CurrentOrganizationProvider>
   )
 }
 

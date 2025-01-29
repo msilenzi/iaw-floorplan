@@ -12,8 +12,8 @@ type InfoItemProps = {
 }
 
 export function InfoItem({ label, data, dataProps }: InfoItemProps) {
-  const { organizationId, projectId } = useCurrentProject()
-  const { isLoading } = useProjectQuery(organizationId, projectId)
+  const { projectId } = useCurrentProject()
+  const { isLoading } = useProjectQuery(projectId)
 
   if (!isLoading && data == null) return null
 

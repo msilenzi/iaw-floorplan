@@ -13,8 +13,8 @@ export function InfoReferences() {
 }
 
 function InfoReferencesContent() {
-  const { organizationId, projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectQuery(organizationId, projectId)
+  const { projectId } = useCurrentProject()
+  const { data, isLoading } = useProjectQuery(projectId)
 
   if (isLoading) {
     return (

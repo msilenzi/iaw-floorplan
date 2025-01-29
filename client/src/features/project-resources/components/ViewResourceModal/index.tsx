@@ -21,7 +21,7 @@ export function ViewResourceModal({
       <Modal.Root opened={isOpen} onClose={onClose} fullScreen>
         <Modal.Content bg="dark.8" p={0}>
           <Modal.Body h="100%" p={0}>
-            <Stack h={'100%'} gap={0}>
+            <Stack h="100%" mah="100%" gap={0}>
               <ViewResourceHeader />
               <ViewResourceBody />
             </Stack>

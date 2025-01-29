@@ -5,7 +5,7 @@ import { ViewResourceData } from './ViewResourceData'
 
 export function ViewResourceBody() {
   return (
-    <Group p="xs" h="100%">
+    <Group p="xs" h="100%" mah="100%" style={{ overflow: 'hidden' }}>
       <Box h="100%" w={250}>
         <ViewResourceData />
       </Box>

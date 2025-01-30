@@ -13,7 +13,7 @@ export function ZoomButtons() {
           <IconMinus height={16} width={16} stroke={2} />
         </Button>
         <Button variant="default" size="xs" onClick={zoomReset} flex={1}>
-          {Math.floor(100 * scale)} %
+          {Math.round(100 * scale)} %
         </Button>
         <Button variant="default" size="xs" onClick={zoomIn}>
           <IconPlus height={16} width={16} stroke={2} />

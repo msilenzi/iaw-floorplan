@@ -15,11 +15,11 @@ export function ImageViewerProvider({ children }: ImageViewerProviderProps) {
   const imageRef = useRef<HTMLImageElement>(null)
 
   const zoomIn = useCallback(() => {
-    setScale((prevScale) => Math.min(prevScale + 0.1, 5))
+    setScale((prevScale) => Number(Math.min(prevScale + 0.1, 5).toFixed(1)))
   }, [])
 
   const zoomOut = useCallback(() => {
-    setScale((prevScale) => Math.max(prevScale - 0.1, 0.1))
+    setScale((prevScale) => Number(Math.max(prevScale - 0.1, 0.1).toFixed(1)))
   }, [])
 
   const zoomReset = useCallback(() => {

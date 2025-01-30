@@ -1,6 +1,6 @@
 //prettier-ignore
 
-export enum Specialty {
+export enum CropSpecialty {
   ARCHITECTURE = 'architecture',
   STRUCTURE    = 'structure',
   ELECTRICAL   = 'electrical',

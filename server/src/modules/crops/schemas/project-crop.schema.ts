@@ -3,15 +3,15 @@ import { ApiProperty } from '@nestjs/swagger'
 import { HydratedDocument, Types } from 'mongoose'
 
 import { Resource } from 'src/modules/resources/schemas/resource.schema'
-import { Specialty } from '../types/project-crop-specialty.enum'
+import { CropSpecialty } from '../types/crop-specialty.enum'
 
 @Schema({
-  collection: 'project-crop',
+  collection: 'crops',
   timestamps: { createdAt: true, updatedAt: false },
   toJSON: { versionKey: false },
   toObject: { versionKey: false },
 })
-export class ProjectCrop {
+export class Crop {
   @Prop({ type: Types.ObjectId, ref: Resource.name, required: true })
   @ApiProperty({ type: String })
   resourceId: Types.ObjectId
@@ -19,8 +19,8 @@ export class ProjectCrop {
   @Prop({ type: String, required: true })
   name: string
 
-  @Prop({ type: String, required: true, enum: Specialty })
-  specialty: Specialty
+  @Prop({ type: String, required: true, enum: CropSpecialty })
+  specialty: CropSpecialty
 
   @Prop({ type: [String], required: true })
   tags: string[]
@@ -34,6 +34,6 @@ export class ProjectCrop {
   createdAt: Date
 }
 
-export type ProjectCropDocument = HydratedDocument<ProjectCrop>
+export type CropDocument = HydratedDocument<Crop>
 
-export const ProjectCropSchema = SchemaFactory.createForClass(ProjectCrop)
+export const CropSchema = SchemaFactory.createForClass(Crop)

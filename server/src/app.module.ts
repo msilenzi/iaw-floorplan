@@ -8,6 +8,7 @@ import { ProjectsModule } from './modules/projects/projects.module'
 import { ResourcesModule } from './modules/resources/resources.module'
 import { S3Module } from './modules/s3/s3.module'
 import { UsersModule } from './modules/users/users.module'
+import { CropsModule } from './modules/crops/crops.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UsersModule } from './modules/users/users.module'
     ProjectsModule,
     S3Module,
     ResourcesModule,
+    CropsModule,
   ],
   controllers: [],
   providers: [],

@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ReactCrop } from 'react-image-crop'
 
-import { Box, Flex, Loader, ScrollArea } from '@mantine/core'
+import { Box, Button, Flex, Loader, ScrollArea } from '@mantine/core'
+import { IconMinus, IconPlus } from '@tabler/icons-react'
 
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@ProjectResources/context/CurrentResource/useCurrentResource'
@@ -76,39 +77,88 @@ export function ViewResource() {
   }
 
   return (
-    <ScrollArea
-      w="100%"
-      h="100%"
-      scrollbarSize={16}
-      onWheel={handleWheel}
-      viewportRef={scrollAreaRef}
-    >
-      <Box
-        style={{
-          width: `${100 * scale}%`,
-          height: `${100 * scale}%`,
+    <Box pos="relative" w="100%" h="100%">
+      <ScrollArea
+        w="100%"
+        h="100%"
+        scrollbarSize={16}
+        onWheel={handleWheel}
+        viewportRef={scrollAreaRef}
+        styles={{
+          thumb: {
+            boxShadow: '0px 0px 4px 1px rgba(0, 0, 0, .5)',
+            backdropFilter: 'blur(3px)',
+          },
         }}
       >
-        <ReactCrop
-          crop={crop}
-          onChange={(c) => {
-            setCrop(c)
-            setPreviousScale(scale)
+        <Box
+          style={{
+            width: `${100 * scale}%`,
+            height: `${100 * scale}%`,
           }}
-          minHeight={50 * scale}
-          minWidth={50 * scale}
-          style={{ width: '100%', height: '100%' }}
         >
-          <img
-            src={data.url}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
+          <ReactCrop
+            crop={crop}
+            onChange={(c) => {
+              setCrop(c)
+              setPreviousScale(scale)
             }}
-          />
-        </ReactCrop>
-      </Box>
-    </ScrollArea>
+            minHeight={50}
+            minWidth={50}
+            style={{ width: '100%', height: '100%' }}
+          >
+            <img
+              src={data.url}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+              }}
+            />
+          </ReactCrop>
+        </Box>
+      </ScrollArea>
+      <ZoomButtons scale={scale} setScale={setScale} />
+    </Box>
+  )
+}
+
+type ZoomButtonsProps = {
+  scale: number
+  setScale: React.Dispatch<React.SetStateAction<number>>
+}
+
+export function ZoomButtons({ scale, setScale }: ZoomButtonsProps) {
+  return (
+    <Box pos="absolute" bottom={16} right={16}>
+      <Button.Group>
+        <Button
+          variant="default"
+          size="xs"
+          onClick={() => {
+            setScale((prevScale) => Math.max(prevScale - 0.1, 0.1))
+          }}
+        >
+          <IconMinus height={16} width={16} stroke={2} />
+        </Button>
+        <Button
+          variant="default"
+          size="xs"
+          onClick={() => setScale(1)}
+          w={'10ch'}
+        >
+          {Math.floor(100 * scale)} %
+        </Button>
+        <Button
+          variant="default"
+          size="xs"
+          onClick={() => {
+            setScale((prevScale) => Math.min(prevScale + 0.1, 5))
+          }}
+        >
+          <IconPlus height={16} width={16} stroke={2} />
+        </Button>
+      </Button.Group>
+    </Box>
   )
 }

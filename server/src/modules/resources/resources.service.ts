@@ -6,26 +6,23 @@ import { OrganizationDocument } from '../organizations/schemas/organization.sche
 import { ProjectDocument } from '../projects/schemas/project.schema'
 import { S3Service } from '../s3/s3.service'
 import { UsersService } from '../users/users.service'
-import { ProjectResourceCreateDto } from './dtos/project-resource-create.dto'
-import { ProjectResourceFindOneDto } from './dtos/project-resource-find-one.dto'
-import { ProjectResourceUpdateDto } from './dtos/project-resource-update.dto'
-import { ProjectResourcesFindAllDto } from './dtos/project-resources-find-all.dto'
-import {
-  ProjectResource,
-  ProjectResourceDocument,
-} from './schemas/project-resource.schema'
+import { ResourceCreateDto } from './dtos/resource-create.dto'
+import { ResourceFindOneDto } from './dtos/resource-find-one.dto'
+import { ResourceUpdateDto } from './dtos/resource-update.dto'
+import { ResourcesFindAllDto } from './dtos/resources-find-all.dto'
+import { Resource, ResourceDocument } from './schemas/resource.schema'
 
 @Injectable()
 export class ResourcesService {
   constructor(
     private readonly usersService: UsersService,
     private readonly s3Service: S3Service,
-    @InjectModel(ProjectResource.name)
-    private readonly projectResourcesModel: Model<ProjectResource>,
+    @InjectModel(Resource.name)
+    private readonly projectResourcesModel: Model<Resource>,
   ) {}
 
   async create(
-    dto: ProjectResourceCreateDto,
+    dto: ResourceCreateDto,
     file: Express.Multer.File,
     organization: OrganizationDocument,
     project: ProjectDocument,
@@ -48,9 +45,7 @@ export class ResourcesService {
     await resource.save()
   }
 
-  async findAll(
-    project: ProjectDocument,
-  ): Promise<ProjectResourcesFindAllDto[]> {
+  async findAll(project: ProjectDocument): Promise<ResourcesFindAllDto[]> {
     const resources = await this.projectResourcesModel
       .find({ projectId: project._id })
       .sort('name')
@@ -76,7 +71,7 @@ export class ResourcesService {
     organization: OrganizationDocument,
     project: ProjectDocument,
     resourceId: Types.ObjectId,
-  ): Promise<ProjectResourceFindOneDto> {
+  ): Promise<ResourceFindOneDto> {
     const resource = await this._getResource(resourceId)
 
     const [url, user] = await Promise.all([
@@ -96,7 +91,7 @@ export class ResourcesService {
     }
   }
 
-  async update(resourceId: Types.ObjectId, dto: ProjectResourceUpdateDto) {
+  async update(resourceId: Types.ObjectId, dto: ResourceUpdateDto) {
     const resource = await this._getResource(resourceId)
     Object.assign(resource, dto)
     await resource.save()
@@ -113,7 +108,7 @@ export class ResourcesService {
 
   private async _getResource(
     resourceId: Types.ObjectId,
-  ): Promise<ProjectResourceDocument> {
+  ): Promise<ResourceDocument> {
     const resource = await this.projectResourcesModel
       .findById(resourceId)
       .exec()

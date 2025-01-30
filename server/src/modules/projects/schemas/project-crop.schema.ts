@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { ApiProperty } from '@nestjs/swagger'
 import { HydratedDocument, Types } from 'mongoose'
 
-import { ProjectResource } from 'src/modules/resources/schemas/project-resource.schema'
+import { Resource } from 'src/modules/resources/schemas/resource.schema'
 import { Specialty } from '../types/project-crop-specialty.enum'
 
 @Schema({
@@ -12,7 +12,7 @@ import { Specialty } from '../types/project-crop-specialty.enum'
   toObject: { versionKey: false },
 })
 export class ProjectCrop {
-  @Prop({ type: Types.ObjectId, ref: ProjectResource.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: Resource.name, required: true })
   @ApiProperty({ type: String })
   resourceId: Types.ObjectId
 

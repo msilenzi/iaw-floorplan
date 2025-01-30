@@ -7,15 +7,12 @@ import { S3Module } from '../s3/s3.module'
 import { UsersModule } from '../users/users.module'
 import { ResourcesController } from './resources.controller'
 import { ResourcesService } from './resources.service'
-import {
-  ProjectResource,
-  ProjectResourceSchema,
-} from './schemas/project-resource.schema'
+import { Resource, ResourceSchema } from './schemas/resource.schema'
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: ProjectResource.name, schema: ProjectResourceSchema },
+      { name: Resource.name, schema: ResourceSchema },
     ]),
     S3Module,
     UsersModule,

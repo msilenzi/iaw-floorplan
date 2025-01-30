@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 
 import { IsTrimmedString } from 'src/common/decorators'
 
-export class ProjectResourceCreateDto {
+export class ResourceCreateDto {
   @ApiProperty({ type: String, format: 'binary', required: true })
   readonly file: Express.Multer.File
 

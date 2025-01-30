@@ -24,8 +24,8 @@ import { OrganizationDocument } from '../organizations/schemas/organization.sche
 import { GetProject } from '../projects/decorators/get-project.decorator'
 import { ProjectAccess } from '../projects/decorators/project-access.decorator'
 import { ProjectDocument } from '../projects/schemas/project.schema'
-import { ProjectResourceCreateDto } from './dtos/project-resource-create.dto'
-import { ProjectResourceUpdateDto } from './dtos/project-resource-update.dto'
+import { ResourceCreateDto } from './dtos/resource-create.dto'
+import { ResourceUpdateDto } from './dtos/resource-update.dto'
 import { ResourcesService } from './resources.service'
 
 @Protected(ProjectAccess())
@@ -37,7 +37,7 @@ export class ResourcesController {
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   create(
-    @Body() dto: ProjectResourceCreateDto,
+    @Body() dto: ResourceCreateDto,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -75,7 +75,7 @@ export class ResourcesController {
   @ApiParam({ name: 'resourceId', type: String })
   update(
     @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,
-    @Body() dto: ProjectResourceUpdateDto,
+    @Body() dto: ResourceUpdateDto,
   ) {
     return this.resourcesService.update(resourceId, dto)
   }

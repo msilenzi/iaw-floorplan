@@ -5,12 +5,12 @@ import { HydratedDocument, Types } from 'mongoose'
 import { Project } from 'src/modules/projects/schemas/project.schema'
 
 @Schema({
-  collection: 'project-resources',
+  collection: 'resources',
   timestamps: { createdAt: true, updatedAt: false },
   toJSON: { versionKey: false },
   toObject: { versionKey: false },
 })
-export class ProjectResource {
+export class Resource {
   @Prop({ type: Types.ObjectId, ref: Project.name, required: true })
   @ApiProperty({ type: String })
   projectId: Types.ObjectId
@@ -30,7 +30,6 @@ export class ProjectResource {
   createdAt: Date
 }
 
-export type ProjectResourceDocument = HydratedDocument<ProjectResource>
+export type ResourceDocument = HydratedDocument<Resource>
 
-export const ProjectResourceSchema =
-  SchemaFactory.createForClass(ProjectResource)
+export const ResourceSchema = SchemaFactory.createForClass(Resource)

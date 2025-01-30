@@ -1,7 +1,5 @@
 import { Box, Skeleton, Stack, Text, Title } from '@mantine/core'
-import { IconScissors } from '@tabler/icons-react'
 
-import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@ProjectResources/context/CurrentResource/useCurrentResource'
@@ -43,11 +41,6 @@ export function ViewResourceData() {
       {/* RECORTES */}
       <Stack gap="sm">
         <Title order={3}>Recortes</Title>
-        <PrimaryButton
-          rightSection={<IconScissors height={20} width={20} stroke={2} />}
-        >
-          Agregar recorte
-        </PrimaryButton>
         <Text fs="italic" ta="center" c="dimmed">
           No hay recortes para este recurso.
         </Text>

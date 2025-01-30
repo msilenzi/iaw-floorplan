@@ -1,30 +1,46 @@
-import type { Crop } from 'react-image-crop'
+import type { PixelCrop } from 'react-image-crop'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ReactCrop } from 'react-image-crop'
 
-import { Box, Button, Flex, Loader, ScrollArea } from '@mantine/core'
-import { IconMinus, IconPlus } from '@tabler/icons-react'
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Loader,
+  Modal,
+  ScrollArea,
+  Tooltip,
+  useMantineTheme,
+} from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { IconMinus, IconPlus, IconScissors } from '@tabler/icons-react'
 
+import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@ProjectResources/context/CurrentResource/useCurrentResource'
 import { useProjectResourceQuery } from '@ProjectResources/hooks/useProjectResourceQuery'
+import { canvasPreview } from '@ProjectResources/utils/canvasPreview'
 
 export function ViewResource() {
   const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
   const { isLoading, data } = useProjectResourceQuery(projectId, resourceId)
-  const [crop, setCrop] = useState<Crop>()
+
+  const [crop, setCrop] = useState<PixelCrop>()
   const [scale, setScale] = useState(1)
   const [previousScale, setPreviousScale] = useState(1)
+
   const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
     if (crop && scale !== previousScale) {
       const scaleRatio = scale / previousScale
 
-      const newCrop: Crop = {
+      const newCrop: PixelCrop = {
         unit: crop.unit,
         x: crop.x * scaleRatio,
         y: crop.y * scaleRatio,
@@ -103,8 +119,8 @@ export function ViewResource() {
               setCrop(c)
               setPreviousScale(scale)
             }}
-            minHeight={50}
-            minWidth={50}
+            minHeight={50 * scale}
+            minWidth={50 * scale}
             style={{ width: '100%', height: '100%' }}
           >
             <img
@@ -114,10 +130,12 @@ export function ViewResource() {
                 height: '100%',
                 objectFit: 'contain',
               }}
+              ref={imageRef}
             />
           </ReactCrop>
         </Box>
       </ScrollArea>
+      <AddCropButton crop={crop} image={imageRef.current} />
       <ZoomButtons scale={scale} setScale={setScale} />
     </Box>
   )
@@ -128,10 +146,10 @@ type ZoomButtonsProps = {
   setScale: React.Dispatch<React.SetStateAction<number>>
 }
 
-export function ZoomButtons({ scale, setScale }: ZoomButtonsProps) {
+function ZoomButtons({ scale, setScale }: ZoomButtonsProps) {
   return (
-    <Box pos="absolute" bottom={16} right={16}>
-      <Button.Group>
+    <Box pos="absolute" bottom={20} right={20}>
+      <Button.Group w={160}>
         <Button
           variant="default"
           size="xs"
@@ -145,7 +163,7 @@ export function ZoomButtons({ scale, setScale }: ZoomButtonsProps) {
           variant="default"
           size="xs"
           onClick={() => setScale(1)}
-          w={'10ch'}
+          flex={1}
         >
           {Math.floor(100 * scale)} %
         </Button>
@@ -160,5 +178,89 @@ export function ZoomButtons({ scale, setScale }: ZoomButtonsProps) {
         </Button>
       </Button.Group>
     </Box>
+  )
+}
+
+type AddCropButtonProps = {
+  image: HTMLImageElement | null
+  crop: PixelCrop | undefined
+}
+
+function AddCropButton({ crop, image }: AddCropButtonProps) {
+  const [isOpen, { open, close }] = useDisclosure(false)
+
+  const btnDisabled = !crop || crop.height === 0 || crop.width === 0
+
+  return (
+    <>
+      <Tooltip
+        label="Selecciona un área del recurso para crear un recorte"
+        color="dark.5"
+        withArrow
+        disabled={!btnDisabled}
+      >
+        <PrimaryButton
+          pos="absolute"
+          bottom={56}
+          right={20}
+          w={160}
+          rightSection={<IconScissors height={16} width={16} stroke={2} />}
+          onClick={open}
+          disabled={btnDisabled}
+        >
+          Crear recorte
+        </PrimaryButton>
+      </Tooltip>
+
+      <AddCropModal isOpen={isOpen} onClose={close} crop={crop} image={image} />
+    </>
+  )
+}
+
+type AddCropModalProps = {
+  isOpen: boolean
+  onClose: () => void
+  image: HTMLImageElement | null
+  crop: PixelCrop | undefined
+}
+
+function AddCropModal({ isOpen, onClose, image, crop }: AddCropModalProps) {
+  const theme = useMantineTheme()
+  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
+
+  useEffect(() => {
+    if (isOpen && image && crop && canvas) {
+      canvasPreview(image, canvas, crop, 1, 0)
+    }
+  }, [canvas, crop, image, isOpen])
+
+  return (
+    <Modal
+      opened={isOpen}
+      onClose={onClose}
+      title="Crear recorte"
+      styles={{ title: { fontWeight: 700 } }}
+      size="xl"
+    >
+      <Grid>
+        <Grid.Col span={6}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+          nemo, perspiciatis obcaecati porro ea consequuntur, error recusandae
+          ducimus commodi at repudiandae, quia omnis officiis id earum sed.
+          Doloribus, nisi mollitia.
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <canvas
+            ref={setCanvas}
+            style={{
+              maxWidth: '100%',
+              maxHeight: '70vh',
+              objectFit: 'contain',
+              borderRadius: theme.radius.sm,
+            }}
+          />
+        </Grid.Col>
+      </Grid>
+    </Modal>
   )
 }

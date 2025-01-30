@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Modal, Stack } from '@mantine/core'
 
-import { ViewResourceBody } from '@ProjectResources/components/ViewResourceModal/ViewResourceBody'
-import { ViewResourceHeader } from '@ProjectResources/components/ViewResourceModal/ViewResourceHeader'
+import { ViewResourceBody } from '@ProjectResources/components/ViewResource/ViewResourceBody'
+import { ViewResourceHeader } from '@ProjectResources/components/ViewResource/ViewResourceHeader'
 import { CurrentResourceProvider } from '@ProjectResources/context/CurrentResource/CurrentResourceProvider'
 
 export const Route = createFileRoute(

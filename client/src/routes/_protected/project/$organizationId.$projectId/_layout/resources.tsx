@@ -1,9 +1,9 @@
 import type { ProjectResourcesFindAllDto } from '@Common/api'
 import type { UseQueryResult } from '@tanstack/react-query'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Group, Menu, Stack, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconEdit } from '@tabler/icons-react'
@@ -16,7 +16,6 @@ import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { RenameResourceModal } from '@ProjectResources/components/RenameResourceModal'
-import { ViewResourceModal } from '@ProjectResources/components/ViewResourceModal'
 import { useProjectResourcesQuery } from '@ProjectResources/hooks/useProjectResourcesQuery'
 import { getResourceIcon } from '@ProjectResources/utils/getResourceIcon'
 
@@ -93,12 +92,14 @@ type ResourcesTableProps = {
 }
 
 export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
-  const [isOpen, { open, close }] = useDisclosure(false)
-  const resourceRef = useRef('')
+  const { organizationId, projectId } = Route.useParams()
+  const navigate = useNavigate()
 
-  function showModal(resourceId: string) {
-    resourceRef.current = resourceId
-    open()
+  function handleClick(resourceId: string) {
+    void navigate({
+      to: '/project/$organizationId/$projectId/resource/$resourceId',
+      params: { organizationId, projectId, resourceId },
+    })
   }
 
   return (
@@ -127,7 +128,7 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
               )
             },
             props: {
-              td: (rowData) => ({ onClick: () => showModal(rowData._id) }),
+              td: (rowData) => ({ onClick: () => handleClick(rowData._id) }),
             },
           },
           {
@@ -141,7 +142,7 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
               }),
             props: {
               th: { w: '20ch' },
-              td: (rowData) => ({ onClick: () => showModal(rowData._id) }),
+              td: (rowData) => ({ onClick: () => handleClick(rowData._id) }),
             },
             hideBreakpoint: 'xs',
           },
@@ -160,7 +161,7 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
             ),
             props: {
               th: { w: '30ch' },
-              td: (rowData) => ({ onClick: () => showModal(rowData._id) }),
+              td: (rowData) => ({ onClick: () => handleClick(rowData._id) }),
             },
             hideBreakpoint: 'sm',
           },
@@ -171,11 +172,6 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
             props: { th: { w: 50 } },
           },
         ]}
-      />
-      <ViewResourceModal
-        isOpen={isOpen}
-        onClose={close}
-        resourceId={resourceRef.current}
       />
     </>
   )

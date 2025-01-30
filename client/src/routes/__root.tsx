@@ -30,7 +30,10 @@ function RootComponent() {
     <>
       <Outlet />
       <TanStackRouterDevtools initialIsOpen={false} />
-      <TanStackQueryDevtools initialIsOpen={false} />
+      <TanStackQueryDevtools
+        initialIsOpen={false}
+        buttonPosition="bottom-left"
+      />
     </>
   )
 }

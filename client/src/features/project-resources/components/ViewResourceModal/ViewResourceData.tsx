@@ -31,7 +31,14 @@ export function ViewResourceData() {
             <Skeleton h={40} />
           ) : (
             <UserInfo
-              user={data!.createdBy}
+              user={
+                data?.createdBy ?? {
+                  name: 'loading user',
+                  email: 'loading email',
+                  user_id: 'loading user',
+                  picture: '',
+                }
+              }
               innerProps={{ avatar: { size: 'sm' } }}
             />
           )}

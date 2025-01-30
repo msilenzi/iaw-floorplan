@@ -24,7 +24,7 @@ import { useCurrentResource } from '@ProjectResources/context/CurrentResource/us
 import { useProjectResourceQuery } from '@ProjectResources/hooks/useProjectResourceQuery'
 import { canvasPreview } from '@ProjectResources/utils/canvasPreview'
 
-export function ViewResource() {
+export function ViewResourceImage() {
   const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
   const { isLoading, data } = useProjectResourceQuery(projectId, resourceId)
@@ -119,8 +119,8 @@ export function ViewResource() {
               setCrop(c)
               setPreviousScale(scale)
             }}
-            minHeight={50 * scale}
-            minWidth={50 * scale}
+            minHeight={20 * scale}
+            minWidth={20 * scale}
             style={{ width: '100%', height: '100%' }}
           >
             <img

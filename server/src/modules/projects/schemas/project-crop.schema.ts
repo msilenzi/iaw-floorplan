@@ -2,8 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { ApiProperty } from '@nestjs/swagger'
 import { HydratedDocument, Types } from 'mongoose'
 
+import { ProjectResource } from 'src/modules/resources/schemas/project-resource.schema'
 import { Specialty } from '../types/project-crop-specialty.enum'
-import { ProjectResource } from './project-resource.schema'
 
 @Schema({
   collection: 'project-crop',

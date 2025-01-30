@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { ApiProperty } from '@nestjs/swagger'
 import { HydratedDocument, Types } from 'mongoose'
 
-import { Project } from './project.schema'
+import { Project } from 'src/modules/projects/schemas/project.schema'
 
 @Schema({
   collection: 'project-resources',

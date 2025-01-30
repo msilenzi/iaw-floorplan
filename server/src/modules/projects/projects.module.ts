@@ -5,34 +5,24 @@ import { OrganizationsModule } from '../organizations/organizations.module'
 import { S3Module } from '../s3/s3.module'
 import { UsersModule } from '../users/users.module'
 import { ProjectCropsController } from './controllers/project-crops.controller'
-import { ProjectResourcesController } from './controllers/project-resources.controller'
 import { ProjectsController } from './controllers/projects.controller'
 import { ProjectCrop, ProjectCropSchema } from './schemas/project-crop.schema'
-import {
-  ProjectResource,
-  ProjectResourceSchema,
-} from './schemas/project-resource.schema'
 import { Project, ProjectSchema } from './schemas/project.schema'
 import { ProjectCropsService } from './services/project-crops.service'
-import { ProjectResourcesService } from './services/project-resources.service'
 import { ProjectsService } from './services/projects.service'
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Project.name, schema: ProjectSchema },
-      { name: ProjectResource.name, schema: ProjectResourceSchema },
       { name: ProjectCrop.name, schema: ProjectCropSchema },
     ]),
     OrganizationsModule,
     S3Module,
     UsersModule,
   ],
-  controllers: [
-    ProjectsController,
-    ProjectResourcesController,
-    ProjectCropsController,
-  ],
-  providers: [ProjectsService, ProjectResourcesService, ProjectCropsService],
+  controllers: [ProjectsController, ProjectCropsController],
+  providers: [ProjectsService, ProjectCropsService],
+  exports: [ProjectsService],
 })
 export class ProjectsModule {}

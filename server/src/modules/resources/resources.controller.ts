@@ -16,24 +16,22 @@ import { ApiConsumes, ApiParam } from '@nestjs/swagger'
 import { Types } from 'mongoose'
 
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
-import { Protected } from 'src/modules/auth/decorators/protected.decorator'
-import { Sub } from 'src/modules/auth/decorators/sub.decorator'
-import { GetOrganization } from 'src/modules/organizations/decorators/get-organization.decorator'
-import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
-import { GetProject } from '../decorators/get-project.decorator'
-import { ProjectAccess } from '../decorators/project-access.decorator'
-import { ProjectResourceCreateDto } from '../dtos/project-resources/project-resource-create.dto'
-import { ProjectResourceUpdateDto } from '../dtos/project-resources/project-resource-update.dto'
-import { ProjectDocument } from '../schemas/project.schema'
-import { ProjectResourcesService } from '../services/project-resources.service'
-import { mibToBytes } from '../utils/mibToBytes'
+import { mibToBytes } from 'src/common/utils/mibToBytes'
+import { Protected } from '../auth/decorators/protected.decorator'
+import { Sub } from '../auth/decorators/sub.decorator'
+import { GetOrganization } from '../organizations/decorators/get-organization.decorator'
+import { OrganizationDocument } from '../organizations/schemas/organization.schema'
+import { GetProject } from '../projects/decorators/get-project.decorator'
+import { ProjectAccess } from '../projects/decorators/project-access.decorator'
+import { ProjectDocument } from '../projects/schemas/project.schema'
+import { ProjectResourceCreateDto } from './dtos/project-resource-create.dto'
+import { ProjectResourceUpdateDto } from './dtos/project-resource-update.dto'
+import { ResourcesService } from './resources.service'
 
 @Protected(ProjectAccess())
 @Controller('project/:projectId/resources')
-export class ProjectResourcesController {
-  constructor(
-    private readonly projectResourcesService: ProjectResourcesService,
-  ) {}
+export class ResourcesController {
+  constructor(private readonly resourcesService: ResourcesService) {}
 
   @Post()
   @ApiConsumes('multipart/form-data')
@@ -55,18 +53,12 @@ export class ProjectResourcesController {
     @GetProject() project: ProjectDocument,
     @Sub() sub: string,
   ) {
-    return this.projectResourcesService.create(
-      dto,
-      file,
-      organization,
-      project,
-      sub,
-    )
+    return this.resourcesService.create(dto, file, organization, project, sub)
   }
 
   @Get()
   findAll(@GetProject() project: ProjectDocument) {
-    return this.projectResourcesService.findAll(project)
+    return this.resourcesService.findAll(project)
   }
 
   @Get(':resourceId')
@@ -76,11 +68,7 @@ export class ProjectResourcesController {
     @GetProject() project: ProjectDocument,
     @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,
   ) {
-    return this.projectResourcesService.findOne(
-      organization,
-      project,
-      resourceId,
-    )
+    return this.resourcesService.findOne(organization, project, resourceId)
   }
 
   @Patch(':resourceId')
@@ -89,6 +77,6 @@ export class ProjectResourcesController {
     @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,
     @Body() dto: ProjectResourceUpdateDto,
   ) {
-    return this.projectResourcesService.update(resourceId, dto)
+    return this.resourcesService.update(resourceId, dto)
   }
 }

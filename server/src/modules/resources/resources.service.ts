@@ -2,21 +2,21 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
-import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
-import { S3Service } from 'src/modules/s3/s3.service'
-import { UsersService } from 'src/modules/users/users.service'
-import { ProjectResourceCreateDto } from '../dtos/project-resources/project-resource-create.dto'
-import { ProjectResourceFindOneDto } from '../dtos/project-resources/project-resource-find-one.dto'
-import { ProjectResourceUpdateDto } from '../dtos/project-resources/project-resource-update.dto'
-import { ProjectResourcesFindAllDto } from '../dtos/project-resources/project-resources-find-all.dto'
+import { OrganizationDocument } from '../organizations/schemas/organization.schema'
+import { ProjectDocument } from '../projects/schemas/project.schema'
+import { S3Service } from '../s3/s3.service'
+import { UsersService } from '../users/users.service'
+import { ProjectResourceCreateDto } from './dtos/project-resource-create.dto'
+import { ProjectResourceFindOneDto } from './dtos/project-resource-find-one.dto'
+import { ProjectResourceUpdateDto } from './dtos/project-resource-update.dto'
+import { ProjectResourcesFindAllDto } from './dtos/project-resources-find-all.dto'
 import {
   ProjectResource,
   ProjectResourceDocument,
-} from '../schemas/project-resource.schema'
-import { ProjectDocument } from '../schemas/project.schema'
+} from './schemas/project-resource.schema'
 
 @Injectable()
-export class ProjectResourcesService {
+export class ResourcesService {
   constructor(
     private readonly usersService: UsersService,
     private readonly s3Service: S3Service,

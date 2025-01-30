@@ -12,7 +12,7 @@ import { InfoTechnicalDirectors } from '@Project/components/info/InfoTechnicalDi
 import { ProjectModalEdit } from '@Project/components/ProjectModal/ProjectModalEdit'
 
 export const Route = createFileRoute(
-  '/_protected/project/$organizationId/$projectId/info',
+  '/_protected/project/$organizationId/$projectId/_layout/info',
 )({
   component: RouteComponent,
 })

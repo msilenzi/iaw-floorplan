@@ -21,7 +21,7 @@ import { useProjectResourcesQuery } from '@ProjectResources/hooks/useProjectReso
 import { getResourceIcon } from '@ProjectResources/utils/getResourceIcon'
 
 export const Route = createFileRoute(
-  '/_protected/project/$organizationId/$projectId/resources',
+  '/_protected/project/$organizationId/$projectId/_layout/resources',
 )({
   component: RouteComponent,
 })

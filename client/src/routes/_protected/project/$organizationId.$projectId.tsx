@@ -6,7 +6,6 @@ import { SectionContainer } from '@Common/components/SectionContainer'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { CurrentOrganizationProvider } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
-import { ProjectSubheader } from '@Project/components/ProjectSubheader'
 import { CurrentProjectProvider } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
@@ -50,13 +49,7 @@ function RouteComponent() {
   return (
     <CurrentOrganizationProvider organizationId={organizationId}>
       <CurrentProjectProvider projectId={projectId}>
-        <ProjectSubheader
-          organizationId={organizationId}
-          projectId={projectId}
-        />
-        <SectionContainer>
-          <Outlet />
-        </SectionContainer>
+        <Outlet />
       </CurrentProjectProvider>
     </CurrentOrganizationProvider>
   )

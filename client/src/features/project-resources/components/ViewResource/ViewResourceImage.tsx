@@ -1,8 +1,8 @@
-import type { PixelCrop } from 'react-image-crop'
+import type { PercentCrop } from 'react-image-crop'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { ReactCrop } from 'react-image-crop'
+import { convertToPixelCrop, ReactCrop } from 'react-image-crop'
 
 import {
   Box,
@@ -29,34 +29,15 @@ export function ViewResourceImage() {
   const { resourceId } = useCurrentResource()
   const { isLoading, data } = useProjectResourceQuery(projectId, resourceId)
 
-  const [crop, setCrop] = useState<PixelCrop>()
+  const [crop, setCrop] = useState<PercentCrop>()
   const [scale, setScale] = useState(1)
-  const [previousScale, setPreviousScale] = useState(1)
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
-  useEffect(() => {
-    if (crop && scale !== previousScale) {
-      const scaleRatio = scale / previousScale
-
-      const newCrop: PixelCrop = {
-        unit: crop.unit,
-        x: crop.x * scaleRatio,
-        y: crop.y * scaleRatio,
-        width: crop.width * scaleRatio,
-        height: crop.height * scaleRatio,
-      }
-
-      setCrop(newCrop)
-      setPreviousScale(scale)
-    }
-  }, [scale, previousScale, crop])
-
   const handleWheel = useCallback((e: React.WheelEvent) => {
     if (e.ctrlKey) {
       e.preventDefault()
-
       setScale((prevScale) => {
         const newValue = prevScale + (e.deltaY < 0 ? 0.1 : -0.1)
         return Math.min(Math.max(newValue, 0.1), 5)
@@ -64,10 +45,9 @@ export function ViewResourceImage() {
       return
     }
 
-    //
-    // Corregir un error con el scroll horizontal:
-    // Sin esto no el scroll horizontal con shift + wheel no funciona cuando
-    // se está en uno de los límites del scroll vertical
+    // Corregir error con el scroll horizontal:
+    // Sin esto, el scroll horizontal con shift + wheel no funciona cuando
+    // el scroll vertical está en uno de los límites.
 
     const viewport = scrollAreaRef.current
     if (!viewport) return
@@ -115,12 +95,9 @@ export function ViewResourceImage() {
         >
           <ReactCrop
             crop={crop}
-            onChange={(c) => {
-              setCrop(c)
-              setPreviousScale(scale)
-            }}
-            minHeight={20 * scale}
-            minWidth={20 * scale}
+            onChange={(_, percentCrop) => setCrop(percentCrop)}
+            minHeight={50 * scale}
+            minWidth={50 * scale}
             style={{ width: '100%', height: '100%' }}
           >
             <img
@@ -183,12 +160,11 @@ function ZoomButtons({ scale, setScale }: ZoomButtonsProps) {
 
 type AddCropButtonProps = {
   image: HTMLImageElement | null
-  crop: PixelCrop | undefined
+  crop: PercentCrop | undefined
 }
 
 function AddCropButton({ crop, image }: AddCropButtonProps) {
   const [isOpen, { open, close }] = useDisclosure(false)
-
   const btnDisabled = !crop || crop.height === 0 || crop.width === 0
 
   return (
@@ -211,7 +187,6 @@ function AddCropButton({ crop, image }: AddCropButtonProps) {
           Crear recorte
         </PrimaryButton>
       </Tooltip>
-
       <AddCropModal isOpen={isOpen} onClose={close} crop={crop} image={image} />
     </>
   )
@@ -221,7 +196,7 @@ type AddCropModalProps = {
   isOpen: boolean
   onClose: () => void
   image: HTMLImageElement | null
-  crop: PixelCrop | undefined
+  crop: PercentCrop | undefined
 }
 
 function AddCropModal({ isOpen, onClose, image, crop }: AddCropModalProps) {
@@ -230,7 +205,20 @@ function AddCropModal({ isOpen, onClose, image, crop }: AddCropModalProps) {
 
   useEffect(() => {
     if (isOpen && image && crop && canvas) {
-      canvasPreview(image, canvas, crop, 1, 0)
+      // Usar las dimensiones naturales de la imagen
+      const pixelCrop = convertToPixelCrop(crop, image.width, image.height)
+
+      // Ajustar el canvas a las dimensiones del crop
+      canvas.width = pixelCrop.width
+      canvas.height = pixelCrop.height
+
+      canvasPreview(
+        image,
+        canvas,
+        pixelCrop,
+        1, // No aplicamos escala porque ya usamos dimensiones naturales
+        0,
+      )
     }
   }, [canvas, crop, image, isOpen])
 
@@ -250,15 +238,24 @@ function AddCropModal({ isOpen, onClose, image, crop }: AddCropModalProps) {
           Doloribus, nisi mollitia.
         </Grid.Col>
         <Grid.Col span={6}>
-          <canvas
-            ref={setCanvas}
+          <Box
             style={{
-              maxWidth: '100%',
-              maxHeight: '70vh',
-              objectFit: 'contain',
-              borderRadius: theme.radius.sm,
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          />
+          >
+            <canvas
+              ref={setCanvas}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '70vh',
+                objectFit: 'contain',
+                borderRadius: theme.radius.sm,
+              }}
+            />
+          </Box>
         </Grid.Col>
       </Grid>
     </Modal>

@@ -8,13 +8,13 @@ import {
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
-import { OrganizationDocument } from '../../organizations/schemas/organization.schema'
-import { UsersService } from '../../users/users.service'
-import { ProjectBasicDto } from '../dtos/project/project-basic.dto'
-import { ProjectCreateDto } from '../dtos/project/project-create.dto'
-import { ProjectFindOneDto } from '../dtos/project/project-find-one.dto'
-import { ProjectUpdateDto } from '../dtos/project/project-update.dto'
-import { Project, ProjectDocument } from '../schemas/project.schema'
+import { OrganizationDocument } from '../organizations/schemas/organization.schema'
+import { UsersService } from '../users/users.service'
+import { ProjectBasicDto } from './dtos/project-basic.dto'
+import { ProjectCreateDto } from './dtos/project-create.dto'
+import { ProjectFindOneDto } from './dtos/project-find-one.dto'
+import { ProjectUpdateDto } from './dtos/project-update.dto'
+import { Project, ProjectDocument } from './schemas/project.schema'
 
 @Injectable()
 export class ProjectsService {

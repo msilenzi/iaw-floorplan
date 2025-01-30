@@ -9,7 +9,7 @@ import { Request } from 'express'
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
 import { OrganizationMembersService } from 'src/modules/organizations/services/organization-members.service'
 import { OrganizationsService } from 'src/modules/organizations/services/organizations.service'
-import { ProjectsService } from '../services/projects.service'
+import { ProjectsService } from '../projects.service'
 
 @Injectable()
 export class ProjectAccessGuard implements CanActivate {

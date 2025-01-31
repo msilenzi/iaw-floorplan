@@ -1,4 +1,4 @@
-import type { ProjectResourcesFindAllDto } from '@Common/api'
+import type { ResourcesFindAllDto } from '@Common/api'
 
 import { Button, Group, Loader, Modal, Stack, TextInput } from '@mantine/core'
 import { IconPencil, IconReload } from '@tabler/icons-react'
@@ -13,7 +13,7 @@ import { useRenameResourceForm } from '../hooks/useRenameResourceForm'
 type RenameResourceModalProps = {
   isOpen: boolean
   onClose: () => void
-  resource: ProjectResourcesFindAllDto
+  resource: ResourcesFindAllDto
 }
 
 export function RenameResourceModal({

@@ -9,7 +9,7 @@ import { getProjectResourcesQueryKey } from './useProjectResourcesQuery'
 
 export function useProjectResourceUploadMutation() {
   const { projectId } = useCurrentProject()
-  const { projectsResourcesApi } = useApi()
+  const { resourcesApi: projectsResourcesApi } = useApi()
   const queryClient = useQueryClient()
 
   return useMutation({

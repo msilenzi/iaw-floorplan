@@ -15,7 +15,7 @@ type UpdateOptions = {
 }
 
 export function useUpdateMemberStatusMutation() {
-  const { organizationMembersApi } = useApi()
+  const { membersApi: organizationMembersApi } = useApi()
   const queryClient = useQueryClient()
 
   const { showErrorNotification, showSuccessNotification } = useNotifications()

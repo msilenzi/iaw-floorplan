@@ -12,7 +12,7 @@ export function getProjectResourceQueryKey(
 }
 
 export function useProjectResourceQuery(projectId: string, resourceId: string) {
-  const { projectsResourcesApi, apisAvailable } = useApi()
+  const { resourcesApi: projectsResourcesApi, apisAvailable } = useApi()
 
   return useQuery({
     queryKey: getProjectResourceQueryKey(projectId, resourceId),

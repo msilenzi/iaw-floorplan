@@ -1,15 +1,15 @@
 import type {
   OrganizationMembersApi,
   OrganizationsApi,
-  ProjectResourcesApi,
   ProjectsApi,
+  ResourcesApi,
 } from '../generated'
 
 export type ApisInstances = {
   organizationsApi: OrganizationsApi
-  organizationMembersApi: OrganizationMembersApi
+  membersApi: OrganizationMembersApi
   projectsApi: ProjectsApi
-  projectsResourcesApi: ProjectResourcesApi
+  resourcesApi: ResourcesApi
 }
 
 export type ApiContextType = {

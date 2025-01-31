@@ -1,4 +1,4 @@
-import type { ProjectResourcesFindAllDto } from '@Common/api'
+import type { ResourcesFindAllDto } from '@Common/api'
 import type { UseQueryResult } from '@tanstack/react-query'
 
 import { useState } from 'react'
@@ -87,7 +87,7 @@ function ProjectResourcesError({ query }: { query: UseQueryResult }) {
 }
 
 type ResourcesTableProps = {
-  resources: ProjectResourcesFindAllDto[]
+  resources: ResourcesFindAllDto[]
   isLoading: boolean
 }
 
@@ -178,7 +178,7 @@ export function ResourcesTable({ resources, isLoading }: ResourcesTableProps) {
 }
 
 type TableButtonProps = {
-  resource: ProjectResourcesFindAllDto
+  resource: ResourcesFindAllDto
 }
 
 function TableButton({ resource }: TableButtonProps) {
@@ -209,7 +209,7 @@ function TableButton({ resource }: TableButtonProps) {
 }
 
 function searchResources(
-  resources: ProjectResourcesFindAllDto[] | undefined,
+  resources: ResourcesFindAllDto[] | undefined,
   searchValue: string,
 ) {
   if (!resources) return []

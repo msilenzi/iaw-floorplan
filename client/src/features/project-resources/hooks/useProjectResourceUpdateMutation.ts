@@ -1,4 +1,4 @@
-import type { ProjectResourceUpdateDto } from '@Common/api'
+import type { ResourceUpdateDto } from '@Common/api'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -9,11 +9,11 @@ import { getProjectResourcesQueryKey } from './useProjectResourcesQuery'
 
 export function useProjectResourceUpdateMutation(resourceId: string) {
   const { projectId } = useCurrentProject()
-  const { projectsResourcesApi } = useApi()
+  const { resourcesApi: projectsResourcesApi } = useApi()
   const queryClient = useQueryClient()
 
   return useMutation({
-    async mutationFn(dto: ProjectResourceUpdateDto) {
+    async mutationFn(dto: ResourceUpdateDto) {
       return await projectsResourcesApi.update(resourceId, projectId, dto)
     },
     onSuccess() {

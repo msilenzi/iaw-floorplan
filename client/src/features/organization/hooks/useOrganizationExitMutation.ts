@@ -8,7 +8,7 @@ import { getOrganizationsQueryKey } from '@MyOrganizations/hooks/useOrganization
 import { getOrganizationQueryKey } from './useOrganizationQuery'
 
 export function useOrganizationExitMutation(organizationId: string) {
-  const { organizationMembersApi } = useApi()
+  const { membersApi: organizationMembersApi } = useApi()
   const queryClient = useQueryClient()
 
   const { showErrorNotification, showSuccessNotification } = useNotifications()

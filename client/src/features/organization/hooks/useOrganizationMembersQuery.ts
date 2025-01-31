@@ -9,7 +9,7 @@ export function getOrganizationMembersQueryKey(organizationId: string) {
 }
 
 export function useOrganizationMembersQuery(organizationId: string) {
-  const { apisAvailable, organizationMembersApi } = useApi()
+  const { apisAvailable, membersApi: organizationMembersApi } = useApi()
 
   return useQuery({
     queryKey: getOrganizationMembersQueryKey(organizationId),

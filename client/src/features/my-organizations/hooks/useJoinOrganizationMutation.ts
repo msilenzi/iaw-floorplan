@@ -5,7 +5,7 @@ import { useApi } from '@Common/api'
 import { getOrganizationsQueryKey } from './useOrganizationsQuery'
 
 export function useJoinOrganizationMutation() {
-  const { organizationMembersApi } = useApi()
+  const { membersApi: organizationMembersApi } = useApi()
   const queryClient = useQueryClient()
 
   return useMutation({

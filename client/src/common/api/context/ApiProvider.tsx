@@ -8,8 +8,8 @@ import {
   Configuration,
   OrganizationMembersApi,
   OrganizationsApi,
-  ProjectResourcesApi,
   ProjectsApi,
+  ResourcesApi,
 } from '../generated'
 import { ApiContext } from './ApiContext'
 
@@ -33,9 +33,9 @@ export function ApiProvider({ children }: ApiProviderProps) {
     })
     setApis({
       organizationsApi: new OrganizationsApi(configuration),
-      organizationMembersApi: new OrganizationMembersApi(configuration),
+      membersApi: new OrganizationMembersApi(configuration),
       projectsApi: new ProjectsApi(configuration),
-      projectsResourcesApi: new ProjectResourcesApi(configuration),
+      resourcesApi: new ResourcesApi(configuration),
     })
     setApisAvailable(true)
   }, [getAccessTokenSilently])

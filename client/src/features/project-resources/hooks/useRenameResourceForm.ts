@@ -1,4 +1,4 @@
-import type { ProjectResourcesFindAllDto } from '@Common/api'
+import type { ResourcesFindAllDto } from '@Common/api'
 
 import { useForm } from '@mantine/form'
 
@@ -8,7 +8,7 @@ type RenameResourceValues = {
   name: string
 }
 
-export function useRenameResourceForm(resource: ProjectResourcesFindAllDto) {
+export function useRenameResourceForm(resource: ResourcesFindAllDto) {
   return useForm<RenameResourceValues>({
     mode: 'controlled',
     validateInputOnChange: true,

@@ -3,34 +3,41 @@ import { Reflector } from '@nestjs/core'
 import { Request } from 'express'
 
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
-import { AllowedMemberStatusGuard } from 'src/modules/organizations/guards/allowed-member-status.guard'
 import { OrganizationMembersService } from 'src/modules/organizations/services/organization-members.service'
 import { OrganizationsService } from 'src/modules/organizations/services/organizations.service'
-import { ProjectsService } from '../projects.service'
+import { ProjectAccessGuard } from 'src/modules/projects/guards/project-access.guard'
+import { ProjectsService } from 'src/modules/projects/projects.service'
+import { ResourcesService } from '../resources.service'
 
 @Injectable()
-export class ProjectAccessGuard extends AllowedMemberStatusGuard {
+export class ResourceAccessGuard extends ProjectAccessGuard {
   constructor(
     reflector: Reflector,
+    projectsService: ProjectsService,
     organizationsService: OrganizationsService,
     organizationMembersService: OrganizationMembersService,
-    private readonly projectsService: ProjectsService,
+    private readonly resourceService: ResourcesService,
   ) {
-    super(reflector, organizationsService, organizationMembersService)
+    super(
+      reflector,
+      organizationsService,
+      organizationMembersService,
+      projectsService,
+    )
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest()
 
-    const projectId = new ParseMongoIdPipe().transform(
-      request.params?.projectId,
+    const resourceId = new ParseMongoIdPipe().transform(
+      request.params?.resourceId,
     )
-    const project = await this.projectsService._getProject(projectId)
-    request.params.organizationId = project.organizationId.toString()
+    const resource = await this.resourceService._getResource(resourceId)
+    request.params.projectId = resource.projectId.toString()
 
     const hasAccess = await super.canActivate(context)
     if (hasAccess) {
-      request.project = project
+      request.resource = resource
     }
     return hasAccess
   }

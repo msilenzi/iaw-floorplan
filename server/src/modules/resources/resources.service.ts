@@ -106,7 +106,7 @@ export class ResourcesService {
     return `org-${organizationId}/proj-${projectId}/res-${resourceId}/res-${resourceId}`
   }
 
-  private async _getResource(
+  public async _getResource(
     resourceId: Types.ObjectId,
   ): Promise<ResourceDocument> {
     const resource = await this.projectResourcesModel

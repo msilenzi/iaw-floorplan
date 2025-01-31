@@ -24,19 +24,21 @@ import { OrganizationDocument } from '../organizations/schemas/organization.sche
 import { GetProject } from '../projects/decorators/get-project.decorator'
 import { ProjectAccess } from '../projects/decorators/project-access.decorator'
 import { ProjectDocument } from '../projects/schemas/project.schema'
+import { ResourceAccess } from './decorators/resource-access.decorator'
 import { ResourceCreateDto } from './dtos/resource-create.dto'
 import { ResourceUpdateDto } from './dtos/resource-update.dto'
 import { ResourcesService } from './resources.service'
 
-@Protected(ProjectAccess())
-@Controller('project/:projectId/resources')
+@Protected()
+@Controller('resources')
 export class ResourcesController {
   constructor(private readonly resourcesService: ResourcesService) {}
 
   /**
    * Crea un nuevo recurso para un proyecto.
    */
-  @Post()
+  @Post('/project/:projectId/resources')
+  @ProjectAccess()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   create(
@@ -62,7 +64,8 @@ export class ResourcesController {
   /**
    * Devuelve todos los proyectos de una organización.
    */
-  @Get()
+  @Get('/project/:projectId/resources')
+  @ProjectAccess()
   findAll(@GetProject() project: ProjectDocument) {
     return this.resourcesService.findAll(project)
   }
@@ -72,6 +75,7 @@ export class ResourcesController {
    * Con una URL temporal para acceder al mismo.
    */
   @Get(':resourceId')
+  @ResourceAccess()
   @ApiParam({ name: 'resourceId', type: String })
   findOne(
     @GetOrganization() organization: OrganizationDocument,
@@ -85,6 +89,7 @@ export class ResourcesController {
    * Permite actualizar el nombre de un recurso.
    */
   @Patch(':resourceId')
+  @ResourceAccess()
   @ApiParam({ name: 'resourceId', type: String })
   update(
     @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,

@@ -45,7 +45,7 @@ export class AllowedMemberStatusGuard implements CanActivate {
       userId,
     )
 
-    if (!allowedMemberStatus.includes(member.status)) {
+    if (!member || !allowedMemberStatus.includes(member.status)) {
       throw new ForbiddenException('No puedes acceder a esta organización')
     }
 

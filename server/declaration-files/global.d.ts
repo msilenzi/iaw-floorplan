@@ -5,6 +5,7 @@
 import { Member } from 'src/modules/organizations/schemas/member.schema'
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
 import { ProjectDocument } from 'src/modules/projects/schemas/project.schema'
+import { ResourceDocument } from 'src/modules/resources/schemas/resource.schema'
 
 export {}
 
@@ -25,6 +26,7 @@ declare global {
       organization?: OrganizationDocument
       member?: Member
       project?: ProjectDocument
+      resource?: ResourceDocument
     }
   }
 }

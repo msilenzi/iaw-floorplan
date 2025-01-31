@@ -16,6 +16,7 @@ import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
 import { GetMember } from '../decorators/get-member.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
+import { OrganizationAccess } from '../decorators/organization-access.decorator'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { OrganizationMemberDto } from '../dtos/organization-member.dto'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
@@ -49,7 +50,7 @@ export class OrganizationMembersController {
    * - Si es un miembro: devuelve los miembros activos.
    */
   @Get()
-  @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
+  @OrganizationAccess()
   findAllMembers(
     @GetOrganization() organization: OrganizationDocument,
     @GetMember() member: Member,
@@ -61,7 +62,7 @@ export class OrganizationMembersController {
    * Cambia el estado de un miembro de la organización.
    * Permite aceptar, rechazar, bloquear, desbloquear y desrechazar miembros.
    */
-  @Patch('/:memberId/status')
+  @Patch(':memberId/status')
   @AllowedMemberStatus(MemberStatus.OWNER)
   @HttpCode(HttpStatus.NO_CONTENT)
   updateMemberStatus(

@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common'
-import { ApiQuery } from '@nestjs/swagger'
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
 
-import { ParseOrganizationQueryPipe } from 'src/modules/organizations/pipes/parse-organization-query.pipe'
 import { Protected } from '../auth/decorators/protected.decorator'
 import { Sub } from '../auth/decorators/sub.decorator'
 import { GetOrganization } from '../organizations/decorators/get-organization.decorator'
+import { OrganizationAccess } from '../organizations/decorators/organization-access.decorator'
 import { OrganizationDocument } from '../organizations/schemas/organization.schema'
 import { GetProject } from './decorators/get-project.decorator'
 import { ProjectAccess } from './decorators/project-access.decorator'
@@ -26,11 +25,10 @@ export class ProjectsController {
    * Si el usuario no es un miembro activo de la organización a la que pertenece
    * el proyecto, devuelve 403.
    */
-  @Post()
-  @ApiQuery({ name: 'organizationId', type: String })
+  @Post('organization/:organizationId')
+  @OrganizationAccess()
   create(
-    @Query('organizationId', ParseOrganizationQueryPipe)
-    organization: OrganizationDocument,
+    @GetOrganization() organization: OrganizationDocument,
     @Body() projectCreateDto: ProjectCreateDto,
     @Sub() sub: string,
   ): Promise<Project> {
@@ -43,11 +41,10 @@ export class ProjectsController {
    * Si el usuario no es un miembro activo de la organización a la que pertenece
    * el proyecto, devuelve 403.
    */
-  @Get()
-  @ApiQuery({ name: 'organizationId', type: String })
+  @Get('organization/:organizationId')
+  @OrganizationAccess()
   findAll(
-    @Query('organizationId', ParseOrganizationQueryPipe)
-    organization: OrganizationDocument,
+    @GetOrganization() organization: OrganizationDocument,
   ): Promise<ProjectBasicDto[]> {
     return this.projectsService.findAll(organization)
   }

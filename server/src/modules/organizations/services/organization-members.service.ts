@@ -97,6 +97,7 @@ export class OrganizationMembersService {
     { newMemberStatus }: UpdateMemberStatusDto,
   ): Promise<void> {
     const member = this._getMember(organization, memberId)
+    if (!member) throw new NotFoundException('El miembro no existe')
 
     const { MEMBER, BLOCKED, PENDING, REJECTED } = MemberStatus
     const allowedTransitions: Partial<Record<MemberStatus, MemberStatus[]>> = {
@@ -142,12 +143,10 @@ export class OrganizationMembersService {
     await organization.save()
   }
 
-  _getMember(organization: Organization, userId: string): Member {
-    const member = organization.members.find(
-      (member) => member.userId === userId,
+  _getMember(organization: Organization, userId: string): Member | null {
+    return (
+      organization.members.find((member) => member.userId === userId) ?? null
     )
-    if (!member) throw new NotFoundException('El miembro no existe')
-    return member
   }
 
   _isActiveMember(member: Member): boolean {

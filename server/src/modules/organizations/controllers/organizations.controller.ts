@@ -5,6 +5,7 @@ import { Sub } from '../../auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
 import { GetMember } from '../decorators/get-member.decorator'
 import { GetOrganization } from '../decorators/get-organization.decorator'
+import { OrganizationAccess } from '../decorators/organization-access.decorator'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
 import { OrganizationDto } from '../dtos/organization.dto'
@@ -44,7 +45,7 @@ export class OrganizationsController {
    * y actualiza el valor de último acceso.
    */
   @Get(':organizationId')
-  @AllowedMemberStatus(MemberStatus.OWNER, MemberStatus.MEMBER)
+  @OrganizationAccess()
   findOne(
     @GetOrganization() organization: OrganizationDocument,
     @GetMember() member: Member,

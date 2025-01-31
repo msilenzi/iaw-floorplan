@@ -33,6 +33,9 @@ import { ResourcesService } from './resources.service'
 export class ResourcesController {
   constructor(private readonly resourcesService: ResourcesService) {}
 
+  /**
+   * Crea un nuevo recurso para un proyecto.
+   */
   @Post()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
@@ -56,11 +59,18 @@ export class ResourcesController {
     return this.resourcesService.create(dto, file, organization, project, sub)
   }
 
+  /**
+   * Devuelve todos los proyectos de una organización.
+   */
   @Get()
   findAll(@GetProject() project: ProjectDocument) {
     return this.resourcesService.findAll(project)
   }
 
+  /**
+   * Devuelve la información de un recurso.
+   * Con una URL temporal para acceder al mismo.
+   */
   @Get(':resourceId')
   @ApiParam({ name: 'resourceId', type: String })
   findOne(
@@ -71,6 +81,9 @@ export class ResourcesController {
     return this.resourcesService.findOne(organization, project, resourceId)
   }
 
+  /**
+   * Permite actualizar el nombre de un recurso.
+   */
   @Patch(':resourceId')
   @ApiParam({ name: 'resourceId', type: String })
   update(

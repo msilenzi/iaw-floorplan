@@ -11,9 +11,9 @@ import { IconPlus } from '@tabler/icons-react'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-import { useUploadResourceForm } from '@ProjectResources/hooks/useUploadResourceForm'
+import { useUploadResourceForm } from '@Resources/hooks/useUploadResourceForm'
 
-import { useProjectResourceUploadMutation } from '../hooks/useProjectResourceUploadMutation'
+import { useResourceUploadMutation } from '../hooks/useResourceUploadMutation'
 
 type UploadResourceModalProps = {
   isOpen: boolean
@@ -24,7 +24,7 @@ export function UploadResourceModal({
   isOpen,
   onClose,
 }: UploadResourceModalProps) {
-  const { isPending, mutateAsync } = useProjectResourceUploadMutation()
+  const { isPending, mutateAsync } = useResourceUploadMutation()
   const { showErrorNotification, showSuccessNotification } = useNotifications()
 
   const form = useUploadResourceForm()

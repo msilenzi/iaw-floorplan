@@ -1,7 +1,7 @@
 import { Box, Button } from '@mantine/core'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
 
-import { useImageViewer } from '@ProjectResources/context/ImageViewer'
+import { useImageViewer } from '@Resources/context/ImageViewer'
 
 export function ZoomButtons() {
   const { scale, zoomIn, zoomOut, zoomReset } = useImageViewer()

@@ -33,7 +33,7 @@
     "^@MyOrganizations/(?!.*[.]css$).*$",
     "^@Organization/(?!.*[.]css$).*$",
     "^@Project/(?!.*[.]css$).*$",
-    "^@ProjectResources/(?!.*[.]css$).*$",
+    "^@Resources/(?!.*[.]css$).*$",
     "",
     "^(?!.*[.]css$)[./].*$",
     "",

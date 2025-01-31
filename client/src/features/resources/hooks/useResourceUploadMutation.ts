@@ -5,21 +5,21 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useApi } from '@Common/api'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 
-import { getProjectResourcesQueryKey } from './useProjectResourcesQuery'
+import { getResourcesQueryKey } from './useResourcesQuery'
 
-export function useProjectResourceUploadMutation() {
+export function useResourceUploadMutation() {
   const { projectId } = useCurrentProject()
-  const { resourcesApi: projectsResourcesApi } = useApi()
+  const { resourcesApi } = useApi()
   const queryClient = useQueryClient()
 
   return useMutation({
     async mutationFn({ file, name }: UploadResourceValues) {
       if (file == null) throw new Error('File is required')
-      await projectsResourcesApi.create(projectId, file, name)
+      await resourcesApi.create(projectId, file, name)
     },
     onSuccess() {
       void queryClient.invalidateQueries({
-        queryKey: getProjectResourcesQueryKey(projectId),
+        queryKey: getResourcesQueryKey(projectId),
       })
     },
   })

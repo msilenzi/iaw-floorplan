@@ -1,13 +1,13 @@
 import { Group, Modal, Skeleton, Title } from '@mantine/core'
 
 import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@ProjectResources/context/CurrentResource/useCurrentResource'
-import { useProjectResourceQuery } from '@ProjectResources/hooks/useProjectResourceQuery'
+import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
+import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
 
 export function ViewResourceHeader() {
   const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
-  const { isLoading, data } = useProjectResourceQuery(projectId, resourceId)
+  const { isLoading, data } = useResourceQuery(projectId, resourceId)
 
   return (
     <Group align="baseline" justify="space-between" wrap="nowrap" p="sm">

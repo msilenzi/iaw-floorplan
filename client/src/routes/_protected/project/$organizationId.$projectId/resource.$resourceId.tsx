@@ -4,10 +4,10 @@ import { Modal, Stack } from '@mantine/core'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { SectionContainer } from '@Common/components/SectionContainer'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-import { ViewResourceBody } from '@ProjectResources/components/ViewResource/ViewResourceBody'
-import { ViewResourceHeader } from '@ProjectResources/components/ViewResource/ViewResourceHeader'
-import { CurrentResourceProvider } from '@ProjectResources/context/CurrentResource/CurrentResourceProvider'
-import { useProjectResourceQuery } from '@ProjectResources/hooks/useProjectResourceQuery'
+import { ViewResourceBody } from '@Resources/components/ViewResource/ViewResourceBody'
+import { ViewResourceHeader } from '@Resources/components/ViewResource/ViewResourceHeader'
+import { CurrentResourceProvider } from '@Resources/context/CurrentResource/CurrentResourceProvider'
+import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
 
 export const Route = createFileRoute(
   '/_protected/project/$organizationId/$projectId/resource/$resourceId',
@@ -17,7 +17,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { organizationId, projectId, resourceId } = Route.useParams()
-  const resourceQuery = useProjectResourceQuery(projectId, resourceId)
+  const resourceQuery = useResourceQuery(projectId, resourceId)
 
   const navigate = useNavigate()
 

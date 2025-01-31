@@ -2,7 +2,7 @@ import type { ResourcesFindAllDto } from '@Common/api'
 
 import { useForm } from '@mantine/form'
 
-import { validateResourceName } from '@ProjectResources/utils/validateResourceName'
+import { validateResourceName } from '@Resources/utils/validateResourceName'
 
 type RenameResourceValues = {
   name: string

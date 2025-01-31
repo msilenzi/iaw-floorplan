@@ -1,9 +1,9 @@
-import type { UploadResourceValues } from '@ProjectResources/types/UploadResourceForm'
+import type { UploadResourceValues } from '@Resources/types/UploadResourceForm'
 
 import { useForm } from '@mantine/form'
 
-import { mibToBytes } from '@ProjectResources/utils/mibToBytes'
-import { validateResourceName } from '@ProjectResources/utils/validateResourceName'
+import { mibToBytes } from '@Resources/utils/mibToBytes'
+import { validateResourceName } from '@Resources/utils/validateResourceName'
 
 export function useUploadResourceForm() {
   return useForm<UploadResourceValues>({

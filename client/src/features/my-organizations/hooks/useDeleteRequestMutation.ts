@@ -7,12 +7,12 @@ import { useApi } from '@Common/api'
 import { getOrganizationsQueryKey } from './useOrganizationsQuery'
 
 export function useDeleteRequestMutation() {
-  const { membersApi: organizationMembersApi } = useApi()
+  const { membersApi } = useApi()
   const queryClient = useQueryClient()
 
   return useMutation({
     async mutationFn(organizationId: string) {
-      await organizationMembersApi.removeMember(organizationId)
+      await membersApi.removeMember(organizationId)
       return organizationId
     },
     onSuccess(deletedId) {

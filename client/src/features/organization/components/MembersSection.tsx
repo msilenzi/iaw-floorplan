@@ -7,7 +7,7 @@ import { Text } from '@mantine/core'
 import { AccordionDataContainer } from '@Common/ui/AccordionDataContainer'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useMemberSearchForm } from '@Organization/context/MemberSearchForm/MemberSearchFormContext'
-import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
+import { useMembersQuery } from '@Organization/hooks/useMembersQuery'
 
 import { MembersTable } from './MembersTable'
 
@@ -30,7 +30,7 @@ export function MembersSection({
   const form = useMemberSearchForm()
   const { searchValue, searchField } = form.getValues()
 
-  const { data, isLoading } = useOrganizationMembersQuery(organizationId)
+  const { data, isLoading } = useMembersQuery(organizationId)
 
   const filteredData =
     data

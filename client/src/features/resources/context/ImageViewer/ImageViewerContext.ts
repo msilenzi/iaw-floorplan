@@ -1,4 +1,4 @@
-import type { ImageViewerState } from '@ProjectResources/types/ImageViewerValues'
+import type { ImageViewerState } from '@Resources/types/ImageViewerValues'
 
 import { createContext } from 'react'
 

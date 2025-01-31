@@ -1,8 +1,8 @@
 import { Box, Flex, Group, Loader, Paper } from '@mantine/core'
 
 import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@ProjectResources/context/CurrentResource/useCurrentResource'
-import { useProjectResourceQuery } from '@ProjectResources/hooks/useProjectResourceQuery'
+import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
+import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
 
 import { ViewResourceData } from './ViewResourceData'
 import { ViewResourceImage } from './ViewResourceImage'
@@ -30,7 +30,7 @@ export function ViewResourceBody() {
 function ResourceContent() {
   const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
-  const { isLoading, data } = useProjectResourceQuery(projectId, resourceId)
+  const { isLoading, data } = useResourceQuery(projectId, resourceId)
 
   if (isLoading || !data) {
     return (

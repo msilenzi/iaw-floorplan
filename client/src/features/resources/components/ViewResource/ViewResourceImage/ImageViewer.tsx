@@ -4,7 +4,7 @@ import { ReactCrop } from 'react-image-crop'
 
 import { Box, ScrollArea } from '@mantine/core'
 
-import { useImageViewer } from '@ProjectResources/context/ImageViewer'
+import { useImageViewer } from '@Resources/context/ImageViewer'
 
 type ImageViewerProps = {
   imageUrl: string

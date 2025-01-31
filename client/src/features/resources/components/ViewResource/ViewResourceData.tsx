@@ -2,14 +2,14 @@ import { Box, Skeleton, Stack, Text, Title } from '@mantine/core'
 
 import { UserInfo } from '@Common/ui/UserInfo'
 import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@ProjectResources/context/CurrentResource/useCurrentResource'
+import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 
-import { useProjectResourceQuery } from '../../hooks/useProjectResourceQuery'
+import { useResourceQuery } from '../../hooks/useResourceQuery'
 
 export function ViewResourceData() {
   const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
-  const { data, isLoading } = useProjectResourceQuery(projectId, resourceId)
+  const { data, isLoading } = useResourceQuery(projectId, resourceId)
 
   return (
     <Stack gap="lg">

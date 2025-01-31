@@ -7,8 +7,8 @@ import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 
-import { useProjectResourceUpdateMutation } from '../hooks/useProjectResourceUpdateMutation'
 import { useRenameResourceForm } from '../hooks/useRenameResourceForm'
+import { useResourceUpdateMutation } from '../hooks/useResourceUpdateMutation'
 
 type RenameResourceModalProps = {
   isOpen: boolean
@@ -21,9 +21,7 @@ export function RenameResourceModal({
   onClose,
   resource,
 }: RenameResourceModalProps) {
-  const { isPending, mutateAsync } = useProjectResourceUpdateMutation(
-    resource._id,
-  )
+  const { isPending, mutateAsync } = useResourceUpdateMutation(resource._id)
   const { showErrorNotification } = useNotifications()
 
   const form = useRenameResourceForm(resource)

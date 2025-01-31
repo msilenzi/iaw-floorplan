@@ -5,12 +5,12 @@ import { useApi } from '@Common/api'
 import { getOrganizationsQueryKey } from './useOrganizationsQuery'
 
 export function useJoinOrganizationMutation() {
-  const { membersApi: organizationMembersApi } = useApi()
+  const { membersApi } = useApi()
   const queryClient = useQueryClient()
 
   return useMutation({
     async mutationFn(organizationId: string) {
-      return await organizationMembersApi.createMember(organizationId)
+      return await membersApi.createMember(organizationId)
     },
     onSuccess() {
       void queryClient.invalidateQueries({

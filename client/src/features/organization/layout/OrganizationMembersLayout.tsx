@@ -9,7 +9,7 @@ import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { OrganizationMemberSearch } from '@Organization/components/OrganizationMemberSearch'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { MemberSearchFormProvider } from '@Organization/context/MemberSearchForm/MemberSearchFormProvider'
-import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
+import { useMembersQuery } from '@Organization/hooks/useMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
 type OrganizationMembersLayoutProps = {
@@ -30,7 +30,7 @@ export function OrganizationMembersLayout({
   const organizationQuery = useOrganizationQuery(organizationId)
   const userStatus = organizationQuery.data?.userStatus
 
-  const membersQuery = useOrganizationMembersQuery(organizationId)
+  const membersQuery = useMembersQuery(organizationId)
 
   useEffect(() => {
     if (organizationId && requiredStatus && requiredStatus !== userStatus) {

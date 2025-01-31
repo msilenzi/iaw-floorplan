@@ -4,8 +4,8 @@ import { convertToPixelCrop } from 'react-image-crop'
 
 import { Box, Grid, Modal, useMantineTheme } from '@mantine/core'
 
-import { useImageViewer } from '@ProjectResources/context/ImageViewer'
-import { canvasPreview } from '@ProjectResources/utils/canvasPreview'
+import { useImageViewer } from '@Resources/context/ImageViewer'
+import { canvasPreview } from '@Resources/utils/canvasPreview'
 
 type AddCropModalProps = {
   isOpen: boolean

@@ -10,7 +10,7 @@ import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
-import { useOrganizationMembersQuery } from '@Organization/hooks/useOrganizationMembersQuery'
+import { useMembersQuery } from '@Organization/hooks/useMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
 export type MembersTableAction = {
@@ -31,7 +31,7 @@ export function MembersTable({ data, actions }: MembersTableProps) {
   const organizationQuery = useOrganizationQuery(organizationId)
   const userStatus = organizationQuery.data?.userStatus
 
-  const { isLoading } = useOrganizationMembersQuery(organizationId)
+  const { isLoading } = useMembersQuery(organizationId)
 
   return (
     <DataTable
@@ -92,7 +92,7 @@ type TableButton = {
 function TableButton({ member, actions }: TableButton) {
   const { organizationId } = useCurrentOrganization()
 
-  const { isFetching } = useOrganizationMembersQuery(organizationId)
+  const { isFetching } = useMembersQuery(organizationId)
 
   return (
     <Menu withArrow position="left" shadow="md">

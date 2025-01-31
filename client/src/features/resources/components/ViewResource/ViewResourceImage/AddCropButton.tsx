@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks'
 import { IconScissors } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
-import { useImageViewer } from '@ProjectResources/context/ImageViewer'
+import { useImageViewer } from '@Resources/context/ImageViewer'
 
 import { AddCropModal } from './AddCropModal'
 

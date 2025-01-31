@@ -8,14 +8,14 @@ import { getOrganizationsQueryKey } from '@MyOrganizations/hooks/useOrganization
 import { getOrganizationQueryKey } from './useOrganizationQuery'
 
 export function useOrganizationExitMutation(organizationId: string) {
-  const { membersApi: organizationMembersApi } = useApi()
+  const { membersApi } = useApi()
   const queryClient = useQueryClient()
 
   const { showErrorNotification, showSuccessNotification } = useNotifications()
 
   return useMutation({
     async mutationFn() {
-      return await organizationMembersApi.removeMember(organizationId)
+      return await membersApi.removeMember(organizationId)
     },
     onSuccess() {
       void queryClient.invalidateQueries({

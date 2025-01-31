@@ -15,9 +15,9 @@ import { SearchInput } from '@Common/ui/SearchInput'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-import { RenameResourceModal } from '@ProjectResources/components/RenameResourceModal'
-import { useProjectResourcesQuery } from '@ProjectResources/hooks/useProjectResourcesQuery'
-import { getResourceIcon } from '@ProjectResources/utils/getResourceIcon'
+import { RenameResourceModal } from '@Resources/components/RenameResourceModal'
+import { useResourcesQuery } from '@Resources/hooks/useResourcesQuery'
+import { getResourceIcon } from '@Resources/utils/getResourceIcon'
 
 export const Route = createFileRoute(
   '/_protected/project/$organizationId/$projectId/_layout/resources',
@@ -27,13 +27,13 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { projectId } = Route.useParams()
-  const query = useProjectResourcesQuery(projectId)
+  const query = useResourcesQuery(projectId)
   const { data, isLoading, isError } = query
 
   const [searchValue, setSearchValue] = useState('')
 
   if (isError) {
-    return <ProjectResourcesError query={query} />
+    return <ResourcesError query={query} />
   }
 
   if (!isLoading && data?.length === 0) {
@@ -71,7 +71,7 @@ function RouteComponent() {
   )
 }
 
-function ProjectResourcesError({ query }: { query: UseQueryResult }) {
+function ResourcesError({ query }: { query: UseQueryResult }) {
   const { error } = query
 
   const { title, message } = getErrorResponse(error, {

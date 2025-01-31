@@ -112,11 +112,7 @@ export class ResourcesService {
     const resource = await this.projectResourcesModel
       .findById(resourceId)
       .exec()
-    if (!resource) {
-      throw new NotFoundException(
-        `No existe un recurso con el id ${resourceId}`,
-      )
-    }
+    if (!resource) throw new NotFoundException('El recurso no existe')
     return resource
   }
 }

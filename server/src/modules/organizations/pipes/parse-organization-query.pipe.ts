@@ -28,7 +28,7 @@ export class ParseOrganizationQueryPipe implements PipeTransform {
     }
 
     // Verificar que la organización exista
-    const organization = await this.organizationsService._findOrganizationById(
+    const organization = await this.organizationsService._getOrganization(
       new ParseMongoIdPipe().transform(organizationId),
     )
 
@@ -41,7 +41,7 @@ export class ParseOrganizationQueryPipe implements PipeTransform {
       throw new Error('Se requiere el decorador @Protected()')
     }
 
-    const member = this.organizationMembersService._findMember(
+    const member = this.organizationMembersService._getMember(
       organization,
       userId,
     )

@@ -96,7 +96,7 @@ export class OrganizationMembersService {
     memberId: string,
     { newMemberStatus }: UpdateMemberStatusDto,
   ): Promise<void> {
-    const member = this._findMember(organization, memberId)
+    const member = this._getMember(organization, memberId)
 
     const { MEMBER, BLOCKED, PENDING, REJECTED } = MemberStatus
     const allowedTransitions: Partial<Record<MemberStatus, MemberStatus[]>> = {
@@ -142,13 +142,11 @@ export class OrganizationMembersService {
     await organization.save()
   }
 
-  _findMember(organization: Organization, userId: string): Member {
+  _getMember(organization: Organization, userId: string): Member {
     const member = organization.members.find(
       (member) => member.userId === userId,
     )
-    if (!member) {
-      throw new NotFoundException(`No existe un miembro con el id ${userId}`)
-    }
+    if (!member) throw new NotFoundException('El miembro no existe')
     return member
   }
 

@@ -33,11 +33,11 @@ export class ProjectAccessGuard implements CanActivate {
 
     const project = await this.projectsService._getProject(projectId)
 
-    const organization = await this.organizationsService._findOrganizationById(
+    const organization = await this.organizationsService._getOrganization(
       project.organizationId,
     )
 
-    const member = this.organizationMembersService._findMember(
+    const member = this.organizationMembersService._getMember(
       organization,
       userId,
     )

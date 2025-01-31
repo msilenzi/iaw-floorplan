@@ -81,15 +81,13 @@ export class OrganizationsService {
   //   return `This action removes a #${id} organization`
   // }
 
-  async _findOrganizationById(
+  async _getOrganization(
     organizationId: Types.ObjectId,
   ): Promise<OrganizationDocument> {
     const organization = await this.organizationModel
       .findById(organizationId)
       .exec()
-    if (!organization) {
-      throw new NotFoundException('La organización no existe')
-    }
+    if (!organization) throw new NotFoundException('La organización no existe')
     return organization
   }
 

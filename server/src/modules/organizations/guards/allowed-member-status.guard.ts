@@ -38,9 +38,9 @@ export class AllowedMemberStatusGuard implements CanActivate {
     )
 
     const organization =
-      await this.organizationsService._findOrganizationById(organizationId)
+      await this.organizationsService._getOrganization(organizationId)
 
-    const member = this.organizationMembersService._findMember(
+    const member = this.organizationMembersService._getMember(
       organization,
       userId,
     )

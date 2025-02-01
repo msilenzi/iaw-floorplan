@@ -35,4 +35,35 @@ export class S3Service {
       { expiresIn: 3_600 }, // 1 hora
     )
   }
+
+  getResourceKey(
+    organizationId: string,
+    projectId: string,
+    resourceId: string,
+  ): string {
+    return (
+      this._getBaseResourceKey(organizationId, projectId, resourceId) +
+      `/res-${resourceId}`
+    )
+  }
+
+  getCropKey(
+    organizationId: string,
+    projectId: string,
+    resourceId: string,
+    cropId: string,
+  ) {
+    return (
+      this._getBaseResourceKey(organizationId, projectId, resourceId) +
+      `/${cropId}`
+    )
+  }
+
+  private _getBaseResourceKey(
+    organizationId: string,
+    projectId: string,
+    resourceId: string,
+  ): string {
+    return `org-${organizationId}/proj-${projectId}/res-${resourceId}`
+  }
 }

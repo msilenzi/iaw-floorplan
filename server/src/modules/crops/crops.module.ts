@@ -4,9 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { OrganizationsModule } from '../organizations/organizations.module'
 import { ProjectsModule } from '../projects/projects.module'
 import { ResourcesModule } from '../resources/resources.module'
+import { S3Module } from '../s3/s3.module'
 import { CropsController } from './crops.controller'
 import { CropsService } from './crops.service'
-import { Crop, CropSchema } from './schemas/project-crop.schema'
+import { Crop, CropSchema } from './schemas/crop.schema'
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Crop, CropSchema } from './schemas/project-crop.schema'
     OrganizationsModule,
     ProjectsModule,
     ResourcesModule,
+    S3Module,
   ],
   controllers: [CropsController],
   providers: [CropsService],

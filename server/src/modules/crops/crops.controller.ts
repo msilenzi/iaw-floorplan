@@ -1,9 +1,29 @@
-import { Controller, Get, Patch, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  FileTypeValidator,
+  Get,
+  MaxFileSizeValidator,
+  ParseFilePipe,
+  Patch,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { ApiConsumes } from '@nestjs/swagger'
 
+import { mibToBytes } from 'src/common/utils/mibToBytes'
 import { Protected } from '../auth/decorators/protected.decorator'
+import { Sub } from '../auth/decorators/sub.decorator'
+import { GetOrganization } from '../organizations/decorators/get-organization.decorator'
+import { OrganizationDocument } from '../organizations/schemas/organization.schema'
 import { ProjectAccess } from '../projects/decorators/project-access.decorator'
+import { GetResource } from '../resources/decorators/get-resource.decorator'
 import { ResourceAccess } from '../resources/decorators/resource-access.decorator'
+import { ResourceDocument } from '../resources/schemas/resource.schema'
 import { CropsService } from './crops.service'
+import { CropCreateDto } from './dtos/crop-create.dto'
 
 @Protected()
 @Controller('crops')
@@ -15,8 +35,26 @@ export class CropsController {
    */
   @Post()
   @ResourceAccess('query')
-  create() {
-    return 'Crear un nuevo recorte.'
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() dto: CropCreateDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: mibToBytes(15) }),
+          new FileTypeValidator({
+            fileType: /^(image\/(jpeg|png)|application\/pdf)$/,
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @GetResource() resource: ResourceDocument,
+    @GetOrganization() organization: OrganizationDocument,
+    @Sub() sub: string,
+  ) {
+    return this.cropsService.create(dto, file, resource, organization, sub)
   }
 
   /**

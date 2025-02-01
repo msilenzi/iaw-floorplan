@@ -21,5 +21,6 @@ import { Resource, ResourceSchema } from './schemas/resource.schema'
   ],
   controllers: [ResourcesController],
   providers: [ResourcesService],
+  exports: [ResourcesService],
 })
 export class ResourcesModule {}

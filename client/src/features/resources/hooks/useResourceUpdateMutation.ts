@@ -14,7 +14,7 @@ export function useResourceUpdateMutation(resourceId: string) {
 
   return useMutation({
     async mutationFn(dto: ResourceUpdateDto) {
-      return await resourcesApi.update(resourceId, projectId, dto)
+      return await resourcesApi.update(resourceId, dto)
     },
     onSuccess() {
       void queryClient.invalidateQueries({

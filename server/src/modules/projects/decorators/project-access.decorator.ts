@@ -1,13 +1,15 @@
 import { applyDecorators, UseGuards } from '@nestjs/common'
-import { ApiParam } from '@nestjs/swagger'
+import { ApiParam, ApiQuery } from '@nestjs/swagger'
 
 import { AllowActiveMembers } from 'src/modules/organizations/decorators/allow-active-members.decorator'
 import { ProjectAccessGuard } from '../guards/project-access.guard'
 
-export const ProjectAccess = () => {
+export const ProjectAccess = (type: 'param' | 'query' = 'param') => {
   return applyDecorators(
     AllowActiveMembers(),
     UseGuards(ProjectAccessGuard),
-    ApiParam({ name: 'projectId', type: String }),
+    type === 'param' ?
+      ApiParam({ name: 'projectId', type: String })
+    : ApiQuery({ name: 'projectId', type: String }),
   )
 }

@@ -23,7 +23,7 @@ export class ProjectAccessGuard extends AllowedMemberStatusGuard {
     const request: Request = context.switchToHttp().getRequest()
 
     const projectId = new ParseMongoIdPipe().transform(
-      request.params?.projectId,
+      request.params?.projectId ?? request.query?.projectId,
     )
     const project = await this.projectsService._getProject(projectId)
     request.params.organizationId = project.organizationId.toString()

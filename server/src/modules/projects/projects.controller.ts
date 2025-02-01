@@ -25,8 +25,8 @@ export class ProjectsController {
    * Si el usuario no es un miembro activo de la organización a la que pertenece
    * el proyecto, devuelve 403.
    */
-  @Post('organization/:organizationId')
-  @OrganizationAccess()
+  @Post()
+  @OrganizationAccess('query')
   create(
     @GetOrganization() organization: OrganizationDocument,
     @Body() projectCreateDto: ProjectCreateDto,
@@ -41,8 +41,8 @@ export class ProjectsController {
    * Si el usuario no es un miembro activo de la organización a la que pertenece
    * el proyecto, devuelve 403.
    */
-  @Get('organization/:organizationId')
-  @OrganizationAccess()
+  @Get()
+  @OrganizationAccess('query')
   findAll(
     @GetOrganization() organization: OrganizationDocument,
   ): Promise<ProjectBasicDto[]> {

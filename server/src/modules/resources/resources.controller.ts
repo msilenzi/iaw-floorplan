@@ -37,8 +37,8 @@ export class ResourcesController {
   /**
    * Crea un nuevo recurso para un proyecto.
    */
-  @Post('/project/:projectId/resources')
-  @ProjectAccess()
+  @Post()
+  @ProjectAccess('query')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   create(
@@ -64,8 +64,8 @@ export class ResourcesController {
   /**
    * Devuelve todos los proyectos de una organización.
    */
-  @Get('/project/:projectId/resources')
-  @ProjectAccess()
+  @Get()
+  @ProjectAccess('query')
   findAll(@GetProject() project: ProjectDocument) {
     return this.resourcesService.findAll(project)
   }

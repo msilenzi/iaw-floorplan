@@ -58,7 +58,7 @@ export class OrganizationsController {
    * actualizada.
    */
   @Patch(':organizationId')
-  @AllowedMemberStatus(MemberStatus.OWNER)
+  @AllowedMemberStatus('param', MemberStatus.OWNER)
   update(
     @GetOrganization() organization: OrganizationDocument,
     @Body() updateOrganizationDto: UpdateOrganizationDto,

@@ -30,7 +30,7 @@ export class ResourceAccessGuard extends ProjectAccessGuard {
     const request: Request = context.switchToHttp().getRequest()
 
     const resourceId = new ParseMongoIdPipe().transform(
-      request.params?.resourceId,
+      request.params?.resourceId ?? request.query?.organizationId,
     )
     const resource = await this.resourceService._getResource(resourceId)
     request.params.projectId = resource.projectId.toString()

@@ -14,7 +14,7 @@ export function useResourceQuery(projectId: string, resourceId: string) {
   return useQuery({
     queryKey: getResourceQueryKey(projectId, resourceId),
     queryFn: async () => {
-      return (await resourcesApi.findOne(resourceId, projectId)).data
+      return (await resourcesApi.findOne(resourceId)).data
     },
     enabled: apisAvailable,
   })

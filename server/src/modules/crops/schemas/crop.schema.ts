@@ -25,6 +25,7 @@ export class Crop {
   name: string
 
   @Prop({ type: String, required: true, enum: CropSpecialty })
+  @ApiProperty({ enum: CropSpecialty, enumName: 'CropSpecialty' })
   specialty: CropSpecialty
 
   @Prop({ type: [String], required: true })

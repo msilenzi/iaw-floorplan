@@ -18,7 +18,9 @@ import { Protected } from '../auth/decorators/protected.decorator'
 import { Sub } from '../auth/decorators/sub.decorator'
 import { GetOrganization } from '../organizations/decorators/get-organization.decorator'
 import { OrganizationDocument } from '../organizations/schemas/organization.schema'
+import { GetProject } from '../projects/decorators/get-project.decorator'
 import { ProjectAccess } from '../projects/decorators/project-access.decorator'
+import { ProjectDocument } from '../projects/schemas/project.schema'
 import { GetResource } from '../resources/decorators/get-resource.decorator'
 import { ResourceAccess } from '../resources/decorators/resource-access.decorator'
 import { ResourceDocument } from '../resources/schemas/resource.schema'
@@ -62,8 +64,11 @@ export class CropsController {
    */
   @Get('project')
   @ProjectAccess('query')
-  findAllFromProject() {
-    return 'Listar todos los recortes de un proyecto.'
+  findAllFromProject(
+    @GetOrganization() organization: OrganizationDocument,
+    @GetProject() project: ProjectDocument,
+  ) {
+    return this.cropsService.findAllFromProject(project, organization)
   }
 
   /**
@@ -71,8 +76,11 @@ export class CropsController {
    */
   @Get('resource')
   @ResourceAccess('query')
-  findAllFromResource() {
-    return 'Listar todos los recortes de un recurso.'
+  findAllFromResource(
+    @GetOrganization() organization: OrganizationDocument,
+    @GetResource() resource: ResourceDocument,
+  ) {
+    return this.cropsService.findAllFromResource(resource, organization)
   }
 
   /**

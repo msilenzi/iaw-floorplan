@@ -29,6 +29,7 @@
       "@Organization/*": ["./src/features/organization/*"],
       "@Project/*": ["./src/features/project/*"],
       "@Resources/*": ["./src/features/resources/*"],
+      "@Crops/*": ["./src/features/crops/*"],
       "@/*": ["./src/*"]
     }
   },

@@ -1,4 +1,5 @@
 import type {
+  CropsApi,
   OrganizationMembersApi,
   OrganizationsApi,
   ProjectsApi,
@@ -10,6 +11,7 @@ export type ApisInstances = {
   membersApi: OrganizationMembersApi
   projectsApi: ProjectsApi
   resourcesApi: ResourcesApi
+  cropsApi: CropsApi
 }
 
 export type ApiContextType = {

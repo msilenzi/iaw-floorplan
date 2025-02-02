@@ -6,6 +6,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import {
   Configuration,
+  CropsApi,
   OrganizationMembersApi,
   OrganizationsApi,
   ProjectsApi,
@@ -36,6 +37,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       membersApi: new OrganizationMembersApi(configuration),
       projectsApi: new ProjectsApi(configuration),
       resourcesApi: new ResourcesApi(configuration),
+      cropsApi: new CropsApi(configuration),
     })
     setApisAvailable(true)
   }, [getAccessTokenSilently])

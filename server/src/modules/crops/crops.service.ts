@@ -27,10 +27,11 @@ export class CropsService {
     const crop = new this.cropModel({
       name: dto.name,
       specialty: dto.specialty,
-      tags: dto.tags.split(','),
-      createdBy: sub,
+      tags: dto.tags,
+      dimensions: dto.dimensions,
       projectId: resource.projectId,
       resourceId: resource._id,
+      createdBy: sub,
     })
 
     await this.s3Service.upload({

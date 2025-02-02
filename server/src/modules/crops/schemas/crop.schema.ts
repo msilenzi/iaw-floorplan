@@ -5,6 +5,7 @@ import { HydratedDocument, Types } from 'mongoose'
 import { Project } from 'src/modules/projects/schemas/project.schema'
 import { Resource } from 'src/modules/resources/schemas/resource.schema'
 import { CropSpecialty } from '../types/crop-specialty.enum'
+import { CropDimensions } from './crop-dimensions.schema'
 
 @Schema({
   collection: 'crops',
@@ -33,6 +34,9 @@ export class Crop {
 
   @Prop({ type: String, required: true })
   createdBy: string
+
+  @Prop({ type: CropDimensions, required: true })
+  dimensions: CropDimensions
 
   @ApiProperty({ type: String })
   _id: Types.ObjectId

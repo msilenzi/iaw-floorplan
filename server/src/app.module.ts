@@ -3,12 +3,12 @@ import { MongooseModule } from '@nestjs/mongoose'
 
 import cfg from './cfg'
 import { AuthModule } from './modules/auth/auth.module'
+import { CropsModule } from './modules/crops/crops.module'
 import { OrganizationsModule } from './modules/organizations/organizations.module'
 import { ProjectsModule } from './modules/projects/projects.module'
 import { ResourcesModule } from './modules/resources/resources.module'
 import { S3Module } from './modules/s3/s3.module'
 import { UsersModule } from './modules/users/users.module'
-import { CropsModule } from './modules/crops/crops.module';
 
 @Module({
   imports: [

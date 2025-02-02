@@ -1,3 +1,6 @@
+import type { CropWithUrl } from '@Common/api'
+import type { UseQueryResult } from '@tanstack/react-query'
+
 import {
   Box,
   Group,
@@ -10,6 +13,7 @@ import {
 
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { UserInfo } from '@Common/ui/UserInfo'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { CardCrop } from '@Crops/components/CardCrop'
@@ -87,13 +91,23 @@ function CropsList() {
   const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
   const query = useResourceCropsQuery(projectId, resourceId)
-  const { data, isLoading } = query
+  const { isLoading } = query
 
-  // TODO: carga
-  // TODO: errores
-
-  if (isLoading || !data) {
-    return 'cargando...'
+  if (isLoading) {
+    return (
+      <>
+        <Group justify="end" w="100%" mb="sm">
+          <Skeleton w="fit-content">
+            <RefetchBtn query={query} />
+          </Skeleton>
+        </Group>
+        <Stack gap="lg">
+          <CardCrop.Loading />
+          <CardCrop.Loading />
+          <CardCrop.Loading />
+        </Stack>
+      </>
+    )
   }
 
   return (
@@ -101,17 +115,44 @@ function CropsList() {
       <Group justify="end" w="100%" mb="sm">
         <RefetchBtn query={query} />
       </Group>
-      {data.length === 0 ? (
-        <Text fs="italic" ta="center" c="dimmed">
-          No hay recortes para este recurso.
-        </Text>
-      ) : (
-        <Stack gap="lg" pb="md">
-          {data.map((crop) => (
-            <CardCrop crop={crop} key={crop._id} />
-          ))}
-        </Stack>
-      )}
+      <CopsListContent query={query} />
     </>
+  )
+}
+
+type CopsListContentProps = {
+  query: UseQueryResult<CropWithUrl[]>
+}
+
+function CopsListContent({ query }: CopsListContentProps) {
+  const { data, isError, error } = query
+
+  if (isError || !data) {
+    const { title, message } = getErrorResponse(error, {
+      title: 'Ocurrió un error al cargar los recortes',
+    })
+
+    return (
+      <>
+        <Text fw={700}>{title}</Text>
+        <Text>{message}</Text>
+      </>
+    )
+  }
+
+  if (data.length === 0) {
+    return (
+      <Text fs="italic" ta="center" c="dimmed">
+        No hay recortes para este recurso.
+      </Text>
+    )
+  }
+
+  return (
+    <Stack gap="lg" pb="md">
+      {data.map((crop) => (
+        <CardCrop crop={crop} key={crop._id} />
+      ))}
+    </Stack>
   )
 }

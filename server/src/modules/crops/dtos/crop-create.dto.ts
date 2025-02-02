@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { IsEnum, ValidateNested } from 'class-validator'
+import { IsEnum, Matches, ValidateNested } from 'class-validator'
 
 import { IsTrimmedString } from 'src/common/decorators'
 import { CropSpecialty } from '../types/crop-specialty.enum'
@@ -19,6 +19,10 @@ export class CropCreateDto {
   @ApiProperty({ enum: CropSpecialty, enumName: 'CropSpecialty' })
   @IsEnum(CropSpecialty, { message: 'Especialidad inválida' })
   readonly specialty: CropSpecialty
+
+  @ApiProperty({ type: String, example: '1:100' })
+  @Matches(/^\d+:\d+$/, { message: 'La escala debe seguir el formato n:n' })
+  readonly scale: string
 
   @IsTrimmedString({
     isEmptyMessage: 'Las etiquetas no pueden estar vacías',

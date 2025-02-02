@@ -34,6 +34,14 @@ export function CropFormFields() {
         {...form.getInputProps('specialty')}
       />
 
+      <TextInput
+        label="Escala"
+        placeholder="1:100"
+        withAsterisk
+        key={form.key('scale')}
+        {...form.getInputProps('scale')}
+      />
+
       <TagsInput
         label="Etiquetas"
         description="Presioná Enter para agregar la etiqueta"

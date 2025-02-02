@@ -1,7 +1,7 @@
 import type { CropFormValues } from '@Crops/types/CropForm.types'
 import type { UseFormInput } from '@mantine/form'
 
-import { isNotEmpty } from '@mantine/form'
+import { isNotEmpty, matches } from '@mantine/form'
 
 import { FormProvider, useForm } from './CropFormContext'
 
@@ -20,16 +20,19 @@ export function CropFormProvider({
     initialValues: {
       name: '',
       specialty: null,
+      scale: '',
       tags: [],
     },
     transformValues: (values) => ({
       name: values.name.trim(),
       specialty: values.specialty,
+      scale: values.scale.trim(),
       tags: values.tags.map((tag) => tag.trim()),
     }),
     validate: {
       name: isNotEmpty('El nombre es obligatorio'),
       specialty: isNotEmpty('La especialidad es obligatoria'),
+      scale: matches(/^\d+:\d+$/, 'La escala debe seguir el formato n:n'),
     },
   })
 

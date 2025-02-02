@@ -29,6 +29,9 @@ export class Crop {
   @ApiProperty({ enum: CropSpecialty, enumName: 'CropSpecialty' })
   specialty: CropSpecialty
 
+  @Prop({ type: String, required: true })
+  scale: string
+
   @Prop({ type: [String], required: true })
   tags: string[]
 
@@ -47,3 +50,6 @@ export class Crop {
 export type CropDocument = HydratedDocument<Crop>
 
 export const CropSchema = SchemaFactory.createForClass(Crop)
+
+CropSchema.index({ projectId: 1 })
+CropSchema.index({ resourceId: 1 })

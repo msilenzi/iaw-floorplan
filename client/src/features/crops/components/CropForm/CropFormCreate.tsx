@@ -61,6 +61,7 @@ function Content({ canvas, image, onClose }: CropFormCreateProps) {
         resourceId,
         name: values.name,
         specialty: values.specialty!,
+        scale: values.scale,
         tags: values.tags,
         file: file,
         dimensions: { x, y, width, height },

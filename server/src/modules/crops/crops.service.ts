@@ -27,6 +27,7 @@ export class CropsService {
     const crop = new this.cropModel({
       name: dto.name,
       specialty: dto.specialty,
+      scale: dto.scale,
       tags: dto.tags,
       dimensions: dto.dimensions,
       projectId: resource.projectId,

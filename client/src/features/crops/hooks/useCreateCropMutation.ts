@@ -13,6 +13,7 @@ export function useCreateCropMutation() {
       file,
       name,
       specialty,
+      scale,
       tags,
       dimensions,
     }: CreateCrop) {
@@ -20,6 +21,7 @@ export function useCreateCropMutation() {
         resourceId,
         file,
         specialty,
+        scale,
         JSON.stringify(dimensions),
         name,
         tags,

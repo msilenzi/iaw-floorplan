@@ -1,8 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { convertToPixelCrop } from 'react-image-crop'
 
-import { Box, Grid, Modal, useMantineTheme } from '@mantine/core'
+import {
+  Flex,
+  Grid,
+  Group,
+  Modal,
+  Paper,
+  Text,
+  useMantineTheme,
+} from '@mantine/core'
+import { IconExternalLink } from '@tabler/icons-react'
 
 import { useImageViewer } from '@Resources/context/ImageViewer'
 import { canvasPreview } from '@Resources/utils/canvasPreview'
@@ -29,6 +38,16 @@ export function AddCropModal({ isOpen, onClose }: AddCropModalProps) {
     }
   }, [canvas, crop, image, isOpen])
 
+  const handleCanvasClick = useCallback(() => {
+    if (!canvas) return
+    canvas.toBlob((blob) => {
+      if (blob) {
+        const blobUrl = URL.createObjectURL(blob)
+        window.open(blobUrl, '_blank')
+      }
+    }, 'image/png')
+  }, [canvas])
+
   return (
     <Modal
       opened={isOpen}
@@ -42,13 +61,17 @@ export function AddCropModal({ isOpen, onClose }: AddCropModalProps) {
           <CropFormCreate canvas={canvas} image={image} onClose={onClose} />
         </Grid.Col>
         <Grid.Col span={7}>
-          <Box
-            style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+          <Flex
+            justify="center"
+            align="center"
+            w="100%"
+            pos="relative"
+            onClick={handleCanvasClick}
+            style={(theme) => ({
+              cursor: 'pointer',
+              borderRadius: theme.radius.sm,
+            })}
+            bg="dark.6"
           >
             <canvas
               ref={setCanvas}
@@ -58,8 +81,19 @@ export function AddCropModal({ isOpen, onClose }: AddCropModalProps) {
                 objectFit: 'contain',
                 borderRadius: theme.radius.sm,
               }}
+              role="link"
+              tabIndex={0}
             />
-          </Box>
+
+            <Paper pos="absolute" top={8} right={8} p={2} ps={4} withBorder>
+              <Group gap={4}>
+                <Text span fz="sm">
+                  Ampliar
+                </Text>
+                <IconExternalLink size={20} stroke={1.75} display="block" />
+              </Group>
+            </Paper>
+          </Flex>
         </Grid.Col>
       </Grid>
     </Modal>

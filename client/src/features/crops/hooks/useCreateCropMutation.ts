@@ -1,11 +1,14 @@
 import type { CreateCrop } from '../types/CropForm.types'
 
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
 
-export function useCreateCropMutation() {
+import { getResourceCropsQueryKey } from './useResourceCropsQuery'
+
+export function useCreateCropMutation(projectId: string, resourceId: string) {
   const { cropsApi } = useApi()
+  const queryClient = useQueryClient()
 
   return useMutation({
     async mutationFn({
@@ -30,7 +33,10 @@ export function useCreateCropMutation() {
     onSuccess() {
       console.log('crop created successfully')
       // TODO: invalidar project crops
-      // TODO: invalidar resource crops
+
+      void queryClient.invalidateQueries({
+        queryKey: getResourceCropsQueryKey(projectId, resourceId),
+      })
     },
   })
 }

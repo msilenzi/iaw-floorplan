@@ -6,6 +6,7 @@ import { IconScissors } from '@tabler/icons-react'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { useImageViewer } from '@Resources/context/ImageViewer'
 import { CropFormProvider, useCropForm } from '@Crops/context/CropForm'
@@ -29,11 +30,15 @@ export function CropFormCreate(props: CropFormCreateProps) {
 }
 
 function Content({ canvas, image, onClose }: CropFormCreateProps) {
+  const { projectId } = useCurrentProject()
   const { resourceId } = useCurrentResource()
   const { crop, clearCrop } = useImageViewer()
   const form = useCropForm()
 
-  const { mutateAsync, isPending } = useCreateCropMutation()
+  const { mutateAsync, isPending } = useCreateCropMutation(
+    projectId,
+    resourceId,
+  )
   const { showErrorNotification, showSuccessNotification } = useNotifications()
 
   const handleSubmit = form.onSubmit(async (values) => {

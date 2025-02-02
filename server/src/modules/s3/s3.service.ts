@@ -55,7 +55,7 @@ export class S3Service {
   ) {
     return (
       this._getBaseResourceKey(organizationId, projectId, resourceId) +
-      `/${cropId}`
+      `/crop-${cropId}`
     )
   }
 

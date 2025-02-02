@@ -27,7 +27,7 @@ export class CropsService {
     const crop = new this.cropModel({
       name: dto.name,
       specialty: dto.specialty,
-      tags: dto.tags,
+      tags: dto.tags.split(','),
       createdBy: sub,
       projectId: resource.projectId,
       resourceId: resource._id,
@@ -45,7 +45,7 @@ export class CropsService {
       CacheControl: 'max-age=31536000, immutable',
     })
 
-    await resource.save()
+    await crop.save()
   }
 
   async findAllFromProject(

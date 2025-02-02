@@ -31,16 +31,19 @@ export function ImageViewerProvider({ children }: ImageViewerProviderProps) {
       setCrop(percentCrop)
     }, [])
 
+  const clearCrop = useCallback(() => setCrop(undefined), [])
+
   return (
     <ImageViewerContext.Provider
       value={{
         crop,
         scale,
+        imageRef,
         zoomIn,
         zoomOut,
         zoomReset,
         onCropChange,
-        imageRef,
+        clearCrop,
       }}
     >
       {children}

@@ -3,7 +3,9 @@ import { convertToPixelCrop } from 'react-image-crop'
 import { Group, Stack } from '@mantine/core'
 import { IconScissors } from '@tabler/icons-react'
 
+import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
+import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { useImageViewer } from '@Resources/context/ImageViewer'
 import { CropFormProvider, useCropForm } from '@Crops/context/CropForm'
@@ -15,6 +17,7 @@ import { CropFormFields } from './CropFormFields'
 type CropFormCreateProps = {
   canvas: HTMLCanvasElement | null
   image: HTMLImageElement | null
+  onClose: () => void
 }
 
 export function CropFormCreate(props: CropFormCreateProps) {
@@ -25,23 +28,25 @@ export function CropFormCreate(props: CropFormCreateProps) {
   )
 }
 
-function Content({ canvas, image }: CropFormCreateProps) {
+function Content({ canvas, image, onClose }: CropFormCreateProps) {
   const { resourceId } = useCurrentResource()
-  const { crop } = useImageViewer()
+  const { crop, clearCrop } = useImageViewer()
   const form = useCropForm()
 
   const { mutateAsync, isPending } = useCreateCropMutation()
+  const { showErrorNotification, showSuccessNotification } = useNotifications()
 
   const handleSubmit = form.onSubmit(async (values) => {
-    console.log('handle submit')
-
     if (!canvas || !image || !crop) return null
 
     const file = await convertCanvasToPng(canvas, `${values.name}.png`)
 
     if (file == null) {
-      // TODO: Mostrar un error como la gente
-      console.log('no hay un cropfile!!!')
+      showErrorNotification({
+        title: 'Ocurrió un error inesperado',
+        message:
+          'No pudimos crear la imagen del recorte. Por favor inténtalo de nuevo más tarde',
+      })
       return
     }
 
@@ -60,10 +65,20 @@ function Content({ canvas, image }: CropFormCreateProps) {
         file: file,
         dimensions: { x, y, width, height },
       })
+
+      form.reset()
+      clearCrop()
+      onClose()
+
+      showSuccessNotification({
+        title: 'Recorte creado con éxito',
+        message: 'El recorte fue creado correctamente',
+      })
     } catch (error) {
-      // TODO: manejar el error
-      console.log('algo salió mal')
-      throw error
+      const errorResponse = getErrorResponse(error, {
+        title: 'No pudimos crear el recorte',
+      })
+      showErrorNotification(errorResponse)
     }
   })
 
@@ -79,6 +94,7 @@ function Content({ canvas, image }: CropFormCreateProps) {
             <PrimaryButton
               type="submit"
               rightSection={<IconScissors height={16} width={16} stroke={2} />}
+              loading={isPending}
             >
               Crear recorte
             </PrimaryButton>

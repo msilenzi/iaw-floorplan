@@ -8,6 +8,7 @@ export type ImageViewerState = {
   zoomOut: () => void
   zoomReset: () => void
   onCropChange: React.ComponentProps<typeof ReactCrop>['onChange']
+  clearCrop: () => void
 
   imageRef: React.RefObject<HTMLImageElement>
 }

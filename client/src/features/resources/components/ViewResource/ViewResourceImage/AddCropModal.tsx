@@ -39,7 +39,7 @@ export function AddCropModal({ isOpen, onClose }: AddCropModalProps) {
     >
       <Grid>
         <Grid.Col span={5}>
-          <CropFormCreate canvas={canvas} image={image} />
+          <CropFormCreate canvas={canvas} image={image} onClose={onClose} />
         </Grid.Col>
         <Grid.Col span={7}>
           <Box

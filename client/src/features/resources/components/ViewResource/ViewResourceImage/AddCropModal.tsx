@@ -6,6 +6,7 @@ import { Box, Grid, Modal, useMantineTheme } from '@mantine/core'
 
 import { useImageViewer } from '@Resources/context/ImageViewer'
 import { canvasPreview } from '@Resources/utils/canvasPreview'
+import { CropFormCreate } from '@Crops/components/CropForm/CropFormCreate'
 
 type AddCropModalProps = {
   isOpen: boolean
@@ -21,20 +22,10 @@ export function AddCropModal({ isOpen, onClose }: AddCropModalProps) {
 
   useEffect(() => {
     if (isOpen && image && crop && canvas) {
-      // Usar las dimensiones naturales de la imagen
       const pixelCrop = convertToPixelCrop(crop, image.width, image.height)
-
-      // Ajustar el canvas a las dimensiones del crop
       canvas.width = pixelCrop.width
       canvas.height = pixelCrop.height
-
-      canvasPreview(
-        image,
-        canvas,
-        pixelCrop,
-        1, // No aplicamos escala porque ya usamos dimensiones naturales
-        0,
-      )
+      canvasPreview(image, canvas, pixelCrop)
     }
   }, [canvas, crop, image, isOpen])
 
@@ -47,13 +38,10 @@ export function AddCropModal({ isOpen, onClose }: AddCropModalProps) {
       size="xl"
     >
       <Grid>
-        <Grid.Col span={6}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-          nemo, perspiciatis obcaecati porro ea consequuntur, error recusandae
-          ducimus commodi at repudiandae, quia omnis officiis id earum sed.
-          Doloribus, nisi mollitia.
+        <Grid.Col span={5}>
+          <CropFormCreate canvas={canvas} image={image} />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col span={7}>
           <Box
             style={{
               width: '100%',

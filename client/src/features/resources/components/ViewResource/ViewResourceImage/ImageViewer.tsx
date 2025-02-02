@@ -25,6 +25,7 @@ export function ImageViewer({ imageUrl }: ImageViewerProps) {
         return
       }
 
+      //
       // Corregir error con el scroll horizontal:
       // Sin esto, el scroll horizontal con shift + wheel no funciona cuando
       // el scroll vertical está arriba o abajo del todo.
@@ -81,6 +82,7 @@ export function ImageViewer({ imageUrl }: ImageViewerProps) {
               objectFit: 'contain',
             }}
             ref={imageRef}
+            crossOrigin="anonymous"
           />
         </ReactCrop>
       </Box>

@@ -70,8 +70,6 @@ export function ImageViewer({ imageUrl }: ImageViewerProps) {
         <ReactCrop
           crop={crop}
           onChange={onCropChange}
-          minHeight={50 * scale}
-          minWidth={50 * scale}
           style={{ width: '100%', height: '100%' }}
         >
           <img

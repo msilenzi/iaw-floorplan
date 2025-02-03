@@ -8,8 +8,6 @@ import { IconPencil, IconReload, IconX } from '@tabler/icons-react'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { CropFormProvider, useCropForm } from '@Crops/context/CropForm'
 import { useEditCropMutation } from '@Crops/hooks/useEditCropMutation'
 
@@ -30,13 +28,7 @@ export function CropFormEdit(props: CropFormEditProps) {
 }
 
 function Content({ crop, setIsEditing, setSelectedCrop }: CropFormEditProps) {
-  const { projectId } = useCurrentProject()
-  const { resourceId } = useCurrentResource()
-  const { mutateAsync, isPending } = useEditCropMutation(
-    projectId,
-    resourceId,
-    crop._id,
-  )
+  const { mutateAsync, isPending } = useEditCropMutation(crop._id)
 
   const { showErrorNotification, showSuccessNotification } = useNotifications()
 

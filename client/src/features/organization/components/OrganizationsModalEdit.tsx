@@ -10,15 +10,13 @@ import { useEditOrganizationMutation } from '@Organization/hooks/useEditOrganiza
 type OrganizationsModalEditProps = {
   isOpen: boolean
   onClose: () => void
-  organizationId: string
 }
 
 export function OrganizationsModalEdit({
   isOpen,
   onClose,
-  organizationId,
 }: OrganizationsModalEditProps) {
-  const { isPending, mutateAsync } = useEditOrganizationMutation(organizationId)
+  const { isPending, mutateAsync } = useEditOrganizationMutation()
 
   const form = useEditOrganizationForm()
   const [isTestValid, setIsTestValid] = useState(true)

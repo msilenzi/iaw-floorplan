@@ -9,8 +9,6 @@ import { Popconfirm } from '@Common/ui/Popconfirm'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { InfoItem } from '@Project/components/info/InfoItem'
-import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { useDeleteCropMutation } from '@Crops/hooks/useDeleteCropMutation'
 import { displayCropSpecialty } from '@Crops/utils/displayCropSpecialty'
 
@@ -87,12 +85,7 @@ type DeleteButtonProps = {
 }
 
 function DeleteButton({ crop, setSelectedCrop }: DeleteButtonProps) {
-  const { projectId } = useCurrentProject()
-  const { resourceId } = useCurrentResource()
-  const { mutateAsync, isPending } = useDeleteCropMutation(
-    projectId,
-    resourceId,
-  )
+  const { mutateAsync, isPending } = useDeleteCropMutation()
 
   const { counter, start, reset } = useCountdownTimer(3)
   const { showErrorNotification, showSuccessNotification } = useNotifications()

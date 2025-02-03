@@ -6,10 +6,12 @@ import { useApi } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { getOrganizationsQueryKey } from '@MyOrganizations/hooks/useOrganizationsQuery'
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 
 import { getOrganizationQueryKey } from './useOrganizationQuery'
 
-export function useEditOrganizationMutation(organizationId: string) {
+export function useEditOrganizationMutation() {
+  const { organizationId } = useCurrentOrganization()
   const { organizationsApi } = useApi()
   const queryClient = useQueryClient()
 

@@ -3,10 +3,12 @@ import type { ProjectCreateDto } from '@Common/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 
 import { getProjectsQueryKey } from './useProjectsQuery'
 
-export function useCreateProjectMutation(organizationId: string) {
+export function useCreateProjectMutation() {
+  const { organizationId } = useCurrentOrganization()
   const { projectsApi } = useApi()
   const queryClient = useQueryClient()
 

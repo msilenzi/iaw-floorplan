@@ -32,7 +32,7 @@ export function ProjectModalCreate(props: ProjectModalCreateProps) {
 function Content({ isOpen, onClose }: ProjectModalCreateProps) {
   const { organizationId } = useCurrentOrganization()
 
-  const { mutateAsync, isPending } = useCreateProjectMutation(organizationId)
+  const { mutateAsync, isPending } = useCreateProjectMutation()
   const navigate = useNavigate()
 
   const form = useProjectForm()

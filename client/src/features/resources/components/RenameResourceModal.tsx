@@ -21,7 +21,7 @@ export function RenameResourceModal({
   onClose,
   resource,
 }: RenameResourceModalProps) {
-  const { isPending, mutateAsync } = useResourceUpdateMutation(resource._id)
+  const { isPending, mutateAsync } = useResourceUpdateMutation()
   const { showErrorNotification } = useNotifications()
 
   const form = useRenameResourceForm(resource)
@@ -32,7 +32,7 @@ export function RenameResourceModal({
 
   const handleSubmit = form.onSubmit(async (values) => {
     try {
-      await mutateAsync(values)
+      await mutateAsync({ resourceId: resource._id, dto: values })
       form.setInitialValues({
         name: values.name,
       })

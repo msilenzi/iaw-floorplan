@@ -16,23 +16,21 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  const organizationId = Route.useParams().organizationId
-
   const organizationQuery = useOrganizationQuery()
   const userStatus = organizationQuery.data?.userStatus
 
   if (userStatus === MemberStatus.Owner) {
-    return <EditSetting organizationId={organizationId} />
+    return <EditSetting />
   }
 
   if (userStatus === MemberStatus.Member) {
-    return <ExitSetting organizationId={organizationId} />
+    return <ExitSetting />
   }
 
   return null
 }
 
-function EditSetting({ organizationId }: { organizationId: string }) {
+function EditSetting() {
   const [isOpen, { open, close }] = useDisclosure(false)
 
   return (
@@ -46,17 +44,13 @@ function EditSetting({ organizationId }: { organizationId: string }) {
       <Button variant="filled" onClick={open}>
         Editar
       </Button>
-      <OrganizationsModalEdit
-        isOpen={isOpen}
-        onClose={close}
-        organizationId={organizationId}
-      />
+      <OrganizationsModalEdit isOpen={isOpen} onClose={close} />
     </Group>
   )
 }
 
-function ExitSetting({ organizationId }: { organizationId: string }) {
-  const { mutateAsync, isPending } = useOrganizationExitMutation(organizationId)
+function ExitSetting() {
+  const { mutateAsync, isPending } = useOrganizationExitMutation()
   const navigate = useNavigate()
 
   const { counter, start, reset } = useCountdownTimer(3)

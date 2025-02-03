@@ -3,14 +3,14 @@ import type { CropUpdateDto } from '@Common/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 
 import { getResourceCropsQueryKey } from './useResourceCropsQuery'
 
-export function useEditCropMutation(
-  projectId: string,
-  resourceId: string,
-  cropId: string,
-) {
+export function useEditCropMutation(cropId: string) {
+  const { projectId } = useCurrentProject()
+  const { resourceId } = useCurrentResource()
   const { cropsApi } = useApi()
   const queryClient = useQueryClient()
 

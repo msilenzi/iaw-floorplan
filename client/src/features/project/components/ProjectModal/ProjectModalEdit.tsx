@@ -11,7 +11,6 @@ import { isDuplicatedRecordException } from '@Common/api'
 import { useNotifications } from '@Common/hooks/useNotifications'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import {
   ProjectFormProvider,
   useProjectForm,
@@ -45,13 +44,9 @@ export function ProjectModalEdit(props: ProjectModalEditProps) {
 
 function Content({ isOpen, onClose }: ProjectModalEditProps) {
   const { organizationId } = useCurrentOrganization()
-  const { projectId } = useCurrentProject()
   const { data } = useProjectQuery()
 
-  const { mutateAsync, isPending } = useEditProjectMutation(
-    organizationId,
-    projectId,
-  )
+  const { mutateAsync, isPending } = useEditProjectMutation()
 
   const { showErrorNotification } = useNotifications()
 

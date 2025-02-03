@@ -20,6 +20,8 @@ export function CardCrop({ crop }: CardCropProps) {
           radius="sm"
           color="dark"
           size="md"
+          px={4}
+          pb={2}
         >
           {crop.scale}
         </Badge>

@@ -4,13 +4,22 @@ import { ReactCrop } from 'react-image-crop'
 
 import { Box, ScrollArea } from '@mantine/core'
 
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { useImageViewer } from '@Resources/context/ImageViewer'
+import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
+
+import { DrawCrop } from './DrawCrop'
 
 type ImageViewerProps = {
   imageUrl: string
 }
 
 export function ImageViewer({ imageUrl }: ImageViewerProps) {
+  const { projectId } = useCurrentProject()
+  const { resourceId } = useCurrentResource()
+  const { data } = useResourceCropsQuery(projectId, resourceId)
+
   const { crop, scale, imageRef, onCropChange, zoomIn, zoomOut } =
     useImageViewer()
 
@@ -65,6 +74,7 @@ export function ImageViewer({ imageUrl }: ImageViewerProps) {
         style={{
           width: `${100 * scale}%`,
           height: `${100 * scale}%`,
+          position: 'relative',
         }}
       >
         <ReactCrop
@@ -83,6 +93,7 @@ export function ImageViewer({ imageUrl }: ImageViewerProps) {
             crossOrigin="anonymous"
           />
         </ReactCrop>
+        {data?.map((crop, i) => <DrawCrop key={i} crop={crop} />)}
       </Box>
     </ScrollArea>
   )

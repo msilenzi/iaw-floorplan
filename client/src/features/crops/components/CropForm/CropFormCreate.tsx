@@ -1,5 +1,3 @@
-import { convertToPixelCrop } from 'react-image-crop'
-
 import { Group, Stack } from '@mantine/core'
 import { IconScissors } from '@tabler/icons-react'
 
@@ -56,11 +54,7 @@ function Content({ canvas, image, onClose }: CropFormCreateProps) {
     }
 
     try {
-      const { x, y, width, height } = convertToPixelCrop(
-        crop,
-        image.width,
-        image.height,
-      )
+      const { x, y, width, height } = crop
 
       await mutateAsync({
         resourceId,

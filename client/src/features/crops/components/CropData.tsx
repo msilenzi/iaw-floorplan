@@ -11,9 +11,10 @@ import { TagsList } from './TagsList'
 
 type CropDataProps = {
   crop: CropWithUrl
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function CropData({ crop }: CropDataProps) {
+export function CropData({ crop, setIsEditing }: CropDataProps) {
   return (
     <Stack gap="lg">
       <InfoItem label="Nombre" data={crop.name} />
@@ -58,6 +59,7 @@ export function CropData({ crop }: CropDataProps) {
           rightSection={<IconPencil size={16} stroke={2.5} />}
           color="dark.5"
           flex={1}
+          onClick={() => setIsEditing(true)}
         >
           Editar
         </Button>

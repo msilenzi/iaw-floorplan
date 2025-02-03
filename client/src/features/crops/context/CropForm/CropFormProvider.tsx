@@ -16,7 +16,7 @@ export function CropFormProvider({
 }: CropFormProviderProps) {
   const form = useForm({
     ...formOptions,
-    mode: 'uncontrolled',
+    mode: 'controlled',
     initialValues: {
       name: '',
       specialty: null,

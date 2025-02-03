@@ -57,10 +57,10 @@ export function AddCropModal({ isOpen, onClose }: AddCropModalProps) {
       size="xl"
     >
       <Grid>
-        <Grid.Col span={5}>
+        <Grid.Col span={{ base: 12, sm: 5 }} order={{ base: 2, sm: 1 }}>
           <CropFormCreate canvas={canvas} image={image} onClose={onClose} />
         </Grid.Col>
-        <Grid.Col span={7}>
+        <Grid.Col span={{ base: 12, sm: 7 }} order={{ base: 1, sm: 2 }}>
           <Flex
             justify="center"
             align="center"

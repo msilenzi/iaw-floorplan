@@ -1,6 +1,8 @@
 import type { CropWithUrl } from '@Common/api'
 import type { UseQueryResult } from '@tanstack/react-query'
 
+import { useState } from 'react'
+
 import {
   Box,
   Group,
@@ -17,6 +19,7 @@ import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { CardCrop } from '@Crops/components/CardCrop'
+import { ViewCropModal } from '@Crops/components/ViewCropModal'
 import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
 
 import { useResourceQuery } from '../../hooks/useResourceQuery'
@@ -127,6 +130,10 @@ type CopsListContentProps = {
 function CopsListContent({ query }: CopsListContentProps) {
   const { data, isError, error } = query
 
+  const [selectedCrop, setSelectedCrop] = useState<CropWithUrl | undefined>(
+    undefined,
+  )
+
   if (isError || !data) {
     const { title, message } = getErrorResponse(error, {
       title: 'Ocurrió un error al cargar los recortes',
@@ -149,10 +156,21 @@ function CopsListContent({ query }: CopsListContentProps) {
   }
 
   return (
-    <Stack gap="lg" pb="md">
-      {data.map((crop) => (
-        <CardCrop crop={crop} key={crop._id} />
-      ))}
-    </Stack>
+    <>
+      <Stack gap="lg" pb="md">
+        {data.map((crop) => (
+          <CardCrop
+            crop={crop}
+            key={crop._id}
+            cardProps={{ onClick: () => setSelectedCrop(crop) }}
+          />
+        ))}
+      </Stack>
+      <ViewCropModal
+        isOpen={selectedCrop != undefined}
+        onClose={() => setSelectedCrop(undefined)}
+        crop={selectedCrop}
+      />
+    </>
   )
 }

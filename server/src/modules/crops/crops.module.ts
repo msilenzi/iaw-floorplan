@@ -5,6 +5,7 @@ import { OrganizationsModule } from '../organizations/organizations.module'
 import { ProjectsModule } from '../projects/projects.module'
 import { ResourcesModule } from '../resources/resources.module'
 import { S3Module } from '../s3/s3.module'
+import { UsersModule } from '../users/users.module'
 import { CropsController } from './crops.controller'
 import { CropsService } from './crops.service'
 import { Crop, CropSchema } from './schemas/crop.schema'
@@ -16,6 +17,7 @@ import { Crop, CropSchema } from './schemas/crop.schema'
     ProjectsModule,
     ResourcesModule,
     S3Module,
+    UsersModule,
   ],
   controllers: [CropsController],
   providers: [CropsService],

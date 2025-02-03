@@ -24,7 +24,6 @@ function RouteComponent() {
     <>
       <Group justify="end">
         <Button
-          type="reset"
           variant="filled"
           rightSection={<IconPencil size={16} stroke={2.5} />}
           color="dark.5"

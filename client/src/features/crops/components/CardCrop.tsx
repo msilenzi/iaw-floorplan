@@ -1,16 +1,20 @@
 import type { CropWithUrl } from '@Common/api'
+import type { CardProps, ElementProps } from '@mantine/core'
 
 import { Badge, Box, Card, Group, Image, Skeleton, Text } from '@mantine/core'
 
 import { displayCropSpecialty } from '@Crops/utils/displayCropSpecialty'
 
+import { TagsList } from './TagsList'
+
 type CardCropProps = {
   crop: CropWithUrl
+  cardProps?: CardProps & ElementProps<'div', keyof CardProps>
 }
 
-export function CardCrop({ crop }: CardCropProps) {
+export function CardCrop({ crop, cardProps }: CardCropProps) {
   return (
-    <Card shadow="sm" padding="6" radius="md" withBorder>
+    <Card shadow="sm" padding="6" radius="md" withBorder {...cardProps}>
       <Box pos="relative" mb={4}>
         <Image src={crop.url} height={150} radius="sm" />
         <Badge
@@ -33,13 +37,7 @@ export function CardCrop({ crop }: CardCropProps) {
       <Text fz="sm" c="dimmed" lh={1.3} mt={-4} mb={4} tt="capitalize">
         {displayCropSpecialty(crop.specialty)}
       </Text>
-      <Group gap={4}>
-        {crop.tags.map((tag, i) => (
-          <Badge radius="sm" color="dark.7" c="dark.1" key={i} size="sm">
-            {tag}
-          </Badge>
-        ))}
-      </Group>
+      <TagsList tags={crop.tags} />
     </Card>
   )
 }

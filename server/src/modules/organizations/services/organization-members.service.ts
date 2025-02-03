@@ -5,6 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
+import { Types } from 'mongoose'
 
 import { UsersService } from 'src/modules/users/users.service'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
@@ -16,15 +17,28 @@ import {
   OrganizationDocument,
 } from '../schemas/organization.schema'
 import { MemberStatus } from '../types/member-status.enum'
+import { OrganizationsService } from './organizations.service'
 
 @Injectable()
 export class OrganizationMembersService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly organizationsService: OrganizationsService,
+  ) {}
 
   async create(
-    organization: OrganizationDocument,
-    member: Member,
+    organizationId: Types.ObjectId,
+    userId: string,
   ): Promise<BasicOrganizationDto> {
+    const organization =
+      await this.organizationsService._getOrganization(organizationId)
+
+    if (!organization) {
+      throw new NotFoundException('La organización solicitada no existe')
+    }
+
+    const member = organization.members.find((m) => m.userId === userId)
+
     switch (member?.status) {
       case MemberStatus.MEMBER:
       case MemberStatus.OWNER:
@@ -52,7 +66,7 @@ export class OrganizationMembersService {
         }
       case undefined:
         organization.members.push({
-          userId: member.userId,
+          userId,
           status: MemberStatus.PENDING,
           lastAccessedAt: null,
         })
@@ -65,7 +79,7 @@ export class OrganizationMembersService {
         }
       default:
         throw new Error(
-          `El usuario '${member.userId}' tiene un estado inválido en la organización '${organization._id}'`,
+          `El usuario '${userId}' tiene un estado inválido en la organización '${organizationId}'`,
         )
     }
   }

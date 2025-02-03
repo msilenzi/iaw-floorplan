@@ -10,7 +10,9 @@ import {
   Post,
 } from '@nestjs/common'
 import { ApiParam } from '@nestjs/swagger'
+import { Types } from 'mongoose'
 
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
 import { Protected } from 'src/modules/auth/decorators/protected.decorator'
 import { Sub } from 'src/modules/auth/decorators/sub.decorator'
 import { AllowedMemberStatus } from '../decorators/allowed-member-status.decorator'
@@ -38,10 +40,10 @@ export class OrganizationMembersController {
   @Post()
   @ApiParam({ name: 'organizationId', type: String })
   async createMember(
-    @GetOrganization() organization: OrganizationDocument,
-    @GetMember() member: Member,
+    @Param('organizationId', ParseMongoIdPipe) organizationId: Types.ObjectId,
+    @Sub() sub: string,
   ): Promise<BasicOrganizationDto> {
-    return await this.organizationMembersService.create(organization, member)
+    return await this.organizationMembersService.create(organizationId, sub)
   }
 
   /**

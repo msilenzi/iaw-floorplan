@@ -33,7 +33,7 @@ export function CropData({ crop }: CropDataProps) {
           ) : (
             <TagsList
               tags={crop.tags}
-              badgeProps={{ color: 'dark.5', size: 'md' }}
+              innerProps={{ badge: { color: 'dark.5', size: 'md' } }}
             />
           )
         }

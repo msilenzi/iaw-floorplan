@@ -1,15 +1,18 @@
-import type { BadgeProps, ElementProps } from '@mantine/core'
+import type { BadgeProps, ElementProps, GroupProps } from '@mantine/core'
 
 import { Badge, Group } from '@mantine/core'
 
 type TagsListProps = {
   tags: string[]
-  badgeProps?: BadgeProps & ElementProps<'div', keyof BadgeProps>
+  innerProps?: {
+    badge?: BadgeProps & ElementProps<'div', keyof BadgeProps>
+    container?: GroupProps & ElementProps<'div', keyof GroupProps>
+  }
 }
 
-export function TagsList({ tags, badgeProps }: TagsListProps) {
+export function TagsList({ tags, innerProps }: TagsListProps) {
   return (
-    <Group gap={4}>
+    <Group gap={4} {...innerProps?.container}>
       {tags.map((tag, i) => (
         <Badge
           radius="sm"
@@ -17,7 +20,7 @@ export function TagsList({ tags, badgeProps }: TagsListProps) {
           c="dark.1"
           key={i}
           size="sm"
-          {...badgeProps}
+          {...innerProps?.badge}
         >
           {tag}
         </Badge>

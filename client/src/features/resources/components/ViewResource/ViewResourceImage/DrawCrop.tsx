@@ -18,6 +18,7 @@ export function DrawCrop({ crop }: DrawCropProps) {
         pointerEvents: 'none',
         backgroundColor: rgba(theme.colors.blue[3], 0.1),
         border: `2px solid ${theme.colors.blue[8]}`,
+        borderRadius: theme.radius.sm,
       })}
     >
       <Badge
@@ -26,7 +27,15 @@ export function DrawCrop({ crop }: DrawCropProps) {
         top="-2px"
         left="-2px"
         size="sm"
-        style={{ borderRadius: 0, borderEndEndRadius: '4px' }}
+        style={(theme) => ({
+          borderRadius: `${theme.radius.sm} 0`,
+        })}
+        styles={{
+          label: {
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          },
+        }}
       >
         {crop.name}
       </Badge>

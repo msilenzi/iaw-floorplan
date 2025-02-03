@@ -7,6 +7,7 @@ import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
 
 import { AddCropButton } from './AddCropButton'
 import { ImageViewer } from './ImageViewer'
+import { ToggleShowCropsButton } from './ToggleShowCropsButton'
 import { ZoomButtons } from './ZoomButtons'
 
 export function ViewResourceImage() {
@@ -26,6 +27,7 @@ export function ViewResourceImage() {
     <ImageViewerProvider>
       <Box pos="relative" w="100%" h="100%">
         <ImageViewer imageUrl={data.url} />
+        <ToggleShowCropsButton />
         <AddCropButton />
         <ZoomButtons />
       </Box>

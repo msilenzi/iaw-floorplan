@@ -2,6 +2,8 @@ import type { PercentCrop, ReactCrop } from 'react-image-crop'
 
 import { useCallback, useRef, useState } from 'react'
 
+import { useLocalStorage } from '@mantine/hooks'
+
 import { ImageViewerContext } from './ImageViewerContext'
 
 type ImageViewerProviderProps = {
@@ -11,6 +13,10 @@ type ImageViewerProviderProps = {
 export function ImageViewerProvider({ children }: ImageViewerProviderProps) {
   const [crop, setCrop] = useState<PercentCrop>()
   const [scale, setScale] = useState(1)
+  const [showCrops, setShowCrops] = useLocalStorage<boolean>({
+    key: 'iaw-floorplan__show',
+    defaultValue: false,
+  })
 
   const imageRef = useRef<HTMLImageElement>(null)
 
@@ -33,17 +39,24 @@ export function ImageViewerProvider({ children }: ImageViewerProviderProps) {
 
   const clearCrop = useCallback(() => setCrop(undefined), [])
 
+  const toggleShowCrops = useCallback(
+    () => setShowCrops((prev) => !prev),
+    [setShowCrops],
+  )
+
   return (
     <ImageViewerContext.Provider
       value={{
         crop,
         scale,
         imageRef,
+        showCrops,
         zoomIn,
         zoomOut,
         zoomReset,
         onCropChange,
         clearCrop,
+        toggleShowCrops,
       }}
     >
       {children}

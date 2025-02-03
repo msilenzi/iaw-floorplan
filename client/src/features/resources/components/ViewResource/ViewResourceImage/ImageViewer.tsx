@@ -20,7 +20,7 @@ export function ImageViewer({ imageUrl }: ImageViewerProps) {
   const { resourceId } = useCurrentResource()
   const { data } = useResourceCropsQuery(projectId, resourceId)
 
-  const { crop, scale, imageRef, onCropChange, zoomIn, zoomOut } =
+  const { crop, scale, showCrops, imageRef, onCropChange, zoomIn, zoomOut } =
     useImageViewer()
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
@@ -93,7 +93,7 @@ export function ImageViewer({ imageUrl }: ImageViewerProps) {
             crossOrigin="anonymous"
           />
         </ReactCrop>
-        {data?.map((crop, i) => <DrawCrop key={i} crop={crop} />)}
+        {showCrops && data?.map((crop, i) => <DrawCrop key={i} crop={crop} />)}
       </Box>
     </ScrollArea>
   )

@@ -4,8 +4,7 @@ import { IconScissors } from '@tabler/icons-react'
 
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { useImageViewer } from '@Resources/context/ImageViewer'
-
-import { AddCropModal } from './AddCropModal'
+import { CreateCropModal } from '@Crops/components/CropModal/CreateCropModal'
 
 export function AddCropButton() {
   const { crop } = useImageViewer()
@@ -33,7 +32,7 @@ export function AddCropButton() {
           Crear recorte
         </PrimaryButton>
       </Tooltip>
-      <AddCropModal isOpen={isOpen} onClose={close} />
+      <CreateCropModal isOpen={isOpen} onClose={close} />
     </>
   )
 }

@@ -19,7 +19,7 @@ import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { CardCrop } from '@Crops/components/CardCrop'
-import { ViewCropModal } from '@Crops/components/ViewCropModal'
+import { ViewCropModal } from '@Crops/components/CropModal/ViewCropModal'
 import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
 
 import { useResourceQuery } from '../../hooks/useResourceQuery'

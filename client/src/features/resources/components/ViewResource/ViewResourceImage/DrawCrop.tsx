@@ -16,7 +16,7 @@ export function DrawCrop({ crop }: DrawCropProps) {
       w={`${crop.dimensions.width}%`}
       style={(theme) => ({
         pointerEvents: 'none',
-        backgroundColor: rgba(theme.colors.blue[3], 0.1),
+        backgroundColor: rgba(theme.colors.blue[1], 0.1),
         border: `2px solid ${theme.colors.blue[8]}`,
         borderRadius: theme.radius.sm,
       })}

@@ -31,7 +31,6 @@ export function useCreateCropMutation(projectId: string, resourceId: string) {
       )
     },
     onSuccess() {
-      console.log('crop created successfully')
       // TODO: invalidar project crops
 
       void queryClient.invalidateQueries({

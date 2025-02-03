@@ -30,47 +30,49 @@ export function ViewResourceData() {
   const { data, isLoading } = useResourceQuery(projectId, resourceId)
 
   return (
-    <Stack gap="lg" h="100%" style={{ overflow: 'hidden' }}>
-      {/* DATA */}
-      <Stack gap="sm">
-        <DataItem label="Fecha de creación">
-          <Skeleton visible={isLoading}>
-            <Text>
-              {new Date(data?.createdAt ?? '2001-11-12').toLocaleDateString(
-                'es-AR',
-                { dateStyle: 'long' },
-              )}
-            </Text>
-          </Skeleton>
-        </DataItem>
+    <ScrollArea flex={1} h="100%">
+      <Stack gap="lg">
+        {/* DATA */}
+        <Stack gap="sm">
+          <DataItem label="Fecha de creación">
+            <Skeleton visible={isLoading}>
+              <Text>
+                {new Date(data?.createdAt ?? '2001-11-12').toLocaleDateString(
+                  'es-AR',
+                  { dateStyle: 'long' },
+                )}
+              </Text>
+            </Skeleton>
+          </DataItem>
 
-        <DataItem label="Creado por">
-          {isLoading ? (
-            <Skeleton h={40} />
-          ) : (
-            <UserInfo
-              user={
-                data?.createdBy ?? {
-                  name: 'loading user',
-                  email: 'loading email',
-                  user_id: 'loading user',
-                  picture: '',
+          <DataItem label="Creado por">
+            {isLoading ? (
+              <Skeleton h={40} />
+            ) : (
+              <UserInfo
+                user={
+                  data?.createdBy ?? {
+                    name: 'loading user',
+                    email: 'loading email',
+                    user_id: 'loading user',
+                    picture: '',
+                  }
                 }
-              }
-              innerProps={{ avatar: { size: 'sm' } }}
-            />
-          )}
-        </DataItem>
-      </Stack>
+                innerProps={{ avatar: { size: 'sm' } }}
+              />
+            )}
+          </DataItem>
+        </Stack>
 
-      {/* RECORTES */}
-      <Stack gap="sm" flex={1} mih={0}>
-        <Title order={3}>Recortes</Title>
-        <ScrollArea flex={1}>
+        {/* RECORTES */}
+        <Stack gap="sm">
+          <Title order={3}>Recortes</Title>
+          {/* <ScrollArea flex={1}> */}
           <CropsList />
-        </ScrollArea>
+          {/* </ScrollArea> */}
+        </Stack>
       </Stack>
-    </Stack>
+    </ScrollArea>
   )
 }
 
@@ -170,6 +172,7 @@ function CopsListContent({ query }: CopsListContentProps) {
         isOpen={selectedCrop != undefined}
         onClose={() => setSelectedCrop(undefined)}
         crop={selectedCrop}
+        setSelectedCrop={setSelectedCrop}
       />
     </>
   )

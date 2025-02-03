@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import {
+  DeleteObjectCommand,
+  DeleteObjectsCommand,
   GetObjectCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   PutObjectCommandInput,
   S3Client,
@@ -34,6 +37,49 @@ export class S3Service {
       }),
       { expiresIn: 3_600 }, // 1 hora
     )
+  }
+
+  deleteObject(key: string) {
+    return this.s3.send(
+      new DeleteObjectCommand({
+        Bucket: cfg.S3_BUCKET,
+        Key: key,
+      }),
+    )
+  }
+
+  async deleteFolder(prefix: string) {
+    const bucket = cfg.S3_BUCKET
+    let continuationToken: string | undefined
+
+    do {
+      // Listar objetos con el prefijo
+      const listResponse = await this.s3.send(
+        new ListObjectsV2Command({
+          Bucket: bucket,
+          Prefix: prefix,
+          ContinuationToken: continuationToken,
+        }),
+      )
+
+      if (!listResponse.Contents || listResponse.Contents.length === 0) {
+        return
+      }
+
+      const objectsToDelete = listResponse.Contents.map((obj) => ({
+        Key: obj.Key,
+      }))
+
+      await this.s3.send(
+        new DeleteObjectsCommand({
+          Bucket: bucket,
+          Delete: { Objects: objectsToDelete },
+        }),
+      )
+
+      // Continuar si hay más objetos
+      continuationToken = listResponse.NextContinuationToken
+    } while (continuationToken)
   }
 
   getPrefix(ids: GetPrefixArgs) {

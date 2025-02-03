@@ -33,7 +33,7 @@ export class OrganizationMembersController {
   ) {}
 
   /**
-   * Crea un miembro con estado PENDING
+   * Crea un miembro con estado PENDING.
    */
   @Post()
   @ApiParam({ name: 'organizationId', type: String })

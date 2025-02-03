@@ -1,8 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   FileTypeValidator,
   Get,
+  HttpCode,
+  HttpStatus,
   MaxFileSizeValidator,
   ParseFilePipe,
   Patch,
@@ -88,11 +91,24 @@ export class CropsController {
   }
 
   /**
-   * Actualizar un recorte
+   * Actualizar un recorte.
    */
   @Patch(':cropId')
   @CropAccess()
   update(@Body() dto: CropUpdateDto, @GetCrop() crop: CropDocument) {
     return this.cropsService.update(dto, crop)
+  }
+
+  /**
+   * Eliminar un recorte permanentemente.
+   */
+  @Delete(':cropId')
+  @CropAccess()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  delete(
+    @GetCrop() crop: CropDocument,
+    @GetOrganization() organization: OrganizationDocument,
+  ) {
+    return this.cropsService.delete(organization, crop)
   }
 }

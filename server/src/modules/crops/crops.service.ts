@@ -72,6 +72,18 @@ export class CropsService {
     await crop.save()
   }
 
+  async delete(organization: OrganizationDocument, crop: CropDocument) {
+    await this.s3Service.deleteObject(
+      this.s3Service.getCropKey({
+        organizationId: organization.id,
+        projectId: crop.projectId.toString(),
+        resourceId: crop.resourceId.toString(),
+        cropId: crop.id,
+      }),
+    )
+    await crop.deleteOne()
+  }
+
   async _getCrop(cropId: Types.ObjectId): Promise<CropDocument> {
     const crop = await this.cropModel.findById(cropId)
     if (!crop) throw new NotFoundException('El recorte no existe')

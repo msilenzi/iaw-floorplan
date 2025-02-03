@@ -36,11 +36,11 @@ export class ResourcesService {
     })
 
     await this.s3Service.upload({
-      Key: this.s3Service.getResourceKey(
-        organization.id,
-        project.id,
-        resource.id,
-      ),
+      Key: this.s3Service.getResourceKey({
+        organizationId: organization.id,
+        projectId: project.id,
+        resourceId: resource.id,
+      }),
       Body: file.buffer,
       ContentType: file.mimetype,
       CacheControl: 'max-age=31536000, immutable',
@@ -80,7 +80,11 @@ export class ResourcesService {
 
     const [url, user] = await Promise.all([
       this.s3Service.getUrl(
-        this.s3Service.getResourceKey(organization.id, project.id, resource.id),
+        this.s3Service.getResourceKey({
+          organizationId: organization.id,
+          projectId: project.id,
+          resourceId: resource.id,
+        }),
       ),
       this.usersService._fetchUser(resource.createdBy),
     ])

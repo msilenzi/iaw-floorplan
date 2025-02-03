@@ -88,15 +88,6 @@ export class CropsController {
   }
 
   /**
-   * Ver un recorte
-   */
-  @Get(':cropId')
-  // TODO: @CropAccess()
-  findOne() {
-    return 'Ver un recorte'
-  }
-
-  /**
    * Actualizar un recorte
    */
   @Patch(':cropId')

@@ -39,12 +39,12 @@ export class CropsService {
     })
 
     await this.s3Service.upload({
-      Key: this.s3Service.getCropKey(
-        organization.id,
-        resource.projectId.toString(),
-        resource.id,
-        crop.id,
-      ),
+      Key: this.s3Service.getCropKey({
+        organizationId: organization.id,
+        projectId: resource.projectId.toString(),
+        resourceId: resource.id,
+        cropId: crop.id,
+      }),
       Body: file.buffer,
       ContentType: file.mimetype,
       CacheControl: 'max-age=31536000, immutable',
@@ -96,12 +96,12 @@ export class CropsService {
 
     return Promise.all(
       crops.map(async (crop) => {
-        const key = this.s3Service.getCropKey(
-          organization.id,
-          crop.projectId.toString(),
-          crop.resourceId.toString(),
-          crop._id.toString(),
-        )
+        const key = this.s3Service.getCropKey({
+          organizationId: organization.id,
+          projectId: crop.projectId.toString(),
+          resourceId: crop.resourceId.toString(),
+          cropId: crop._id.toString(),
+        })
         const url = await this.s3Service.getUrl(key)
         return { ...crop, url, createdBy: usersMap.get(crop.createdBy)! }
       }),

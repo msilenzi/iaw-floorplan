@@ -36,34 +36,32 @@ export class S3Service {
     )
   }
 
-  getResourceKey(
-    organizationId: string,
-    projectId: string,
-    resourceId: string,
-  ): string {
-    return (
-      this._getBaseResourceKey(organizationId, projectId, resourceId) +
-      `/res-${resourceId}`
-    )
+  getPrefix(ids: GetPrefixArgs) {
+    let key = `org-${ids.organizationId}`
+    if (ids.projectId) {
+      key += `/proj-${ids.projectId}`
+      if (ids.resourceId) key += `/res-${ids.resourceId}`
+    }
+    return key
   }
 
-  getCropKey(
-    organizationId: string,
-    projectId: string,
-    resourceId: string,
-    cropId: string,
-  ) {
-    return (
-      this._getBaseResourceKey(organizationId, projectId, resourceId) +
-      `/crop-${cropId}`
-    )
+  getResourceKey(ids: GetResourceKeyArgs) {
+    return this.getPrefix(ids) + `/res-${ids.resourceId}`
   }
 
-  private _getBaseResourceKey(
-    organizationId: string,
-    projectId: string,
-    resourceId: string,
-  ): string {
-    return `org-${organizationId}/proj-${projectId}/res-${resourceId}`
+  getCropKey({ cropId, ...ids }: GetCropKeyArgs) {
+    return this.getPrefix(ids) + `/crop-${cropId}`
   }
 }
+
+type GetPrefixArgs =
+  // solo organización:
+  | { organizationId: string; projectId?: undefined; resourceId?: undefined }
+  // organización + proyecto:
+  | { organizationId: string; projectId: string; resourceId?: undefined }
+  // organización + proyecto + recurso:
+  | { organizationId: string; projectId: string; resourceId: string }
+
+type GetResourceKeyArgs = Required<GetPrefixArgs>
+
+type GetCropKeyArgs = Required<GetPrefixArgs> & { cropId: string }

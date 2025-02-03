@@ -2,6 +2,7 @@
  * Agregar algunos tipados adicionales para Express
  */
 
+import { CropDocument } from 'src/modules/crops/schemas/crop.schema'
 import { Member } from 'src/modules/organizations/schemas/member.schema'
 import { OrganizationDocument } from 'src/modules/organizations/schemas/organization.schema'
 import { ProjectDocument } from 'src/modules/projects/schemas/project.schema'
@@ -27,6 +28,7 @@ declare global {
       member?: Member
       project?: ProjectDocument
       resource?: ResourceDocument
+      crop?: CropDocument
     }
   }
 }

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { FilterQuery, Model } from 'mongoose'
+import { FilterQuery, Model, Types } from 'mongoose'
 
 import { OrganizationDocument } from '../organizations/schemas/organization.schema'
 import { ProjectDocument } from '../projects/schemas/project.schema'
@@ -8,6 +8,7 @@ import { ResourceDocument } from '../resources/schemas/resource.schema'
 import { S3Service } from '../s3/s3.service'
 import { UsersService } from '../users/users.service'
 import { CropCreateDto } from './dtos/crop-create.dto'
+import { CropUpdateDto } from './dtos/crop-update.dto'
 import { CropWithUrl } from './dtos/crop-with-url.dto'
 import { Crop, CropDocument } from './schemas/crop.schema'
 
@@ -64,6 +65,17 @@ export class CropsService {
     organization: OrganizationDocument,
   ) {
     return this._findWithUrls({ resourceId: resource._id }, organization)
+  }
+
+  async update(dto: CropUpdateDto, crop: CropDocument) {
+    Object.assign(crop, dto)
+    await crop.save()
+  }
+
+  async _getCrop(cropId: Types.ObjectId): Promise<CropDocument> {
+    const crop = await this.cropModel.findById(cropId)
+    if (!crop) throw new NotFoundException('El recorte no existe')
+    return crop
   }
 
   private async _findWithUrls(

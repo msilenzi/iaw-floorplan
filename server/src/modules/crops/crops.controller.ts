@@ -25,7 +25,11 @@ import { GetResource } from '../resources/decorators/get-resource.decorator'
 import { ResourceAccess } from '../resources/decorators/resource-access.decorator'
 import { ResourceDocument } from '../resources/schemas/resource.schema'
 import { CropsService } from './crops.service'
+import { CropAccess } from './decorators/crop-access.decorator'
+import { GetCrop } from './decorators/get-crop.decorator'
 import { CropCreateDto } from './dtos/crop-create.dto'
+import { CropUpdateDto } from './dtos/crop-update.dto'
+import { CropDocument } from './schemas/crop.schema'
 
 @Protected()
 @Controller('crops')
@@ -96,8 +100,8 @@ export class CropsController {
    * Actualizar un recorte
    */
   @Patch(':cropId')
-  // TODO: @CropAccess()
-  update() {
-    return 'Actualizar un recorte'
+  @CropAccess()
+  update(@Body() dto: CropUpdateDto, @GetCrop() crop: CropDocument) {
+    return this.cropsService.update(dto, crop)
   }
 }

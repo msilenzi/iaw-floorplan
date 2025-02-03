@@ -4,7 +4,6 @@ import { Fragment } from 'react'
 
 import { Box, Divider, Group, Stack } from '@mantine/core'
 
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 import { isDni } from '@Project/utils/isDni'
 
@@ -15,8 +14,7 @@ type InfoProfessionalsProps = {
 }
 
 export function InfoProfessionals({ professionals }: InfoProfessionalsProps) {
-  const { projectId } = useCurrentProject()
-  const { isLoading } = useProjectQuery(projectId)
+  const { isLoading } = useProjectQuery()
 
   if (isLoading) {
     return (

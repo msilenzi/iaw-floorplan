@@ -1,6 +1,5 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core'
 
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 import { InfoItem } from './InfoItem'
@@ -15,8 +14,7 @@ export function InfoOwner() {
 }
 
 function InfoOwnerContent() {
-  const { projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectQuery(projectId)
+  const { data, isLoading } = useProjectQuery()
 
   if (!isLoading && !data?.owner) {
     return (

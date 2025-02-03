@@ -1,7 +1,5 @@
 import { Box, Flex, Loader } from '@mantine/core'
 
-import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { ImageViewerProvider } from '@Resources/context/ImageViewer'
 import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
 
@@ -11,9 +9,7 @@ import { ToggleShowCropsButton } from './ToggleShowCropsButton'
 import { ZoomButtons } from './ZoomButtons'
 
 export function ViewResourceImage() {
-  const { projectId } = useCurrentProject()
-  const { resourceId } = useCurrentResource()
-  const { isLoading, data } = useResourceQuery(projectId, resourceId)
+  const { isLoading, data } = useResourceQuery()
 
   if (isLoading || !data) {
     return (

@@ -16,8 +16,6 @@ import {
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { CardCrop } from '@Crops/components/CardCrop'
 import { ViewCropModal } from '@Crops/components/CropModal/ViewCropModal'
 import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
@@ -25,9 +23,7 @@ import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
 import { useResourceQuery } from '../../hooks/useResourceQuery'
 
 export function ViewResourceData() {
-  const { projectId } = useCurrentProject()
-  const { resourceId } = useCurrentResource()
-  const { data, isLoading } = useResourceQuery(projectId, resourceId)
+  const { data, isLoading } = useResourceQuery()
 
   return (
     <ScrollArea flex={1} h="100%">
@@ -93,9 +89,7 @@ function DataItem({ label, children }: DataItemProps) {
 }
 
 function CropsList() {
-  const { projectId } = useCurrentProject()
-  const { resourceId } = useCurrentResource()
-  const query = useResourceCropsQuery(projectId, resourceId)
+  const query = useResourceCropsQuery()
   const { isLoading } = query
 
   if (isLoading) {

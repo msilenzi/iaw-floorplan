@@ -7,7 +7,6 @@ import {
 } from '@mantine/core'
 
 import { UserInfo } from '@Common/ui/UserInfo'
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 import { displayProjectPurpose } from '@Project/utils/displayProjectPurpose'
 import { displayProjectStatus } from '@Project/utils/displayProjectStatus'
@@ -17,9 +16,7 @@ import { InfoItem } from './InfoItem'
 
 export function InfoGeneralInformation() {
   const theme = useMantineTheme()
-
-  const { projectId } = useCurrentProject()
-  const { data } = useProjectQuery(projectId)
+  const { data } = useProjectQuery()
 
   return (
     <Stack gap="lg">

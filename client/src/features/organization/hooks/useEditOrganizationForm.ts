@@ -10,8 +10,8 @@ type EditOrganizationForm = {
   regexTest: string
 }
 
-export function useEditOrganizationForm(organizationId: string) {
-  const { data } = useOrganizationQuery(organizationId)
+export function useEditOrganizationForm() {
+  const { data } = useOrganizationQuery()
 
   const form = useForm<EditOrganizationForm>({
     mode: 'controlled',

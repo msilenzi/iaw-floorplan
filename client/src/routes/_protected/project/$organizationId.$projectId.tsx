@@ -17,8 +17,19 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { organizationId, projectId } = Route.useParams()
-  const organizationQuery = useOrganizationQuery(organizationId)
-  const projectQuery = useProjectQuery(projectId)
+
+  return (
+    <CurrentOrganizationProvider organizationId={organizationId}>
+      <CurrentProjectProvider projectId={projectId}>
+        <Content />
+      </CurrentProjectProvider>
+    </CurrentOrganizationProvider>
+  )
+}
+
+function Content() {
+  const organizationQuery = useOrganizationQuery()
+  const projectQuery = useProjectQuery()
 
   if (organizationQuery.isLoading) {
     return (
@@ -46,13 +57,7 @@ function RouteComponent() {
     )
   }
 
-  return (
-    <CurrentOrganizationProvider organizationId={organizationId}>
-      <CurrentProjectProvider projectId={projectId}>
-        <Outlet />
-      </CurrentProjectProvider>
-    </CurrentOrganizationProvider>
-  )
+  return <Outlet />
 }
 
 type ShowErrorProps = {

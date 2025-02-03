@@ -18,7 +18,7 @@ export const Route = createFileRoute(
 function RouteComponent() {
   const organizationId = Route.useParams().organizationId
 
-  const organizationQuery = useOrganizationQuery(organizationId)
+  const organizationQuery = useOrganizationQuery()
   const userStatus = organizationQuery.data?.userStatus
 
   if (userStatus === MemberStatus.Owner) {

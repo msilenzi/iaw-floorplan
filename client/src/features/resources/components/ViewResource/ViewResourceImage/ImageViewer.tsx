@@ -4,8 +4,6 @@ import { ReactCrop } from 'react-image-crop'
 
 import { Box, ScrollArea } from '@mantine/core'
 
-import { useCurrentProject } from '@Project/context/CurrentProject'
-import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { useImageViewer } from '@Resources/context/ImageViewer'
 import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
 
@@ -16,9 +14,7 @@ type ImageViewerProps = {
 }
 
 export function ImageViewer({ imageUrl }: ImageViewerProps) {
-  const { projectId } = useCurrentProject()
-  const { resourceId } = useCurrentResource()
-  const { data } = useResourceCropsQuery(projectId, resourceId)
+  const { data } = useResourceCropsQuery()
 
   const { crop, scale, showCrops, imageRef, onCropChange, zoomIn, zoomOut } =
     useImageViewer()

@@ -6,7 +6,6 @@ import type {
 
 import { isNotEmpty } from '@mantine/form'
 
-import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { IdentificationType } from '@Project/types/ProjectForm.types'
 import { isCuit } from '@Project/utils/isCuit'
@@ -27,8 +26,7 @@ export function ProjectFormProvider({
   children,
   formOptions,
 }: ProjectFormProviderProps) {
-  const { organizationId } = useCurrentOrganization()
-  const { data } = useOrganizationQuery(organizationId)
+  const { data } = useOrganizationQuery()
 
   const form = useForm({
     ...formOptions,

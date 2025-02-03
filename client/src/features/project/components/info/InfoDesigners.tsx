@@ -1,6 +1,5 @@
 import { Stack, Text, Title } from '@mantine/core'
 
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 import { InfoProfessionals } from './InfoProfessionals'
@@ -15,8 +14,7 @@ export function InfoDesigners() {
 }
 
 function InfoDesignersContent() {
-  const { projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectQuery(projectId)
+  const { data, isLoading } = useProjectQuery()
 
   if (!isLoading && (!data?.designers || data.designers.length === 0)) {
     return (

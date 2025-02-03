@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
+import { useCurrentProject } from '@Project/context/CurrentProject'
 
 export function getProjectQueryKey(projectId: string) {
   return ['project', projectId]
 }
 
-export function useProjectQuery(projectId: string) {
+export function useProjectQuery() {
+  const { projectId } = useCurrentProject()
   const { apisAvailable, projectsApi } = useApi()
 
   return useQuery({

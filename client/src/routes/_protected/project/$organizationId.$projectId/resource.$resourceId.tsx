@@ -16,8 +16,18 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  const { organizationId, projectId, resourceId } = Route.useParams()
-  const resourceQuery = useResourceQuery(projectId, resourceId)
+  const { resourceId } = Route.useParams()
+
+  return (
+    <CurrentResourceProvider resourceId={resourceId}>
+      <Content />
+    </CurrentResourceProvider>
+  )
+}
+
+function Content() {
+  const { organizationId, projectId } = Route.useParams()
+  const resourceQuery = useResourceQuery()
 
   const navigate = useNavigate()
 
@@ -33,18 +43,16 @@ function RouteComponent() {
   }
 
   return (
-    <CurrentResourceProvider resourceId={resourceId}>
-      <Modal.Root opened onClose={handleClose} fullScreen closeOnEscape={false}>
-        <Modal.Content bg="dark.8" p={0}>
-          <Modal.Body h="100%" p={0}>
-            <Stack h="100%" mah="100%" gap={0}>
-              <ViewResourceHeader />
-              <ViewResourceBody />
-            </Stack>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal.Root>
-    </CurrentResourceProvider>
+    <Modal.Root opened onClose={handleClose} fullScreen closeOnEscape={false}>
+      <Modal.Content bg="dark.8" p={0}>
+        <Modal.Body h="100%" p={0}>
+          <Stack h="100%" mah="100%" gap={0}>
+            <ViewResourceHeader />
+            <ViewResourceBody />
+          </Stack>
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   )
 }
 

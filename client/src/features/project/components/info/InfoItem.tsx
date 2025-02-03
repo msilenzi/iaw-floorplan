@@ -2,7 +2,6 @@ import type { TextProps } from '@mantine/core'
 
 import { Skeleton, Stack, Text } from '@mantine/core'
 
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 type InfoItemProps = {
@@ -12,8 +11,7 @@ type InfoItemProps = {
 }
 
 export function InfoItem({ label, data, dataProps }: InfoItemProps) {
-  const { projectId } = useCurrentProject()
-  const { isLoading } = useProjectQuery(projectId)
+  const { isLoading } = useProjectQuery()
 
   if (!isLoading && data == null) return null
 

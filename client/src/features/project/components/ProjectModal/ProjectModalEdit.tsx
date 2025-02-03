@@ -46,7 +46,7 @@ export function ProjectModalEdit(props: ProjectModalEditProps) {
 function Content({ isOpen, onClose }: ProjectModalEditProps) {
   const { organizationId } = useCurrentOrganization()
   const { projectId } = useCurrentProject()
-  const { data } = useProjectQuery(projectId)
+  const { data } = useProjectQuery()
 
   const { mutateAsync, isPending } = useEditProjectMutation(
     organizationId,

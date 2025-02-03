@@ -27,10 +27,10 @@ export function OrganizationMembersLayout({
 
   const { organizationId } = useCurrentOrganization()
 
-  const organizationQuery = useOrganizationQuery(organizationId)
+  const organizationQuery = useOrganizationQuery()
   const userStatus = organizationQuery.data?.userStatus
 
-  const membersQuery = useMembersQuery(organizationId)
+  const membersQuery = useMembersQuery()
 
   useEffect(() => {
     if (organizationId && requiredStatus && requiredStatus !== userStatus) {

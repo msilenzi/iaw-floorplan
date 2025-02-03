@@ -9,7 +9,6 @@ import { DataTable } from '@Common/components/DataTable'
 import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserAvatar } from '@Common/ui/UserAvatar'
-import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useMembersQuery } from '@Organization/hooks/useMembersQuery'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 
@@ -26,12 +25,10 @@ type MembersTableProps = {
 }
 
 export function MembersTable({ data, actions }: MembersTableProps) {
-  const { organizationId } = useCurrentOrganization()
-
-  const organizationQuery = useOrganizationQuery(organizationId)
+  const organizationQuery = useOrganizationQuery()
   const userStatus = organizationQuery.data?.userStatus
 
-  const { isLoading } = useMembersQuery(organizationId)
+  const { isLoading } = useMembersQuery()
 
   return (
     <DataTable
@@ -90,9 +87,7 @@ type TableButton = {
 }
 
 function TableButton({ member, actions }: TableButton) {
-  const { organizationId } = useCurrentOrganization()
-
-  const { isFetching } = useMembersQuery(organizationId)
+  const { isFetching } = useMembersQuery()
 
   return (
     <Menu withArrow position="left" shadow="md">

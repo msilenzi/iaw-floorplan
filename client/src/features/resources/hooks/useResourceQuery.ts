@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { useApi } from '@Common/api'
+import { useCurrentProject } from '@Project/context/CurrentProject'
+import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 
 import { getResourcesQueryKey } from './useResourcesQuery'
 
@@ -8,7 +10,10 @@ export function getResourceQueryKey(projectId: string, resourceId: string) {
   return [...getResourcesQueryKey(projectId), resourceId]
 }
 
-export function useResourceQuery(projectId: string, resourceId: string) {
+export function useResourceQuery() {
+  const { projectId } = useCurrentProject()
+  const { resourceId } = useCurrentResource()
+
   const { resourcesApi, apisAvailable } = useApi()
 
   return useQuery({

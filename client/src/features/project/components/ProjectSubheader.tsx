@@ -28,8 +28,8 @@ export function ProjectSubheader({
   organizationId,
   projectId,
 }: ProjectSubheaderProps) {
-  const organizationQuery = useOrganizationQuery(organizationId)
-  const projectQuery = useProjectQuery(projectId)
+  const organizationQuery = useOrganizationQuery()
+  const projectQuery = useProjectQuery()
   const [isOpen, { open, close }] = useDisclosure(false)
 
   const BASE_PATH = `/project/${organizationId}/${projectId}`

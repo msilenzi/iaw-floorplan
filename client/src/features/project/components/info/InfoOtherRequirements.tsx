@@ -1,7 +1,6 @@
 import { Stack, Text, Title } from '@mantine/core'
 
 import { DataTable } from '@Common/components/DataTable'
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 export function InfoOtherRequirements() {
@@ -14,8 +13,7 @@ export function InfoOtherRequirements() {
 }
 
 function InfoOtherRequirementsContent() {
-  const { projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectQuery(projectId)
+  const { data, isLoading } = useProjectQuery()
 
   if (
     !isLoading &&

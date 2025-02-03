@@ -1,6 +1,5 @@
 import { List, Skeleton, Stack, Text, Title } from '@mantine/core'
 
-import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useProjectQuery } from '@Project/hooks/useProjectQuery'
 
 export function InfoReferences() {
@@ -13,8 +12,7 @@ export function InfoReferences() {
 }
 
 function InfoReferencesContent() {
-  const { projectId } = useCurrentProject()
-  const { data, isLoading } = useProjectQuery(projectId)
+  const { data, isLoading } = useProjectQuery()
 
   if (isLoading) {
     return (

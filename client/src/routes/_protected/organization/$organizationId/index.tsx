@@ -21,8 +21,7 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  const organizationId = Route.useParams().organizationId
-  const query = useProjectsQuery(organizationId)
+  const query = useProjectsQuery()
   const { data, isLoading, isError } = query
 
   const [search, setSearch] = useState('')
@@ -37,7 +36,7 @@ function RouteComponent() {
   )
 
   if (isError) {
-    return <ProjectsError organizationId={organizationId} />
+    return <ProjectsError />
   }
 
   if (!isLoading && data?.length === 0) {
@@ -155,8 +154,8 @@ function ProjectsTable({ projects, isLoading }: ProjectsTableProps) {
   )
 }
 
-function ProjectsError({ organizationId }: { organizationId: string }) {
-  const query = useProjectsQuery(organizationId)
+function ProjectsError() {
+  const query = useProjectsQuery()
   const { error } = query
 
   const { title, message } = getErrorResponse(error, {

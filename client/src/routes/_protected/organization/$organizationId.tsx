@@ -15,19 +15,28 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { organizationId } = Route.useParams()
-  const { isError, error } = useOrganizationQuery(organizationId)
+
+  return (
+    <CurrentOrganizationProvider organizationId={organizationId}>
+      <Content />
+    </CurrentOrganizationProvider>
+  )
+}
+
+function Content() {
+  const { isError, error } = useOrganizationQuery()
 
   if (isError) {
     return <ShowError error={error} />
   }
 
   return (
-    <CurrentOrganizationProvider organizationId={organizationId}>
-      <OrganizationSubheader organizationId={organizationId} />
+    <>
+      <OrganizationSubheader />
       <SectionContainer>
         <Outlet />
       </SectionContainer>
-    </CurrentOrganizationProvider>
+    </>
   )
 }
 

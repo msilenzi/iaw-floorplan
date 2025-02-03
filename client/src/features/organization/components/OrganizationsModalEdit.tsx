@@ -20,7 +20,7 @@ export function OrganizationsModalEdit({
 }: OrganizationsModalEditProps) {
   const { isPending, mutateAsync } = useEditOrganizationMutation(organizationId)
 
-  const form = useEditOrganizationForm(organizationId)
+  const form = useEditOrganizationForm()
   const [isTestValid, setIsTestValid] = useState(true)
 
   useEffect(() => {

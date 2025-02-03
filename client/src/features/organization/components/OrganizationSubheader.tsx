@@ -16,17 +16,13 @@ import {
 import { MemberStatus } from '@Common/api'
 import { BaseSubheader } from '@Common/components/BaseSubheader'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
+import { useCurrentOrganization } from '@Organization/context/CurrentOrganization'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
 import { ProjectModalCreate } from '@Project/components/ProjectModal/ProjectModalCreate'
 
-type OrganizationSubheaderProps = {
-  organizationId: string
-}
-
-export function OrganizationSubheader({
-  organizationId,
-}: OrganizationSubheaderProps) {
-  const { isLoading, data } = useOrganizationQuery(organizationId)
+export function OrganizationSubheader() {
+  const { organizationId } = useCurrentOrganization()
+  const { isLoading, data } = useOrganizationQuery()
   const [isOpen, { open, close }] = useDisclosure(false)
 
   const breadcrumbs: SubheaderBreadcrumb[] = [

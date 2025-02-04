@@ -1,6 +1,8 @@
 import type { CropWithUrl } from '@Common/api'
 import type { UseQueryResult } from '@tanstack/react-query'
 
+import { useState } from 'react'
+
 import {
   Box,
   Group,
@@ -15,7 +17,7 @@ import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { CardCrop } from '@Crops/components/CardCrop'
-import { CropsList } from '@Crops/components/CropsList'
+import { ViewCropModal } from '@Crops/components/CropModal/ViewCropModal'
 import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
 
 import { useResourceQuery } from '../../hooks/useResourceQuery'
@@ -146,4 +148,32 @@ function CropsListContent({ query }: CopsListContentProps) {
   }
 
   return <CropsList crops={data} />
+}
+
+type CropsListProps = {
+  crops: CropWithUrl[]
+}
+
+export function CropsList({ crops }: CropsListProps) {
+  const [selectedCrop, setSelectedCrop] = useState<CropWithUrl | undefined>(
+    undefined,
+  )
+
+  return (
+    <>
+      {crops.map((crop) => (
+        <CardCrop
+          key={crop._id}
+          crop={crop}
+          cardProps={{ onClick: () => setSelectedCrop(crop) }}
+        />
+      ))}
+      <ViewCropModal
+        isOpen={selectedCrop != undefined}
+        onClose={() => setSelectedCrop(undefined)}
+        crop={selectedCrop}
+        setSelectedCrop={setSelectedCrop}
+      />
+    </>
+  )
 }

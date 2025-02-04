@@ -1,12 +1,16 @@
+import type { CropWithUrl } from '@Common/api'
+
 import { useState } from 'react'
 
 import { createFileRoute } from '@tanstack/react-router'
-import { Group, Select, Stack } from '@mantine/core'
+import { Group, Select, SimpleGrid, Stack } from '@mantine/core'
 
 import { CropSpecialty } from '@Common/api'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
-import { CropsList } from '@Crops/components/CropsList'
+import { CurrentResourceProvider } from '@Resources/context/CurrentResource/CurrentResourceProvider'
+import { CardCrop } from '@Crops/components/CardCrop'
+import { ViewCropModal } from '@Crops/components/CropModal/ViewCropModal'
 import { useProjectCropsQuery } from '@Crops/hooks/useProjectCropsQuery'
 import { displayCropSpecialty } from '@Crops/utils/displayCropSpecialty'
 
@@ -66,5 +70,38 @@ function RouteComponent() {
       <RefetchBtn query={query} ms="auto" />
       <CropsList crops={data} />
     </Stack>
+  )
+}
+
+type CropsListProps = {
+  crops: CropWithUrl[]
+}
+
+export function CropsList({ crops }: CropsListProps) {
+  const [selectedCrop, setSelectedCrop] = useState<CropWithUrl | undefined>(
+    undefined,
+  )
+
+  return (
+    <>
+      <SimpleGrid type="container" cols={{ base: 1, '450px': 2, '680px': 3 }}>
+        {crops.map((crop) => (
+          <CardCrop
+            key={crop._id}
+            crop={crop}
+            cardProps={{ onClick: () => setSelectedCrop(crop) }}
+          />
+        ))}
+      </SimpleGrid>
+
+      <CurrentResourceProvider resourceId={selectedCrop?.resourceId ?? ''}>
+        <ViewCropModal
+          isOpen={selectedCrop != undefined}
+          onClose={() => setSelectedCrop(undefined)}
+          crop={selectedCrop}
+          setSelectedCrop={setSelectedCrop}
+        />
+      </CurrentResourceProvider>
+    </>
   )
 }

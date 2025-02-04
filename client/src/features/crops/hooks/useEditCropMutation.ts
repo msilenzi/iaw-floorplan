@@ -6,6 +6,7 @@ import { useApi } from '@Common/api'
 import { useCurrentProject } from '@Project/context/CurrentProject'
 import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 
+import { getProjectCropsQueryKey } from './useProjectCropsQuery'
 import { getResourceCropsQueryKey } from './useResourceCropsQuery'
 
 export function useEditCropMutation(cropId: string) {
@@ -19,7 +20,9 @@ export function useEditCropMutation(cropId: string) {
       return (await cropsApi.update(cropId, data)).data
     },
     onSuccess() {
-      // TODO: invalidar project crops
+      void queryClient.invalidateQueries({
+        queryKey: getProjectCropsQueryKey(projectId),
+      })
 
       void queryClient.invalidateQueries({
         queryKey: getResourceCropsQueryKey(projectId, resourceId),

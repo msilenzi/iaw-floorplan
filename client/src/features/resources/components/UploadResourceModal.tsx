@@ -1,6 +1,7 @@
 import {
   FileInput,
   Group,
+  Image,
   Loader,
   Modal,
   Stack,
@@ -74,7 +75,7 @@ export function UploadResourceModal({
 
             <FileInput
               label="Recurso"
-              description="Subí una imagen o PDF de hasta 5 MiB"
+              description="Subí una imagen o PDF de hasta 15 MiB"
               placeholder="Hace click acá para elegir un archivo"
               withAsterisk
               clearable
@@ -82,6 +83,8 @@ export function UploadResourceModal({
               key={form.key('file')}
               {...form.getInputProps('file')}
             />
+
+            <FilePreview file={form.getValues().file} />
 
             <Group justify="end" mt="xs">
               <PrimaryButton
@@ -103,4 +106,23 @@ export function UploadResourceModal({
       </form>
     </Modal>
   )
+}
+
+type FilePreviewProps = {
+  file: File | null
+}
+
+function FilePreview({ file }: FilePreviewProps) {
+  if (file == null) return null
+
+  if (file.type === 'image/jpeg' || file.type === 'image/png') {
+    return <Image radius="sm" mah="40dvh" src={URL.createObjectURL(file)} />
+  }
+
+  if (file.type === 'application/pdf') {
+    // TODO: previsualización de PDF
+    return 'Previsualización de PDF no soportada'
+  }
+
+  return 'Formato inválido'
 }

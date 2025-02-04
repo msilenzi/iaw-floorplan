@@ -6,6 +6,15 @@ import { CropDimensions } from '../schemas/crop-dimensions.schema'
 import { CropSpecialty } from '../types/crop-specialty.enum'
 
 export class CropWithUrl {
+  @ApiProperty({ type: String })
+  readonly _id: Types.ObjectId
+
+  @ApiProperty({ type: String })
+  readonly projectId: Types.ObjectId
+
+  @ApiProperty({ type: String })
+  readonly resourceId: Types.ObjectId
+
   readonly name: string
 
   @ApiProperty({ enum: CropSpecialty, enumName: 'CropSpecialty' })
@@ -18,9 +27,6 @@ export class CropWithUrl {
   readonly createdBy: UserDto
 
   readonly dimensions: CropDimensions
-
-  @ApiProperty({ type: String })
-  readonly _id: Types.ObjectId
 
   readonly createdAt: Date
 

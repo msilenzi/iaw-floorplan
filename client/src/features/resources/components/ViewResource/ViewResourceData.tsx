@@ -1,8 +1,6 @@
 import type { CropWithUrl } from '@Common/api'
 import type { UseQueryResult } from '@tanstack/react-query'
 
-import { useState } from 'react'
-
 import {
   Box,
   Group,
@@ -17,7 +15,7 @@ import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { CardCrop } from '@Crops/components/CardCrop'
-import { ViewCropModal } from '@Crops/components/CropModal/ViewCropModal'
+import { CropsList } from '@Crops/components/CropsList'
 import { useResourceCropsQuery } from '@Crops/hooks/useResourceCropsQuery'
 
 import { useResourceQuery } from '../../hooks/useResourceQuery'
@@ -64,7 +62,7 @@ export function ViewResourceData() {
         <Stack gap="sm">
           <Title order={3}>Recortes</Title>
           {/* <ScrollArea flex={1}> */}
-          <CropsList />
+          <CropsSection />
           {/* </ScrollArea> */}
         </Stack>
       </Stack>
@@ -88,7 +86,7 @@ function DataItem({ label, children }: DataItemProps) {
   )
 }
 
-function CropsList() {
+function CropsSection() {
   const query = useResourceCropsQuery()
   const { isLoading } = query
 
@@ -114,7 +112,7 @@ function CropsList() {
       <Group justify="end" w="100%" mb="sm">
         <RefetchBtn query={query} />
       </Group>
-      <CopsListContent query={query} />
+      <CropsListContent query={query} />
     </>
   )
 }
@@ -123,12 +121,8 @@ type CopsListContentProps = {
   query: UseQueryResult<CropWithUrl[]>
 }
 
-function CopsListContent({ query }: CopsListContentProps) {
+function CropsListContent({ query }: CopsListContentProps) {
   const { data, isError, error } = query
-
-  const [selectedCrop, setSelectedCrop] = useState<CropWithUrl | undefined>(
-    undefined,
-  )
 
   if (isError || !data) {
     const { title, message } = getErrorResponse(error, {
@@ -151,23 +145,5 @@ function CopsListContent({ query }: CopsListContentProps) {
     )
   }
 
-  return (
-    <>
-      <Stack gap="lg" pb="md">
-        {data.map((crop) => (
-          <CardCrop
-            crop={crop}
-            key={crop._id}
-            cardProps={{ onClick: () => setSelectedCrop(crop) }}
-          />
-        ))}
-      </Stack>
-      <ViewCropModal
-        isOpen={selectedCrop != undefined}
-        onClose={() => setSelectedCrop(undefined)}
-        crop={selectedCrop}
-        setSelectedCrop={setSelectedCrop}
-      />
-    </>
-  )
+  return <CropsList crops={data} />
 }

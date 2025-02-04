@@ -14,7 +14,14 @@ type CardCropProps = {
 
 export function CardCrop({ crop, cardProps }: CardCropProps) {
   return (
-    <Card shadow="sm" padding="6" radius="md" withBorder {...cardProps}>
+    <Card
+      shadow="sm"
+      padding="6"
+      radius="md"
+      style={[{ cursor: 'pointer' }, cardProps?.style]}
+      withBorder
+      {...cardProps}
+    >
       <Box pos="relative" mb={4}>
         <Image src={crop.url} height={150} radius="sm" />
         <Badge
@@ -34,7 +41,7 @@ export function CardCrop({ crop, cardProps }: CardCropProps) {
       <Text fw={700} mb={0} lineClamp={2}>
         {crop.name}
       </Text>
-      <Text fz="sm" c="dimmed" lh={1.3} mt={-4} mb={4} tt="capitalize">
+      <Text fz="sm" c="dimmed" lh={1.3} mt={-1} mb={6} tt="capitalize">
         {displayCropSpecialty(crop.specialty)}
       </Text>
       <TagsList tags={crop.tags} innerProps={{ container: { mah: 46 } }} />

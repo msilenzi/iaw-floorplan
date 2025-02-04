@@ -11,6 +11,8 @@ type TagsListProps = {
 }
 
 export function TagsList({ tags, innerProps }: TagsListProps) {
+  if (tags.length === 0) return null
+
   return (
     <Group gap={4} {...innerProps?.container}>
       {tags.map((tag, i) => (

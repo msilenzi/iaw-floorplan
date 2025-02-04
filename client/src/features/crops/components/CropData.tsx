@@ -27,7 +27,7 @@ export function CropData({
 }: CropDataProps) {
   return (
     <Stack gap="lg">
-      <InfoItem label="Nombre" data={crop.name} />
+      <InfoItem label="Nombre" data={crop.name} dataProps={{ fw: 700 }} />
       <InfoItem
         label="Especialidad"
         data={displayCropSpecialty(crop.specialty)}

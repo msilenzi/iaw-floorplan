@@ -38,13 +38,16 @@ export function CardCrop({ crop, cardProps }: CardCropProps) {
         </Badge>
       </Box>
 
-      <Text fw={700} mb={0} lineClamp={2}>
+      <Text fw={700} lineClamp={2}>
         {crop.name}
       </Text>
-      <Text fz="sm" c="dimmed" lh={1.3} mt={-1} mb={6} tt="capitalize">
+      <Text fz="sm" c="dimmed" lh={1.3} mt={-1} tt="capitalize">
         {displayCropSpecialty(crop.specialty)}
       </Text>
-      <TagsList tags={crop.tags} innerProps={{ container: { mah: 46 } }} />
+      <TagsList
+        tags={crop.tags}
+        innerProps={{ container: { mah: 46, mt: 6 } }}
+      />
     </Card>
   )
 }

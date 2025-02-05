@@ -4,7 +4,7 @@ import { Box, Flex, Loader, Text } from '@mantine/core'
 
 import { ImageViewerProvider } from '@Resources/context/ImageViewer'
 import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
-import { Pdf } from '@Resources/utils/Pdf'
+import { PdfToImageConverter } from '@Resources/utils/PdfToImageConverter'
 
 import { AddCropButton } from '../ViewResourceImage/AddCropButton'
 import { ImageViewer } from '../ViewResourceImage/ImageViewer'
@@ -13,13 +13,13 @@ import { ZoomButtons } from '../ViewResourceImage/ZoomButtons'
 
 export function ViewResourcePdf() {
   const { isLoading, data } = useResourceQuery()
-  const [pdf, setPdf] = useState<Pdf | null>(null)
+  const [pdf, setPdf] = useState<PdfToImageConverter | null>(null)
   const [pageUrl, setPageUrl] = useState<string | null>(null)
 
   useEffect(() => {
     async function initializePdf() {
       if (!data) return
-      const newPdf = await Pdf.createPdfFromUrl(data.url)
+      const newPdf = await PdfToImageConverter.createPdfFromUrl(data.url)
       setPdf(newPdf)
 
       const newPageUrl = await newPdf.convertPageToPng(1)

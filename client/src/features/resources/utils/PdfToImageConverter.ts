@@ -7,14 +7,16 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString()
 
-export class Pdf {
+export class PdfToImageConverter {
   private readonly cache = new Map<string, string>()
 
   private constructor(private readonly pdfDocument: PDFDocumentProxy) {}
 
-  public static async createPdfFromUrl(url: string): Promise<Pdf> {
+  public static async createPdfFromUrl(
+    url: string,
+  ): Promise<PdfToImageConverter> {
     const pdfDocument = await pdfjs.getDocument(url).promise
-    return new Pdf(pdfDocument)
+    return new PdfToImageConverter(pdfDocument)
   }
 
   public getTotalPages(): number {

@@ -6,10 +6,20 @@ import { ViewResourceData } from './ViewResourceData'
 import { ViewResourceImage } from './ViewResourceImage'
 import { ViewResourcePdf } from './ViewResourcePdf'
 
-export function ViewResourceBody() {
+type ViewResourceBodyProps = {
+  sidebarOpened: boolean
+}
+
+export function ViewResourceBody({ sidebarOpened }: ViewResourceBodyProps) {
   return (
-    <Group p="xs" h="100%" mah="100%" style={{ overflow: 'hidden' }}>
-      <Box h="100%" w={250}>
+    <Group
+      p="xs"
+      gap={sidebarOpened ? 'md' : 0}
+      h="100%"
+      mah="100%"
+      style={{ overflow: 'hidden' }}
+    >
+      <Box h="100%" w={sidebarOpened ? 250 : 0}>
         <ViewResourceData />
       </Box>
       <Paper

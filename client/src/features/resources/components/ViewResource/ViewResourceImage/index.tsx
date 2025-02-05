@@ -1,4 +1,4 @@
-import { Box, Flex, Loader } from '@mantine/core'
+import { Box, Flex, Loader, Stack } from '@mantine/core'
 
 import { ImageViewerProvider } from '@Resources/context/ImageViewer'
 import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
@@ -25,9 +25,11 @@ export function ViewResourceImage() {
     <ImageViewerProvider>
       <Box pos="relative" w="100%" h="100%">
         <ImageViewer imageUrl={data.url} crops={crops ?? []} />
-        <ToggleShowCropsButton />
-        <AddCropButton />
-        <ZoomButtons />
+        <Stack pos="absolute" bottom={20} right={20} gap="6">
+          <AddCropButton />
+          <ToggleShowCropsButton />
+          <ZoomButtons />
+        </Stack>
       </Box>
     </ImageViewerProvider>
   )

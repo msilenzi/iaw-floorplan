@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { Box, Flex, Loader, Text } from '@mantine/core'
+import { Box, Flex, Loader, Stack, Text } from '@mantine/core'
 
 import { ImageViewerProvider } from '@Resources/context/ImageViewer'
 import { PdfViewerProvider, usePdfViewer } from '@Resources/context/PdfViewer'
@@ -68,10 +68,13 @@ function Content() {
     <ImageViewerProvider>
       <Box pos="relative" w="100%" h="100%">
         <ImageViewer imageUrl={currentPage.url} crops={pageCrops ?? []} />
-        <ToggleShowCropsButton />
-        <AddCropButton />
-        <ZoomButtons />
-        <PageButtons />
+
+        <Stack pos="absolute" bottom={20} right={20} gap="6">
+          <AddCropButton />
+          <ToggleShowCropsButton />
+          <ZoomButtons />
+          <PageButtons />
+        </Stack>
       </Box>
     </ImageViewerProvider>
   )

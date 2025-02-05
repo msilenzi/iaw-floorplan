@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 
-import { Box, Button, NumberInput } from '@mantine/core'
+import { Button, NumberInput } from '@mantine/core'
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 
 import { usePdfViewer } from '@Resources/context/PdfViewer'
@@ -14,36 +14,29 @@ export function PageButtons() {
   const PageSection = isEditing ? PageInput : PageCounter
 
   return (
-    <Box
-      pos="absolute"
-      bottom={20}
-      right="50%"
-      style={{ transform: 'translateX(50%)' }}
-    >
-      <Button.Group miw={160}>
-        <Button
-          variant="default"
-          size="xs"
-          onClick={() => void prevPage()}
-          disabled={!currentPage || currentPage.number === 1}
-        >
-          <IconChevronLeft height={16} width={16} stroke={2} />
-        </Button>
+    <Button.Group miw={160}>
+      <Button
+        variant="default"
+        size="xs"
+        onClick={() => void prevPage()}
+        disabled={!currentPage || currentPage.number === 1}
+      >
+        <IconChevronLeft height={16} width={16} stroke={2} />
+      </Button>
 
-        <Button.GroupSection size="xs" variant="default" flex={1}>
-          <PageSection setIsEditing={setIsEditing} />
-        </Button.GroupSection>
+      <Button.GroupSection size="xs" variant="default" flex={1}>
+        <PageSection setIsEditing={setIsEditing} />
+      </Button.GroupSection>
 
-        <Button
-          variant="default"
-          size="xs"
-          onClick={() => void nextPage()}
-          disabled={!currentPage || currentPage.number === totalPages}
-        >
-          <IconChevronRight height={16} width={16} stroke={2} />
-        </Button>
-      </Button.Group>
-    </Box>
+      <Button
+        variant="default"
+        size="xs"
+        onClick={() => void nextPage()}
+        disabled={!currentPage || currentPage.number === totalPages}
+      >
+        <IconChevronRight height={16} width={16} stroke={2} />
+      </Button>
+    </Button.Group>
   )
 }
 

@@ -21,10 +21,6 @@ export function AddCropButton() {
         disabled={!btnDisabled}
       >
         <PrimaryButton
-          pos="absolute"
-          bottom={56}
-          right={20}
-          w={160}
           rightSection={<IconScissors height={16} width={16} stroke={2} />}
           onClick={open}
           disabled={btnDisabled}

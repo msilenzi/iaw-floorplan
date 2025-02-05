@@ -11,9 +11,6 @@ export function ToggleShowCropsButton() {
   return (
     <Button
       variant="default"
-      pos="absolute"
-      bottom={20}
-      left={20}
       size="xs"
       onClick={toggleShowCrops}
       rightSection={<Icon height={14} width={14} stroke={1.75} />}

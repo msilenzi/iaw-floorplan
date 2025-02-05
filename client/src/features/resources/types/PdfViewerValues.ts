@@ -5,7 +5,7 @@ export type CurrentPageType = {
 
 export type PdfViewerState = {
   currentPage?: CurrentPageType
-  totalPages: () => number
+  totalPages: number
   initializePdfConverter: (pdfUrl: string) => Promise<void>
   clearPdfConverter: () => Promise<void>
   changeToPage: (pageNumber: number) => Promise<void>

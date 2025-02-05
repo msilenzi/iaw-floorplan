@@ -13,10 +13,12 @@ type PdfViewerProviderProps = {
 export function PdfViewerProvider({ children }: PdfViewerProviderProps) {
   const pdfConverterRef = useRef<PdfToImageConverter>()
   const [currentPage, setCurrentPage] = useState<CurrentPageType>()
+  const [totalPages, setTotalPages] = useState(0)
 
   const initializePdfConverter = useCallback(async (pdfUrl: string) => {
     const newPdfConverter = await PdfToImageConverter.createPdfFromUrl(pdfUrl)
     pdfConverterRef.current = newPdfConverter
+    setTotalPages(pdfConverterRef.current.getTotalPages())
   }, [])
 
   const clearPdfConverter = useCallback(async () => {
@@ -24,11 +26,6 @@ export function PdfViewerProvider({ children }: PdfViewerProviderProps) {
     await pdfConverterRef.current.destroy()
     pdfConverterRef.current = undefined
   }, [])
-
-  const totalPages = useCallback(
-    () => pdfConverterRef.current?.getTotalPages() ?? 0,
-    [],
-  )
 
   const changeToPage = useCallback(async (pageNumber: number) => {
     if (!pdfConverterRef.current) return
@@ -41,7 +38,7 @@ export function PdfViewerProvider({ children }: PdfViewerProviderProps) {
   }, [changeToPage])
 
   const nextPage = useCallback(async () => {
-    if (!currentPage || currentPage.number === totalPages()) return
+    if (!currentPage || currentPage.number === totalPages) return
     await changeToPage(currentPage.number + 1)
   }, [changeToPage, currentPage, totalPages])
 

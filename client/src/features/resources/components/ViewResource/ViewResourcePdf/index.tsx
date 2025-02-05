@@ -10,6 +10,7 @@ import { AddCropButton } from '../ViewResourceImage/AddCropButton'
 import { ImageViewer } from '../ViewResourceImage/ImageViewer'
 import { ToggleShowCropsButton } from '../ViewResourceImage/ToggleShowCropsButton'
 import { ZoomButtons } from '../ViewResourceImage/ZoomButtons'
+import { PageButtons } from './PageButtons'
 
 export function ViewResourcePdf() {
   return (
@@ -63,6 +64,7 @@ function Content() {
         <ToggleShowCropsButton />
         <AddCropButton />
         <ZoomButtons />
+        <PageButtons />
       </Box>
     </ImageViewerProvider>
   )

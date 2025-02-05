@@ -4,6 +4,7 @@ import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
 
 import { ViewResourceData } from './ViewResourceData'
 import { ViewResourceImage } from './ViewResourceImage'
+import { ViewResourcePdf } from './ViewResourcePdf'
 
 export function ViewResourceBody() {
   return (
@@ -41,7 +42,7 @@ function ResourceContent() {
   }
 
   if (data.mimetype === 'application/pdf') {
-    return 'Todavía no soportamos la visualización de archivos PDF'
+    return <ViewResourcePdf />
   }
 
   return 'Tipo de archivo inválido'

@@ -11,3 +11,7 @@ export function usePdfViewer() {
 
   return context
 }
+
+export function useOptionalPdfViewer() {
+  return useContext(PdfViewerContext)
+}

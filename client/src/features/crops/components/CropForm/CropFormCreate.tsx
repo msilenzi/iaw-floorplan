@@ -6,6 +6,7 @@ import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useCurrentResource } from '@Resources/context/CurrentResource/useCurrentResource'
 import { useImageViewer } from '@Resources/context/ImageViewer'
+import { useOptionalPdfViewer } from '@Resources/context/PdfViewer/usePdfViewer'
 import { CropFormProvider, useCropForm } from '@Crops/context/CropForm'
 import { useCreateCropMutation } from '@Crops/hooks/useCreateCropMutation'
 import { convertCanvasToPng } from '@Crops/utils/convertCanvasToPng'
@@ -30,6 +31,8 @@ function Content({ canvas, image, onClose }: CropFormCreateProps) {
   const { resourceId } = useCurrentResource()
   const { crop, clearCrop } = useImageViewer()
   const form = useCropForm()
+
+  const pdfViewer = useOptionalPdfViewer()
 
   const { mutateAsync, isPending } = useCreateCropMutation()
   const { showErrorNotification, showSuccessNotification } = useNotifications()
@@ -59,6 +62,7 @@ function Content({ canvas, image, onClose }: CropFormCreateProps) {
         tags: values.tags,
         file: file,
         dimensions: { x, y, width, height },
+        pageNumber: pdfViewer?.currentPage?.number ?? undefined,
       })
 
       form.reset()

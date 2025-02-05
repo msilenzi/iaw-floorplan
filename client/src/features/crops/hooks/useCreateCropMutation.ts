@@ -24,6 +24,7 @@ export function useCreateCropMutation() {
       scale,
       tags,
       dimensions,
+      pageNumber,
     }: CreateCrop) {
       await cropsApi.create(
         resourceId,
@@ -33,6 +34,7 @@ export function useCreateCropMutation() {
         JSON.stringify(dimensions),
         name,
         tags,
+        pageNumber,
       )
     },
     onSuccess() {

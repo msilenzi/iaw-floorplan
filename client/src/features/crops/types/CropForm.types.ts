@@ -11,6 +11,7 @@ export type CreateCrop = {
   resourceId: string
   file: File
   dimensions: CropDimensions
+  pageNumber?: number
   name: string
   specialty: CropSpecialty
   scale: string

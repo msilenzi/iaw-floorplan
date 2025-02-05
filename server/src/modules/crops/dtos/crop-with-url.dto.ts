@@ -28,6 +28,8 @@ export class CropWithUrl {
 
   readonly dimensions: CropDimensions
 
+  readonly pageNumber?: number
+
   readonly createdAt: Date
 
   readonly url: string

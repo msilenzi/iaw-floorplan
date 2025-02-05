@@ -33,6 +33,7 @@ export class CropsService {
       scale: dto.scale,
       tags: dto.tags,
       dimensions: dto.dimensions,
+      pageNumber: dto.pageNumber,
       projectId: resource.projectId,
       resourceId: resource._id,
       createdBy: sub,

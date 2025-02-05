@@ -41,6 +41,9 @@ export class Crop {
   @Prop({ type: CropDimensions, required: true })
   dimensions: CropDimensions
 
+  @Prop({ type: Number, required: false })
+  pageNumber?: number
+
   @ApiProperty({ type: String })
   _id: Types.ObjectId
 

@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Transform } from 'class-transformer'
-import { IsEnum, Matches, ValidateNested } from 'class-validator'
+import { Transform, Type } from 'class-transformer'
+import {
+  IsEnum,
+  IsInt,
+  IsOptional,
+  Matches,
+  ValidateNested,
+} from 'class-validator'
 
 import { IsTrimmedString } from 'src/common/decorators'
 import { CropSpecialty } from '../types/crop-specialty.enum'
@@ -53,4 +59,9 @@ export class CropCreateDto {
     }
   })
   readonly dimensions: CropDimensionsDto
+
+  @IsOptional()
+  @IsInt({ message: 'La página debe ser un número entero' })
+  @Type(() => Number)
+  readonly pageNumber?: number
 }

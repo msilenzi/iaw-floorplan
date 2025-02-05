@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { Box, Flex, Loader, Text } from '@mantine/core'
 
 import { ImageViewerProvider } from '@Resources/context/ImageViewer'
+import { PdfViewerProvider, usePdfViewer } from '@Resources/context/PdfViewer'
 import { useResourceQuery } from '@Resources/hooks/useResourceQuery'
-import { PdfToImageConverter } from '@Resources/utils/PdfToImageConverter'
 
 import { AddCropButton } from '../ViewResourceImage/AddCropButton'
 import { ImageViewer } from '../ViewResourceImage/ImageViewer'
@@ -12,51 +12,54 @@ import { ToggleShowCropsButton } from '../ViewResourceImage/ToggleShowCropsButto
 import { ZoomButtons } from '../ViewResourceImage/ZoomButtons'
 
 export function ViewResourcePdf() {
+  return (
+    <PdfViewerProvider>
+      <Content />
+    </PdfViewerProvider>
+  )
+}
+
+function Content() {
   const { isLoading, data } = useResourceQuery()
-  const [pdf, setPdf] = useState<PdfToImageConverter | null>(null)
-  const [pageUrl, setPageUrl] = useState<string | null>(null)
+  const [converterIsInitialized, setConverterIsInitialized] = useState(false)
+
+  const {
+    currentPage,
+    initializePdfConverter,
+    clearPdfConverter,
+    initialPage,
+  } = usePdfViewer()
 
   useEffect(() => {
-    async function initializePdf() {
+    void (async () => {
       if (!data) return
-      const newPdf = await PdfToImageConverter.createPdfFromUrl(data.url)
-      setPdf(newPdf)
+      await initializePdfConverter(data.url)
+      setConverterIsInitialized(true)
+    })()
 
-      const newPageUrl = await newPdf.convertPageToPng(1)
-      setPageUrl(newPageUrl)
-    }
-
-    void initializePdf()
-
-    return () => {
-      if (pdf) void pdf.destroy()
-    }
-  }, [data, pdf])
+    return () => void clearPdfConverter()
+  }, [clearPdfConverter, data, initializePdfConverter])
 
   useEffect(() => {
-    async function loadPage() {
-      const newPageUrl = (await pdf?.convertPageToPng(1)) ?? null
-      setPageUrl(newPageUrl)
-    }
-    void loadPage()
-  }, [pdf])
+    if (converterIsInitialized) void initialPage()
+  }, [converterIsInitialized, initialPage])
 
   if (isLoading || !data) {
     return <Loading description="Descargando información... (1/3)" />
   }
 
-  if (!pdf) {
+  if (!converterIsInitialized) {
     return <Loading description="Cargando PDF... (2/3)" />
   }
 
-  if (pageUrl == null) {
+  if (currentPage == null) {
     return <Loading description="Creando página... (3/3)" />
   }
 
   return (
     <ImageViewerProvider>
       <Box pos="relative" w="100%" h="100%">
-        <ImageViewer imageUrl={pageUrl} />
+        <ImageViewer imageUrl={currentPage.url} />
         <ToggleShowCropsButton />
         <AddCropButton />
         <ZoomButtons />

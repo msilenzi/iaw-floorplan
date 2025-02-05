@@ -9,6 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 export class PdfToImageConverter {
   private readonly cache = new Map<string, string>()
+  private isDestroyed = false
 
   private constructor(private readonly pdfDocument: PDFDocumentProxy) {}
 
@@ -20,6 +21,7 @@ export class PdfToImageConverter {
   }
 
   public getTotalPages(): number {
+    this.checkDestroyed()
     return this.pdfDocument.numPages
   }
 
@@ -27,8 +29,9 @@ export class PdfToImageConverter {
     pageNumber: number,
     scale = 2,
   ): Promise<string> {
-    const cacheKey = `${pageNumber}-${scale}`
+    this.checkDestroyed()
 
+    const cacheKey = `${pageNumber}-${scale}`
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!
     }
@@ -61,8 +64,16 @@ export class PdfToImageConverter {
   }
 
   public async destroy() {
+    this.checkDestroyed()
     this.cache.forEach((url) => URL.revokeObjectURL(url))
     this.cache.clear()
     await this.pdfDocument.destroy()
+    this.isDestroyed = true
+  }
+
+  private checkDestroyed() {
+    if (this.isDestroyed) {
+      throw new Error('PdfToImageConverter has been destroyed')
+    }
   }
 }

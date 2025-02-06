@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Group, Menu, Stack, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconEdit } from '@tabler/icons-react'
+import { IconEdit, IconTrash } from '@tabler/icons-react'
 
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
 import { DataTable } from '@Common/components/DataTable'
@@ -15,6 +15,7 @@ import { SearchInput } from '@Common/ui/SearchInput'
 import { TableActionButton } from '@Common/ui/TableActionButton'
 import { UserInfo } from '@Common/ui/UserInfo'
 import { getErrorResponse } from '@Common/utils/errorHandling'
+import { DeleteResourceModal } from '@Resources/components/DeleteResourceModal'
 import { RenameResourceModal } from '@Resources/components/RenameResourceModal'
 import { useResourcesQuery } from '@Resources/hooks/useResourcesQuery'
 import { getResourceIcon } from '@Resources/utils/getResourceIcon'
@@ -181,7 +182,11 @@ type TableButtonProps = {
 }
 
 function TableButton({ resource }: TableButtonProps) {
-  const [isOpen, { open, close }] = useDisclosure(false)
+  const [renameIsOpen, { open: openRename, close: closeRename }] =
+    useDisclosure(false)
+
+  const [deleteIsOpen, { open: openDelete, close: closeDelete }] =
+    useDisclosure(false)
 
   return (
     <>
@@ -192,17 +197,25 @@ function TableButton({ resource }: TableButtonProps) {
         <Menu.Dropdown>
           <Menu.Item
             leftSection={<IconEdit width={20} height={20} stroke={1.5} />}
-            onClick={open}
+            onClick={openRename}
           >
             Renombrar
+          </Menu.Item>
+          <Menu.Item
+            color="red"
+            leftSection={<IconTrash width={20} height={20} stroke={1.5} />}
+            onClick={openDelete}
+          >
+            Eliminar
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
       <RenameResourceModal
-        isOpen={isOpen}
-        onClose={close}
+        isOpen={renameIsOpen}
+        onClose={closeRename}
         resource={resource}
       />
+      <DeleteResourceModal isOpen={deleteIsOpen} onClose={closeDelete} />
     </>
   )
 }

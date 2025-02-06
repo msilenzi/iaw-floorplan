@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
 import { OrganizationDocument } from '../organizations/schemas/organization.schema'
+import { S3Service } from '../s3/s3.service'
 import { UsersService } from '../users/users.service'
 import { ProjectBasicDto } from './dtos/project-basic.dto'
 import { ProjectCreateDto } from './dtos/project-create.dto'
@@ -19,9 +20,9 @@ import { Project, ProjectDocument } from './schemas/project.schema'
 @Injectable()
 export class ProjectsService {
   constructor(
-    @InjectModel(Project.name)
-    private readonly projectModel: Model<Project>,
+    private readonly s3Service: S3Service,
     private readonly usersService: UsersService,
+    @InjectModel(Project.name) private readonly projectModel: Model<Project>,
   ) {}
 
   async create(
@@ -77,9 +78,15 @@ export class ProjectsService {
     return project
   }
 
-  // remove(projectId: Types.ObjectId) {
-  //   return `This action removes a #${projectId} project`
-  // }
+  async remove(project: ProjectDocument) {
+    await project.deleteOne()
+    await this.s3Service.deleteFolder(
+      this.s3Service.getPrefix({
+        organizationId: project.organizationId.toString(),
+        projectId: project.id,
+      }),
+    )
+  }
 
   async _getProject(projectId: Types.ObjectId): Promise<ProjectDocument> {
     const project = await this.projectModel.findById(projectId).exec()

@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { ApiProperty } from '@nestjs/swagger'
 import { HydratedDocument, Types } from 'mongoose'
 
+import { Organization } from 'src/modules/organizations/schemas/organization.schema'
 import { ProjectPurpose } from '../types/project-purpose.enum'
 import { ProjectStatus } from '../types/project-status.enum'
 import { ProjectType } from '../types/project-type.enum'
@@ -22,7 +23,7 @@ import {
   toObject: { versionKey: false },
 })
 export class Project {
-  @Prop({ type: Types.ObjectId, ref: 'Organization', required: true })
+  @Prop({ type: Types.ObjectId, ref: Organization.name, required: true })
   organizationId: Types.ObjectId
 
   /** Expediente */

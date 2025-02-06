@@ -114,6 +114,10 @@ export class ResourcesService {
     )
   }
 
+  async _removeAllByProjectId(projectId: Types.ObjectId) {
+    await this.resourcesModel.deleteMany({ projectId }).exec()
+  }
+
   public async _getResource(
     resourceId: Types.ObjectId,
   ): Promise<ResourceDocument> {

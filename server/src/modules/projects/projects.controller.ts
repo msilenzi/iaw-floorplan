@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  Post,
+} from '@nestjs/common'
 
 import { Protected } from '../auth/decorators/protected.decorator'
 import { Sub } from '../auth/decorators/sub.decorator'
@@ -77,9 +86,10 @@ export class ProjectsController {
     return this.projectsService.update(organization, project, projectUpdateDto)
   }
 
-  // @Delete(':projectId')
-  // @ApiParam({ name: 'projectId', type: String })
-  // remove(@Param('projectId', ParseMongoIdPipe) projectId: Types.ObjectId) {
-  //   return this.projectsService.remove(projectId)
-  // }
+  @Delete(':projectId')
+  @ProjectAccess()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@GetProject() project: ProjectDocument) {
+    await this.projectsService.remove(project)
+  }
 }

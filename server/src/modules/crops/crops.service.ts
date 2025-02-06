@@ -85,14 +85,18 @@ export class CropsService {
     )
   }
 
+  async _removeAllByResourceId(resourceId: Types.ObjectId) {
+    await this.cropModel.deleteMany({ resourceId }).exec()
+  }
+
+  async _removeAllByResourcesIds(resourceIds: Types.ObjectId[]) {
+    await this.cropModel.deleteMany({ resourceId: { $in: resourceIds } }).exec()
+  }
+
   async _getCrop(cropId: Types.ObjectId): Promise<CropDocument> {
     const crop = await this.cropModel.findById(cropId)
     if (!crop) throw new NotFoundException('El recorte no existe')
     return crop
-  }
-
-  async _deleteAllByResourceId(resourceId: Types.ObjectId) {
-    await this.cropModel.deleteMany({ resourceId })
   }
 
   private async _findWithUrls(

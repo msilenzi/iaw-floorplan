@@ -19,23 +19,37 @@ import { Resource, ResourceSchema } from './schemas/resource.schema'
         imports: [forwardRef(() => CropsModule)],
         useFactory: (cropsService: CropsService) => {
           const schema = ResourceSchema
+
           schema.pre(
             'deleteOne',
             { document: true, query: false },
             async function () {
-              await cropsService._deleteAllByResourceId(this._id)
+              await cropsService._removeAllByResourceId(this._id)
             },
           )
+
+          schema.pre(
+            'deleteMany',
+            { document: false, query: true },
+            async function () {
+              const resourcesIds = await this.model
+                .find(this.getQuery(), { _id: 1 })
+                .exec()
+              await cropsService._removeAllByResourcesIds(
+                resourcesIds.map((r) => r._id),
+              )
+            },
+          )
+
           return schema
         },
         inject: [CropsService],
       },
     ]),
-
     S3Module,
     UsersModule,
     OrganizationsModule,
-    ProjectsModule,
+    forwardRef(() => ProjectsModule),
   ],
   controllers: [ResourcesController],
   providers: [ResourcesService],

@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   FileTypeValidator,
   Get,
+  HttpCode,
+  HttpStatus,
   MaxFileSizeValidator,
-  Param,
   ParseFilePipe,
   Patch,
   Post,
@@ -12,10 +14,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiConsumes, ApiParam } from '@nestjs/swagger'
-import { Types } from 'mongoose'
+import { ApiConsumes } from '@nestjs/swagger'
 
-import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe'
 import { mibToBytes } from 'src/common/utils/mibToBytes'
 import { Protected } from '../auth/decorators/protected.decorator'
 import { Sub } from '../auth/decorators/sub.decorator'
@@ -24,10 +24,12 @@ import { OrganizationDocument } from '../organizations/schemas/organization.sche
 import { GetProject } from '../projects/decorators/get-project.decorator'
 import { ProjectAccess } from '../projects/decorators/project-access.decorator'
 import { ProjectDocument } from '../projects/schemas/project.schema'
+import { GetResource } from './decorators/get-resource.decorator'
 import { ResourceAccess } from './decorators/resource-access.decorator'
 import { ResourceCreateDto } from './dtos/resource-create.dto'
 import { ResourceUpdateDto } from './dtos/resource-update.dto'
 import { ResourcesService } from './resources.service'
+import { ResourceDocument } from './schemas/resource.schema'
 
 @Protected()
 @Controller('resources')
@@ -76,13 +78,12 @@ export class ResourcesController {
    */
   @Get(':resourceId')
   @ResourceAccess()
-  @ApiParam({ name: 'resourceId', type: String })
   findOne(
     @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
-    @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,
+    @GetResource() resource: ResourceDocument,
   ) {
-    return this.resourcesService.findOne(organization, project, resourceId)
+    return this.resourcesService.findOne(organization, project, resource)
   }
 
   /**
@@ -90,11 +91,23 @@ export class ResourcesController {
    */
   @Patch(':resourceId')
   @ResourceAccess()
-  @ApiParam({ name: 'resourceId', type: String })
   update(
-    @Param('resourceId', ParseMongoIdPipe) resourceId: Types.ObjectId,
+    @GetResource() resource: ResourceDocument,
     @Body() dto: ResourceUpdateDto,
   ) {
-    return this.resourcesService.update(resourceId, dto)
+    return this.resourcesService.update(resource, dto)
+  }
+
+  /**
+   * Eliminar un recurso y sus recortes permanentemente.
+   */
+  @Delete(':resourceId')
+  @ResourceAccess()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(
+    @GetOrganization() organization: OrganizationDocument,
+    @GetResource() resource: ResourceDocument,
+  ) {
+    await this.resourcesService.remove(organization, resource)
   }
 }

@@ -73,7 +73,8 @@ export class CropsService {
     await crop.save()
   }
 
-  async delete(organization: OrganizationDocument, crop: CropDocument) {
+  async remove(organization: OrganizationDocument, crop: CropDocument) {
+    await crop.deleteOne()
     await this.s3Service.deleteObject(
       this.s3Service.getCropKey({
         organizationId: organization.id,
@@ -82,13 +83,16 @@ export class CropsService {
         cropId: crop.id,
       }),
     )
-    await crop.deleteOne()
   }
 
   async _getCrop(cropId: Types.ObjectId): Promise<CropDocument> {
     const crop = await this.cropModel.findById(cropId)
     if (!crop) throw new NotFoundException('El recorte no existe')
     return crop
+  }
+
+  async _deleteAllByResourceId(resourceId: Types.ObjectId) {
+    await this.cropModel.deleteMany({ resourceId })
   }
 
   private async _findWithUrls(

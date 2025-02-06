@@ -21,5 +21,6 @@ import { Crop, CropSchema } from './schemas/crop.schema'
   ],
   controllers: [CropsController],
   providers: [CropsService],
+  exports: [CropsService],
 })
 export class CropsModule {}

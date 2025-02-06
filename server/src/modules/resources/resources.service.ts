@@ -15,10 +15,10 @@ import { Resource, ResourceDocument } from './schemas/resource.schema'
 @Injectable()
 export class ResourcesService {
   constructor(
-    private readonly usersService: UsersService,
     private readonly s3Service: S3Service,
+    private readonly usersService: UsersService,
     @InjectModel(Resource.name)
-    private readonly projectResourcesModel: Model<Resource>,
+    private readonly resourcesModel: Model<Resource>,
   ) {}
 
   async create(
@@ -28,7 +28,7 @@ export class ResourcesService {
     project: ProjectDocument,
     sub: string,
   ): Promise<void> {
-    const resource = new this.projectResourcesModel({
+    const resource = new this.resourcesModel({
       projectId: project._id,
       name: dto.name,
       mimetype: file.mimetype,
@@ -50,7 +50,7 @@ export class ResourcesService {
   }
 
   async findAll(project: ProjectDocument): Promise<ResourcesFindAllDto[]> {
-    const resources = await this.projectResourcesModel
+    const resources = await this.resourcesModel
       .find({ projectId: project._id })
       .sort('name')
       .lean()
@@ -74,10 +74,8 @@ export class ResourcesService {
   async findOne(
     organization: OrganizationDocument,
     project: ProjectDocument,
-    resourceId: Types.ObjectId,
+    resource: ResourceDocument,
   ): Promise<ResourceFindOneDto> {
-    const resource = await this._getResource(resourceId)
-
     const [url, user] = await Promise.all([
       this.s3Service.getUrl(
         this.s3Service.getResourceKey({
@@ -99,19 +97,27 @@ export class ResourcesService {
     }
   }
 
-  async update(resourceId: Types.ObjectId, dto: ResourceUpdateDto) {
-    const resource = await this._getResource(resourceId)
+  async update(resource: ResourceDocument, dto: ResourceUpdateDto) {
     Object.assign(resource, dto)
     await resource.save()
     return resource
   }
 
+  async remove(organization: OrganizationDocument, resource: ResourceDocument) {
+    await resource.deleteOne()
+    await this.s3Service.deleteFolder(
+      this.s3Service.getPrefix({
+        organizationId: organization.id,
+        projectId: resource.projectId.toString(),
+        resourceId: resource.id,
+      }),
+    )
+  }
+
   public async _getResource(
     resourceId: Types.ObjectId,
   ): Promise<ResourceDocument> {
-    const resource = await this.projectResourcesModel
-      .findById(resourceId)
-      .exec()
+    const resource = await this.resourcesModel.findById(resourceId).exec()
     if (!resource) throw new NotFoundException('El recurso no existe')
     return resource
   }

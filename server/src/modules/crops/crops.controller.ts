@@ -105,10 +105,10 @@ export class CropsController {
   @Delete(':cropId')
   @CropAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(
+  async remove(
     @GetCrop() crop: CropDocument,
     @GetOrganization() organization: OrganizationDocument,
   ) {
-    return this.cropsService.delete(organization, crop)
+    await this.cropsService.remove(organization, crop)
   }
 }

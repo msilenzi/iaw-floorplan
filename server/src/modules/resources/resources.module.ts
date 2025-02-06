@@ -48,7 +48,7 @@ import { Resource, ResourceSchema } from './schemas/resource.schema'
     ]),
     S3Module,
     UsersModule,
-    OrganizationsModule,
+    forwardRef(() => OrganizationsModule),
     forwardRef(() => ProjectsModule),
   ],
   controllers: [ResourcesController],

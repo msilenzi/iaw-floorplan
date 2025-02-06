@@ -118,6 +118,10 @@ export class ResourcesService {
     await this.resourcesModel.deleteMany({ projectId }).exec()
   }
 
+  async _removeAllByProjectsIds(projectIds: Types.ObjectId[]) {
+    await this.resourcesModel.deleteMany({ projectId: { $in: projectIds } })
+  }
+
   public async _getResource(
     resourceId: Types.ObjectId,
   ): Promise<ResourceDocument> {

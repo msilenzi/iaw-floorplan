@@ -27,12 +27,25 @@ import { Project, ProjectSchema } from './schemas/project.schema'
             },
           )
 
+          schema.pre(
+            'deleteMany',
+            { document: false, query: true },
+            async function () {
+              const projectsIds = await this.model
+                .find(this.getQuery(), { _id: 1 })
+                .exec()
+              await resourcesService._removeAllByProjectsIds(
+                projectsIds.map((p) => p._id),
+              )
+            },
+          )
+
           return schema
         },
         inject: [ResourcesService],
       },
     ]),
-    OrganizationsModule,
+    forwardRef(() => OrganizationsModule),
     S3Module,
     UsersModule,
   ],

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
+import { S3Service } from 'src/modules/s3/s3.service'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
 import { OrganizationDto } from '../dtos/organization.dto'
@@ -16,6 +17,7 @@ import { MemberStatus } from '../types/member-status.enum'
 @Injectable()
 export class OrganizationsService {
   constructor(
+    private readonly s3Service: S3Service,
     @InjectModel(Organization.name)
     private readonly organizationModel: Model<Organization>,
   ) {}
@@ -77,9 +79,12 @@ export class OrganizationsService {
     return this._stripMembers(organization)
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} organization`
-  // }
+  async remove(organization: OrganizationDocument) {
+    await organization.deleteOne()
+    await this.s3Service.deleteFolder(
+      this.s3Service.getPrefix({ organizationId: organization.id }),
+    )
+  }
 
   async _getOrganization(
     organizationId: Types.ObjectId,

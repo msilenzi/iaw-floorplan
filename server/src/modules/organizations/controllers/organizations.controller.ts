@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  Post,
+} from '@nestjs/common'
 
 import { Protected } from '../../auth/decorators/protected.decorator'
 import { Sub } from '../../auth/decorators/sub.decorator'
@@ -66,8 +75,10 @@ export class OrganizationsController {
     return this.organizationsService.update(organization, updateOrganizationDto)
   }
 
-  // @Delete(':organizationId')
-  // remove(@Param('id') id: string) {
-  //   return this.organizationsService.remove(+id)
-  // }
+  @Delete(':organizationId')
+  @AllowedMemberStatus('param', MemberStatus.OWNER)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@GetOrganization() organization: OrganizationDocument) {
+    await this.organizationsService.remove(organization)
+  }
 }

@@ -88,6 +88,10 @@ export class ProjectsService {
     )
   }
 
+  async _removeAllByOrganizationId(organizationId: Types.ObjectId) {
+    await this.projectModel.deleteMany({ organizationId }).exec()
+  }
+
   async _getProject(projectId: Types.ObjectId): Promise<ProjectDocument> {
     const project = await this.projectModel.findById(projectId).exec()
     if (!project) throw new NotFoundException('El proyecto no existe')

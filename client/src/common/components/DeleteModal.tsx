@@ -35,7 +35,10 @@ export function DeleteModal({
   const [inputValue, setInputValue] = useState('')
 
   function handleClose() {
-    if (!isLoading) onClose()
+    if (!isLoading) {
+      onClose()
+      setInputValue('')
+    }
   }
 
   return (

@@ -21,10 +21,12 @@ export function useEditProjectMutation() {
     },
     onSuccess() {
       void queryClient.invalidateQueries({
-        queryKey: getProjectQueryKey(projectId),
+        queryKey: getProjectQueryKey(organizationId, projectId),
+        exact: true,
       })
       void queryClient.invalidateQueries({
         queryKey: getProjectsQueryKey(organizationId),
+        exact: true,
       })
     },
   })

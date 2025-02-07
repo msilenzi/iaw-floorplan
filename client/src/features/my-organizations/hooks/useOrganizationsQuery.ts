@@ -13,7 +13,7 @@ export function useOrganizationsQuery() {
     queryKey: getOrganizationsQueryKey(),
     queryFn: async () => (await organizationsApi.findAll()).data,
     enabled: apisAvailable,
-    staleTime: 300_000, //  5 min
-    gcTime: 600_000, // 10 min
+    staleTime: 15 * 60 * 1000, // 15 min
+    gcTime: 30 * 60 * 1000, // 30 min
   })
 }

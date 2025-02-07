@@ -215,7 +215,11 @@ function TableButton({ resource }: TableButtonProps) {
         onClose={closeRename}
         resource={resource}
       />
-      <DeleteResourceModal isOpen={deleteIsOpen} onClose={closeDelete} />
+      <DeleteResourceModal
+        isOpen={deleteIsOpen}
+        onClose={closeDelete}
+        resource={resource}
+      />
     </>
   )
 }

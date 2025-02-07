@@ -15,9 +15,9 @@ export function useMembersQuery() {
 
   return useQuery({
     queryKey: getMembersQueryKey(organizationId),
-    queryFn: async () => {
-      return (await membersApi.findAllMembers(organizationId)).data
-    },
+    queryFn: async () => (await membersApi.findAllMembers(organizationId)).data,
     enabled: apisAvailable,
+    staleTime: 15 * 60 * 1000, // 15 min
+    gcTime: 30 * 60 * 1000, // 30 min
   })
 }

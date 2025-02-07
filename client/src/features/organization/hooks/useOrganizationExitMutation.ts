@@ -22,6 +22,7 @@ export function useOrganizationExitMutation() {
     onSuccess() {
       void queryClient.invalidateQueries({
         queryKey: getOrganizationsQueryKey(),
+        exact: true,
       })
       queryClient.removeQueries({
         queryKey: getOrganizationQueryKey(organizationId),

@@ -19,6 +19,7 @@ export function useCreateProjectMutation() {
     onSuccess() {
       void queryClient.invalidateQueries({
         queryKey: getProjectsQueryKey(organizationId),
+        exact: true,
       })
     },
   })

@@ -16,5 +16,7 @@ export function useOrganizationQuery() {
     queryKey: getOrganizationQueryKey(organizationId),
     queryFn: async () => (await organizationsApi.findOne(organizationId)).data,
     enabled: apisAvailable,
+    staleTime: 15 * 60 * 1000, // 15 min
+    gcTime: 30 * 60 * 1000, // 30 min
   })
 }

@@ -16,5 +16,7 @@ export function useProjectsQuery() {
     queryKey: getProjectsQueryKey(organizationId),
     queryFn: async () => (await projectsApi.findAll(organizationId)).data,
     enabled: apisAvailable,
+    staleTime: 15 * 60 * 1000, // 15 min
+    gcTime: 30 * 60 * 1000, // 30 min
   })
 }

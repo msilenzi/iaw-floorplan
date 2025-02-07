@@ -19,7 +19,7 @@ type DeleteModalProps = {
   isLoading: boolean
   children: React.ReactNode
   onClose: () => void
-  onDelete: React.FormEventHandler<HTMLFormElement>
+  onDelete: () => void
 }
 
 export function DeleteModal({
@@ -41,6 +41,11 @@ export function DeleteModal({
     }
   }
 
+  function handleDelete(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    onDelete()
+  }
+
   return (
     <Modal
       opened={isOpen}
@@ -57,7 +62,7 @@ export function DeleteModal({
         </Group>
       }
     >
-      <form onSubmit={onDelete}>
+      <form onSubmit={handleDelete}>
         <fieldset
           style={{ border: 'none', padding: 0, margin: 0 }}
           disabled={isLoading}

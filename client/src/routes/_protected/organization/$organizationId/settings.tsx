@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Box, Button, Group, Text } from '@mantine/core'
+import { Box, Button, Group, Stack, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
 import { MemberStatus } from '@Common/api'
 import { useCountdownTimer } from '@Common/hooks/useCountdownTimer'
 import { Popconfirm } from '@Common/ui/Popconfirm'
+import { DeleteOrganizationModal } from '@Organization/components/DeleteOrganizationModal'
 import { OrganizationsModalEdit } from '@Organization/components/OrganizationsModalEdit'
 import { useOrganizationExitMutation } from '@Organization/hooks/useOrganizationExitMutation'
 import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
@@ -20,7 +21,12 @@ function RouteComponent() {
   const userStatus = organizationQuery.data?.userStatus
 
   if (userStatus === MemberStatus.Owner) {
-    return <EditSetting />
+    return (
+      <Stack gap="xl">
+        <EditSetting />
+        <DeleteSetting />
+      </Stack>
+    )
   }
 
   if (userStatus === MemberStatus.Member) {
@@ -46,6 +52,31 @@ function EditSetting() {
       </Button>
       <OrganizationsModalEdit isOpen={isOpen} onClose={close} />
     </Group>
+  )
+}
+
+function DeleteSetting() {
+  const [isOpen, { open, close }] = useDisclosure()
+
+  return (
+    <>
+      <Group align="center" justify="space-between" wrap="nowrap">
+        <Box>
+          <Text fw={700}>Eliminar organización</Text>
+          <Text c="dimmed">
+            Eliminar la organización, incluyendo todos sus proyectos, recursos y
+            recortes.
+          </Text>
+          <Text fw={700} c="dimmed">
+            Esta acción no se puede deshacer.
+          </Text>
+        </Box>
+        <Button variant="filled" color="red" onClick={open}>
+          Eliminar
+        </Button>
+      </Group>
+      <DeleteOrganizationModal isOpen={isOpen} onClose={close} />
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Button, NumberInput } from '@mantine/core'
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
@@ -76,6 +76,13 @@ function PageInput({ setIsEditing }: PageSectionProps) {
     },
     [setPage],
   )
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+      inputRef.current.select()
+    }
+  }, [])
 
   return (
     <form onSubmit={handleSubmit}>

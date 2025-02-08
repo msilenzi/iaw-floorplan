@@ -16,6 +16,7 @@ import { OrganizationAccess } from '../organizations/decorators/organization-acc
 import { OrganizationDocument } from '../organizations/schemas/organization.schema'
 import { GetProject } from './decorators/get-project.decorator'
 import { ProjectAccess } from './decorators/project-access.decorator'
+import { ProjectOwnerAccess } from './decorators/project-owner-access.decorator'
 import { ProjectBasicDto } from './dtos/project-basic.dto'
 import { ProjectCreateDto } from './dtos/project-create.dto'
 import { ProjectFindOneDto } from './dtos/project-find-one.dto'
@@ -87,7 +88,7 @@ export class ProjectsController {
   }
 
   @Delete(':projectId')
-  @ProjectAccess()
+  @ProjectOwnerAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@GetProject() project: ProjectDocument) {
     await this.projectsService.remove(project)

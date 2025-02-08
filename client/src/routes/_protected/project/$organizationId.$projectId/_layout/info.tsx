@@ -1,8 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Button, Flex, Group, Stack } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconPencil } from '@tabler/icons-react'
+import { IconPencil, IconTrash } from '@tabler/icons-react'
 
+import { MemberStatus } from '@Common/api'
+import { useOrganizationQuery } from '@Organization/hooks/useOrganizationQuery'
+import { DeleteProjectModal } from '@Project/components/DeleteProjectModal'
 import { InfoDesigners } from '@Project/components/info/InfoDesigners'
 import { InfoGeneralInformation } from '@Project/components/info/InfoGeneralInformation'
 import { InfoOtherRequirements } from '@Project/components/info/InfoOtherRequirements'
@@ -18,7 +21,12 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  const [isOpen, { open, close }] = useDisclosure(false)
+  const { data } = useOrganizationQuery()
+
+  const [isEditOpen, { open: openEdit, close: closeEdit }] =
+    useDisclosure(false)
+  const [isDeleteOpen, { open: openDelete, close: closeDelete }] =
+    useDisclosure(false)
 
   return (
     <>
@@ -27,10 +35,20 @@ function RouteComponent() {
           variant="filled"
           rightSection={<IconPencil size={16} stroke={2.5} />}
           color="dark.5"
-          onClick={open}
+          onClick={openEdit}
         >
           Editar
         </Button>
+        {data?.userStatus === MemberStatus.Owner && (
+          <Button
+            variant="filled"
+            rightSection={<IconTrash size={16} stroke={2.5} />}
+            color="red"
+            onClick={openDelete}
+          >
+            Eliminar
+          </Button>
+        )}
       </Group>
 
       <Flex direction="row" wrap="wrap" gap="lg" pb="lg">
@@ -47,7 +65,10 @@ function RouteComponent() {
         </Stack>
       </Flex>
 
-      <ProjectModalEdit isOpen={isOpen} onClose={close} />
+      <ProjectModalEdit isOpen={isEditOpen} onClose={closeEdit} />
+      {data?.userStatus === MemberStatus.Owner && (
+        <DeleteProjectModal isOpen={isDeleteOpen} onClose={closeDelete} />
+      )}
     </>
   )
 }

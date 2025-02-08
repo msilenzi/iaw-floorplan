@@ -20,6 +20,14 @@ export class PdfToImageConverter {
     return new PdfToImageConverter(pdfDocument)
   }
 
+  public static async createPdfFromFile(
+    file: File,
+  ): Promise<PdfToImageConverter> {
+    const buffer = await file.arrayBuffer()
+    const pdfDocument = await pdfjs.getDocument(buffer).promise
+    return new PdfToImageConverter(pdfDocument)
+  }
+
   public getTotalPages(): number {
     this.checkDestroyed()
     return this.pdfDocument.numPages

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import {
   FileInput,
   Group,
@@ -13,6 +15,7 @@ import { useNotifications } from '@Common/hooks/useNotifications'
 import { PrimaryButton } from '@Common/ui/PrimaryButton'
 import { getErrorResponse } from '@Common/utils/errorHandling'
 import { useUploadResourceForm } from '@Resources/hooks/useUploadResourceForm'
+import { PdfToImageConverter } from '@Resources/utils/PdfToImageConverter'
 
 import { useResourceUploadMutation } from '../hooks/useResourceUploadMutation'
 
@@ -82,6 +85,15 @@ export function UploadResourceModal({
               accept="image/png,image/jpeg,application/pdf"
               key={form.key('file')}
               {...form.getInputProps('file')}
+              styles={{
+                input: {
+                  width: '0',
+                  minWidth: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                },
+              }}
             />
 
             <FilePreview file={form.getValues().file} />
@@ -113,16 +125,81 @@ type FilePreviewProps = {
 }
 
 function FilePreview({ file }: FilePreviewProps) {
-  if (file == null) return null
+  const [objUrl, setObjUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!file) {
+      setObjUrl(null)
+      return
+    }
+
+    const newObjUrl = URL.createObjectURL(file)
+    setObjUrl(newObjUrl)
+
+    return () => URL.revokeObjectURL(newObjUrl)
+  }, [file])
+
+  if (file == null || objUrl === null) return null
 
   if (file.type === 'image/jpeg' || file.type === 'image/png') {
-    return <Image radius="sm" mah="40dvh" src={URL.createObjectURL(file)} />
+    return (
+      <a target="_blank" rel="noreferrer" href={objUrl}>
+        <Image radius="sm" mah="40dvh" src={objUrl} />
+      </a>
+    )
   }
 
   if (file.type === 'application/pdf') {
-    // TODO: previsualización de PDF
-    return 'Previsualización de PDF no soportada'
+    return (
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={objUrl}
+        style={{
+          textAlign: 'center',
+          color: 'var(--mantine-color-dimmed)',
+          textDecoration: 'none',
+        }}
+      >
+        <PdfPreview file={file} />
+      </a>
+    )
   }
 
   return 'Formato inválido'
+}
+
+function PdfPreview({ file }: { file: File }) {
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState('')
+
+  useEffect(() => {
+    let pdfConverter: PdfToImageConverter | null = null
+
+    void (async () => {
+      pdfConverter = await PdfToImageConverter.createPdfFromFile(file)
+      const url = await pdfConverter.convertPageToPng(1)
+      setPdfPreviewUrl(url)
+    })()
+
+    async function clearPdf() {
+      if (!pdfConverter) return
+      await pdfConverter.destroy()
+    }
+
+    return () => void clearPdf()
+  }, [file])
+
+  if (pdfPreviewUrl === '') {
+    return 'Cargando...'
+  }
+
+  return (
+    <Image
+      radius="sm"
+      mah="40dvh"
+      w="100%"
+      src={pdfPreviewUrl}
+      style={{ objectPosition: 'center top' }}
+    />
+  )
 }

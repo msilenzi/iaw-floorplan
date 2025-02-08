@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Box, rem, Space, Stack, Text, Title } from '@mantine/core'
+import { Stack, Text, Title } from '@mantine/core'
 
 import { MemberStatus } from '@Common/api'
 import { BasicCtaBanner } from '@Common/components/BasicCtaBanner'
@@ -14,7 +14,6 @@ import { LastAccessedAtTd } from '@Common/ui/LastAccessedAtTd'
 import { RefetchBtn } from '@Common/ui/RefetchBtn'
 import { SearchInput } from '@Common/ui/SearchInput'
 import { getErrorResponse } from '@Common/utils/errorHandling'
-import { MyOrganizationsAddBtn } from '@MyOrganizations/components/MyOrganizationAddBtn'
 import {
   getOrganizationsQueryKey,
   useOrganizationsQuery,
@@ -39,21 +38,21 @@ function RouteComponent() {
 
   if (!isLoading && activeOrganizations.length === 0) {
     return (
-      <Box m="0" style={{ maxWidth: rem('500px') }}>
-        <Space h="lg" />
-        <Title order={2} mb="xs">
+      <Stack gap="sm" pb="xl" align="start">
+        <RefetchBtn query={query} ms="auto" />
+        <Title order={2} mb="md" maw="600" style={{ textWrap: 'balance' }}>
           No se encontraron organizaciones
         </Title>
-        <Text style={{ textWrap: 'balance' }} mb="lg">
+        <Text style={{ textWrap: 'balance' }} mb="lg" maw="600">
           Parece que todavía no pertenecés a ninguna organización. Podés crear
-          una nueva, o unirte a una utilizando su código.
+          una nueva, o unirte a una utilizando su código haciendo click en el
+          botón <i>&quot;Agregar&quot;</i>
         </Text>
-        <Text style={{ textWrap: 'balance' }} mb="lg">
+        <Text style={{ textWrap: 'balance' }} mb="lg" maw="600">
           En la sección <i>&quot;Mis solicitudes&quot;</i> podés ver el estado
           de tus solicitudes.
         </Text>
-        <MyOrganizationsAddBtn />
-      </Box>
+      </Stack>
     )
   }
 

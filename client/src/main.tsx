@@ -26,7 +26,12 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: false },
+    mutations: { retry: false },
+  },
+})
 
 const root = document.getElementById('root')
 if (root == null) throw new Error('Root element not found.')

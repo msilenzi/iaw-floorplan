@@ -80,7 +80,7 @@ function RouteComponent() {
         Icon={IconUserX}
         dataLength={requests?.[MemberStatus.Rejected].length}
       >
-        {!isLoading && requests?.[MemberStatus.Pending].length === 0 ? (
+        {!isLoading && requests?.[MemberStatus.Rejected].length === 0 ? (
           <Text mt="sm">No tienes solicitudes rechazadas</Text>
         ) : (
           <DataTable

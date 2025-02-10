@@ -34,7 +34,7 @@ export class AllowedMemberStatusGuard implements CanActivate {
     }
 
     const organizationId = new ParseMongoIdPipe().transform(
-      request.params?.organizationId ?? request.query?.organizationId,
+      request.params.organizationId,
     )
 
     const organization =

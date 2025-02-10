@@ -65,7 +65,7 @@ export class OrganizationMembersController {
    * Permite aceptar, rechazar, bloquear, desbloquear y desrechazar miembros.
    */
   @Patch(':memberId/status')
-  @AllowedMemberStatus('param', MemberStatus.OWNER)
+  @AllowedMemberStatus(MemberStatus.OWNER)
   @HttpCode(HttpStatus.NO_CONTENT)
   updateMemberStatus(
     @GetOrganization() organization: OrganizationDocument,
@@ -76,11 +76,11 @@ export class OrganizationMembersController {
   }
 
   /**
-   * Si es un miembro lo marca como eliminado. Si tiene una solicitud pendiente
+   * Si es un miembro activo lo marca como eliminado. Si tiene una solicitud pendiente
    * la elimina.
    */
   @Delete()
-  @AllowedMemberStatus('param', MemberStatus.MEMBER, MemberStatus.PENDING)
+  @AllowedMemberStatus(MemberStatus.MEMBER, MemberStatus.PENDING)
   @HttpCode(HttpStatus.NO_CONTENT)
   removeMember(
     @GetOrganization() organization: OrganizationDocument,

@@ -35,15 +35,15 @@ import { CropUpdateDto } from './dtos/crop-update.dto'
 import { CropDocument } from './schemas/crop.schema'
 
 @Protected()
-@Controller('crops')
+@Controller()
 export class CropsController {
   constructor(private readonly cropsService: CropsService) {}
 
   /**
-   * Crear un nuevo recorte.
+   * Crea un nuevo recorte de un recurso.
    */
-  @Post()
-  @ResourceAccess('query')
+  @Post('resources/:resourceId/crops')
+  @ResourceAccess()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   create(
@@ -67,10 +67,10 @@ export class CropsController {
   }
 
   /**
-   * Listar todos los recortes de un proyecto.
+   * Lista todos los recortes de un proyecto.
    */
-  @Get('project')
-  @ProjectAccess('query')
+  @Get('projects/:projectId/crops')
+  @ProjectAccess()
   findAllFromProject(
     @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
@@ -79,10 +79,10 @@ export class CropsController {
   }
 
   /**
-   * Listar todos los recortes de un recurso.
+   * Lista todos los recortes de un recurso.
    */
-  @Get('resource')
-  @ResourceAccess('query')
+  @Get('resources/:resourceId/crops')
+  @ResourceAccess()
   findAllFromResource(
     @GetOrganization() organization: OrganizationDocument,
     @GetResource() resource: ResourceDocument,
@@ -91,18 +91,18 @@ export class CropsController {
   }
 
   /**
-   * Actualizar un recorte.
+   * Actualiza un recorte.
    */
-  @Patch(':cropId')
+  @Patch('crops/:cropId')
   @CropAccess()
   update(@Body() dto: CropUpdateDto, @GetCrop() crop: CropDocument) {
     return this.cropsService.update(dto, crop)
   }
 
   /**
-   * Eliminar un recorte permanentemente.
+   * Elimina permanentemente un recorte.
    */
-  @Delete(':cropId')
+  @Delete('crops/:cropId')
   @CropAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(

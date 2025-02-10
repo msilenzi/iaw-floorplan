@@ -22,9 +22,7 @@ export class ProjectAccessGuard extends AllowedMemberStatusGuard {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest()
 
-    const projectId = new ParseMongoIdPipe().transform(
-      request.params?.projectId ?? request.query?.projectId,
-    )
+    const projectId = new ParseMongoIdPipe().transform(request.params.projectId)
     const project = await this.projectsService._getProject(projectId)
     request.params.organizationId = project.organizationId.toString()
 

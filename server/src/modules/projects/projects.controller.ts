@@ -25,18 +25,15 @@ import { ProjectsService } from './projects.service'
 import { Project, ProjectDocument } from './schemas/project.schema'
 
 @Protected()
-@Controller('projects')
+@Controller()
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   /**
    * Crea un nuevo proyecto para una organización.
-   *
-   * Si el usuario no es un miembro activo de la organización a la que pertenece
-   * el proyecto, devuelve 403.
    */
-  @Post()
-  @OrganizationAccess('query')
+  @Post('organizations/:organizationId/projects')
+  @OrganizationAccess()
   create(
     @GetOrganization() organization: OrganizationDocument,
     @Body() projectCreateDto: ProjectCreateDto,
@@ -47,12 +44,9 @@ export class ProjectsController {
 
   /**
    * Devuelve todos los proyectos de una organización.
-   *
-   * Si el usuario no es un miembro activo de la organización a la que pertenece
-   * el proyecto, devuelve 403.
    */
-  @Get()
-  @OrganizationAccess('query')
+  @Get('organizations/:organizationId/projects')
+  @OrganizationAccess()
   findAll(
     @GetOrganization() organization: OrganizationDocument,
   ): Promise<ProjectBasicDto[]> {
@@ -61,11 +55,8 @@ export class ProjectsController {
 
   /**
    * Devuelve un proyecto.
-   *
-   * Si el usuario no es un miembro activo de la organización a la que pertenece
-   * el proyecto, devuelve 403.
    */
-  @Get(':projectId')
+  @Get('projects/:projectId')
   @ProjectAccess()
   findOne(@GetProject() project: ProjectDocument): Promise<ProjectFindOneDto> {
     return this.projectsService.findOne(project)
@@ -73,11 +64,8 @@ export class ProjectsController {
 
   /**
    * Actualiza la información de un proyecto.
-   *
-   * Si el usuario no es un miembro activo de la organización a la que pertenece
-   * el proyecto, devuelve 403.
    */
-  @Patch(':projectId')
+  @Patch('projects/:projectId')
   @ProjectAccess()
   update(
     @GetOrganization() organization: OrganizationDocument,
@@ -87,7 +75,10 @@ export class ProjectsController {
     return this.projectsService.update(organization, project, projectUpdateDto)
   }
 
-  @Delete(':projectId')
+  /**
+   * Elimina permanentemente un proyecto, sus recursos y sus recortes.
+   */
+  @Delete('projects/:projectId')
   @ProjectOwnerAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@GetProject() project: ProjectDocument) {

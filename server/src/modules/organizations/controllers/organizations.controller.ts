@@ -67,7 +67,7 @@ export class OrganizationsController {
    * actualizada.
    */
   @Patch(':organizationId')
-  @AllowedMemberStatus('param', MemberStatus.OWNER)
+  @AllowedMemberStatus(MemberStatus.OWNER)
   update(
     @GetOrganization() organization: OrganizationDocument,
     @Body() updateOrganizationDto: UpdateOrganizationDto,
@@ -75,8 +75,11 @@ export class OrganizationsController {
     return this.organizationsService.update(organization, updateOrganizationDto)
   }
 
+  /**
+   * Elimina permanentemente una organización y todos sus datos asociados.
+   */
   @Delete(':organizationId')
-  @AllowedMemberStatus('param', MemberStatus.OWNER)
+  @AllowedMemberStatus(MemberStatus.OWNER)
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@GetOrganization() organization: OrganizationDocument) {
     await this.organizationsService.remove(organization)

@@ -32,15 +32,15 @@ import { ResourcesService } from './resources.service'
 import { ResourceDocument } from './schemas/resource.schema'
 
 @Protected()
-@Controller('resources')
+@Controller()
 export class ResourcesController {
   constructor(private readonly resourcesService: ResourcesService) {}
 
   /**
    * Crea un nuevo recurso para un proyecto.
    */
-  @Post()
-  @ProjectAccess('query')
+  @Post('projects/:projectId/resources')
+  @ProjectAccess()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   create(
@@ -64,19 +64,19 @@ export class ResourcesController {
   }
 
   /**
-   * Devuelve todos los proyectos de una organización.
+   * Devuelve todos los recursos de un proyecto.
    */
-  @Get()
-  @ProjectAccess('query')
+  @Get('projects/:projectId/resources')
+  @ProjectAccess()
   findAll(@GetProject() project: ProjectDocument) {
     return this.resourcesService.findAll(project)
   }
 
   /**
-   * Devuelve la información de un recurso.
-   * Con una URL temporal para acceder al mismo.
+   * Devuelve la información de un recurso,
+   * con una URL temporal para acceder al mismo.
    */
-  @Get(':resourceId')
+  @Get('resources/:resourceId')
   @ResourceAccess()
   findOne(
     @GetOrganization() organization: OrganizationDocument,
@@ -89,7 +89,7 @@ export class ResourcesController {
   /**
    * Permite actualizar el nombre de un recurso.
    */
-  @Patch(':resourceId')
+  @Patch('resources/:resourceId')
   @ResourceAccess()
   update(
     @GetResource() resource: ResourceDocument,
@@ -99,9 +99,9 @@ export class ResourcesController {
   }
 
   /**
-   * Eliminar un recurso y sus recortes permanentemente.
+   * Elimina permanentemente un recurso y todos sus recortes asociados.
    */
-  @Delete(':resourceId')
+  @Delete('resources/:resourceId')
   @ResourceAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(

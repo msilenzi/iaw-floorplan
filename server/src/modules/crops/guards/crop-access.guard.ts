@@ -29,9 +29,7 @@ export class CropAccessGuard extends ProjectAccessGuard {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest()
 
-    const cropId = new ParseMongoIdPipe().transform(
-      request.params?.cropId ?? request.query?.cropId,
-    )
+    const cropId = new ParseMongoIdPipe().transform(request.params.cropId)
     const crop = await this.cropsService._getCrop(cropId)
     request.params.projectId = crop.projectId.toString()
 

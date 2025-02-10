@@ -1,4 +1,4 @@
-import { Matches } from 'class-validator'
+import { IsOptional, Matches } from 'class-validator'
 
 import { IsTrimmedString } from 'src/common/decorators'
 
@@ -12,9 +12,10 @@ export class ProjectOwnerDto {
   @Matches(/^\d{8}$/, { message: 'DNI inválido' })
   readonly dni: string
 
+  @IsOptional()
   @IsTrimmedString({
-    isEmptyMessage: 'El nombre es obligatorio',
-    isNotStringMessage: 'Nombre inválido',
+    isEmptyMessage: 'La dirección es obligatoria',
+    isNotStringMessage: 'Dirección inválida',
   })
   readonly address?: string
 }

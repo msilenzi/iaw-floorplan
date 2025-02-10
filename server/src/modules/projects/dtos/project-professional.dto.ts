@@ -9,7 +9,6 @@ export class ProjectProfessionalDto {
   })
   readonly fullName: string
 
-  @IsOptional()
   @Matches(/(^\d{8}$)|(^\d{2}-\d{8}-\d$)/, {
     message: 'No es un DNI o CUIT válido',
   })

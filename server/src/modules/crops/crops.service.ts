@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { FilterQuery, Model, Types } from 'mongoose'
 
@@ -10,6 +10,7 @@ import { UsersService } from '../users/users.service'
 import { CropCreateDto } from './dtos/crop-create.dto'
 import { CropUpdateDto } from './dtos/crop-update.dto'
 import { CropWithUrl } from './dtos/crop-with-url.dto'
+import { CropNotFoundException } from './exceptions/CropNotFoundException'
 import { Crop, CropDocument } from './schemas/crop.schema'
 
 @Injectable()
@@ -95,7 +96,7 @@ export class CropsService {
 
   async _getCrop(cropId: Types.ObjectId): Promise<CropDocument> {
     const crop = await this.cropModel.findById(cropId)
-    if (!crop) throw new NotFoundException('El recorte no existe')
+    if (!crop) throw new CropNotFoundException()
     return crop
   }
 

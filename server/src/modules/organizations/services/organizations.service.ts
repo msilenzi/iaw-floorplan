@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
@@ -7,6 +7,7 @@ import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { CreateOrganizationDto } from '../dtos/create-organization.dto'
 import { OrganizationDto } from '../dtos/organization.dto'
 import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
+import { OrganizationNotFoundException } from '../exceptions/OrganizationNotFoundException'
 import { Member } from '../schemas/member.schema'
 import {
   Organization,
@@ -92,7 +93,7 @@ export class OrganizationsService {
     const organization = await this.organizationModel
       .findById(organizationId)
       .exec()
-    if (!organization) throw new NotFoundException('La organización no existe')
+    if (!organization) throw new OrganizationNotFoundException()
     return organization
   }
 

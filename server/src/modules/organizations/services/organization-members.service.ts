@@ -3,7 +3,6 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common'
 import { Types } from 'mongoose'
 
@@ -11,6 +10,8 @@ import { UsersService } from 'src/modules/users/users.service'
 import { BasicOrganizationDto } from '../dtos/basic-organization.dto'
 import { OrganizationMemberDto } from '../dtos/organization-member.dto'
 import { UpdateMemberStatusDto } from '../dtos/update-member-status.dto'
+import { MemberNotFoundException } from '../exceptions/MemberNotFoundException'
+import { OrganizationNotFoundException } from '../exceptions/OrganizationNotFoundException'
 import { Member } from '../schemas/member.schema'
 import {
   Organization,
@@ -34,7 +35,7 @@ export class OrganizationMembersService {
       await this.organizationsService._getOrganization(organizationId)
 
     if (!organization) {
-      throw new NotFoundException('La organización solicitada no existe')
+      throw new OrganizationNotFoundException()
     }
 
     const member = organization.members.find((m) => m.userId === userId)
@@ -111,7 +112,7 @@ export class OrganizationMembersService {
     { newMemberStatus }: UpdateMemberStatusDto,
   ): Promise<void> {
     const member = this._getMember(organization, memberId)
-    if (!member) throw new NotFoundException('El miembro no existe')
+    if (!member) throw new MemberNotFoundException()
 
     const { MEMBER, BLOCKED, PENDING, REJECTED } = MemberStatus
     const allowedTransitions: Partial<Record<MemberStatus, MemberStatus[]>> = {
@@ -137,9 +138,7 @@ export class OrganizationMembersService {
     const memberIndex = organization.members.findIndex(
       (member) => member.userId === userId,
     )
-    if (memberIndex === -1) {
-      throw new NotFoundException(`No existe un miembro con el id ${userId}`)
-    }
+    if (memberIndex === -1) throw new MemberNotFoundException()
 
     const member = organization.members[memberIndex]
 

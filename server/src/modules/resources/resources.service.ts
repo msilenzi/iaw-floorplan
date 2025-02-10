@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
 
@@ -10,6 +10,7 @@ import { ResourceCreateDto } from './dtos/resource-create.dto'
 import { ResourceFindOneDto } from './dtos/resource-find-one.dto'
 import { ResourceUpdateDto } from './dtos/resource-update.dto'
 import { ResourcesFindAllDto } from './dtos/resources-find-all.dto'
+import { ResourceNotFoundException } from './exceptions/ResourceNotFoundException'
 import { Resource, ResourceDocument } from './schemas/resource.schema'
 
 @Injectable()
@@ -126,7 +127,7 @@ export class ResourcesService {
     resourceId: Types.ObjectId,
   ): Promise<ResourceDocument> {
     const resource = await this.resourcesModel.findById(resourceId).exec()
-    if (!resource) throw new NotFoundException('El recurso no existe')
+    if (!resource) throw new ResourceNotFoundException()
     return resource
   }
 }

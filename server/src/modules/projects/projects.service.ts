@@ -3,7 +3,6 @@ import {
   ConflictException,
   HttpStatus,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from 'mongoose'
@@ -15,6 +14,7 @@ import { ProjectBasicDto } from './dtos/project-basic.dto'
 import { ProjectCreateDto } from './dtos/project-create.dto'
 import { ProjectFindOneDto } from './dtos/project-find-one.dto'
 import { ProjectUpdateDto } from './dtos/project-update.dto'
+import { ProjectNotFoundException } from './exceptions/ProjectNotFoundException'
 import { Project, ProjectDocument } from './schemas/project.schema'
 
 @Injectable()
@@ -94,7 +94,7 @@ export class ProjectsService {
 
   async _getProject(projectId: Types.ObjectId): Promise<ProjectDocument> {
     const project = await this.projectModel.findById(projectId).exec()
-    if (!project) throw new NotFoundException('El proyecto no existe')
+    if (!project) throw new ProjectNotFoundException()
     return project
   }
 

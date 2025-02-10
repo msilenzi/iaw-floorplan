@@ -27,9 +27,11 @@ import { ProjectDocument } from '../projects/schemas/project.schema'
 import { GetResource } from './decorators/get-resource.decorator'
 import { ResourceAccess } from './decorators/resource-access.decorator'
 import { ResourceCreateDto } from './dtos/resource-create.dto'
+import { ResourceFindOneDto } from './dtos/resource-find-one.dto'
 import { ResourceUpdateDto } from './dtos/resource-update.dto'
+import { ResourcesFindAllDto } from './dtos/resources-find-all.dto'
 import { ResourcesService } from './resources.service'
-import { ResourceDocument } from './schemas/resource.schema'
+import { Resource, ResourceDocument } from './schemas/resource.schema'
 
 @Protected()
 @Controller()
@@ -43,6 +45,7 @@ export class ResourcesController {
   @ProjectAccess()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
+  @HttpCode(HttpStatus.NO_CONTENT)
   create(
     @Body() dto: ResourceCreateDto,
     @UploadedFile(
@@ -59,7 +62,7 @@ export class ResourcesController {
     @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
     @Sub() sub: string,
-  ) {
+  ): Promise<void> {
     return this.resourcesService.create(dto, file, organization, project, sub)
   }
 
@@ -68,7 +71,9 @@ export class ResourcesController {
    */
   @Get('projects/:projectId/resources')
   @ProjectAccess()
-  findAll(@GetProject() project: ProjectDocument) {
+  findAll(
+    @GetProject() project: ProjectDocument,
+  ): Promise<ResourcesFindAllDto[]> {
     return this.resourcesService.findAll(project)
   }
 
@@ -82,7 +87,7 @@ export class ResourcesController {
     @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
     @GetResource() resource: ResourceDocument,
-  ) {
+  ): Promise<ResourceFindOneDto> {
     return this.resourcesService.findOne(organization, project, resource)
   }
 
@@ -94,7 +99,7 @@ export class ResourcesController {
   update(
     @GetResource() resource: ResourceDocument,
     @Body() dto: ResourceUpdateDto,
-  ) {
+  ): Promise<Resource> {
     return this.resourcesService.update(resource, dto)
   }
 
@@ -104,10 +109,10 @@ export class ResourcesController {
   @Delete('resources/:resourceId')
   @ResourceAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(
+  remove(
     @GetOrganization() organization: OrganizationDocument,
     @GetResource() resource: ResourceDocument,
-  ) {
-    await this.resourcesService.remove(organization, resource)
+  ): Promise<void> {
+    return this.resourcesService.remove(organization, resource)
   }
 }

@@ -39,11 +39,11 @@ export class OrganizationMembersController {
    */
   @Post()
   @ApiParam({ name: 'organizationId', type: String })
-  async createMember(
+  createMember(
     @Param('organizationId', ParseMongoIdPipe) organizationId: Types.ObjectId,
     @Sub() sub: string,
   ): Promise<BasicOrganizationDto> {
-    return await this.organizationMembersService.create(organizationId, sub)
+    return this.organizationMembersService.create(organizationId, sub)
   }
 
   /**
@@ -71,8 +71,12 @@ export class OrganizationMembersController {
     @GetOrganization() organization: OrganizationDocument,
     @Param('memberId') memberId: string,
     @Body() dto: UpdateMemberStatusDto,
-  ) {
-    this.organizationMembersService.updateStatus(organization, memberId, dto)
+  ): Promise<void> {
+    return this.organizationMembersService.updateStatus(
+      organization,
+      memberId,
+      dto,
+    )
   }
 
   /**
@@ -85,7 +89,7 @@ export class OrganizationMembersController {
   removeMember(
     @GetOrganization() organization: OrganizationDocument,
     @Sub() sub: string,
-  ) {
-    this.organizationMembersService.remove(organization, sub)
+  ): Promise<void> {
+    return this.organizationMembersService.remove(organization, sub)
   }
 }

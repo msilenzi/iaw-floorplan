@@ -71,7 +71,7 @@ export class ProjectsController {
     @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
     @Body() projectUpdateDto: ProjectUpdateDto,
-  ) {
+  ): Promise<Project> {
     return this.projectsService.update(organization, project, projectUpdateDto)
   }
 
@@ -81,7 +81,7 @@ export class ProjectsController {
   @Delete('projects/:projectId')
   @ProjectOwnerAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@GetProject() project: ProjectDocument) {
-    await this.projectsService.remove(project)
+  remove(@GetProject() project: ProjectDocument): Promise<void> {
+    return this.projectsService.remove(project)
   }
 }

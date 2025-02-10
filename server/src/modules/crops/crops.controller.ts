@@ -32,6 +32,7 @@ import { CropAccess } from './decorators/crop-access.decorator'
 import { GetCrop } from './decorators/get-crop.decorator'
 import { CropCreateDto } from './dtos/crop-create.dto'
 import { CropUpdateDto } from './dtos/crop-update.dto'
+import { CropWithUrl } from './dtos/crop-with-url.dto'
 import { CropDocument } from './schemas/crop.schema'
 
 @Protected()
@@ -46,6 +47,7 @@ export class CropsController {
   @ResourceAccess()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
+  @HttpCode(HttpStatus.NO_CONTENT)
   create(
     @Body() dto: CropCreateDto,
     @UploadedFile(
@@ -62,7 +64,7 @@ export class CropsController {
     @GetResource() resource: ResourceDocument,
     @GetOrganization() organization: OrganizationDocument,
     @Sub() sub: string,
-  ) {
+  ): Promise<void> {
     return this.cropsService.create(dto, file, resource, organization, sub)
   }
 
@@ -74,7 +76,7 @@ export class CropsController {
   findAllFromProject(
     @GetOrganization() organization: OrganizationDocument,
     @GetProject() project: ProjectDocument,
-  ) {
+  ): Promise<CropWithUrl[]> {
     return this.cropsService.findAllFromProject(project, organization)
   }
 
@@ -86,7 +88,7 @@ export class CropsController {
   findAllFromResource(
     @GetOrganization() organization: OrganizationDocument,
     @GetResource() resource: ResourceDocument,
-  ) {
+  ): Promise<CropWithUrl[]> {
     return this.cropsService.findAllFromResource(resource, organization)
   }
 
@@ -95,7 +97,11 @@ export class CropsController {
    */
   @Patch('crops/:cropId')
   @CropAccess()
-  update(@Body() dto: CropUpdateDto, @GetCrop() crop: CropDocument) {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  update(
+    @Body() dto: CropUpdateDto,
+    @GetCrop() crop: CropDocument,
+  ): Promise<void> {
     return this.cropsService.update(dto, crop)
   }
 
@@ -105,10 +111,10 @@ export class CropsController {
   @Delete('crops/:cropId')
   @CropAccess()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(
+  remove(
     @GetCrop() crop: CropDocument,
     @GetOrganization() organization: OrganizationDocument,
-  ) {
-    await this.cropsService.remove(organization, crop)
+  ): Promise<void> {
+    return this.cropsService.remove(organization, crop)
   }
 }

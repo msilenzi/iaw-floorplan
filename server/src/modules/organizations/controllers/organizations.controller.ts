@@ -20,7 +20,10 @@ import { CreateOrganizationDto } from '../dtos/create-organization.dto'
 import { OrganizationDto } from '../dtos/organization.dto'
 import { UpdateOrganizationDto } from '../dtos/update-organization.dto'
 import { Member } from '../schemas/member.schema'
-import { OrganizationDocument } from '../schemas/organization.schema'
+import {
+  Organization,
+  OrganizationDocument,
+} from '../schemas/organization.schema'
 import { OrganizationsService } from '../services/organizations.service'
 import { MemberStatus } from '../types/member-status.enum'
 
@@ -71,7 +74,7 @@ export class OrganizationsController {
   update(
     @GetOrganization() organization: OrganizationDocument,
     @Body() updateOrganizationDto: UpdateOrganizationDto,
-  ) {
+  ): Promise<Omit<Organization, 'members'>> {
     return this.organizationsService.update(organization, updateOrganizationDto)
   }
 
@@ -81,7 +84,7 @@ export class OrganizationsController {
   @Delete(':organizationId')
   @AllowedMemberStatus(MemberStatus.OWNER)
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@GetOrganization() organization: OrganizationDocument) {
-    await this.organizationsService.remove(organization)
+  remove(@GetOrganization() organization: OrganizationDocument): Promise<void> {
+    return this.organizationsService.remove(organization)
   }
 }
